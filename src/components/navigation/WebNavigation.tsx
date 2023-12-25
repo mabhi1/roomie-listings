@@ -9,51 +9,65 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import { BedDoubleIcon, HomeIcon, HotelIcon, KeySquareIcon, SearchCheckIcon, UsersIcon } from "lucide-react";
 
-const components: { title: string; href: string; description: string }[] = [
+const components: { title: string; href: string; description: string; icon?: React.ReactNode }[] = [
   {
     title: "Roommate",
     href: "/roommate",
     description: "",
+    icon: <UsersIcon className="w-4 mr-1" />,
   },
   {
     title: "Property",
     href: "/property",
     description: "",
+    icon: <HotelIcon className="w-4 mr-1" />,
   },
   {
     title: "Products",
     href: "/products",
     description: "",
+    icon: <BedDoubleIcon className="w-4 mr-1" />,
   },
 ];
 const linkStyle =
-  '"group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-base transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"';
+  '"group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"';
 
 export function WebNavigation() {
   return (
-    <NavigationMenu>
+    <NavigationMenu className="hidden md:flex">
       <NavigationMenuList>
         <NavigationMenuItem>
           <Link href="/" legacyBehavior passHref>
-            <NavigationMenuLink className={linkStyle}>Home</NavigationMenuLink>
+            <NavigationMenuLink className={linkStyle}>
+              <HomeIcon className="w-4 mr-1" />
+              Home
+            </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuTrigger>Search</NavigationMenuTrigger>
+          <NavigationMenuTrigger>
+            <SearchCheckIcon className="w-4 mr-1" />
+            Search
+          </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="w-[200px] gap-3 p-2">
               {components.map((component) => (
-                <ListItem key={component.title} title={component.title} href={component.href}></ListItem>
+                <ListItem key={component.title} title={component.title} href={component.href}>
+                  {component.icon}
+                </ListItem>
               ))}
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <Link href="/docs" legacyBehavior passHref>
-            <NavigationMenuLink className={linkStyle}>Login</NavigationMenuLink>
+          <Link href="/login" legacyBehavior passHref>
+            <NavigationMenuLink className={linkStyle}>
+              <KeySquareIcon className="w-4 mr-1" />
+              Login
+            </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
       </NavigationMenuList>
@@ -69,13 +83,15 @@ const ListItem = React.forwardRef<React.ElementRef<"a">, React.ComponentPropsWit
           <a
             ref={ref}
             className={cn(
-              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+              "block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
               className
             )}
             {...props}
           >
-            <div className="text-base leading-none">{title}</div>
-            <p className="line-clamp-2 text-base leading-snug text-muted-foreground">{children}</p>
+            <div className="flex items-center">
+              {children}
+              <span className="text-sm leading-none">{title}</span>
+            </div>
           </a>
         </NavigationMenuLink>
       </li>
