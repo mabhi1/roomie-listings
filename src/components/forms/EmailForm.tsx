@@ -131,7 +131,7 @@ export default function SigninPage() {
             {formLoading ? "Please wait..." : "Sign in"}
           </Button>
           <Button variant="link" type="button" className="p-1 h-0" disabled={formLoading}>
-            Don't have an account? Click to sign up.
+            Don&apos;t have an account? Click to sign up.
           </Button>
         </CardFooter>
       </Card>

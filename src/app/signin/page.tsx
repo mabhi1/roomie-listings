@@ -1,7 +1,7 @@
-import GoogleButton from "@/components/GoogleButton";
+import GoogleButton from "@/components/button/GoogleButton";
 import FullWrapper from "@/components/page/FullWrapper";
-import EmailForm from "@/components/page/forms/EmailForm";
-import MobileForm from "@/components/page/forms/MobileForm";
+import EmailForm from "@/components/forms/EmailForm";
+import MobileForm from "@/components/forms/MobileForm";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MailIcon, SmartphoneIcon } from "lucide-react";
 import Image from "next/image";

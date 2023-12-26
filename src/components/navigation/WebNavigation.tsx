@@ -11,8 +11,8 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { BedDoubleIcon, HomeIcon, HotelIcon, SearchCheckIcon, UsersIcon } from "lucide-react";
-import SignoutButton from "../SignoutButton";
-import SigninButton from "../SigninButton";
+import SignoutButton from "../button/SignoutButton";
+import SigninButton from "../button/SigninButton";
 
 const components: { title: string; href: string; description: string; icon?: React.ReactNode }[] = [
   {

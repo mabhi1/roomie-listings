@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { socialSignIn } from "@/firebase/firebaseFunctions";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
