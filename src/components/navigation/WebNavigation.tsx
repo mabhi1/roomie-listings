@@ -11,8 +11,7 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { BedDoubleIcon, HomeIcon, HotelIcon, SearchCheckIcon, UsersIcon } from "lucide-react";
-import SignoutButton from "../button/SignoutButton";
-import SigninButton from "../button/SigninButton";
+import ProtectedNavigation from "./ProtectedNavigation";
 
 const components: { title: string; href: string; description: string; icon?: React.ReactNode }[] = [
   {
@@ -22,8 +21,8 @@ const components: { title: string; href: string; description: string; icon?: Rea
     icon: <UsersIcon className="w-4 mr-1" />,
   },
   {
-    title: "Property",
-    href: "/property",
+    title: "House",
+    href: "/house",
     description: "",
     icon: <HotelIcon className="w-4 mr-1" />,
   },
@@ -37,7 +36,7 @@ const components: { title: string; href: string; description: string; icon?: Rea
 const linkStyle =
   '"group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"';
 
-export function WebNavigation() {
+export default function WebNavigation() {
   return (
     <NavigationMenu className="hidden md:flex">
       <NavigationMenuList>
@@ -64,12 +63,7 @@ export function WebNavigation() {
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
-        <NavigationMenuItem>
-          <SigninButton />
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <SignoutButton />
-        </NavigationMenuItem>
+        <ProtectedNavigation />
       </NavigationMenuList>
     </NavigationMenu>
   );
@@ -99,5 +93,3 @@ const ListItem = React.forwardRef<React.ElementRef<"a">, React.ComponentPropsWit
   }
 );
 ListItem.displayName = "ListItem";
-
-export default WebNavigation;

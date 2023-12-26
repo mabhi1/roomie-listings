@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-const StickyWrapper = ({ children }: { children: React.ReactNode }) => {
+export default function StickyWrapper({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const primaryHeader = document.querySelector(".primary-header")!;
     const scrollWatcher = document.createElement("div");
@@ -21,6 +21,4 @@ const StickyWrapper = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   return <div className="primary-header sticky top-0 w-full backdrop-blur">{children}</div>;
-};
-
-export default StickyWrapper;
+}

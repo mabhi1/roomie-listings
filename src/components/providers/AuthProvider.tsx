@@ -1,5 +1,6 @@
 "use client";
-import { createContext, useContext, useState, Dispatch, useEffect, SetStateAction } from "react";
+
+import { createContext, useContext, useState, useEffect } from "react";
 import auth from "../../firebase/firebase";
 import { User } from "firebase/auth";
 import LoadingPage from "../page/LoadingPage";

@@ -15,7 +15,7 @@ export default function Home() {
         <span className="uppercase bg-primary rounded px-1 text-accent">Aakash</span>
       </h1>
       <div className="text-7xl text-center">
-        You are at the right place to look for property, roommate, and buy, rent, sell stuff.
+        You are at the right place to look for a roommate, rent a house, or buy, rent, and sell stuff.
       </div>
       <span className="text-2xl">Click one of the buttons below to continue browsing</span>
       <div className="flex justify-between gap-5">
@@ -25,10 +25,10 @@ export default function Home() {
             Roommate
           </Button>
         </Link>
-        <Link href="/property" legacyBehavior passHref>
+        <Link href="/house" legacyBehavior passHref>
           <Button>
             <HotelIcon className="w-4 mr-1" />
-            Property
+            House
           </Button>
         </Link>
         <Link href="/products" legacyBehavior passHref>

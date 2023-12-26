@@ -1,4 +1,5 @@
 "use client";
+
 import { FormEvent, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,9 +9,8 @@ import { toast } from "sonner";
 import { LockIcon, UnlockIcon } from "lucide-react";
 import { rememberSignIn, signIn } from "@/firebase/firebaseFunctions";
 import { useRouter } from "next/navigation";
-import { cn } from "@/lib/utils";
 
-export default function SigninPage() {
+export default function EmailForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [formLoading, setFormLoading] = useState(false);
@@ -21,10 +21,6 @@ export default function SigninPage() {
   const invalidEmail = () => {
     const validEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     return email.trim().length > 0 && !email.match(validEmail);
-  };
-
-  const invalidPassword = () => {
-    return password.length === 0;
   };
 
   const handleSubmit = async (e: FormEvent) => {
@@ -127,7 +123,7 @@ export default function SigninPage() {
           </div>
         </CardContent>
         <CardFooter className="flex flex-col gap-3 pb-0">
-          <Button className="w-full" type="submit" disabled={invalidEmail() || invalidPassword() || formLoading}>
+          <Button className="w-full" type="submit" disabled={invalidEmail() || password.length === 0 || formLoading}>
             {formLoading ? "Please wait..." : "Sign in"}
           </Button>
           <Button variant="link" type="button" className="p-1 h-0" disabled={formLoading}>

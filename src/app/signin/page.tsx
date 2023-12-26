@@ -9,7 +9,7 @@ import Image from "next/image";
 export default function Signin() {
   return (
     <FullWrapper className="pt-20 flex flex-col md:flex-row justify-center">
-      <div className="flex justify-center items-start mt-20">
+      <div className="flex justify-center items-start mt-10">
         <Image src="/signin.png" alt="Sign in" width={500} height={500} priority />
       </div>
       <div className="flex flex-col gap-5 w-full max-w-[28rem]">

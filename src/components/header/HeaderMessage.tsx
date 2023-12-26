@@ -1,12 +1,12 @@
-import { RadioTower } from "lucide-react";
+import { RadioTowerIcon } from "lucide-react";
+import Image from "next/image";
 
-const HeaderMessage = () => {
+export default function HeaderMessage() {
   return (
     <div className="flex justify-center items-center gap-2 p-1 text-sm bg-secondary">
-      <RadioTower className="w-4" />
-      Currently live in New Jersey, US
+      <RadioTowerIcon className="w-4" />
+      Connecting with our <Image src="/indian_flag.png" alt="India" width={18} height={18} />
+      INDIAN community in US
     </div>
   );
-};
-
-export default HeaderMessage;
+}
