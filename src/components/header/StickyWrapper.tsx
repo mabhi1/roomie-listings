@@ -20,7 +20,7 @@ const StickyWrapper = ({ children }: { children: React.ReactNode }) => {
     navObserver.observe(scrollWatcher);
   }, []);
 
-  return <div className="primary-header sticky top-0 w-full">{children}</div>;
+  return <div className="primary-header sticky top-0 w-full backdrop-blur">{children}</div>;
 };
 
 export default StickyWrapper;

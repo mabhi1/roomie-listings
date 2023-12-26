@@ -17,7 +17,7 @@ export default function Home() {
       <div className="text-7xl text-center">
         You are at the right place to look for property, roommate, and buy, rent, sell stuff.
       </div>
-      <span className="text-2xl">Click one of the buttons below to continue searching</span>
+      <span className="text-2xl">Click one of the buttons below to continue browsing</span>
       <div className="flex justify-between gap-5">
         <Link href="/roommate" legacyBehavior passHref>
           <Button>
