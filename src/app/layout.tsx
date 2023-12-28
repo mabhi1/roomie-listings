@@ -7,6 +7,7 @@ import Footer from "@/components/footer/Footer";
 import { cn } from "@/lib/utils";
 import { AuthProvider } from "@/components/providers/AuthProvider";
 import { Toaster } from "sonner";
+import QueryProvider from "@/components/providers/QueryProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,10 +21,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className={cn(inter.className, "text-sm")}>
         <AuthProvider>
-          <HeaderMessage />
-          <Header />
-          <main className="min-h-[90vh]">{children}</main>
-          <Footer />
+          <QueryProvider>
+            <HeaderMessage />
+            <Header />
+            <main className="min-h-[90vh]">{children}</main>
+            <Footer />
+          </QueryProvider>
         </AuthProvider>
         <Toaster closeButton richColors position="top-right" />
       </body>

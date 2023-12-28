@@ -7,10 +7,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { LockIcon, UnlockIcon } from "lucide-react";
-import { rememberSignIn, signIn } from "@/firebase/firebaseFunctions";
+import { passwordReset, rememberSignIn, signIn } from "@/firebase/firebaseFunctions";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
-export default function EmailForm() {
+export default function EmailSigninForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [formLoading, setFormLoading] = useState(false);
@@ -20,7 +21,7 @@ export default function EmailForm() {
 
   const invalidEmail = () => {
     const validEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-    return email.trim().length > 0 && !email.match(validEmail);
+    return email.trim().length === 0 || !email.match(validEmail);
   };
 
   const handleSubmit = async (e: FormEvent) => {
@@ -38,18 +39,23 @@ export default function EmailForm() {
   };
 
   const handlePasswordReset = async () => {
-    if (email.length === 0 || invalidEmail()) {
+    if (invalidEmail()) {
       toast.error("Please enter a valid email");
       return;
     }
-    // To be done with database to check if user exists
-    // try {
-    //   await passwordReset(email);
-    //   toast.success("Password reset email sent");
-    // } catch (error: any) {
-    //   console.log(error);
-    //   toast.error("Error sending password reset email");
-    // }
+
+    try {
+      const { data } = await axios.get(`/api/users?email=${email}&provider=password`);
+      if (!data.data) {
+        toast.error(data.error);
+        return;
+      }
+      await passwordReset(email);
+      toast.success("Password reset email sent");
+    } catch (error: any) {
+      console.log(error);
+      toast.error("Error sending password reset email");
+    }
   };
 
   return (
@@ -123,11 +129,12 @@ export default function EmailForm() {
           </div>
         </CardContent>
         <CardFooter className="flex flex-col gap-3 pb-0">
-          <Button className="w-full" type="submit" disabled={invalidEmail() || password.length === 0 || formLoading}>
+          <Button
+            className="w-full"
+            type="submit"
+            disabled={invalidEmail() || password.trim().length === 0 || formLoading}
+          >
             {formLoading ? "Please wait..." : "Sign in"}
-          </Button>
-          <Button variant="link" type="button" className="p-1 h-0" disabled={formLoading}>
-            Don&apos;t have an account? Click to sign up.
           </Button>
         </CardFooter>
       </Card>

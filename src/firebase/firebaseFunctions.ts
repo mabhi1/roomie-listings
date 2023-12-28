@@ -12,6 +12,7 @@ import {
   updatePassword,
   GoogleAuthProvider,
   signInWithPopup,
+  sendEmailVerification,
 } from "firebase/auth";
 import "./firebase";
 
@@ -30,7 +31,7 @@ function createErrorMessage(error: { message: string }) {
 
 async function createUser(email: string, password: string, displayName: string) {
   try {
-    await createUserWithEmailAndPassword(auth, email, password);
+    const { user } = await createUserWithEmailAndPassword(auth, email, password);
     if (auth.currentUser) {
       await updateProfile(auth.currentUser, {
         displayName: displayName
@@ -40,7 +41,9 @@ async function createUser(email: string, password: string, displayName: string) 
           })
           .join(" "),
       });
+      await sendEmailVerification(auth.currentUser);
     }
+    return user;
   } catch (error: any) {
     throw createErrorMessage(error);
   }

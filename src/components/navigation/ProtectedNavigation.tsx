@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { NavigationMenuLink } from "../ui/navigation-menu";
-import { ClipboardSignatureIcon, Contact2Icon, KeySquareIcon } from "lucide-react";
+import { Contact2Icon, KeySquareIcon } from "lucide-react";
 import useAuth from "../providers/AuthProvider";
 import { NavigationMenuItem } from "../ui/navigation-menu";
 import SignoutButton from "../button/SignoutButton";
@@ -34,14 +34,6 @@ export default function ProtectedNavigation() {
             <NavigationMenuLink className={linkStyle}>
               <KeySquareIcon className="w-4 mr-1" />
               Sign in
-            </NavigationMenuLink>
-          </Link>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <Link href="/signup" legacyBehavior passHref>
-            <NavigationMenuLink className={linkStyle}>
-              <ClipboardSignatureIcon className="w-4 mr-1" />
-              Sign up
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
