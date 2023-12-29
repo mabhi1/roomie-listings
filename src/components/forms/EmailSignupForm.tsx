@@ -11,7 +11,8 @@ import { createUser } from "@/firebase/firebaseFunctions";
 import { cn } from "@/lib/utils";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { User } from "@/lib/types";
+import { DbUser } from "@/lib/types";
+import { toastMessage } from "@/lib/constants";
 
 export default function EmailSignupForm() {
   const [name, setName] = useState("");
@@ -22,7 +23,7 @@ export default function EmailSignupForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const userMutation = useMutation({
-    mutationFn: (data: User) => {
+    mutationFn: (data: DbUser) => {
       return axios.post("/api/users", data);
     },
   });
@@ -51,14 +52,10 @@ export default function EmailSignupForm() {
       const user = await createUser(email, password, name);
       userMutation.mutate({
         uid: user.uid,
-        name: user.displayName!,
-        email: user.email,
-        emailVerified: user.emailVerified,
-        phone: user.phoneNumber,
-        photoURL: user.photoURL,
+        email: user.email!,
         provider: "password",
       });
-      toast.success("Verification Email sent");
+      toast.success(toastMessage.emailVerificationSuccess);
       return;
     } catch (error: any) {
       setFormLoading(false);
@@ -84,11 +81,11 @@ export default function EmailSignupForm() {
               value={name}
               className={cn(
                 name && "outline outline-offset-2",
-                invalidName() ? "outline-destructive" : "outline-green-700"
+                invalidName() ? "outline-destructive" : "outline-success"
               )}
             />
             <span className={cn("text-xs text-destructive absolute top-0 right-0", name ? "inline" : "hidden")}>
-              {invalidName() ? <>{"Invalid Name"}</> : <CheckSquareIcon color="#228208" className="w-4 h-4" />}
+              {invalidName() ? <>{"Invalid Name"}</> : <CheckSquareIcon className="w-4 h-4 text-success" />}
             </span>
           </div>
           <div className="grid gap-2 mt-2 relative">
@@ -101,11 +98,11 @@ export default function EmailSignupForm() {
               value={email}
               className={cn(
                 email && "outline outline-offset-2",
-                invalidEmail() ? "outline-destructive" : "outline-green-700"
+                invalidEmail() ? "outline-destructive" : "outline-success"
               )}
             />
             <span className={cn("text-xs text-destructive absolute top-0 right-0", email ? "inline" : "hidden")}>
-              {invalidEmail() ? <>{"Invalid Email"}</> : <CheckSquareIcon color="#228208" className="w-4 h-4" />}
+              {invalidEmail() ? <>{"Invalid Email"}</> : <CheckSquareIcon className="w-4 h-4 text-success" />}
             </span>
           </div>
           <div className="grid gap-2 mt-2 relative">
@@ -120,7 +117,7 @@ export default function EmailSignupForm() {
                 className={cn(
                   "pr-8",
                   password && "outline outline-offset-2",
-                  invalidPassword() ? "outline-destructive" : "outline-green-700"
+                  invalidPassword() ? "outline-destructive" : "outline-success"
                 )}
               />
               {showPassword ? (
@@ -147,7 +144,7 @@ export default function EmailSignupForm() {
               {invalidPassword() ? (
                 <>{"Must be at least 6 letters"}</>
               ) : (
-                <CheckSquareIcon color="#228208" className="w-4 h-4" />
+                <CheckSquareIcon className="w-4 h-4 text-success" />
               )}
             </span>
           </div>
@@ -161,14 +158,14 @@ export default function EmailSignupForm() {
               value={rePassword}
               className={cn(
                 rePassword && "outline outline-offset-2",
-                invalidRePassword() ? "outline-destructive" : "outline-green-700"
+                invalidRePassword() ? "outline-destructive" : "outline-success"
               )}
             />
             <span className={cn("text-xs text-destructive absolute top-0 right-0", rePassword ? "inline" : "hidden")}>
               {invalidRePassword() ? (
                 <>{"Passwords do not match"}</>
               ) : (
-                <CheckSquareIcon color="#228208" className="w-4 h-4" />
+                <CheckSquareIcon className="w-4 h-4 text-success" />
               )}
             </span>
           </div>

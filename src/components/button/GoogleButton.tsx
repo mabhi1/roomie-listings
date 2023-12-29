@@ -4,16 +4,29 @@ import Image from "next/image";
 import { Button } from "../ui/button";
 import { socialSignIn } from "@/firebase/firebaseFunctions";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 import { ButtonHTMLAttributes } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { DbUser } from "@/lib/types";
+import axios from "axios";
 
 export default function GoogleButton(props: ButtonHTMLAttributes<HTMLButtonElement>) {
-  const router = useRouter();
+  const userMutation = useMutation({
+    mutationFn: (data: DbUser) => {
+      return axios.post("/api/users", data);
+    },
+  });
 
   const handleSocialSignin = async () => {
     try {
-      await socialSignIn("google");
-      router.back();
+      const user = await socialSignIn("google");
+      if (!user) return;
+      const { data } = await axios.get(`/api/users?uid=${user.uid}`);
+      if (!data.data)
+        userMutation.mutate({
+          uid: user.uid,
+          email: user.email!,
+          provider: "google",
+        });
     } catch (error: any) {
       toast.error(error);
     }

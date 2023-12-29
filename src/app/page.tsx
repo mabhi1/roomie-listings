@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import FullWrapper from "@/components/page/FullWrapper";
 import { BedDoubleIcon, HotelIcon, UsersIcon } from "lucide-react";
+import { navigation, title } from "@/lib/constants";
 
 const raleway = Rubik({ subsets: ["latin"] });
 
@@ -12,29 +13,29 @@ export default function Home() {
     <FullWrapper className="pt-24 flex flex-col gap-10 justify-center items-center">
       <h1 className={cn("text-3xl flex gap-2", raleway.className)}>
         <span className="uppercase">Welcome to</span>
-        <span className="uppercase bg-primary rounded px-1 text-accent">Aakash</span>
+        <span className="uppercase bg-primary rounded px-1 text-accent">{title.site}</span>
       </h1>
       <div className="text-7xl text-center">
         You are at the right place to look for a roommate, rent a house, or buy, rent, and sell stuff.
       </div>
       <span className="text-2xl">Click one of the buttons below to continue browsing</span>
       <div className="flex justify-between gap-5">
-        <Link href="/roommate" legacyBehavior passHref>
+        <Link href={navigation.roommate} legacyBehavior passHref>
           <Button>
             <UsersIcon className="w-4 mr-1" />
-            Roommate
+            {title.roommate}
           </Button>
         </Link>
-        <Link href="/house" legacyBehavior passHref>
+        <Link href={navigation.house} legacyBehavior passHref>
           <Button>
             <HotelIcon className="w-4 mr-1" />
-            House
+            {title.house}
           </Button>
         </Link>
-        <Link href="/products" legacyBehavior passHref>
+        <Link href={navigation.products} legacyBehavior passHref>
           <Button>
             <BedDoubleIcon className="w-4 mr-1" />
-            Products
+            {title.products}
           </Button>
         </Link>
       </div>

@@ -8,7 +8,6 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { LockIcon, UnlockIcon } from "lucide-react";
 import { passwordReset, rememberSignIn, signIn } from "@/firebase/firebaseFunctions";
-import { useRouter } from "next/navigation";
 import axios from "axios";
 
 export default function EmailSigninForm() {
@@ -17,7 +16,6 @@ export default function EmailSigninForm() {
   const [formLoading, setFormLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [remember, setRemember] = useState(false);
-  const router = useRouter();
 
   const invalidEmail = () => {
     const validEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -30,7 +28,6 @@ export default function EmailSigninForm() {
     try {
       if (!remember) await signIn(email, password);
       else await rememberSignIn(email, password);
-      router.back();
       return;
     } catch (error: any) {
       setFormLoading(false);

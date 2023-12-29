@@ -1,13 +1,8 @@
-type User = {
+type DbUser = {
+  id?: string;
   uid: string;
-  name: string;
-  email: string | null;
-  emailVerified?: boolean;
-  phone: string | null;
-  photoURL: string | null;
+  email: string;
   provider: string;
-  createdAt?: Date;
-  updatedAt?: Date;
 };
 
-export type { User };
+export type { DbUser };

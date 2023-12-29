@@ -10,7 +10,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (!currentUser) {
-      router.replace("/signin");
+      router.push("/signin");
       return;
     }
   }, [currentUser, router]);

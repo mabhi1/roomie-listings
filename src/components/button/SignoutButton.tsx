@@ -6,7 +6,9 @@ import useAuth from "../providers/AuthProvider";
 import { UserXIcon } from "lucide-react";
 import { toast } from "sonner";
 
-export default function SignoutButton() {
+type Variant = "default" | "destructive" | "outline" | "secondary" | "ghost" | "link";
+
+export default function SignoutButton({ variant }: { variant: Variant }) {
   const currentUser = useAuth();
 
   const handleSignout = async () => {
@@ -20,7 +22,7 @@ export default function SignoutButton() {
 
   if (currentUser)
     return (
-      <Button variant="ghost" onClick={handleSignout}>
+      <Button variant={variant} onClick={handleSignout}>
         <UserXIcon className="mr-1 w-4" />
         Sign out
       </Button>

@@ -72,7 +72,8 @@ async function socialSignIn(provider: string) {
   if (provider === "google") {
     socialProvider = new GoogleAuthProvider();
     try {
-      await signInWithPopup(auth, socialProvider);
+      const { user } = await signInWithPopup(auth, socialProvider);
+      return user;
     } catch (error: any) {
       throw createErrorMessage(error);
     }
