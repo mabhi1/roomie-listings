@@ -16,8 +16,9 @@ import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 export type RoommateColumns = {
   id: string;
   title: string;
-  description: string;
+  address: string;
   budget: number;
+  updatedAt: Date;
 };
 
 export const Columns: ColumnDef<RoommateColumns>[] = [
@@ -82,7 +83,16 @@ export const Columns: ColumnDef<RoommateColumns>[] = [
   },
   {
     accessorKey: "updatedAt",
-    header: () => <div className="text-center mx-auto">Last Updated</div>,
+    header: ({ column }) => {
+      return (
+        <span className="flex justify-center">
+          <Button variant="ghost" className="p-0" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+            Last Updated
+            <ArrowUpDown className="ml-1 h-4 w-4" />
+          </Button>
+        </span>
+      );
+    },
     cell: ({ row }) => {
       const updatedAt: Date = row.getValue("updatedAt");
       return (
@@ -108,6 +118,7 @@ export const Columns: ColumnDef<RoommateColumns>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem>View Details</DropdownMenuItem>
+            <DropdownMenuItem>Save</DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>View Poster</DropdownMenuItem>
             <DropdownMenuItem>Send Message</DropdownMenuItem>

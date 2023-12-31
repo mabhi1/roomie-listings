@@ -21,10 +21,10 @@ export default async function Roommate() {
         </div>
         <Separator orientation="vertical" />
         <div className="w-1/5 flex flex-col gap-2 sticky top-20 h-60">
-          <Image alt="Roommate" src="/roommate.webp" width={250} height={95} />
+          <Image alt="Roommate" src="/roommate.webp" width={250} height={95} priority />
           <h2 className="text-xl">Looking for a roommate?</h2>
           <p className="text-muted-foreground">
-            Are you looking for a roommate and couldn't find one? Click the button below to list your house.
+            Are you looking for a roommate and couldn&apos;t find one? Click the button below to list your house.
           </p>
           <Link href="#" legacyBehavior passHref>
             <Button className="mt-2">
