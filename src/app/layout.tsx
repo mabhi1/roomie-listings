@@ -19,12 +19,12 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={cn(inter.className, "text-sm")}>
+      <body className={cn(inter.className, "text-sm min-h-screen flex flex-col")}>
         <AuthProvider>
           <QueryProvider>
             <HeaderMessage />
             <Header />
-            <main className="min-h-[90vh]">{children}</main>
+            {children}
             <Footer />
           </QueryProvider>
         </AuthProvider>

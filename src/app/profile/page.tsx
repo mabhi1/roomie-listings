@@ -24,7 +24,7 @@ export default function Profile() {
 
   if (currentUser)
     return (
-      <FullWrapper className="flex flex-col gap-5">
+      <FullWrapper className="gap-5">
         <PageHeader heading="My Profile" />
         <div className="flex gap-5">
           <div className="rounded-full w-fit overflow-clip">

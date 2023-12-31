@@ -13,7 +13,7 @@ import {
 import { BedDoubleIcon, HomeIcon, HotelIcon, SearchCheckIcon, UsersIcon } from "lucide-react";
 import ProtectedNavigation from "./ProtectedNavigation";
 
-const components: { title: string; href: string; description: string; icon?: React.ReactNode }[] = [
+const components: { title: string; href: string; description: string; icon: React.ReactNode }[] = [
   {
     title: "Roommate",
     href: "/roommate",
@@ -56,9 +56,18 @@ export default function WebNavigation() {
           <NavigationMenuContent>
             <ul className="w-[200px] gap-3 p-2">
               {components.map((component) => (
-                <ListItem key={component.title} title={component.title} href={component.href}>
-                  {component.icon}
-                </ListItem>
+                <Link key={component.title} href={component.href}>
+                  <div
+                    className={cn(
+                      "block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                    )}
+                  >
+                    <div className="flex items-center">
+                      {component.icon}
+                      <span className="text-sm leading-none">{component.title}</span>
+                    </div>
+                  </div>
+                </Link>
               ))}
             </ul>
           </NavigationMenuContent>
@@ -75,7 +84,6 @@ const ListItem = React.forwardRef<React.ElementRef<"a">, React.ComponentPropsWit
       <li>
         <NavigationMenuLink asChild>
           <a
-            ref={ref}
             className={cn(
               "block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
               className

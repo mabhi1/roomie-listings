@@ -11,7 +11,7 @@ import { createUser } from "@/firebase/firebaseFunctions";
 import { cn } from "@/lib/utils";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { DbUser } from "@/lib/types";
+import { User } from "@/lib/types";
 import { toastMessage } from "@/lib/constants";
 
 export default function EmailSignupForm() {
@@ -23,7 +23,7 @@ export default function EmailSignupForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const userMutation = useMutation({
-    mutationFn: (data: DbUser) => {
+    mutationFn: (data: User) => {
       return axios.post("/api/users", data);
     },
   });
@@ -54,6 +54,7 @@ export default function EmailSignupForm() {
         uid: user.uid,
         email: user.email!,
         provider: "password",
+        name: user.displayName!,
       });
       toast.success(toastMessage.emailVerificationSuccess);
       return;

@@ -6,12 +6,12 @@ import { socialSignIn } from "@/firebase/firebaseFunctions";
 import { toast } from "sonner";
 import { ButtonHTMLAttributes } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { DbUser } from "@/lib/types";
+import { User } from "@/lib/types";
 import axios from "axios";
 
 export default function GoogleButton(props: ButtonHTMLAttributes<HTMLButtonElement>) {
   const userMutation = useMutation({
-    mutationFn: (data: DbUser) => {
+    mutationFn: (data: User) => {
       return axios.post("/api/users", data);
     },
   });
@@ -26,6 +26,7 @@ export default function GoogleButton(props: ButtonHTMLAttributes<HTMLButtonEleme
           uid: user.uid,
           email: user.email!,
           provider: "google",
+          name: user.displayName!,
         });
     } catch (error: any) {
       toast.error(error);

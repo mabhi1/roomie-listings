@@ -11,9 +11,47 @@ datasource db {
 }
 
 model User {
-  id    String @id @default(auto()) @map("_id") @db.ObjectId
-  uid String @unique
-  email String
-  provider String
+  id               String       @id @default(auto()) @map("_id") @db.ObjectId
+  name             String
+  uid              String       @unique
+  email            String
+  provider         String
+  roommateAds      RoommateAd[] @relation("postedRoommateAds")
+  savedRoommateAds RoommateAd[] @relation("savedRoommateAds")
+  HouseAds         HouseAd[]    @relation("postedHouseAds")
+  savedHouseAds    HouseAd[]    @relation("savedHouseAds")
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+
   @@unique([email, provider])
+}
+
+model RoommateAd {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  address     String
+  pictures    String[]
+  budget      Int
+  postedBy    String   @db.ObjectId
+  savedBy     String[] @db.ObjectId
+  poster      User     @relation(fields: [postedBy], references: [id], name: "postedRoommateAds")
+  saver       User     @relation(fields: [savedBy], references: [id], name: "savedRoommateAds")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model HouseAd {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  address     String
+  pictures    String[]
+  price       Int
+  postedBy    String   @db.ObjectId
+  savedBy     String[] @db.ObjectId
+  poster      User     @relation(fields: [postedBy], references: [id], name: "postedHouseAds")
+  saver       User     @relation(fields: [savedBy], references: [id], name: "savedHouseAds")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }

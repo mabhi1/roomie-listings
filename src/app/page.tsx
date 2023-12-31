@@ -10,7 +10,7 @@ const raleway = Rubik({ subsets: ["latin"] });
 
 export default function Home() {
   return (
-    <FullWrapper className="pt-24 flex flex-col gap-10 justify-center items-center">
+    <FullWrapper className="pt-24 gap-10 items-center">
       <h1 className={cn("text-3xl flex gap-2", raleway.className)}>
         <span className="uppercase">Welcome to</span>
         <span className="uppercase bg-primary rounded px-1 text-accent">{title.site}</span>

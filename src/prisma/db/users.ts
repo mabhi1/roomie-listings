@@ -1,7 +1,7 @@
-import { DbUser } from "@/lib/types";
+import { User } from "@/lib/types";
 import prisma from "../prisma";
 
-export async function createDBUser(data: DbUser) {
+export async function createDBUser(data: User) {
   try {
     const user = await prisma.user.create({ data: data });
     if (!user) throw new Error("User not found");
