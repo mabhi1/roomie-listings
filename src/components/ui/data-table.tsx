@@ -40,9 +40,10 @@ import MultiSelect from "./multi-select";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  page: string;
 }
 
-export default function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+export default function DataTable<TData, TValue>({ columns, data, page }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -75,6 +76,7 @@ export default function DataTable<TData, TValue>({ columns, data }: DataTablePro
     title: "title",
     address: "city",
     budget: "budget",
+    price: "price",
     duration: "duration",
     updatedAt: "last updated",
   };
@@ -98,9 +100,11 @@ export default function DataTable<TData, TValue>({ columns, data }: DataTablePro
         return row.getValue("duration") === selectedDuration;
       })
       .filter((row) => {
-        const budget = row.getValue("budget") as number;
+        let amount;
+        if (page === "roommate") amount = row.getValue("budget") as number;
+        else amount = row.getValue("price") as number;
         if (min > max) return true;
-        return budget >= min && budget <= max;
+        return amount >= min && amount <= max;
       });
   };
 
@@ -164,7 +168,7 @@ export default function DataTable<TData, TValue>({ columns, data }: DataTablePro
               </div>
 
               <div className="flex flex-col gap-2">
-                <div className="font-medium">Budget</div>
+                <div className="font-medium">{page === "roommate" ? "Budget" : "Price"}</div>
                 <div className="flex gap-2 justify-evenly items-center">
                   <span>Min: </span>
                   <Input type="number" className="w-28" value={min} onChange={(e) => setMin(Number(e.target.value))} />

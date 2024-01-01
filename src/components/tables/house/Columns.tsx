@@ -14,7 +14,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Address } from "@/lib/types";
 
-export type RoommateColumnsType = {
+export type HouseColumnsType = {
   id: string;
   title: string;
   address: {
@@ -23,12 +23,12 @@ export type RoommateColumnsType = {
     state: string;
     zip: string;
   };
-  budget: number;
+  price: number;
   duration: "temporary" | "permanent";
   updatedAt: Date;
 };
 
-export const RoommateColumns: ColumnDef<RoommateColumnsType>[] = [
+export const HouseColumns: ColumnDef<HouseColumnsType>[] = [
   // {
   //   id: "select",
   //   header: ({ table }) => (
@@ -75,23 +75,23 @@ export const RoommateColumns: ColumnDef<RoommateColumnsType>[] = [
     },
   },
   {
-    accessorKey: "budget",
+    accessorKey: "price",
     header: ({ column }) => {
       return (
         <span className="flex justify-center">
           <Button variant="ghost" className="p-0" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-            Budget
+            Price
             <ArrowUpDown className="ml-1 h-4 w-4" />
           </Button>
         </span>
       );
     },
     cell: ({ row }) => {
-      const budget = parseFloat(row.getValue("budget"));
+      const price = parseFloat(row.getValue("price"));
       const formatted = new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "USD",
-      }).format(budget);
+      }).format(price);
 
       return <div className="text-center">{formatted}</div>;
     },
@@ -120,7 +120,7 @@ export const RoommateColumns: ColumnDef<RoommateColumnsType>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const roommate = row.original;
+      const house = row.original;
 
       return (
         <DropdownMenu>
