@@ -26,13 +26,25 @@ model User {
   @@unique([email, provider])
 }
 
+enum Duration {
+  temporary
+  permanent
+}
+
+type Address {
+  address1 String?
+  city     String
+  state    String
+  zip      String
+}
+
 model RoommateAd {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String
-  address     String
-  pictures    String[]
+  address     Address
   budget      Int
+  duration    Duration @default(temporary)
   postedBy    String   @db.ObjectId
   savedBy     String[] @db.ObjectId
   poster      User     @relation(fields: [postedBy], references: [id], name: "postedRoommateAds")
@@ -45,9 +57,10 @@ model HouseAd {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String
-  address     String
+  address     Address
   pictures    String[]
   price       Int
+  duration    Duration @default(temporary)
   postedBy    String   @db.ObjectId
   savedBy     String[] @db.ObjectId
   poster      User     @relation(fields: [postedBy], references: [id], name: "postedHouseAds")

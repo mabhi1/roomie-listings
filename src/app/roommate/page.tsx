@@ -11,7 +11,6 @@ import { LandmarkIcon } from "lucide-react";
 
 export default async function Roommate() {
   const roommateData = await getAllRoommateAds();
-
   return (
     <FullWrapper>
       <PageHeader heading="Roommate Ads" />

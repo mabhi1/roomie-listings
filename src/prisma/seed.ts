@@ -13,7 +13,12 @@ async function main() {
         create: {
           title: "Looking for a house 1",
           description: "Looking for a house 1",
-          address: "address 1",
+          address: {
+            city: "jersey city",
+            state: "NJ",
+            zip: "07306",
+          },
+          duration: "permanent",
           budget: 200,
         },
       },
@@ -21,7 +26,11 @@ async function main() {
         create: {
           title: "1bhk available",
           description: "1bhk available",
-          address: "address 1bhk",
+          address: {
+            city: "jersey city",
+            state: "NJ",
+            zip: "07306",
+          },
           price: 300,
         },
       },
@@ -39,7 +48,12 @@ async function main() {
         create: {
           title: "Looking for a house 2",
           description: "Looking for a house 2",
-          address: "address 2",
+          address: {
+            city: "jersey city",
+            state: "NJ",
+            zip: "07306",
+          },
+          duration: "temporary",
           budget: 400,
         },
       },
@@ -47,7 +61,11 @@ async function main() {
         create: {
           title: "2bhk available",
           description: "2bhk available",
-          address: "address 2bhk",
+          address: {
+            city: "jersey city",
+            state: "NJ",
+            zip: "07306",
+          },
           price: 500,
         },
       },
