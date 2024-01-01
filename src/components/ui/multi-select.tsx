@@ -19,28 +19,34 @@ export default function MultiSelect({ label = "", data, selected, setSelected }:
   const [open, setOpen] = React.useState(false);
   const [inputValue, setInputValue] = React.useState("");
 
-  const handleUnselect = React.useCallback((item: string) => {
-    setSelected((prev) => prev.filter((s) => s !== item));
-  }, []);
+  const handleUnselect = React.useCallback(
+    (item: string) => {
+      setSelected((prev) => prev.filter((s) => s !== item));
+    },
+    [setSelected]
+  );
 
-  const handleKeyDown = React.useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
-    const input = inputRef.current;
-    if (input) {
-      if (e.key === "Delete" || e.key === "Backspace") {
-        if (input.value === "") {
-          setSelected((prev) => {
-            const newSelected = [...prev];
-            newSelected.pop();
-            return newSelected;
-          });
+  const handleKeyDown = React.useCallback(
+    (e: React.KeyboardEvent<HTMLDivElement>) => {
+      const input = inputRef.current;
+      if (input) {
+        if (e.key === "Delete" || e.key === "Backspace") {
+          if (input.value === "") {
+            setSelected((prev) => {
+              const newSelected = [...prev];
+              newSelected.pop();
+              return newSelected;
+            });
+          }
+        }
+        // This is not a default behaviour of the <input /> field
+        if (e.key === "Escape") {
+          input.blur();
         }
       }
-      // This is not a default behaviour of the <input /> field
-      if (e.key === "Escape") {
-        input.blur();
-      }
-    }
-  }, []);
+    },
+    [setSelected]
+  );
 
   const selectables = data.filter((item) => !selected.includes(item));
 

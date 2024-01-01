@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import {
   ColumnDef,
   flexRender,
@@ -141,15 +141,6 @@ export default function DataTable<TData, TValue>({ columns, data }: DataTablePro
             </SheetHeader>
             <div className="my-5 flex flex-col gap-5">
               <div className="flex flex-col gap-2">
-                <div className="font-medium">Cities</div>
-                <MultiSelect
-                  label="cities"
-                  data={getAllCities()}
-                  selected={selectedCity}
-                  setSelected={setSelectedCity}
-                />
-              </div>
-              <div className="flex flex-col gap-2">
                 <div className="font-medium">Duration</div>
                 <Select onValueChange={(value) => setSelectedDuration(value)} value={selectedDuration}>
                   <SelectTrigger className="w-full">
@@ -162,6 +153,16 @@ export default function DataTable<TData, TValue>({ columns, data }: DataTablePro
                   </SelectContent>
                 </Select>
               </div>
+              <div className="flex flex-col gap-2">
+                <div className="font-medium">Cities</div>
+                <MultiSelect
+                  label="cities"
+                  data={getAllCities()}
+                  selected={selectedCity}
+                  setSelected={setSelectedCity}
+                />
+              </div>
+
               <div className="flex flex-col gap-2">
                 <div className="font-medium">Budget</div>
                 <div className="flex gap-2 justify-evenly items-center">
