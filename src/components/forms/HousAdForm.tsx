@@ -48,14 +48,14 @@ export default function HouseAdForm() {
     },
   });
 
-  if (!currentUser) return;
-
   useEffect(() => {
-    if (!currentUser.emailVerified) {
+    if (!currentUser?.emailVerified) {
       setVerificationOpen(true);
       return;
     }
   }, [currentUser]);
+
+  if (!currentUser) return;
 
   const handleDescriptionChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const description = e.target.value;

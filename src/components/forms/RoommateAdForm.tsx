@@ -45,14 +45,14 @@ export default function RoommateAdForm() {
     },
   });
 
-  if (!currentUser) return;
-
   useEffect(() => {
-    if (!currentUser.emailVerified) {
+    if (!currentUser?.emailVerified) {
       setVerificationOpen(true);
       return;
     }
   }, [currentUser]);
+
+  if (!currentUser) return;
 
   const handleDescriptionChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const description = e.target.value;
