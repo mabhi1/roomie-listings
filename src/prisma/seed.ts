@@ -20,6 +20,7 @@ async function main() {
           },
           duration: "permanent",
           budget: 200,
+          showEmail: true,
         },
       },
       HouseAds: {
@@ -32,6 +33,7 @@ async function main() {
             zip: "07306",
           },
           price: 300,
+          showEmail: false,
         },
       },
     },
@@ -55,6 +57,7 @@ async function main() {
           },
           duration: "temporary",
           budget: 400,
+          showEmail: true,
         },
       },
       HouseAds: {
@@ -67,6 +70,7 @@ async function main() {
             zip: "07306",
           },
           price: 500,
+          showEmail: false,
         },
       },
     },

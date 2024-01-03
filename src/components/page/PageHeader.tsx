@@ -1,10 +1,18 @@
 import { cn } from "@/lib/utils";
 import BackButton from "../button/BackButton";
 
-export default function PageHeader({ heading, className }: { heading: string; className?: string }) {
+export default function PageHeader({
+  heading,
+  className,
+  backButton = true,
+}: {
+  heading: string;
+  className?: string;
+  backButton?: boolean;
+}) {
   return (
     <div className="flex gap-1 items-center">
-      <BackButton />
+      {backButton && <BackButton />}
       <h1 className={cn("text-3xl font-light", className)}>{heading}</h1>
     </div>
   );

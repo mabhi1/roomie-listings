@@ -2,13 +2,14 @@
 
 import { FormEvent, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { LockIcon, UnlockIcon } from "lucide-react";
 import { passwordReset, rememberSignIn, signIn } from "@/firebase/firebaseFunctions";
 import axios from "axios";
+import PageHeader from "../page/PageHeader";
 
 export default function EmailSigninForm() {
   const [email, setEmail] = useState("");
@@ -59,7 +60,7 @@ export default function EmailSigninForm() {
     <form className="flex justify-center" onSubmit={handleSubmit}>
       <Card className="border-0 shadow-none w-96">
         <CardHeader className="space-y-1">
-          <CardTitle>Sign in with Email</CardTitle>
+          <PageHeader heading="Sign in with Email" backButton={false} />
           <CardDescription className="text-left">Enter your email and password below to sign in.</CardDescription>
         </CardHeader>
         <CardContent className="grid gap-2">

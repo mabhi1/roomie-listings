@@ -2,7 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
@@ -13,6 +13,7 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { User } from "@/lib/types";
 import { toastMessage } from "@/lib/constants";
+import PageHeader from "../page/PageHeader";
 
 export default function EmailSignupForm() {
   const [name, setName] = useState("");
@@ -68,7 +69,7 @@ export default function EmailSignupForm() {
     <form className="flex justify-center" onSubmit={handleSubmit}>
       <Card className="border-0 shadow-none w-96">
         <CardHeader className="space-y-1">
-          <CardTitle>Sign up with Email</CardTitle>
+          <PageHeader heading="Sign up with Email" backButton={false} />
           <CardDescription className="text-left">Enter email and password below to sign up.</CardDescription>
         </CardHeader>
         <CardContent className="grid gap-2">

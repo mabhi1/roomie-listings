@@ -3,10 +3,19 @@
 import useAuth from "@/components/providers/AuthProvider";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import LoginRequest from "./LoginRequest";
 
-type Page = "signin" | "profile";
+type Page = "signin" | "profile" | "protected";
 
-export default function ProtectedLayout({ children, page }: { children: React.ReactNode; page: Page }) {
+export default function ProtectedLayout({
+  children,
+  page,
+  message,
+}: {
+  children: React.ReactNode;
+  page: Page;
+  message?: string;
+}) {
   const currentUser = useAuth();
   const router = useRouter();
 
@@ -21,4 +30,6 @@ export default function ProtectedLayout({ children, page }: { children: React.Re
   }, [page, currentUser, router]);
 
   if ((page === "signin" && !currentUser) || (page === "profile" && currentUser)) return <>{children}</>;
+  else if (page === "protected" && !currentUser) return <LoginRequest message={message} />;
+  else if (page === "protected" && currentUser) return <>{children}</>;
 }

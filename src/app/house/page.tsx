@@ -17,25 +17,6 @@ export default async function House() {
       <div className="relative flex gap-5">
         <div className="flex-1">
           <DataTable columns={HouseColumns} data={houseData} page="house" />
-          <DataTable columns={HouseColumns} data={houseData} page="house" />
-          <DataTable columns={HouseColumns} data={houseData} page="house" />
-          <DataTable columns={HouseColumns} data={houseData} page="house" />
-          <DataTable columns={HouseColumns} data={houseData} page="house" />
-          <DataTable columns={HouseColumns} data={houseData} page="house" />
-          <DataTable columns={HouseColumns} data={houseData} page="house" />
-          <DataTable columns={HouseColumns} data={houseData} page="house" />
-          <DataTable columns={HouseColumns} data={houseData} page="house" />
-          <DataTable columns={HouseColumns} data={houseData} page="house" />
-          <DataTable columns={HouseColumns} data={houseData} page="house" />
-          <DataTable columns={HouseColumns} data={houseData} page="house" />
-          <DataTable columns={HouseColumns} data={houseData} page="house" />
-          <DataTable columns={HouseColumns} data={houseData} page="house" />
-          <DataTable columns={HouseColumns} data={houseData} page="house" />
-          <DataTable columns={HouseColumns} data={houseData} page="house" />
-          <DataTable columns={HouseColumns} data={houseData} page="house" />
-          <DataTable columns={HouseColumns} data={houseData} page="house" />
-          <DataTable columns={HouseColumns} data={houseData} page="house" />
-          <DataTable columns={HouseColumns} data={houseData} page="house" />
         </div>
         <Separator orientation="vertical" />
         <div className="w-1/5 flex flex-col gap-2 sticky top-20 h-60">

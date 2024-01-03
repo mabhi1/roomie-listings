@@ -45,10 +45,11 @@ model RoommateAd {
   address     Address
   budget      Int
   duration    Duration @default(temporary)
-  postedBy    String   @db.ObjectId
-  savedBy     String[] @db.ObjectId
-  poster      User     @relation(fields: [postedBy], references: [id], name: "postedRoommateAds")
-  saver       User     @relation(fields: [savedBy], references: [id], name: "savedRoommateAds")
+  postedBy    String
+  savedBy     String[]
+  showEmail   Boolean
+  poster      User     @relation(fields: [postedBy], references: [uid], name: "postedRoommateAds")
+  saver       User     @relation(fields: [savedBy], references: [uid], name: "savedRoommateAds")
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -61,10 +62,11 @@ model HouseAd {
   pictures    String[]
   price       Int
   duration    Duration @default(temporary)
-  postedBy    String   @db.ObjectId
-  savedBy     String[] @db.ObjectId
-  poster      User     @relation(fields: [postedBy], references: [id], name: "postedHouseAds")
-  saver       User     @relation(fields: [savedBy], references: [id], name: "savedHouseAds")
+  postedBy    String
+  savedBy     String[]
+  showEmail   Boolean
+  poster      User     @relation(fields: [postedBy], references: [uid], name: "postedHouseAds")
+  saver       User     @relation(fields: [savedBy], references: [uid], name: "savedHouseAds")
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
