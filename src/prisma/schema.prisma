@@ -31,42 +31,47 @@ enum Duration {
   permanent
 }
 
-type Address {
+type HouseAddress {
   address1 String?
   city     String
   state    String
   zip      String
 }
 
+type RoommateAddress {
+  city  String
+  state String
+}
+
 model RoommateAd {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  id          String          @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String
-  address     Address
+  address     RoommateAddress
   budget      Int
-  duration    Duration @default(temporary)
+  duration    Duration        @default(temporary)
   postedBy    String
   savedBy     String[]
   showEmail   Boolean
-  poster      User     @relation(fields: [postedBy], references: [uid], name: "postedRoommateAds")
-  saver       User     @relation(fields: [savedBy], references: [uid], name: "savedRoommateAds")
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  poster      User            @relation(fields: [postedBy], references: [uid], name: "postedRoommateAds")
+  saver       User            @relation(fields: [savedBy], references: [uid], name: "savedRoommateAds")
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
 }
 
 model HouseAd {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String
-  address     Address
+  address     HouseAddress
   pictures    String[]
   price       Int
-  duration    Duration @default(temporary)
+  duration    Duration     @default(temporary)
   postedBy    String
   savedBy     String[]
   showEmail   Boolean
-  poster      User     @relation(fields: [postedBy], references: [uid], name: "postedHouseAds")
-  saver       User     @relation(fields: [savedBy], references: [uid], name: "savedHouseAds")
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  poster      User         @relation(fields: [postedBy], references: [uid], name: "postedHouseAds")
+  saver       User         @relation(fields: [savedBy], references: [uid], name: "savedHouseAds")
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
 }

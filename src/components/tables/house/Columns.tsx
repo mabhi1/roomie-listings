@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
-import { Address } from "@/lib/types";
+import { HouseAddress } from "@/lib/types";
 
 export type HouseColumnsType = {
   id: string;
@@ -61,7 +61,7 @@ export const HouseColumns: ColumnDef<HouseColumnsType>[] = [
     accessorKey: "address",
     header: () => <div className="text-center mx-auto">City</div>,
     cell: ({ row }) => {
-      const address: Address = row.getValue("address");
+      const address: HouseAddress = row.getValue("address");
       const city = address.city;
       return <div className="text-center capitalize">{city}</div>;
     },

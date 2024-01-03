@@ -16,7 +16,6 @@ async function main() {
           address: {
             city: "jersey city",
             state: "NJ",
-            zip: "07306",
           },
           duration: "permanent",
           budget: 200,
@@ -53,7 +52,6 @@ async function main() {
           address: {
             city: "jersey city",
             state: "NJ",
-            zip: "07306",
           },
           duration: "temporary",
           budget: 400,

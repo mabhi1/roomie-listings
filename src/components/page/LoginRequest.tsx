@@ -32,6 +32,7 @@ export default function LoginRequest({ message }: { message: string | undefined 
             width={100}
             height={100}
             className="w-auto absolute right-6 top-6"
+            priority
           />
         </CardFooter>
       </Card>

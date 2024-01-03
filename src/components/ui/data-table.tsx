@@ -24,7 +24,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ColumnsIcon, FilterIcon, SearchIcon } from "lucide-react";
-import { Address } from "@/lib/types";
+import { HouseAddress } from "@/lib/types";
 import {
   Sheet,
   SheetContent,
@@ -93,7 +93,7 @@ export default function DataTable<TData, TValue>({ columns, data, page }: DataTa
     return rows
       .filter((row) => {
         if (selectedCity.length === 0) return true;
-        return selectedCity.includes((row.getValue("address") as Address).city);
+        return selectedCity.includes((row.getValue("address") as HouseAddress).city);
       })
       .filter((row) => {
         if (selectedDuration === "all") return true;
@@ -111,7 +111,7 @@ export default function DataTable<TData, TValue>({ columns, data, page }: DataTa
   const getAllCities = () => {
     const cities: string[] = [];
     table.getRowModel().rows.forEach((row) => {
-      const address: Address = row.getValue("address");
+      const address: HouseAddress = row.getValue("address");
       if (cities.includes(address.city)) return;
       cities.push(address.city);
     });

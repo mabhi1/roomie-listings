@@ -12,16 +12,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
-import { Address } from "@/lib/types";
+import { RoommateAddress } from "@/lib/types";
 
 export type RoommateColumnsType = {
   id: string;
   title: string;
   address: {
-    address1: string | null;
     city: string;
     state: string;
-    zip: string;
   };
   budget: number;
   duration: "temporary" | "permanent";
@@ -61,7 +59,7 @@ export const RoommateColumns: ColumnDef<RoommateColumnsType>[] = [
     accessorKey: "address",
     header: () => <div className="text-center mx-auto">City</div>,
     cell: ({ row }) => {
-      const address: Address = row.getValue("address");
+      const address: RoommateAddress = row.getValue("address");
       const city = address.city;
       return <div className="text-center capitalize">{city}</div>;
     },

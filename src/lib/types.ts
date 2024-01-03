@@ -8,18 +8,23 @@ type User = {
   updatedAt?: Date;
 };
 
-type Address = {
+type HouseAddress = {
   address1: string | null;
   city: string;
   state: string;
   zip: string;
 };
 
+type RoommateAddress = {
+  city: string;
+  state: string;
+};
+
 type RoommateAd = {
   id?: string;
   title: string;
   description: string;
-  address: Address;
+  address: RoommateAddress;
   budget: number;
   duration: "temporary" | "permanent";
   postedBy: string;
@@ -33,7 +38,7 @@ type HouseAd = {
   id?: string;
   title: string;
   description: string;
-  address: Address;
+  address: HouseAddress;
   price: number;
   duration: "temporary" | "permanent";
   pictures: string[];
@@ -44,4 +49,4 @@ type HouseAd = {
   updatedAt?: Date;
 };
 
-export type { User, Address, RoommateAd, HouseAd };
+export type { User, HouseAddress, RoommateAddress, RoommateAd, HouseAd };

@@ -1,4 +1,4 @@
-export const zipCodeList = [
+const zipCodeList = [
   {
     zip: "08201",
     "Zipcode name": "ABSECON, NJ",
@@ -4935,3 +4935,13 @@ export const zipCodeList = [
     "County Name": "SOMERSET",
   },
 ];
+
+const visited: { [index: string]: boolean } = {};
+const cityList: string[] = [];
+zipCodeList.forEach((zip) => {
+  if (visited[zip.City]) return;
+  cityList.push(zip.City);
+  visited[zip.City] = true;
+});
+
+export { zipCodeList, cityList };

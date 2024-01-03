@@ -26,7 +26,7 @@ export default async function House() {
             Are you looking for a house and couldn&apos;t find one? Click the button below to post an Ad in roommates
             and let others find you.
           </p>
-          <Link href="#" legacyBehavior passHref>
+          <Link href="/roommate/create" legacyBehavior passHref>
             <Button className="mt-2">
               <TagsIcon className="w-4 mr-1" />
               Post Ad
