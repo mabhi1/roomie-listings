@@ -20,9 +20,8 @@ export default function HouseAdForm() {
   const [data, setData] = useState<string | undefined>();
   const [error, setError] = useState<string | undefined>();
   const [isPending, startTransition] = useTransition();
-  const currentUser = useAuth();
-  if (!currentUser) return;
 
+  const currentUser = useAuth();
   const form = useForm<z.infer<typeof HouseAdSchema>>({
     resolver: zodResolver(HouseAdSchema),
     defaultValues: {
@@ -39,6 +38,8 @@ export default function HouseAdForm() {
       duration: "temporary",
     },
   });
+
+  if (!currentUser) return;
 
   const handleDescriptionChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const description = e.target.value;
