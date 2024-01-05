@@ -8,14 +8,14 @@ import PageHeader from "./PageHeader";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function LoginRequest({ message }: { message: string | undefined }) {
+export default function LoginRequest({ message }: { message?: string | undefined }) {
   const router = useRouter();
   return (
     <FullWrapper className="mt-20">
       <Card className="relative w-1/2 mx-auto">
         <CardHeader>
           <PageHeader heading="Authentication Required" className="text-destructive" backButton={false} />
-          <CardDescription>{message}</CardDescription>
+          <CardDescription>{message || "Please login to continue."}</CardDescription>
         </CardHeader>
         <CardContent className="space-x-5">
           <Button variant="secondary" onClick={() => router.back()}>

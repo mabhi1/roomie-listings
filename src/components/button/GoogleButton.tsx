@@ -27,6 +27,7 @@ export default function GoogleButton(props: ButtonHTMLAttributes<HTMLButtonEleme
           email: user.email!,
           provider: "google",
           name: user.displayName!,
+          photo: user.photoURL,
         });
     } catch (error: any) {
       toast.error(error);

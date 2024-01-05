@@ -3,7 +3,7 @@ import Spinner from "@/components/page/Spinner";
 
 export default function Loading() {
   return (
-    <FullWrapper className="items-center mt-24">
+    <FullWrapper className="items-center pt-24">
       <Spinner size="large" />
     </FullWrapper>
   );

@@ -3,6 +3,7 @@ type User = {
   name: string;
   uid: string;
   email: string;
+  photo?: string | null;
   provider: string;
   createdAt?: Date;
   updatedAt?: Date;
@@ -49,4 +50,15 @@ type HouseAd = {
   updatedAt?: Date;
 };
 
-export type { User, HouseAddress, RoommateAddress, RoommateAd, HouseAd };
+type Comment = {
+  id?: string;
+  uid: string;
+  postId: string;
+  comment: string;
+  likes?: string[];
+  reports?: string[];
+  createdAt?: Date;
+  updatedAt?: Date;
+};
+
+export type { User, HouseAddress, RoommateAddress, RoommateAd, HouseAd, Comment };

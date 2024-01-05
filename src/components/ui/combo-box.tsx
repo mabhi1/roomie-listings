@@ -34,7 +34,6 @@ export default function ComboBox({
                 key={city}
                 value={city}
                 onSelect={(currentValue) => {
-                  console.log(currentValue.toUpperCase(), value);
                   setValue(currentValue.toUpperCase() === value ? "" : currentValue.toUpperCase());
                   setOpen(false);
                 }}

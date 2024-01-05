@@ -8,6 +8,7 @@ async function main() {
       uid: "HFXg1nIG3zMZgiDQiNeAcrreHat2",
       name: "Hello",
       email: "hello@hello.com",
+      photo: null,
       provider: "password",
       roommateAds: {
         create: {
@@ -22,7 +23,7 @@ async function main() {
           showEmail: true,
         },
       },
-      HouseAds: {
+      houseAds: {
         create: {
           title: "1bhk available",
           description: "1bhk available",
@@ -44,6 +45,7 @@ async function main() {
       uid: "83on8wvMh6Z7I1koNp4jDBomvVt1",
       name: "Abhishek Mishra",
       email: "mishraabhishek226@gmail.com",
+      photo: "https://lh3.googleusercontent.com/a/ACg8ocLRBTflwhXlSnkKJpZoQEm_WZ4Lvv6hE03Dwu9Zt5pFtptF=s96-c",
       provider: "google",
       roommateAds: {
         create: {
@@ -58,7 +60,7 @@ async function main() {
           showEmail: true,
         },
       },
-      HouseAds: {
+      houseAds: {
         create: {
           title: "2bhk available",
           description: "2bhk available",

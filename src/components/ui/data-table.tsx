@@ -82,7 +82,6 @@ export default function DataTable<TData, TValue>({ columns, data, page }: DataTa
   };
 
   const handleClearFilter = () => {
-    console.log("reset");
     setSelectedCity([]);
     setSelectedDuration("all");
     setMin(0);

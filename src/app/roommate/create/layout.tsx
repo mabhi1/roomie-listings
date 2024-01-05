@@ -1,14 +1,11 @@
-import ProtectedLayout from "@/components/page/ProtectedLayout";
-import { Metadata } from "next";
+"use client";
 
-export const metadata: Metadata = {
-  title: "Become a Roommate",
-};
+import LoginRequest from "@/components/page/LoginRequest";
+import useAuth from "@/components/providers/AuthProvider";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return (
-    <ProtectedLayout page="protected" message="Please sign in and verify your email to post a roommate Ad.">
-      {children}
-    </ProtectedLayout>
-  );
+  const currentUser = useAuth();
+
+  if (currentUser) return <>{children}</>;
+  else return <LoginRequest message="Please login to post an Ad." />;
 }

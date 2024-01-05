@@ -15,11 +15,15 @@ model User {
   name             String
   uid              String       @unique
   email            String
+  photo            String?
   provider         String
+  reports          Comment[]    @relation("reports")
+  likes            Comment[]    @relation("likes")
   roommateAds      RoommateAd[] @relation("postedRoommateAds")
   savedRoommateAds RoommateAd[] @relation("savedRoommateAds")
-  HouseAds         HouseAd[]    @relation("postedHouseAds")
+  houseAds         HouseAd[]    @relation("postedHouseAds")
   savedHouseAds    HouseAd[]    @relation("savedHouseAds")
+  comments         Comment[]    @relation("comments")
   createdAt        DateTime     @default(now())
   updatedAt        DateTime     @updatedAt
 
@@ -29,6 +33,20 @@ model User {
 enum Duration {
   temporary
   permanent
+}
+
+model Comment {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  uid        String
+  postId     String
+  comment    String
+  likes      String[]
+  reports    String[]
+  user       User     @relation(fields: [uid], references: [uid], name: "comments")
+  reportedBy User     @relation(fields: [reports], references: [uid], name: "reports")
+  likedBy    User     @relation(fields: [likes], references: [uid], name: "likes")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
 type HouseAddress {

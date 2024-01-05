@@ -1,10 +1,17 @@
-import ProtectedLayout from "@/components/page/ProtectedLayout";
-import { Metadata } from "next";
+"use client";
 
-export const metadata: Metadata = {
-  title: "Signin",
-};
+import useAuth from "@/components/providers/AuthProvider";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return <ProtectedLayout page="signin">{children}</ProtectedLayout>;
+  const currentUser = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (currentUser) router.back();
+  }, [currentUser]);
+
+  if (!currentUser) return <>{children}</>;
+  else return <div className="flex-1"></div>;
 }

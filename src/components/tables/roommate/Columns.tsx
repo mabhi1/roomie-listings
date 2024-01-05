@@ -13,6 +13,7 @@ import {
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { RoommateAddress } from "@/lib/types";
+import Link from "next/link";
 
 export type RoommateColumnsType = {
   id: string;
@@ -51,8 +52,18 @@ export const RoommateColumns: ColumnDef<RoommateColumnsType>[] = [
     header: () => <div className="w-96">Title</div>,
     enableHiding: false,
     cell: ({ row }) => {
+      const roommate = row.original;
+
       const title: string = row.getValue("title");
-      return <div className="ml-1">{title}</div>;
+      return (
+        <div className="ml-1">
+          <Link href={`/roommate/${roommate.id}`} passHref legacyBehavior>
+            <Button variant="link" className="p-0 h-0">
+              {title}
+            </Button>
+          </Link>
+        </div>
+      );
     },
   },
   {
@@ -130,7 +141,9 @@ export const RoommateColumns: ColumnDef<RoommateColumnsType>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem>View Details</DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link href={`/roommate/${roommate.id}`}>View Details</Link>
+            </DropdownMenuItem>
             <DropdownMenuItem>Save</DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>View Poster</DropdownMenuItem>

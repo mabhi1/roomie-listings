@@ -20,3 +20,13 @@ export async function createRoommateAd(data: RoommateAd) {
     throw new Error();
   }
 }
+
+export async function getRoommateById(id: string) {
+  try {
+    const houseAd = await prisma.roommateAd.findUnique({ where: { id } });
+    if (!houseAd) return null;
+    return houseAd;
+  } catch (error) {
+    return null;
+  }
+}

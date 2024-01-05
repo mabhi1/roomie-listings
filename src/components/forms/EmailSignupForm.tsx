@@ -56,6 +56,7 @@ export default function EmailSignupForm() {
         email: user.email!,
         provider: "password",
         name: user.displayName!,
+        photo: user.photoURL,
       });
       toast.success(toastMessage.emailVerificationSuccess);
       return;

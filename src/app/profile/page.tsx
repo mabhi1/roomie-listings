@@ -27,12 +27,13 @@ export default function Profile() {
       <FullWrapper className="gap-5">
         <PageHeader heading="My Profile" />
         <div className="flex gap-5">
-          <div className="rounded-full w-fit overflow-clip">
+          <div className="rounded-full w-fit h-fit overflow-clip">
             <Image
               src={currentUser.photoURL ? currentUser.photoURL : "/user.png"}
               alt={currentUser.displayName!}
               width={100}
               height={100}
+              className="w-auto"
               priority
             />
           </div>
