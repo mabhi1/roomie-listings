@@ -12,7 +12,6 @@ export default function AddComment({ postId }: { postId: string }) {
   const [isPending, startTransition] = useTransition();
   const [comment, setComment] = useState("");
   const currentUser = useAuth();
-  if (!currentUser) return <></>;
 
   const handleAddComment = async () => {
     if (!comment || comment.length === 0) return;
@@ -25,7 +24,7 @@ export default function AddComment({ postId }: { postId: string }) {
         | {
             message: string;
             error?: undefined;
-          } = await addComment(comment, currentUser.uid, postId);
+          } = await addComment(comment, currentUser?.uid!, postId);
       if (data.error) toast.error(data.error);
       else toast.success(data.message);
       setComment("");
@@ -36,19 +35,23 @@ export default function AddComment({ postId }: { postId: string }) {
     <div className="flex flex-col w-1/4">
       <Label htmlFor="comment">Add a comment</Label>
       <span className="text-muted-foreground text-xs">Share your thoughts on this Ad</span>
-      <form action={handleAddComment} className="flex flex-col gap-3 mt-5">
-        <Input
-          type="text"
-          placeholder="Enter comment"
-          name="comment"
-          id="comment"
-          value={comment}
-          onChange={(e) => setComment(e.target.value.trim())}
-        />
-        <Button type="submit" disabled={isPending}>
-          Submit
-        </Button>
-      </form>
+      {currentUser ? (
+        <form action={handleAddComment} className="flex flex-col gap-3 mt-5">
+          <Input
+            type="text"
+            placeholder="Enter comment"
+            name="comment"
+            id="comment"
+            value={comment}
+            onChange={(e) => setComment(e.target.value.trim())}
+          />
+          <Button type="submit" disabled={isPending}>
+            Submit
+          </Button>
+        </form>
+      ) : (
+        <div className="mt-5">Sign in to add a comment</div>
+      )}
     </div>
   );
 }
