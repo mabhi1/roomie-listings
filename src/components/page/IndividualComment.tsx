@@ -28,13 +28,7 @@ export default async function IndividualComment({ comment, adId }: { comment: Co
         </div>
       </Link>
       <span>{comment.comment}</span>
-      {comment.likes && comment.likes.length > 0 && (
-        <span className="text-xs text-muted-foreground">{comment.likes.length} people found this helpful</span>
-      )}
-      {comment.reports && comment.reports.length > 0 && (
-        <span className="text-xs text-muted-foreground">{comment.reports.length} people reported this Ad</span>
-      )}
-      <CommentButtons userId={user.uid} commentId={comment.id!} adId={adId} />
+      <CommentButtons comment={comment} adId={adId} />
     </div>
   );
 }

@@ -17,7 +17,6 @@ export async function createComment(data: Comment) {
     if (!comment) return null;
     return comment;
   } catch (error) {
-    console.log(error);
     return null;
   }
 }
@@ -28,7 +27,32 @@ export async function deleteCommentById(id: string) {
     if (!comment) return null;
     return comment;
   } catch (error) {
-    console.log(error);
+    return null;
+  }
+}
+
+export async function likeCommentById(id: string, uid: string) {
+  try {
+    const comment = await prisma.comment.findUnique({ where: { id } });
+    if (!comment) return null;
+    const likes = comment.likes.filter((like) => like !== uid);
+    const newComment = await prisma.comment.update({ where: { id }, data: { likes: [...likes, uid] } });
+    if (!comment) return null;
+    return newComment;
+  } catch (error) {
+    return null;
+  }
+}
+
+export async function reportCommentById(id: string, uid: string) {
+  try {
+    const comment = await prisma.comment.findUnique({ where: { id } });
+    if (!comment) return null;
+    const reports = comment.reports.filter((report) => report !== uid);
+    const newComment = await prisma.comment.update({ where: { id }, data: { reports: [...reports, uid] } });
+    if (!comment) return null;
+    return newComment;
+  } catch (error) {
     return null;
   }
 }

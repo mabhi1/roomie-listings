@@ -1,6 +1,6 @@
 "use server";
 
-import { createComment, deleteCommentById } from "@/prisma/db/comments";
+import { createComment, deleteCommentById, likeCommentById, reportCommentById } from "@/prisma/db/comments";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
@@ -34,4 +34,34 @@ export async function deleteComment(commentId: string, adId: string) {
   if (!data) return { error: "Failed to delete comment" };
   revalidatePath(`/roommate/${adId}`);
   return { message: "Comment deleted successfully" };
+}
+
+export async function likeComment(commentId: string, uid: string, adId: string) {
+  const schema = z.string().min(1);
+  const parse = schema.safeParse(commentId);
+
+  if (!parse.success) {
+    return { error: "Failed to update comment" };
+  }
+
+  const parsedComment = parse.data;
+  const data = await likeCommentById(parsedComment, uid);
+  if (!data) return { error: "Failed to update comment" };
+  revalidatePath(`/roommate/${adId}`);
+  return { message: "Thank you for your feedback" };
+}
+
+export async function reportComment(commentId: string, uid: string, adId: string) {
+  const schema = z.string().min(1);
+  const parse = schema.safeParse(commentId);
+
+  if (!parse.success) {
+    return { error: "Failed to update comment" };
+  }
+
+  const parsedComment = parse.data;
+  const data = await reportCommentById(parsedComment, uid);
+  if (!data) return { error: "Failed to update comment" };
+  revalidatePath(`/roommate/${adId}`);
+  return { message: "Thank you for your feedback" };
 }

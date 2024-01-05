@@ -14,7 +14,7 @@ export default function AddComment({ postId }: { postId: string }) {
   const currentUser = useAuth();
 
   const handleAddComment = async () => {
-    if (!comment || comment.length === 0) return;
+    if (!comment || comment.trim().length === 0) return;
     startTransition(async () => {
       const data:
         | {
@@ -43,7 +43,7 @@ export default function AddComment({ postId }: { postId: string }) {
             name="comment"
             id="comment"
             value={comment}
-            onChange={(e) => setComment(e.target.value.trim())}
+            onChange={(e) => setComment(e.target.value)}
           />
           <Button type="submit" disabled={isPending}>
             Submit
