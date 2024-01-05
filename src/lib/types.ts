@@ -30,6 +30,7 @@ type RoommateAd = {
   duration: "temporary" | "permanent";
   postedBy: string;
   savedBy: string[];
+  reports: string[];
   showEmail: boolean;
   createdAt?: Date;
   updatedAt?: Date;
@@ -45,6 +46,7 @@ type HouseAd = {
   pictures: string[];
   postedBy: string;
   savedBy: string[];
+  reports: string[];
   showEmail: boolean;
   createdAt?: Date;
   updatedAt?: Date;
@@ -55,8 +57,8 @@ type Comment = {
   uid: string;
   postId: string;
   comment: string;
-  likes?: string[];
-  reports?: string[];
+  likes: string[];
+  reports: string[];
   createdAt?: Date;
   updatedAt?: Date;
 };

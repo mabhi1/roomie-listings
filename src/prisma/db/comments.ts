@@ -48,7 +48,7 @@ export async function reportCommentById(id: string, uid: string) {
   try {
     const comment = await prisma.comment.findUnique({ where: { id } });
     if (!comment) return null;
-    const reports = comment.reports.filter((report) => report !== uid);
+    const reports = !comment.reports ? [] : comment.reports.filter((report) => report !== uid);
     const newComment = await prisma.comment.update({ where: { id }, data: { reports: [...reports, uid] } });
     if (!comment) return null;
     return newComment;

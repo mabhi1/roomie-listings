@@ -14,7 +14,7 @@ export async function addComment(comment: FormDataEntryValue, uid: string, postI
 
   const parsedComment = parse.data;
 
-  const data = await createComment({ comment: parsedComment, uid, postId });
+  const data = await createComment({ comment: parsedComment, uid, postId, likes: [], reports: [] });
   if (!data) return { error: "Failed to add comment" };
   revalidatePath(`/roommate/${postId}`);
   return { message: "Comment added successfully" };

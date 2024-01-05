@@ -16,7 +16,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { sendEmailVerification } from "firebase/auth";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import saveRoommateAd from "@/actions/saveRoommateAd";
+import { createRoommate } from "@/actions/roommate";
 import ComboBox from "../ui/combo-box";
 import Required from "./Required";
 
@@ -77,7 +77,7 @@ export default function RoommateAdForm() {
     handleFormReset();
 
     startTransition(async () => {
-      const { data, error } = await saveRoommateAd(values, [], currentUser.uid!);
+      const { data, error } = await createRoommate(values, [], currentUser.uid!);
       setError(error);
       setData(data);
     });

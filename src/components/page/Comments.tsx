@@ -3,7 +3,7 @@ import IndividualComment from "@/components/page/IndividualComment";
 import { Separator } from "@/components/ui/separator";
 import { getAllCommentsByAd } from "@/prisma/db/comments";
 
-export default async function Comments({ params: { id } }: { params: { id: string } }) {
+export default async function Comments({ id }: { id: string }) {
   const comments = await getAllCommentsByAd(id);
 
   return (

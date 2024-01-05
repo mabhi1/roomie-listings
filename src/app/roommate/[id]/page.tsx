@@ -6,6 +6,9 @@ import { getUserById } from "@/prisma/db/users";
 import Image from "next/image";
 import Link from "next/link";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import RoommateButtons from "@/components/page/RoommateButtons";
+import FullWrapper from "@/components/page/FullWrapper";
+import Comments from "@/components/page/Comments";
 
 export default async function RoommateId({ params: { id } }: { params: { id: string } }) {
   const roommate = await getRoommateById(id);
@@ -13,7 +16,7 @@ export default async function RoommateId({ params: { id } }: { params: { id: str
   const poster = await getUserById(roommate.postedBy);
 
   return (
-    <>
+    <FullWrapper className="gap-5">
       <PageHeader heading="Roommate Available" backButton />
       <Card>
         <CardHeader className="p-5 flex-row items-center justify-between">
@@ -64,14 +67,9 @@ export default async function RoommateId({ params: { id } }: { params: { id: str
             <span>{roommate.duration}</span>
           </div>
         </CardContent>
-        <CardFooter className="p-5 gap-5">
-          <Button>Send Message</Button>
-          <Button className="mr-auto" variant="secondary">
-            Save Ad
-          </Button>
-          <Button variant="destructive">Report Ad</Button>
-        </CardFooter>
+        <RoommateButtons ad={roommate} />
       </Card>
-    </>
+      <Comments id={id} />
+    </FullWrapper>
   );
 }

@@ -11,7 +11,7 @@ export default async function saveHouseAd(values: z.infer<typeof HouseAdSchema>,
 
   const { acceptTc, ...dbData } = values;
   try {
-    const createdId = await createHouseAd({ ...dbData, savedBy, postedBy });
+    const createdId = await createHouseAd({ ...dbData, savedBy, postedBy, reports: [] });
     return { data: createdId };
   } catch (error: any) {
     return { error: "Could not create Ad. Please try again" };

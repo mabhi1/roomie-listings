@@ -13,9 +13,9 @@ export async function getAllRoommateAds() {
 
 export async function createRoommateAd(data: RoommateAd) {
   try {
-    const houseAd = await prisma.roommateAd.create({ data });
-    if (!houseAd) throw new Error();
-    return houseAd.id;
+    const ad = await prisma.roommateAd.create({ data });
+    if (!ad) throw new Error();
+    return ad.id;
   } catch (error) {
     throw new Error();
   }
@@ -23,10 +23,36 @@ export async function createRoommateAd(data: RoommateAd) {
 
 export async function getRoommateById(id: string) {
   try {
-    const houseAd = await prisma.roommateAd.findUnique({ where: { id } });
-    if (!houseAd) return null;
-    return houseAd;
+    const ad = await prisma.roommateAd.findUnique({ where: { id } });
+    if (!ad) return null;
+    return ad;
   } catch (error) {
+    return null;
+  }
+}
+
+export async function saveRoommateByUser(id: string, uid: string) {
+  try {
+    const ad = await prisma.roommateAd.findUnique({ where: { id } });
+    if (!ad) return null;
+    const updatedAd = await prisma.roommateAd.update({ where: { id }, data: { savedBy: [...ad.savedBy, uid] } });
+    if (!updatedAd) return null;
+    return updatedAd;
+  } catch (error) {
+    return null;
+  }
+}
+
+export async function reportRoommateById(id: string, uid: string) {
+  try {
+    const ad = await prisma.roommateAd.findUnique({ where: { id } });
+    if (!ad) return null;
+    const reports = !ad.reports ? [] : ad.reports.filter((report) => report !== uid);
+    const newAd = await prisma.roommateAd.update({ where: { id }, data: { reports: [...reports, uid] } });
+    if (!newAd) return null;
+    return newAd;
+  } catch (error) {
+    console.log(error);
     return null;
   }
 }

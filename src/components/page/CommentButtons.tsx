@@ -15,7 +15,7 @@ export default function CommentButtons({ comment, adId }: { comment: Comment; ad
     startTransition(async () => {
       const data = await deleteComment(comment.id!, adId);
       if (data.error) toast.error(data.error);
-      toast.success(data.message);
+      else toast.success(data.message);
     });
   };
 
@@ -24,7 +24,7 @@ export default function CommentButtons({ comment, adId }: { comment: Comment; ad
       startTransition(async () => {
         const data = await likeComment(comment.id!, currentUser.uid, adId);
         if (data.error) toast.error(data.error);
-        toast.success(data.message);
+        else toast.success(data.message);
       });
   };
 
@@ -33,7 +33,7 @@ export default function CommentButtons({ comment, adId }: { comment: Comment; ad
       startTransition(async () => {
         const data = await reportComment(comment.id!, currentUser.uid, adId);
         if (data.error) toast.error(data.error);
-        toast.success(data.message);
+        else toast.success(data.message);
       });
   };
 
