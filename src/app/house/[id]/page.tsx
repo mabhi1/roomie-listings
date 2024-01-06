@@ -1,30 +1,30 @@
 import PageHeader from "@/components/page/PageHeader";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { getRoommateById } from "@/prisma/db/roommaateAds";
 import { getUserById } from "@/prisma/db/users";
 import Image from "next/image";
 import Link from "next/link";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import RoommateButtons from "@/components/buttons/RoommateButtons";
 import FullWrapper from "@/components/page/FullWrapper";
 import Comments from "@/components/page/Comments";
+import { getHouseById } from "@/prisma/db/houseAds";
+import HouseButtons from "@/components/buttons/HouseButtons";
 
-export default async function RoommateId({ params: { id } }: { params: { id: string } }) {
-  const roommate = await getRoommateById(id);
-  if (!roommate) throw new Error("Invalid Roommate Ad");
-  const poster = await getUserById(roommate.postedBy);
+export default async function HouseId({ params: { id } }: { params: { id: string } }) {
+  const house = await getHouseById(id);
+  if (!house) throw new Error("Invalid house Ad");
+  const poster = await getUserById(house.postedBy);
 
   return (
     <FullWrapper className="gap-5">
-      <PageHeader heading="Roommate Available" backButton />
+      <PageHeader heading="house Available" backButton />
       <Card>
         <CardHeader className="p-5 flex-row items-center justify-between">
           <div className="space-y-1.5">
-            <CardTitle className="font-light">{roommate.title}</CardTitle>
+            <CardTitle className="font-light">{house.title}</CardTitle>
             <CardDescription>
               <span className="italic text-xs ">
                 Last Updated:{" "}
-                {roommate.updatedAt.toLocaleDateString("en-us", { year: "numeric", month: "short", day: "numeric" })}
+                {house.updatedAt.toLocaleDateString("en-us", { year: "numeric", month: "short", day: "numeric" })}
               </span>
             </CardDescription>
           </div>
@@ -51,22 +51,22 @@ export default async function RoommateId({ params: { id } }: { params: { id: str
           </Link>
         </CardHeader>
         <CardContent className="space-y-5">
-          <div>{roommate.description}</div>
+          <div>{house.description}</div>
           <div className="grid grid-cols-2 gap-2 w-fit">
             <span className="p-1 bg-secondary-foreground text-accent rounded w-fit">Location</span>
-            <span>{`${roommate.address.city}, ${roommate.address.state}`}</span>
+            <span>{`${house.address.city}, ${house.address.state}`}</span>
             <span className="p-1 bg-secondary-foreground text-accent rounded w-fit">Budget</span>
             <span>
               {new Intl.NumberFormat("en-US", {
                 style: "currency",
                 currency: "USD",
-              }).format(roommate.budget)}
+              }).format(house.price)}
             </span>
             <span className="p-1 bg-secondary-foreground text-accent rounded w-fit">Duration</span>
-            <span>{roommate.duration}</span>
+            <span>{house.duration}</span>
           </div>
         </CardContent>
-        <RoommateButtons ad={roommate} />
+        <HouseButtons ad={house} />
       </Card>
       <Comments id={id} />
     </FullWrapper>

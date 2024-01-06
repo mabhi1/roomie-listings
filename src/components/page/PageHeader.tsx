@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import BackButton from "../button/BackButton";
+import BackButton from "../buttons/BackButton";
 
 export default function PageHeader({
   heading,

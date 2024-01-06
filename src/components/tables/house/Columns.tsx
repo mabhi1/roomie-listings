@@ -13,6 +13,7 @@ import {
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { HouseAddress } from "@/lib/types";
+import Link from "next/link";
 
 export type HouseColumnsType = {
   id: string;
@@ -53,8 +54,18 @@ export const HouseColumns: ColumnDef<HouseColumnsType>[] = [
     header: () => <div className="w-96">Title</div>,
     enableHiding: false,
     cell: ({ row }) => {
+      const house = row.original;
+
       const title: string = row.getValue("title");
-      return <div className="ml-1">{title}</div>;
+      return (
+        <div className="ml-1">
+          <Link href={`/house/${house.id}`} passHref legacyBehavior>
+            <Button variant="link" className="p-0 h-0">
+              {title}
+            </Button>
+          </Link>
+        </div>
+      );
     },
   },
   {
@@ -132,7 +143,9 @@ export const HouseColumns: ColumnDef<HouseColumnsType>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem>View Details</DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link href={`/house/${house.id}`}>View Details</Link>
+            </DropdownMenuItem>
             <DropdownMenuItem>Save</DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>View Poster</DropdownMenuItem>

@@ -20,3 +20,39 @@ export async function createHouseAd(data: HouseAd) {
     throw new Error();
   }
 }
+
+export async function getHouseById(id: string) {
+  try {
+    const ad = await prisma.houseAd.findUnique({ where: { id } });
+    if (!ad) return null;
+    return ad;
+  } catch (error) {
+    return null;
+  }
+}
+
+export async function saveHouseByUser(id: string, uid: string) {
+  try {
+    const ad = await prisma.houseAd.findUnique({ where: { id } });
+    if (!ad) return null;
+    const updatedAd = await prisma.houseAd.update({ where: { id }, data: { savedBy: [...ad.savedBy, uid] } });
+    if (!updatedAd) return null;
+    return updatedAd;
+  } catch (error) {
+    return null;
+  }
+}
+
+export async function reportHouseById(id: string, uid: string) {
+  try {
+    const ad = await prisma.houseAd.findUnique({ where: { id } });
+    if (!ad) return null;
+    const reports = !ad.reports ? [] : ad.reports.filter((report) => report !== uid);
+    const newAd = await prisma.houseAd.update({ where: { id }, data: { reports: [...reports, uid] } });
+    if (!newAd) return null;
+    return newAd;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}

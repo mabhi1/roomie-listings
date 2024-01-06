@@ -12,7 +12,7 @@ import { Button } from "../ui/button";
 import { ChangeEvent, useEffect, useState, useTransition } from "react";
 import { zipCodeList } from "@/lib/NJStateInfo";
 import { Checkbox } from "../ui/checkbox";
-import saveHouseAd from "@/actions/saveHouseAd";
+import { createHouse } from "@/actions/house";
 import useAuth from "../providers/AuthProvider";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { sendEmailVerification } from "firebase/auth";
@@ -99,7 +99,7 @@ export default function HouseAdForm() {
     handleFormReset();
 
     startTransition(async () => {
-      const { data, error } = await saveHouseAd(values, [], currentUser.uid!);
+      const { data, error } = await createHouse(values, [], currentUser.uid!);
       setError(error);
       setData(data);
     });

@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import useAuth from "../providers/AuthProvider";
 import { NavigationMenuItem } from "../ui/navigation-menu";
-import SignoutButton from "../button/SignoutButton";
+import SignoutButton from "../buttons/SignoutButton";
 import { title } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 

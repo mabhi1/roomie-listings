@@ -1,4 +1,4 @@
-import GoogleButton from "@/components/button/GoogleButton";
+import GoogleButton from "@/components/buttons/GoogleButton";
 import FullWrapper from "@/components/page/FullWrapper";
 import EmailSigninForm from "@/components/forms/EmailSigninForm";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";

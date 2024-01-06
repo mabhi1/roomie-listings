@@ -2,7 +2,7 @@ import { Comment } from "@/lib/types";
 import { getUserById } from "@/prisma/db/users";
 import Image from "next/image";
 import Link from "next/link";
-import CommentButtons from "./CommentButtons";
+import CommentButtons from "../buttons/CommentButtons";
 
 export default async function IndividualComment({ comment, adId }: { comment: Comment; adId: string }) {
   const user = await getUserById(comment.uid);
