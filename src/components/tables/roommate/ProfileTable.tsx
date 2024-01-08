@@ -30,7 +30,7 @@ export default function RoommateProfileTable({ currentUser, tab }: { currentUser
       setLoading(false);
     }
     getAds();
-  }, []);
+  }, [currentUser.uid, tab]);
 
   const handleDeleteAd = async (adId: string) => {
     setLoading(true);

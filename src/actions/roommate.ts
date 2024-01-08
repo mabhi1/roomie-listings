@@ -5,6 +5,7 @@ import { RoommateAdSchema } from "@/schema";
 import {
   createRoommateAd,
   deleteRoommateAdsByUser,
+  editRoommateAdById,
   getRoommateAdsByUser,
   reportRoommateById,
   saveRoommateByUser,
@@ -22,7 +23,28 @@ export async function createRoommate(values: z.infer<typeof RoommateAdSchema>, s
     revalidatePath("/roommate");
     return { data: createdId };
   } catch (error: any) {
-    return { error: "Could not create Ad. Please try again" };
+    return { error: "Could not create Ad. Please try again later" };
+  }
+}
+
+export async function editRoommate(
+  adId: string,
+  values: z.infer<typeof RoommateAdSchema>,
+  savedBy: string[],
+  postedBy: string,
+  reports: string[]
+) {
+  const validatedFields = RoommateAdSchema.safeParse(values);
+
+  if (!validatedFields) return { error: "Invalid fields!" };
+
+  const { acceptTc, ...dbData } = values;
+  try {
+    const updatedId = await editRoommateAdById(adId, { ...dbData, savedBy, postedBy, reports });
+    revalidatePath("/roommate");
+    return { data: updatedId };
+  } catch (error: any) {
+    return { error: "Could not update Ad. Please try again later" };
   }
 }
 

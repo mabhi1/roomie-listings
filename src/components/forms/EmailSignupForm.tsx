@@ -86,6 +86,7 @@ export default function EmailSignupForm() {
                 name && "outline outline-offset-2",
                 invalidName() ? "outline-destructive" : "outline-success"
               )}
+              autoFocus
             />
             <span className={cn("text-xs text-destructive absolute top-0 right-0", name ? "inline" : "hidden")}>
               {invalidName() ? <>{"Invalid Name"}</> : <CheckSquareIcon className="w-4 h-4 text-success" />}

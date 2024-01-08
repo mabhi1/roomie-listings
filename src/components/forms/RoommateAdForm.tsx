@@ -123,7 +123,7 @@ export default function RoommateAdForm() {
                 <Required />
               </FormLabel>
               <FormControl>
-                <Input {...field} placeholder="Enter title" type="text" />
+                <Input {...field} placeholder="Enter title" type="text" autoFocus />
               </FormControl>
               <FormMessage />
             </FormItem>

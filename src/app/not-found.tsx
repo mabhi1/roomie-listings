@@ -9,7 +9,7 @@ export default function NotFound() {
     <FullWrapper>
       <PageHeader heading="OOPS! Page not found" />
       <div className="w-1/2 mx-auto text-center mt-20 space-y-5">
-        <Image src="/not-found.png" alt="Error" width={260} height={260} className="mx-auto w-auto" priority />
+        <Image src="/not-found.png" alt="Error" width={260} height={260} className="mx-auto w-[500px]" priority />
         <Link href="/" passHref legacyBehavior>
           <Button variant="secondary">Go Home</Button>
         </Link>

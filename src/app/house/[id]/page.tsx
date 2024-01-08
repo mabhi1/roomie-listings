@@ -12,7 +12,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 
 export default async function HouseId({ params: { id } }: { params: { id: string } }) {
   const house = await getHouseById(id);
-  if (!house) throw new Error("Invalid house Ad");
+  if (!house) throw new Error("Invalid House Ad");
   const poster = await getUserById(house.postedBy);
 
   return (

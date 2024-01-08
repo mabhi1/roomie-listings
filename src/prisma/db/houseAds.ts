@@ -21,6 +21,18 @@ export async function createHouseAd(data: HouseAd) {
   }
 }
 
+export async function editHouseAdById(adId: string, data: HouseAd) {
+  try {
+    const houseAd = await prisma.houseAd.findUnique({ where: { id: adId } });
+    if (!houseAd) return null;
+    const updatedAd = await prisma.houseAd.update({ where: { id: adId }, data });
+    if (!updatedAd) return null;
+    return updatedAd.id;
+  } catch (error) {
+    return null;
+  }
+}
+
 export async function getHouseById(id: string) {
   try {
     const ad = await prisma.houseAd.findUnique({ where: { id } });

@@ -31,7 +31,17 @@ export default function HouseButtons({ ad }: { ad: HouseAd }) {
       });
   };
 
-  if (ad.postedBy === currentUser?.uid || !currentUser) return <></>;
+  if (!currentUser) return <></>;
+  else if (ad.postedBy === currentUser?.uid)
+    return (
+      <CardFooter className="p-5 gap-5">
+        <Link href={`/house/${ad.id}/edit`}>
+          <Button variant="secondary" disabled={isPending}>
+            Edit
+          </Button>
+        </Link>
+      </CardFooter>
+    );
   else
     return (
       <CardFooter className="p-5 gap-5">

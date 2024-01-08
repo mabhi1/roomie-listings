@@ -30,7 +30,7 @@ export default function HouseProfileTable({ currentUser, tab }: { currentUser: U
       setLoading(false);
     }
     getAds();
-  }, []);
+  }, [currentUser.uid, tab]);
 
   const handleDeleteAd = async (adId: string) => {
     setLoading(true);

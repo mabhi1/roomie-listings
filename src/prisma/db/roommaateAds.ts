@@ -21,6 +21,18 @@ export async function createRoommateAd(data: RoommateAd) {
   }
 }
 
+export async function editRoommateAdById(adId: string, data: RoommateAd) {
+  try {
+    const roommateAd = await prisma.roommateAd.findUnique({ where: { id: adId } });
+    if (!roommateAd) return null;
+    const updatedAd = await prisma.roommateAd.update({ where: { id: adId }, data });
+    if (!updatedAd) return null;
+    return updatedAd.id;
+  } catch (error) {
+    return null;
+  }
+}
+
 export async function getRoommateById(id: string) {
   try {
     const ad = await prisma.roommateAd.findUnique({ where: { id } });

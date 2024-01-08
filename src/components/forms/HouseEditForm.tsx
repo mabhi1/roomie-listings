@@ -1,5 +1,6 @@
 "use client";
 
+import { HouseAd } from "@/lib/types";
 import { HouseAdSchema } from "@/schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,11 +14,9 @@ import { Button } from "../ui/button";
 import { ChangeEvent, useEffect, useState, useTransition } from "react";
 import { zipCodeList } from "@/lib/NJStateInfo";
 import { Checkbox } from "../ui/checkbox";
-import { createHouse } from "@/actions/house";
+import { editHouse } from "@/actions/house";
 import useAuth from "../providers/AuthProvider";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { sendEmailVerification } from "firebase/auth";
-import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import Required from "./Required";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
@@ -25,41 +24,40 @@ import { CalendarIcon } from "lucide-react";
 import { Calendar } from "../ui/calendar";
 import { cn } from "@/lib/utils";
 
-export default function HouseAdForm() {
+export default function HouseEditForm({ houseAd }: { houseAd?: HouseAd }) {
   const [descriptionChar, setDescriptionChar] = useState(5000);
-  const [date, setDate] = useState<Date | undefined>();
+  const [date, setDate] = useState<Date | undefined>(houseAd?.available);
   const [data, setData] = useState<string | undefined>();
   const [error, setError] = useState<string | undefined>();
   const [isPending, startTransition] = useTransition();
-  const [verificationOpen, setVerificationOpen] = useState(false);
   const router = useRouter();
   const currentUser = useAuth();
 
   const form = useForm<z.infer<typeof HouseAdSchema>>({
     resolver: zodResolver(HouseAdSchema),
     defaultValues: {
-      title: "",
-      description: "",
+      title: houseAd?.title,
+      description: houseAd?.description,
       address: {
-        address1: "",
-        city: "",
+        address1: houseAd?.address.address1 || "",
+        city: houseAd?.address.city,
         state: "NJ",
-        zip: "",
+        zip: houseAd?.address.zip,
       },
       pictures: [],
-      price: 0,
-      duration: "temporary",
+      price: houseAd?.price,
+      available: houseAd?.available,
+      duration: houseAd?.duration,
       acceptTc: false,
-      showEmail: false,
+      showEmail: houseAd?.showEmail,
     },
   });
 
   useEffect(() => {
-    if (!currentUser?.emailVerified) {
-      setVerificationOpen(true);
-      return;
+    if (!currentUser || currentUser.uid !== houseAd?.postedBy) {
+      throw new Error("Unauthorized Access");
     }
-  }, [currentUser]);
+  }, [currentUser, houseAd]);
 
   if (!currentUser) return;
 
@@ -103,17 +101,17 @@ export default function HouseAdForm() {
       form.setError("acceptTc", { message: "Please accept terms and conditions to continue." });
       return;
     }
-    if (!currentUser.emailVerified) {
-      setVerificationOpen(true);
-      return;
-    }
-
-    handleFormReset();
 
     startTransition(async () => {
-      const { data, error } = await createHouse(values, [], currentUser.uid!);
+      const { data, error } = await editHouse(
+        houseAd?.id!,
+        values,
+        houseAd?.savedBy!,
+        currentUser.uid!,
+        houseAd?.reports!
+      );
       setError(error);
-      setData(data);
+      setData(houseAd?.id);
     });
   };
 
@@ -358,35 +356,13 @@ export default function HouseAdForm() {
           </Button>
         </div>
       </form>
-      <Dialog onOpenChange={setVerificationOpen} open={verificationOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Verification Required!</DialogTitle>
-            <DialogDescription>Please verify your email to post an Ad.</DialogDescription>
-          </DialogHeader>
-          <Button
-            className="w-1/3"
-            onClick={() => {
-              try {
-                sendEmailVerification(currentUser);
-                toast.success("Email Verification link sent");
-                setVerificationOpen(false);
-              } catch (error) {
-                toast.error("Error in sending link! Please try again later.");
-              }
-            }}
-          >
-            Send Verification link
-          </Button>
-        </DialogContent>
-      </Dialog>
       {data && (
         <Dialog open={true} onOpenChange={() => setData(undefined)}>
           <DialogContent>
             <DialogHeader>
               <DialogTitle className="text-success">Congratulations!</DialogTitle>
               <DialogDescription>
-                Your house Ad has been successfully posted. You can click the button below to go to your Ad.
+                Your house Ad has been successfully updated. You can click the button below to go to your Ad.
               </DialogDescription>
             </DialogHeader>
             <Button

@@ -30,7 +30,7 @@ export default function CommentProfileTable({ currentUser, tab }: { currentUser:
       setLoading(false);
     }
     getComments();
-  }, []);
+  }, [currentUser.uid, tab]);
 
   const handleDeleteComment = async (commentId: string, postId: string, postType: "house" | "roommate") => {
     setLoading(true);

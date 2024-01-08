@@ -14,7 +14,7 @@ export default function CreateRoommateAd() {
         <div className="relative">
           <Image
             src="/house-ad.webp"
-            alt="List a house"
+            alt="List a roommate"
             width={1003}
             height={1200}
             className="h-auto w-auto"

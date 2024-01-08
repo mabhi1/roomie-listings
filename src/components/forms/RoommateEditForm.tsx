@@ -1,6 +1,7 @@
 "use client";
 
-import { HouseAdSchema } from "@/schema";
+import { RoommateAd } from "@/lib/types";
+import { RoommateAdSchema } from "@/schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
@@ -11,55 +12,48 @@ import { Textarea } from "../ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { Button } from "../ui/button";
 import { ChangeEvent, useEffect, useState, useTransition } from "react";
-import { zipCodeList } from "@/lib/NJStateInfo";
 import { Checkbox } from "../ui/checkbox";
-import { createHouse } from "@/actions/house";
+import { editRoommate } from "@/actions/roommate";
 import useAuth from "../providers/AuthProvider";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { sendEmailVerification } from "firebase/auth";
-import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import Required from "./Required";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "../ui/calendar";
 import { cn } from "@/lib/utils";
+import ComboBox from "../ui/combo-box";
 
-export default function HouseAdForm() {
+export default function RoommateEditForm({ roommateAd }: { roommateAd?: RoommateAd }) {
   const [descriptionChar, setDescriptionChar] = useState(5000);
-  const [date, setDate] = useState<Date | undefined>();
+  const [date, setDate] = useState<Date | undefined>(roommateAd?.moveIn);
   const [data, setData] = useState<string | undefined>();
   const [error, setError] = useState<string | undefined>();
   const [isPending, startTransition] = useTransition();
-  const [verificationOpen, setVerificationOpen] = useState(false);
   const router = useRouter();
   const currentUser = useAuth();
 
-  const form = useForm<z.infer<typeof HouseAdSchema>>({
-    resolver: zodResolver(HouseAdSchema),
+  const form = useForm<z.infer<typeof RoommateAdSchema>>({
+    resolver: zodResolver(RoommateAdSchema),
     defaultValues: {
-      title: "",
-      description: "",
+      title: roommateAd?.title,
+      description: roommateAd?.description,
       address: {
-        address1: "",
-        city: "",
-        state: "NJ",
-        zip: "",
+        city: roommateAd?.address.city,
+        state: roommateAd?.address.state,
       },
-      pictures: [],
-      price: 0,
-      duration: "temporary",
+      budget: roommateAd?.budget,
+      duration: roommateAd?.duration,
       acceptTc: false,
-      showEmail: false,
+      showEmail: roommateAd?.showEmail,
     },
   });
 
   useEffect(() => {
-    if (!currentUser?.emailVerified) {
-      setVerificationOpen(true);
-      return;
+    if (!currentUser || currentUser.uid !== roommateAd?.postedBy) {
+      throw new Error("Unauthorized Access");
     }
-  }, [currentUser]);
+  }, [currentUser, roommateAd]);
 
   if (!currentUser) return;
 
@@ -70,32 +64,13 @@ export default function HouseAdForm() {
     form.setValue("description", description, { shouldDirty: true, shouldTouch: true, shouldValidate: true });
   };
 
-  const setCityValue = (value: string) => {
-    if (value === "" && form.getValues("address.city") === "") return;
-    form.setValue("address.city", value, { shouldDirty: true, shouldTouch: true, shouldValidate: true });
-  };
-
-  const handleZipChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const zipCode = e.target.value;
-    if (zipCode.slice(-1) === " " || zipCode.length > 5 || isNaN(Number(zipCode))) return;
-    form.setValue("address.zip", zipCode);
-    if (zipCode.length === 5) {
-      form.setValue("address.zip", zipCode, { shouldDirty: true, shouldTouch: true, shouldValidate: true });
-      const zipFound = zipCodeList.find((z) => z.zip === zipCode);
-      if (zipFound) setCityValue(zipFound.City);
-      else setCityValue("");
-      return;
-    }
-    setCityValue("");
-  };
-
   const handleDateSelect = (value: Date | undefined) => {
     if (!value) return;
     setDate(value);
-    form.setValue("available", value, { shouldDirty: true, shouldTouch: true, shouldValidate: true });
+    form.setValue("moveIn", value, { shouldDirty: true, shouldTouch: true, shouldValidate: true });
   };
 
-  const onSubmit = (values: z.infer<typeof HouseAdSchema>) => {
+  const onSubmit = (values: z.infer<typeof RoommateAdSchema>) => {
     setData(undefined);
     setError(undefined);
 
@@ -103,17 +78,17 @@ export default function HouseAdForm() {
       form.setError("acceptTc", { message: "Please accept terms and conditions to continue." });
       return;
     }
-    if (!currentUser.emailVerified) {
-      setVerificationOpen(true);
-      return;
-    }
-
-    handleFormReset();
 
     startTransition(async () => {
-      const { data, error } = await createHouse(values, [], currentUser.uid!);
+      const { data, error } = await editRoommate(
+        roommateAd?.id!,
+        values,
+        roommateAd?.savedBy!,
+        currentUser.uid!,
+        roommateAd?.reports!
+      );
       setError(error);
-      setData(data);
+      setData(roommateAd?.id);
     });
   };
 
@@ -174,49 +149,19 @@ export default function HouseAdForm() {
           )}
         />
         <div className="space-y-2">
-          <div className="text-sm leading-none">Address</div>
-          <div className="grid grid-cols-2 border p-5 gap-5 rounded-md">
-            <FormField
-              control={form.control}
-              name="address.address1"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="w-20 text-right">Address 1</FormLabel>
-                  <FormControl>
-                    <Input {...field} placeholder="Enter address 1" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="address.zip"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="w-20 text-right">
-                    ZIP Code
-                    <Required />
-                  </FormLabel>
-                  <FormControl>
-                    <Input {...field} placeholder="Enter zip code" onChange={handleZipChange} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
+          <div className="text-sm leading-none">Location</div>
+          <div className="border p-5 grid grid-cols-2 gap-5 justify-evenly rounded-md">
             <FormField
               control={form.control}
               name="address.city"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="w-20 text-right">
+                <FormItem className="flex flex-col gap-2">
+                  <FormLabel htmlFor="city">
                     City
                     <Required />
                   </FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder="Enter zip to select city" disabled />
+                    <ComboBox {...field} value={field.value} setValue={field.onChange} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -227,7 +172,7 @@ export default function HouseAdForm() {
               name="address.state"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="w-20 text-right">State</FormLabel>
+                  <FormLabel className="text-right">State</FormLabel>
                   <FormControl>
                     <Input {...field} placeholder="NJ" value="NJ" disabled />
                   </FormControl>
@@ -239,15 +184,15 @@ export default function HouseAdForm() {
         </div>
         <FormField
           control={form.control}
-          name="price"
+          name="budget"
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                Price
+                Budget
                 <Required />
               </FormLabel>
               <FormControl>
-                <Input {...field} placeholder="Enter price" type="number" />
+                <Input {...field} placeholder="Enter budget" type="number" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -255,11 +200,11 @@ export default function HouseAdForm() {
         />
         <FormField
           control={form.control}
-          name="available"
+          name="moveIn"
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                Available
+                Move in
                 <Required />
               </FormLabel>
               <FormControl>
@@ -358,41 +303,19 @@ export default function HouseAdForm() {
           </Button>
         </div>
       </form>
-      <Dialog onOpenChange={setVerificationOpen} open={verificationOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Verification Required!</DialogTitle>
-            <DialogDescription>Please verify your email to post an Ad.</DialogDescription>
-          </DialogHeader>
-          <Button
-            className="w-1/3"
-            onClick={() => {
-              try {
-                sendEmailVerification(currentUser);
-                toast.success("Email Verification link sent");
-                setVerificationOpen(false);
-              } catch (error) {
-                toast.error("Error in sending link! Please try again later.");
-              }
-            }}
-          >
-            Send Verification link
-          </Button>
-        </DialogContent>
-      </Dialog>
       {data && (
         <Dialog open={true} onOpenChange={() => setData(undefined)}>
           <DialogContent>
             <DialogHeader>
               <DialogTitle className="text-success">Congratulations!</DialogTitle>
               <DialogDescription>
-                Your house Ad has been successfully posted. You can click the button below to go to your Ad.
+                Your roommate Ad has been successfully updated. You can click the button below to go to your Ad.
               </DialogDescription>
             </DialogHeader>
             <Button
               className="w-1/4"
               onClick={() => {
-                router.push(`/house/${data}`);
+                router.push(`/roommate/${data}`);
               }}
             >
               Go to Ad

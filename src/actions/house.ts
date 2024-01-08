@@ -5,6 +5,7 @@ import { HouseAdSchema } from "@/schema";
 import {
   createHouseAd,
   deleteHouseAdsByUser,
+  editHouseAdById,
   getHouseAdsByUser,
   reportHouseById,
   saveHouseByUser,
@@ -22,7 +23,28 @@ export async function createHouse(values: z.infer<typeof HouseAdSchema>, savedBy
     revalidatePath("/house");
     return { data: createdId };
   } catch (error: any) {
-    return { error: "Could not create Ad. Please try again" };
+    return { error: "Could not create Ad. Please try again later" };
+  }
+}
+
+export async function editHouse(
+  adId: string,
+  values: z.infer<typeof HouseAdSchema>,
+  savedBy: string[],
+  postedBy: string,
+  reports: string[]
+) {
+  const validatedFields = HouseAdSchema.safeParse(values);
+
+  if (!validatedFields) return { error: "Invalid fields!" };
+
+  const { acceptTc, ...dbData } = values;
+  try {
+    const updatedId = await editHouseAdById(adId, { ...dbData, savedBy, postedBy, reports });
+    revalidatePath("/house");
+    return { data: updatedId };
+  } catch (error: any) {
+    return { error: "Could not update Ad. Please try again later" };
   }
 }
 

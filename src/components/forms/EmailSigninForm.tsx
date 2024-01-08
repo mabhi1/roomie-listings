@@ -72,6 +72,7 @@ export default function EmailSigninForm() {
               placeholder="email@example.com"
               onChange={(e) => setEmail(e.target.value)}
               value={email}
+              autoFocus
             />
           </div>
           <div className="grid gap-2 mt-2">
