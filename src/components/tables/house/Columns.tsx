@@ -25,6 +25,7 @@ export type HouseColumnsType = {
     zip: string;
   };
   price: number;
+  available: Date;
   duration: "temporary" | "permanent";
   updatedAt: Date;
 };
@@ -108,19 +109,19 @@ export const HouseColumns: ColumnDef<HouseColumnsType>[] = [
     },
   },
   {
-    accessorKey: "updatedAt",
+    accessorKey: "available",
     header: ({ column }) => {
       return (
         <span className="flex justify-center">
           <Button variant="ghost" className="p-0" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-            Last Updated
+            Available
             <ArrowUpDown className="ml-1 h-4 w-4" />
           </Button>
         </span>
       );
     },
     cell: ({ row }) => {
-      const updatedAt: Date = row.getValue("updatedAt");
+      const updatedAt: Date = row.getValue("available");
       return (
         <div className="text-center">
           {updatedAt.toLocaleDateString("en-us", { year: "numeric", month: "short", day: "numeric" })}

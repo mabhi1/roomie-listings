@@ -51,7 +51,7 @@ export default function ProtectedNavigation() {
             Create Ads
           </NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="w-[280px] gap-3 p-2">
+            <ul className="w-[290px] gap-3 p-2">
               {createAdComponents.map((component) => (
                 <Link key={component.title} href={component.href}>
                   <div
@@ -80,7 +80,7 @@ export default function ProtectedNavigation() {
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
-        <SignoutButton variant="ghost" />
+        <SignoutButton variant="ghost" className={linkStyle} />
       </>
     );
   else

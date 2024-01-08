@@ -17,6 +17,7 @@ export async function createComment(data: Comment) {
     if (!comment) return null;
     return comment;
   } catch (error) {
+    console.log(error);
     return null;
   }
 }
@@ -53,6 +54,40 @@ export async function reportCommentById(id: string, uid: string) {
     if (!comment) return null;
     return newComment;
   } catch (error) {
+    return null;
+  }
+}
+
+export async function getAllCommentsByUser(uid: string, tab: string) {
+  try {
+    switch (tab) {
+      case "comments":
+        const comments = await prisma.comment.findMany({ where: { uid } });
+        if (!comments) return null;
+        return comments;
+      case "reportedComments":
+        const reportedComments = await prisma.comment.findMany({ where: { reports: { has: uid } } });
+        if (!reportedComments) return null;
+        return reportedComments;
+      default:
+        return null;
+    }
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
+
+export async function deleteReportedCommentByUser(commentId: string, uid: string) {
+  try {
+    const comment = await prisma.comment.findUnique({ where: { id: commentId } });
+    if (!comment) return null;
+    const reports = comment.reports ? comment.reports.filter((id) => id !== uid) : [];
+    const reportedComments = await prisma.comment.update({ where: { id: commentId }, data: { reports } });
+    if (!reportedComments) return null;
+    return reportedComments;
+  } catch (error) {
+    console.log(error);
     return null;
   }
 }

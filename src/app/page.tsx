@@ -32,7 +32,7 @@ export default function Home() {
             {title.house}
           </Button>
         </Link>
-        <Link href={navigation.products} legacyBehavior passHref>
+        <Link href="#" legacyBehavior passHref>
           <Button>
             <BedDoubleIcon className="w-4 mr-1" />
             {title.products}

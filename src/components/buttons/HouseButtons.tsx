@@ -35,7 +35,7 @@ export default function HouseButtons({ ad }: { ad: HouseAd }) {
   else
     return (
       <CardFooter className="p-5 gap-5">
-        <Link href={`/house/${ad.id}/message`}>
+        <Link href="#">
           <Button disabled={isPending}>Send Message</Button>
         </Link>
         {ad.savedBy.includes(currentUser.uid) ? (

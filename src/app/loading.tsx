@@ -1,10 +1,5 @@
-import FullWrapper from "@/components/page/FullWrapper";
-import Spinner from "@/components/page/Spinner";
+import LoadingPage from "@/components/page/LoadingPage";
 
 export default function Loading() {
-  return (
-    <FullWrapper className="items-center pt-24">
-      <Spinner size="large" />
-    </FullWrapper>
-  );
+  return <LoadingPage />;
 }

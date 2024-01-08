@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import { useState, useTransition } from "react";
 import { Label } from "../ui/label";
 
-export default function AddComment({ postId }: { postId: string }) {
+export default function AddComment({ postId, postType }: { postId: string; postType: "house" | "roommate" }) {
   const [isPending, startTransition] = useTransition();
   const [comment, setComment] = useState("");
   const currentUser = useAuth();
@@ -24,7 +24,7 @@ export default function AddComment({ postId }: { postId: string }) {
         | {
             message: string;
             error?: undefined;
-          } = await addComment(comment, currentUser?.uid!, postId);
+          } = await addComment(comment, currentUser?.uid!, postId, postType);
       if (data.error) toast.error(data.error);
       else toast.success(data.message);
       setComment("");

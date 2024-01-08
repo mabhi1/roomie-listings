@@ -13,7 +13,7 @@ export default function CommentButtons({ comment, adId }: { comment: Comment; ad
 
   const handleDelteComment = () => {
     startTransition(async () => {
-      const data = await deleteComment(comment.id!, adId);
+      const data = await deleteComment(comment.id!, adId, comment.postType);
       if (data.error) toast.error(data.error);
       else toast.success(data.message);
     });
@@ -22,7 +22,7 @@ export default function CommentButtons({ comment, adId }: { comment: Comment; ad
   const handleLikeComment = () => {
     if (currentUser && currentUser.uid)
       startTransition(async () => {
-        const data = await likeComment(comment.id!, currentUser.uid, adId);
+        const data = await likeComment(comment.id!, currentUser.uid, adId, comment.postType);
         if (data.error) toast.error(data.error);
         else toast.success(data.message);
       });
@@ -31,7 +31,7 @@ export default function CommentButtons({ comment, adId }: { comment: Comment; ad
   const handleReportComment = () => {
     if (currentUser && currentUser.uid)
       startTransition(async () => {
-        const data = await reportComment(comment.id!, currentUser.uid, adId);
+        const data = await reportComment(comment.id!, currentUser.uid, adId, comment.postType);
         if (data.error) toast.error(data.error);
         else toast.success(data.message);
       });

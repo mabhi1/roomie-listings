@@ -8,6 +8,7 @@ import FullWrapper from "@/components/page/FullWrapper";
 import Comments from "@/components/page/Comments";
 import { getHouseById } from "@/prisma/db/houseAds";
 import HouseButtons from "@/components/buttons/HouseButtons";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 export default async function HouseId({ params: { id } }: { params: { id: string } }) {
   const house = await getHouseById(id);
@@ -16,7 +17,7 @@ export default async function HouseId({ params: { id } }: { params: { id: string
 
   return (
     <FullWrapper className="gap-5">
-      <PageHeader heading="house Available" backButton />
+      <PageHeader heading="House Available" backButton />
       <Card>
         <CardHeader className="p-5 flex-row items-center justify-between">
           <div className="space-y-1.5">
@@ -50,25 +51,37 @@ export default async function HouseId({ params: { id } }: { params: { id: string
             </TooltipProvider>
           </Link>
         </CardHeader>
-        <CardContent className="space-y-5">
-          <div>{house.description}</div>
-          <div className="grid grid-cols-2 gap-2 w-fit">
-            <span className="p-1 bg-secondary-foreground text-accent rounded w-fit">Location</span>
-            <span>{`${house.address.city}, ${house.address.state}`}</span>
-            <span className="p-1 bg-secondary-foreground text-accent rounded w-fit">Budget</span>
-            <span>
-              {new Intl.NumberFormat("en-US", {
-                style: "currency",
-                currency: "USD",
-              }).format(house.price)}
-            </span>
-            <span className="p-1 bg-secondary-foreground text-accent rounded w-fit">Duration</span>
-            <span>{house.duration}</span>
-          </div>
+        <CardContent className="space-y-5 px-0">
+          <Table>
+            <TableHeader className="h-6">
+              <TableRow className="bg-muted/50">
+                <TableHead className="text-center font-normal text-accent-foreground h-8">Location</TableHead>
+                <TableHead className="text-center font-normal text-accent-foreground h-8">Price</TableHead>
+                <TableHead className="text-center font-normal text-accent-foreground h-8">Available</TableHead>
+                <TableHead className="text-center font-normal text-accent-foreground h-8">Duration</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              <TableRow className="hover:bg-inherit">
+                <TableCell className="border-b text-center py-2">{`${house.address.city}, ${house.address.state}`}</TableCell>
+                <TableCell className="border-b text-center py-2">
+                  {new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                  }).format(house.price)}
+                </TableCell>
+                <TableCell className="border-b text-center py-2">
+                  {house.available.toLocaleDateString("en-us", { year: "numeric", month: "short", day: "numeric" })}
+                </TableCell>
+                <TableCell className="border-b text-center capitalize py-2">{house.duration}</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+          <div className="px-6">{house.description}</div>
         </CardContent>
         <HouseButtons ad={house} />
       </Card>
-      <Comments id={id} />
+      <Comments id={id} type="house" />
     </FullWrapper>
   );
 }

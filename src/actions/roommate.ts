@@ -2,7 +2,13 @@
 
 import * as z from "zod";
 import { RoommateAdSchema } from "@/schema";
-import { createRoommateAd, reportRoommateById, saveRoommateByUser } from "@/prisma/db/roommaateAds";
+import {
+  createRoommateAd,
+  deleteRoommateAdsByUser,
+  getRoommateAdsByUser,
+  reportRoommateById,
+  saveRoommateByUser,
+} from "@/prisma/db/roommaateAds";
 import { revalidatePath } from "next/cache";
 
 export async function createRoommate(values: z.infer<typeof RoommateAdSchema>, savedBy: string[], postedBy: string) {
@@ -13,6 +19,7 @@ export async function createRoommate(values: z.infer<typeof RoommateAdSchema>, s
   const { acceptTc, ...dbData } = values;
   try {
     const createdId = await createRoommateAd({ ...dbData, savedBy, postedBy, reports: [] });
+    revalidatePath("/roommate");
     return { data: createdId };
   } catch (error: any) {
     return { error: "Could not create Ad. Please try again" };
@@ -47,4 +54,15 @@ export async function reportRoommate(id: string, uid: string) {
   if (!data) return { error: "Failed to update ad" };
   revalidatePath(`/roommate/${id}`);
   return { message: "Thank you for your feedback" };
+}
+
+export async function getRoommateAds(uid: string, tab: string) {
+  const roommaateAds = await getRoommateAdsByUser(uid, tab);
+  return roommaateAds;
+}
+
+export async function deleteRoommateAds(uid: string, adId: string, tab: string) {
+  const roommateAds = await deleteRoommateAdsByUser(uid, adId, tab);
+  revalidatePath(`/roommate/${adId}`);
+  return roommateAds;
 }

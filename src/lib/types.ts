@@ -32,6 +32,7 @@ type RoommateAd = {
   savedBy: string[];
   reports: string[];
   showEmail: boolean;
+  moveIn: Date;
   createdAt?: Date;
   updatedAt?: Date;
 };
@@ -48,6 +49,7 @@ type HouseAd = {
   savedBy: string[];
   reports: string[];
   showEmail: boolean;
+  available: Date;
   createdAt?: Date;
   updatedAt?: Date;
 };
@@ -56,6 +58,7 @@ type Comment = {
   id?: string;
   uid: string;
   postId: string;
+  postType: "house" | "roommate";
   comment: string;
   likes: string[];
   reports: string[];

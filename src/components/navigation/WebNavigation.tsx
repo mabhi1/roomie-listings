@@ -10,7 +10,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { BedDoubleIcon, HomeIcon, HotelIcon, SearchCheckIcon, UsersIcon } from "lucide-react";
+import { BedDoubleIcon, HotelIcon, SearchCheckIcon, UsersIcon } from "lucide-react";
 import ProtectedNavigation from "./ProtectedNavigation";
 
 const browseAdComponents: { title: string; href: string; description: string; icon: React.ReactNode }[] = [
@@ -42,20 +42,12 @@ export default function WebNavigation() {
     <NavigationMenu className="hidden md:flex">
       <NavigationMenuList>
         <NavigationMenuItem>
-          <Link href="/" legacyBehavior passHref>
-            <NavigationMenuLink className={linkStyle}>
-              <HomeIcon className="w-4 mr-1" />
-              Home
-            </NavigationMenuLink>
-          </Link>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
           <NavigationMenuTrigger>
             <SearchCheckIcon className="w-4 mr-1" />
             Browse Ads
           </NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="w-[280px] gap-3 p-2">
+            <ul className="w-[290px] gap-3 p-2">
               {browseAdComponents.map((component) => (
                 <Link key={component.title} href={component.href}>
                   <div

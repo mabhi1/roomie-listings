@@ -19,9 +19,15 @@ import { useRouter } from "next/navigation";
 import { createRoommate } from "@/actions/roommate";
 import ComboBox from "../ui/combo-box";
 import Required from "./Required";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
+import { Calendar } from "../ui/calendar";
+import { cn } from "@/lib/utils";
 
 export default function RoommateAdForm() {
   const [descriptionChar, setDescriptionChar] = useState(5000);
+  const [date, setDate] = useState<Date | undefined>();
   const [data, setData] = useState<string | undefined>();
   const [error, setError] = useState<string | undefined>();
   const [isPending, startTransition] = useTransition();
@@ -59,6 +65,12 @@ export default function RoommateAdForm() {
     if (description.length > 5000) return;
     setDescriptionChar(5000 - description.length);
     form.setValue("description", description, { shouldDirty: true, shouldTouch: true, shouldValidate: true });
+  };
+
+  const handleDateSelect = (value: Date | undefined) => {
+    if (!value) return;
+    setDate(value);
+    form.setValue("moveIn", value, { shouldDirty: true, shouldTouch: true, shouldValidate: true });
   };
 
   const onSubmit = (values: z.infer<typeof RoommateAdSchema>) => {
@@ -184,6 +196,35 @@ export default function RoommateAdForm() {
               </FormLabel>
               <FormControl>
                 <Input {...field} placeholder="Enter budget" type="number" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="moveIn"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>
+                Move in
+                <Required />
+              </FormLabel>
+              <FormControl>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant={"outline"}
+                      className={cn("w-full justify-start text-left font-normal", !date && "text-muted-foreground")}
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {date ? format(date, "PPP") : <span>Pick a date</span>}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0">
+                    <Calendar mode="single" selected={date} onSelect={handleDateSelect} initialFocus />
+                  </PopoverContent>
+                </Popover>
               </FormControl>
               <FormMessage />
             </FormItem>

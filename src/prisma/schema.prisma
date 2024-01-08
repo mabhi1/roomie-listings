@@ -20,7 +20,7 @@ model User {
   commentReports   Comment[]    @relation("commentReports")
   houseReports     HouseAd[]    @relation("houseReports")
   roommateReports  RoommateAd[] @relation("roommateReports")
-  likes            Comment[]    @relation("likes")
+  commentLikes     Comment[]    @relation("commentLikes")
   roommateAds      RoommateAd[] @relation("postedRoommateAds")
   savedRoommateAds RoommateAd[] @relation("savedRoommateAds")
   houseAds         HouseAd[]    @relation("postedHouseAds")
@@ -37,16 +37,22 @@ enum Duration {
   permanent
 }
 
+enum PostType {
+  house
+  roommate
+}
+
 model Comment {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   uid        String
   postId     String
+  postType   PostType
   comment    String
   likes      String[]
   reports    String[]
   user       User     @relation(fields: [uid], references: [uid], name: "comments")
   reportedBy User     @relation(fields: [reports], references: [uid], name: "commentReports")
-  likedBy    User     @relation(fields: [likes], references: [uid], name: "likes")
+  likedBy    User     @relation(fields: [likes], references: [uid], name: "commentLikes")
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 }
@@ -74,6 +80,7 @@ model RoommateAd {
   savedBy     String[]
   showEmail   Boolean
   reports     String[]
+  moveIn      DateTime
   reportedBy  User            @relation(fields: [reports], references: [uid], name: "roommateReports")
   poster      User            @relation(fields: [postedBy], references: [uid], name: "postedRoommateAds")
   saver       User            @relation(fields: [savedBy], references: [uid], name: "savedRoommateAds")
@@ -93,6 +100,7 @@ model HouseAd {
   savedBy     String[]
   showEmail   Boolean
   reports     String[]
+  available   DateTime
   reportedBy  User         @relation(fields: [reports], references: [uid], name: "houseReports")
   poster      User         @relation(fields: [postedBy], references: [uid], name: "postedHouseAds")
   saver       User         @relation(fields: [savedBy], references: [uid], name: "savedHouseAds")

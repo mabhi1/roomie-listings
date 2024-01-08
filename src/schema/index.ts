@@ -16,6 +16,9 @@ export const HouseAdSchema = z.object({
   }),
   pictures: z.string().trim().array(),
   price: z.coerce.number().min(1, { message: "Price is required." }),
+  available: z.coerce
+    .date({ required_error: "Please enter an available date" })
+    .min(new Date(), { message: "Date must be greater than today's date" }),
   duration: z.enum([Duration.permanent, Duration.temporary]).default("temporary"),
   showEmail: z.boolean().default(false),
   acceptTc: z.boolean({ required_error: "Please accept terms and conditions to continue." }),
@@ -33,6 +36,9 @@ export const RoommateAdSchema = z.object({
     state: z.string().trim().min(1, { message: "State is required" }),
   }),
   budget: z.coerce.number().min(1, { message: "Price is required." }),
+  moveIn: z.coerce
+    .date({ required_error: "Please enter a move in date" })
+    .min(new Date(), { message: "Date must be greater than today's date" }),
   duration: z.enum([Duration.permanent, Duration.temporary]).default("temporary"),
   showEmail: z.boolean().default(false),
   acceptTc: z.boolean({ required_error: "Please accept terms and conditions to continue." }),

@@ -41,9 +41,10 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   page: string;
+  profile?: boolean;
 }
 
-export default function DataTable<TData, TValue>({ columns, data, page }: DataTableProps<TData, TValue>) {
+export default function DataTable<TData, TValue>({ columns, data, page, profile }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -79,6 +80,8 @@ export default function DataTable<TData, TValue>({ columns, data, page }: DataTa
     price: "price",
     duration: "duration",
     updatedAt: "last updated",
+    available: "available",
+    moveIn: "move in",
   };
 
   const handleClearFilter = () => {
@@ -119,96 +122,108 @@ export default function DataTable<TData, TValue>({ columns, data, page }: DataTa
 
   return (
     <div>
-      <div className="flex items-center py-4">
-        <div className="relative">
-          <SearchIcon className="absolute left-2 top-1/2 -translate-y-1/2 w-4 text-muted-foreground" />
-          <Input
-            placeholder="Search by title"
-            value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
-            onChange={(event) => table.getColumn("title")?.setFilterValue(event.target.value)}
-            className="w-80 pl-7"
-          />
-        </div>
+      {!profile && (
+        <div className="flex items-center py-4">
+          <div className="relative">
+            <SearchIcon className="absolute left-2 top-1/2 -translate-y-1/2 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Search by title"
+              value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
+              onChange={(event) => table.getColumn("title")?.setFilterValue(event.target.value)}
+              className="w-80 pl-7"
+            />
+          </div>
 
-        <Sheet modal>
-          <SheetTrigger className="ml-auto mr-4" asChild>
-            <Button variant="outline">
-              <FilterIcon className="mr-1 w-4" />
-              Filter
-            </Button>
-          </SheetTrigger>
-          <SheetContent className="w-[50rem]">
-            <SheetHeader className="space-y-0">
-              <SheetTitle>Filter Ads</SheetTitle>
-              <SheetDescription>Select the options below to filter the table.</SheetDescription>
-            </SheetHeader>
-            <div className="my-5 flex flex-col gap-5">
-              <div className="flex flex-col gap-2">
-                <div className="font-medium">Duration</div>
-                <Select onValueChange={(value) => setSelectedDuration(value)} value={selectedDuration}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select duration..." />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="temporary">Temporary</SelectItem>
-                    <SelectItem value="permanent">Permanent</SelectItem>
-                    <SelectItem value="all">Select All</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="flex flex-col gap-2">
-                <div className="font-medium">Cities</div>
-                <MultiSelect
-                  label="cities"
-                  data={getAllCities()}
-                  selected={selectedCity}
-                  setSelected={setSelectedCity}
-                />
-              </div>
+          <Sheet modal>
+            <SheetTrigger className="ml-auto mr-4" asChild>
+              <Button variant="outline">
+                <FilterIcon className="mr-1 w-4" />
+                Filter
+              </Button>
+            </SheetTrigger>
+            <SheetContent className="w-[50rem]">
+              <SheetHeader className="space-y-0">
+                <SheetTitle>Filter Ads</SheetTitle>
+                <SheetDescription>Select the options below to filter the table.</SheetDescription>
+              </SheetHeader>
+              <div className="my-5 flex flex-col gap-5">
+                <div className="flex flex-col gap-2">
+                  <div className="font-medium">Duration</div>
+                  <Select onValueChange={(value) => setSelectedDuration(value)} value={selectedDuration}>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select duration..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="temporary">Temporary</SelectItem>
+                      <SelectItem value="permanent">Permanent</SelectItem>
+                      <SelectItem value="all">Select All</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <div className="font-medium">Cities</div>
+                  <MultiSelect
+                    label="cities"
+                    data={getAllCities()}
+                    selected={selectedCity}
+                    setSelected={setSelectedCity}
+                  />
+                </div>
 
-              <div className="flex flex-col gap-2">
-                <div className="font-medium">{page === "roommate" ? "Budget" : "Price"}</div>
-                <div className="flex gap-2 justify-evenly items-center">
-                  <span>Min: </span>
-                  <Input type="number" className="w-28" value={min} onChange={(e) => setMin(Number(e.target.value))} />
-                  <span>Max: </span>
-                  <Input type="number" className="w-28" value={max} onChange={(e) => setMax(Number(e.target.value))} />
+                <div className="flex flex-col gap-2">
+                  <div className="font-medium">{page === "roommate" ? "Budget" : "Price"}</div>
+                  <div className="flex gap-2 justify-evenly items-center">
+                    <span>Min: </span>
+                    <Input
+                      type="number"
+                      className="w-28"
+                      value={min}
+                      onChange={(e) => setMin(Number(e.target.value))}
+                    />
+                    <span>Max: </span>
+                    <Input
+                      type="number"
+                      className="w-28"
+                      value={max}
+                      onChange={(e) => setMax(Number(e.target.value))}
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-            <SheetFooter>
-              <Button className="w-full" onClick={handleClearFilter}>
-                Clear Filter
+              <SheetFooter>
+                <Button className="w-full" onClick={handleClearFilter}>
+                  Clear Filter
+                </Button>
+              </SheetFooter>
+            </SheetContent>
+          </Sheet>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline">
+                <ColumnsIcon className="mr-1 w-4" />
+                Columns
               </Button>
-            </SheetFooter>
-          </SheetContent>
-        </Sheet>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline">
-              <ColumnsIcon className="mr-1 w-4" />
-              Columns
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) => column.toggleVisibility(!!value)}
-                  >
-                    {(filterColumnMapping as any)[column.id]}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {table
+                .getAllColumns()
+                .filter((column) => column.getCanHide())
+                .map((column) => {
+                  return (
+                    <DropdownMenuCheckboxItem
+                      key={column.id}
+                      className="capitalize"
+                      checked={column.getIsVisible()}
+                      onCheckedChange={(value) => column.toggleVisibility(!!value)}
+                    >
+                      {(filterColumnMapping as any)[column.id]}
+                    </DropdownMenuCheckboxItem>
+                  );
+                })}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      )}
       <div className="rounded-md border">
         <Table className="font-normal">
           <TableHeader>
@@ -248,25 +263,27 @@ export default function DataTable<TData, TValue>({ columns, data, page }: DataTa
           </TableBody>
         </Table>
       </div>
-      <div className="flex justify-between pt-4">
-        {/* <div className="text-sm text-muted-foreground">
+      {!profile && (
+        <div className="flex justify-between pt-4">
+          {/* <div className="text-sm text-muted-foreground">
           {table.getFilteredSelectedRowModel().rows.length} of {table.getFilteredRowModel().rows.length} row(s)
           selected.
         </div> */}
-        <div className="flex items-center justify-end ml-auto space-x-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Previous
-          </Button>
-          <Button variant="outline" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
-            Next
-          </Button>
+          <div className="flex items-center justify-end ml-auto space-x-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
+              Previous
+            </Button>
+            <Button variant="outline" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
+              Next
+            </Button>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

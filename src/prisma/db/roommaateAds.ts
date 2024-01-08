@@ -56,3 +56,57 @@ export async function reportRoommateById(id: string, uid: string) {
     return null;
   }
 }
+
+export async function getRoommateAdsByUser(uid: string, tab: string) {
+  try {
+    switch (tab) {
+      case "savedAds":
+        const ads = await prisma.roommateAd.findMany({ where: { savedBy: { has: uid } } });
+        if (!ads) return null;
+        return ads;
+      case "postedAds":
+        const ads1 = await prisma.roommateAd.findMany({ where: { postedBy: uid } });
+        if (!ads1) return null;
+        return ads1;
+      case "reportedAds":
+        const ads2 = await prisma.roommateAd.findMany({ where: { reports: { has: uid } } });
+        if (!ads2) return null;
+        return ads2;
+      default:
+        return null;
+    }
+  } catch (error) {
+    return null;
+  }
+}
+
+export async function deleteRoommateAdsByUser(uid: string, adId: string, tab: string) {
+  try {
+    const ad = await prisma.roommateAd.findUnique({ where: { id: adId } });
+    if (!ad) return null;
+
+    switch (tab) {
+      case "savedAds":
+        const savedBy = ad.savedBy ? ad.savedBy.filter((id) => id !== uid) : [];
+        const updatedAd = await prisma.roommateAd.update({ where: { id: adId }, data: { savedBy } });
+        if (!updatedAd) return null;
+        return updatedAd;
+      case "postedAds":
+        if (!ad.postedBy) return null;
+        const deletedComments = await prisma.comment.deleteMany({ where: { postId: adId } });
+        if (!deletedComments) return null;
+        const deletedAd = await prisma.roommateAd.delete({ where: { id: adId } });
+        if (!deletedAd) return null;
+        return deletedAd;
+      case "reportedAds":
+        const reports = ad.reports ? ad.reports.filter((id) => id !== uid) : [];
+        const updatedAd1 = await prisma.roommateAd.update({ where: { id: adId }, data: { reports } });
+        if (!updatedAd1) return null;
+        return updatedAd1;
+      default:
+        return null;
+    }
+  } catch (error) {
+    return null;
+  }
+}

@@ -3,6 +3,7 @@
 import { HouseAdSchema } from "@/schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { format } from "date-fns";
 import * as z from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
@@ -19,9 +20,14 @@ import { sendEmailVerification } from "firebase/auth";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import Required from "./Required";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { CalendarIcon } from "lucide-react";
+import { Calendar } from "../ui/calendar";
+import { cn } from "@/lib/utils";
 
 export default function HouseAdForm() {
   const [descriptionChar, setDescriptionChar] = useState(5000);
+  const [date, setDate] = useState<Date | undefined>();
   const [data, setData] = useState<string | undefined>();
   const [error, setError] = useState<string | undefined>();
   const [isPending, startTransition] = useTransition();
@@ -81,6 +87,12 @@ export default function HouseAdForm() {
       return;
     }
     setCityValue("");
+  };
+
+  const handleDateSelect = (value: Date | undefined) => {
+    if (!value) return;
+    setDate(value);
+    form.setValue("available", value, { shouldDirty: true, shouldTouch: true, shouldValidate: true });
   };
 
   const onSubmit = (values: z.infer<typeof HouseAdSchema>) => {
@@ -236,6 +248,35 @@ export default function HouseAdForm() {
               </FormLabel>
               <FormControl>
                 <Input {...field} placeholder="Enter price" type="number" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="available"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>
+                Available
+                <Required />
+              </FormLabel>
+              <FormControl>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant={"outline"}
+                      className={cn("w-full justify-start text-left font-normal", !date && "text-muted-foreground")}
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {date ? format(date, "PPP") : <span>Pick a date</span>}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0">
+                    <Calendar mode="single" selected={date} onSelect={handleDateSelect} initialFocus />
+                  </PopoverContent>
+                </Popover>
               </FormControl>
               <FormMessage />
             </FormItem>

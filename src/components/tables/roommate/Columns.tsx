@@ -23,6 +23,7 @@ export type RoommateColumnsType = {
     state: string;
   };
   budget: number;
+  moveIn: Date;
   duration: "temporary" | "permanent";
   updatedAt: Date;
 };
@@ -106,19 +107,19 @@ export const RoommateColumns: ColumnDef<RoommateColumnsType>[] = [
     },
   },
   {
-    accessorKey: "updatedAt",
+    accessorKey: "moveIn",
     header: ({ column }) => {
       return (
         <span className="flex justify-center">
           <Button variant="ghost" className="p-0" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-            Last Updated
+            Move In
             <ArrowUpDown className="ml-1 h-4 w-4" />
           </Button>
         </span>
       );
     },
     cell: ({ row }) => {
-      const updatedAt: Date = row.getValue("updatedAt");
+      const updatedAt: Date = row.getValue("moveIn");
       return (
         <div className="text-center">
           {updatedAt.toLocaleDateString("en-us", { year: "numeric", month: "short", day: "numeric" })}
