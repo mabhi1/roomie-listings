@@ -16,7 +16,7 @@ export default async function IndividualComment({ comment, adId }: { comment: Co
             alt={user.name}
             width={40}
             height={40}
-            className="w-auto h-8"
+            className="w-[35px] h-[35px] object-cover"
             priority
           />
         </div>

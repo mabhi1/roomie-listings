@@ -40,3 +40,23 @@ export async function getAllDBUsers() {
     throw new Error(error);
   }
 }
+
+export async function updateProfilePictureByUser(uid: string, url: string | null) {
+  try {
+    const user = await prisma.user.update({ where: { uid }, data: { photo: url } });
+    if (!user) return null;
+    return user;
+  } catch (error: any) {
+    throw new Error(error);
+  }
+}
+
+export async function updateNameByUser(uid: string, name: string) {
+  try {
+    const user = await prisma.user.update({ where: { uid }, data: { name } });
+    if (!user) return null;
+    return user;
+  } catch (error: any) {
+    throw new Error(error);
+  }
+}

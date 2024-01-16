@@ -1,5 +1,7 @@
 "use client";
 
+import { updateProfilePicture } from "@/actions/user";
+import ProfileButtons from "@/components/buttons/ProfileButtons";
 import FullWrapper from "@/components/page/FullWrapper";
 import PageHeader from "@/components/page/PageHeader";
 import useAuth from "@/components/providers/AuthProvider";
@@ -8,6 +10,8 @@ import HouseProfileTable from "@/components/tables/house/ProfileTable";
 import RoommateProfileTable from "@/components/tables/roommate/ProfileTable";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { updatePhoto } from "@/firebase/firebaseAuthFunctions";
+import { deleteFile } from "@/firebase/firebaseDBFunctions";
 import { toastMessage } from "@/lib/constants";
 import { sendEmailVerification } from "firebase/auth";
 import { BadgeCheckIcon, BadgeXIcon, HomeIcon, MessageSquareMoreIcon, UsersIcon } from "lucide-react";
@@ -26,20 +30,41 @@ export default function Profile() {
     }
   };
 
+  const handleRemoveProfilePicture = async () => {
+    try {
+      await deleteFile(currentUser?.uid!);
+      await updatePhoto("");
+      await updateProfilePicture(currentUser?.uid!, null);
+      toast.success("Profile picture removed successfully");
+    } catch (error: any) {
+      toast.error("Error in removing profile picture");
+    }
+  };
+
   if (currentUser)
     return (
       <FullWrapper className="gap-5">
         <PageHeader heading="My Profile" />
         <div className="flex gap-5">
-          <div className="rounded-full w-fit h-fit overflow-clip">
+          <div className="group relative rounded-full w-fit h-fit overflow-clip">
             <Image
               src={currentUser.photoURL ? currentUser.photoURL : "/user.png"}
               alt={currentUser.displayName!}
               width={50}
               height={50}
-              className="w-[75px]"
+              className="w-[100px] h-[100px] object-cover"
               priority
             />
+            {currentUser.photoURL && (
+              <Button
+                variant="ghost"
+                size="sm"
+                className="hidden group-hover:block absolute text-xs top-0 bg-primary-foreground/80 p-2 h-7 w-full border"
+                onClick={handleRemoveProfilePicture}
+              >
+                Remove
+              </Button>
+            )}
           </div>
           <div className="flex flex-col justify-center mr-auto">
             <div className="">{currentUser.displayName}</div>
@@ -58,8 +83,7 @@ export default function Profile() {
               </span>
             )}
           </div>
-          <Button variant="secondary">Change Password</Button>
-          <Button>Edit Profile</Button>
+          <ProfileButtons currentUser={currentUser} />
         </div>
         <Tabs defaultValue="savedAds" className="w-full">
           <TabsList className="w-full">

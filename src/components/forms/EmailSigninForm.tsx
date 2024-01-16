@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { LockIcon, UnlockIcon } from "lucide-react";
-import { passwordReset, rememberSignIn, signIn } from "@/firebase/firebaseFunctions";
+import { passwordReset, rememberSignIn, signIn } from "@/firebase/firebaseAuthFunctions";
 import axios from "axios";
 import PageHeader from "../page/PageHeader";
 

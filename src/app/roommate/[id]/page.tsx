@@ -40,7 +40,7 @@ export default async function RoommateId({ params: { id } }: { params: { id: str
                       alt={poster.name!}
                       width={60}
                       height={60}
-                      className="w-auto"
+                      className="w-[50px] h-[50px] object-cover"
                       priority
                     />
                   </div>

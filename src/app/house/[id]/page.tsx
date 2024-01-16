@@ -20,7 +20,7 @@ export default async function HouseId({ params: { id } }: { params: { id: string
       <PageHeader heading="House Available" backButton />
       <Card>
         <CardHeader className="p-5 flex-row items-center justify-between">
-          <div className="space-y-1.5">
+          <div className="space-y-1.5 mr-auto">
             <CardTitle className="font-light">{house.title}</CardTitle>
             <CardDescription>
               <span className="italic text-xs ">
@@ -29,6 +29,7 @@ export default async function HouseId({ params: { id } }: { params: { id: string
               </span>
             </CardDescription>
           </div>
+          {house.showEmail && <p className="text-xs mr-5 text-muted-foreground">{poster.email}</p>}
           <Link href={`user/${poster.uid}`} className="hover:scale-110 transition">
             <TooltipProvider>
               <Tooltip delayDuration={0}>
@@ -39,7 +40,7 @@ export default async function HouseId({ params: { id } }: { params: { id: string
                       alt={poster.name!}
                       width={60}
                       height={60}
-                      className="w-auto"
+                      className="w-[50px] h-[50px] object-cover"
                       priority
                     />
                   </div>

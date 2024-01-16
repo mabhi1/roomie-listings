@@ -1,6 +1,6 @@
 "use client";
 
-import { dosignOut } from "@/firebase/firebaseFunctions";
+import { dosignOut } from "@/firebase/firebaseAuthFunctions";
 import { Button } from "../ui/button";
 import useAuth from "../providers/AuthProvider";
 import { UserXIcon } from "lucide-react";

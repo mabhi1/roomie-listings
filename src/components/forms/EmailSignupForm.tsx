@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { CheckSquareIcon, LockIcon, UnlockIcon } from "lucide-react";
-import { createUser } from "@/firebase/firebaseFunctions";
+import { createUser } from "@/firebase/firebaseAuthFunctions";
 import { cn } from "@/lib/utils";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
