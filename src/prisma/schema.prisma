@@ -88,12 +88,18 @@ model RoommateAd {
   updatedAt   DateTime        @updatedAt
 }
 
+type Gallery {
+  type String
+  name String
+  url  String
+}
+
 model HouseAd {
   id          String       @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String
   address     HouseAddress
-  pictures    String[]
+  gallery     Gallery[]
   price       Int
   duration    Duration     @default(temporary)
   postedBy    String

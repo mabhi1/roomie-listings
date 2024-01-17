@@ -28,8 +28,6 @@ import { cn } from "@/lib/utils";
 export default function RoommateAdForm() {
   const [descriptionChar, setDescriptionChar] = useState(5000);
   const [date, setDate] = useState<Date | undefined>();
-  const [data, setData] = useState<string | undefined>();
-  const [error, setError] = useState<string | undefined>();
   const [isPending, startTransition] = useTransition();
   const [verificationOpen, setVerificationOpen] = useState(false);
   const router = useRouter();
@@ -74,9 +72,6 @@ export default function RoommateAdForm() {
   };
 
   const onSubmit = (values: z.infer<typeof RoommateAdSchema>) => {
-    setData(undefined);
-    setError(undefined);
-
     if (!form.getValues("acceptTc")) {
       form.setError("acceptTc", { message: "Please accept terms and conditions to continue." });
       return;
@@ -89,9 +84,16 @@ export default function RoommateAdForm() {
     handleFormReset();
 
     startTransition(async () => {
-      const { data, error } = await createRoommate(values, [], currentUser.uid!);
-      setError(error);
-      setData(data);
+      try {
+        const { data, error } = await createRoommate(values, [], currentUser.uid!);
+        if (error) throw new Error();
+        else {
+          toast.success("Ad created successfully");
+          router.push(`/roommate/${data}`);
+        }
+      } catch (error) {
+        toast.error("Error in creating Ad");
+      }
     });
   };
 
@@ -328,44 +330,6 @@ export default function RoommateAdForm() {
           </Button>
         </DialogContent>
       </Dialog>
-      {data && (
-        <Dialog open={true} onOpenChange={() => setData(undefined)}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle className="text-success">Congratulations!</DialogTitle>
-              <DialogDescription>
-                Your roommate Ad has been successfully posted. You can click the button below to go to your Ad.
-              </DialogDescription>
-            </DialogHeader>
-            <Button
-              className="w-1/4"
-              onClick={() => {
-                router.push(`/roommate/${data}`);
-              }}
-            >
-              Go to Ad
-            </Button>
-          </DialogContent>
-        </Dialog>
-      )}
-      {error && (
-        <Dialog open={true} onOpenChange={() => setError(undefined)}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle className="text-destructive">Oops! Something went wrong</DialogTitle>
-              <DialogDescription>Error in creating your Ad. Please try again later.</DialogDescription>
-            </DialogHeader>
-            <Button
-              className="w-1/4"
-              onClick={() => {
-                setError(undefined);
-              }}
-            >
-              Close
-            </Button>
-          </DialogContent>
-        </Dialog>
-      )}
     </Form>
   );
 }

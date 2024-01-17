@@ -26,7 +26,7 @@ export default function EditProfileForm({
     setLoading(true);
     try {
       if (picture) {
-        const url = await uploadFile(currentUser.uid, picture);
+        const { url } = await uploadFile(currentUser.uid, picture);
         await updatePhoto(url);
         await updateProfilePicture(currentUser.uid, url);
         (document.getElementById("picture") as HTMLInputElement).value = "";

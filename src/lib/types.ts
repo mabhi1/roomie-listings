@@ -37,6 +37,12 @@ type RoommateAd = {
   updatedAt?: Date;
 };
 
+type Gallery = {
+  type: string;
+  name: string;
+  url: string;
+};
+
 type HouseAd = {
   id?: string;
   title: string;
@@ -44,7 +50,7 @@ type HouseAd = {
   address: HouseAddress;
   price: number;
   duration: "temporary" | "permanent";
-  pictures: string[];
+  gallery: Gallery[];
   postedBy: string;
   savedBy: string[];
   reports: string[];

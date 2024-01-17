@@ -14,7 +14,6 @@ export const HouseAdSchema = z.object({
     state: z.string().trim().min(1, { message: "State is required" }),
     zip: z.string().trim().length(5, { message: "ZIP is required." }),
   }),
-  pictures: z.string().trim().array(),
   price: z.coerce.number().min(1, { message: "Price is required." }),
   available: z.coerce
     .date({ required_error: "Please enter an available date" })

@@ -15,7 +15,6 @@ import { ChangeEvent, useEffect, useState, useTransition } from "react";
 import { Checkbox } from "../ui/checkbox";
 import { editRoommate } from "@/actions/roommate";
 import useAuth from "../providers/AuthProvider";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useRouter } from "next/navigation";
 import Required from "./Required";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
@@ -23,12 +22,11 @@ import { CalendarIcon } from "lucide-react";
 import { Calendar } from "../ui/calendar";
 import { cn } from "@/lib/utils";
 import ComboBox from "../ui/combo-box";
+import { toast } from "sonner";
 
 export default function RoommateEditForm({ roommateAd }: { roommateAd?: RoommateAd }) {
   const [descriptionChar, setDescriptionChar] = useState(5000);
   const [date, setDate] = useState<Date | undefined>(roommateAd?.moveIn);
-  const [data, setData] = useState<string | undefined>();
-  const [error, setError] = useState<string | undefined>();
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const currentUser = useAuth();
@@ -71,24 +69,28 @@ export default function RoommateEditForm({ roommateAd }: { roommateAd?: Roommate
   };
 
   const onSubmit = (values: z.infer<typeof RoommateAdSchema>) => {
-    setData(undefined);
-    setError(undefined);
-
     if (!form.getValues("acceptTc")) {
       form.setError("acceptTc", { message: "Please accept terms and conditions to continue." });
       return;
     }
 
     startTransition(async () => {
-      const { data, error } = await editRoommate(
-        roommateAd?.id!,
-        values,
-        roommateAd?.savedBy!,
-        currentUser.uid!,
-        roommateAd?.reports!
-      );
-      setError(error);
-      setData(roommateAd?.id);
+      try {
+        const { data, error } = await editRoommate(
+          roommateAd?.id!,
+          values,
+          roommateAd?.savedBy!,
+          currentUser.uid!,
+          roommateAd?.reports!
+        );
+        if (error) throw new Error();
+        else {
+          toast.success("Ad updated successfully");
+          router.push(`/roommate/${roommateAd?.id}`);
+        }
+      } catch (error) {
+        toast.error("Error in updating ad");
+      }
     });
   };
 
@@ -296,51 +298,13 @@ export default function RoommateEditForm({ roommateAd }: { roommateAd?: Roommate
         />
         <div className="flex gap-10">
           <Button className="w-full mt-5" type="submit" disabled={isPending}>
-            Create Ad
+            Save Ad
           </Button>
           <Button variant="secondary" className="w-full mt-5" type="reset" disabled={isPending}>
             Reset form
           </Button>
         </div>
       </form>
-      {data && (
-        <Dialog open={true} onOpenChange={() => setData(undefined)}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle className="text-success">Congratulations!</DialogTitle>
-              <DialogDescription>
-                Your roommate Ad has been successfully updated. You can click the button below to go to your Ad.
-              </DialogDescription>
-            </DialogHeader>
-            <Button
-              className="w-1/4"
-              onClick={() => {
-                router.push(`/roommate/${data}`);
-              }}
-            >
-              Go to Ad
-            </Button>
-          </DialogContent>
-        </Dialog>
-      )}
-      {error && (
-        <Dialog open={true} onOpenChange={() => setError(undefined)}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle className="text-destructive">Oops! Something went wrong</DialogTitle>
-              <DialogDescription>Error in creating your Ad. Please try again later.</DialogDescription>
-            </DialogHeader>
-            <Button
-              className="w-1/4"
-              onClick={() => {
-                setError(undefined);
-              }}
-            >
-              Close
-            </Button>
-          </DialogContent>
-        </Dialog>
-      )}
     </Form>
   );
 }

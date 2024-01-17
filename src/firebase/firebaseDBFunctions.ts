@@ -7,7 +7,7 @@ async function uploadFile(fileName: string, file: File) {
   try {
     const uploadedFile = await uploadBytes(storageRef, file);
     const url = await getDownloadURL(storageRef);
-    if (uploadedFile && url) return url;
+    if (uploadedFile && url) return { url, uploadedFile };
     throw new Error("Error in uploading profile picture");
   } catch (error: any) {
     throw new Error("Error in uploading profile picture");

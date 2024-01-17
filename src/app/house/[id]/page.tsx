@@ -9,6 +9,7 @@ import Comments from "@/components/page/Comments";
 import { getHouseById } from "@/prisma/db/houseAds";
 import HouseButtons from "@/components/buttons/HouseButtons";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import GalleryCarousel from "@/components/page/Carousel";
 
 export default async function HouseId({ params: { id } }: { params: { id: string } }) {
   const house = await getHouseById(id);
@@ -79,6 +80,11 @@ export default async function HouseId({ params: { id } }: { params: { id: string
             </TableBody>
           </Table>
           <div className="px-6">{house.description}</div>
+          {house.gallery.length > 0 && (
+            <div className="px-16 w-fit">
+              <GalleryCarousel gallery={house.gallery} />
+            </div>
+          )}
         </CardContent>
         <HouseButtons ad={house} />
       </Card>

@@ -27,7 +27,7 @@ export default function ProfileButtons({ currentUser }: { currentUser: User }) {
           <DialogContent className="sm:max-w-[520px]">
             <DialogHeader>
               <DialogTitle>Change Password</DialogTitle>
-              <DialogDescription>Change your password here. Click save when you're done.</DialogDescription>
+              <DialogDescription>Change your password here. Click save when you&apos;re done.</DialogDescription>
             </DialogHeader>
             <ChangePasswordForm currentUser={currentUser} setDialog={setPasswordDialog} />
           </DialogContent>
@@ -40,7 +40,7 @@ export default function ProfileButtons({ currentUser }: { currentUser: User }) {
         <DialogContent className="sm:max-w-[520px]">
           <DialogHeader>
             <DialogTitle>Edit Profile</DialogTitle>
-            <DialogDescription>Edit your profile here. Click save when you're done.</DialogDescription>
+            <DialogDescription>Edit your profile here. Click save when you&apos;re done.</DialogDescription>
           </DialogHeader>
           <EditProfileForm currentUser={currentUser} setDialog={setProfileDialog} />
         </DialogContent>

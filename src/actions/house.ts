@@ -11,15 +11,21 @@ import {
   saveHouseByUser,
 } from "@/prisma/db/houseAds";
 import { revalidatePath } from "next/cache";
+import { Gallery } from "@prisma/client";
 
-export async function createHouse(values: z.infer<typeof HouseAdSchema>, savedBy: string[], postedBy: string) {
+export async function createHouse(
+  values: z.infer<typeof HouseAdSchema>,
+  savedBy: string[],
+  postedBy: string,
+  gallery: Gallery[]
+) {
   const validatedFields = HouseAdSchema.safeParse(values);
 
   if (!validatedFields) return { error: "Invalid fields!" };
 
   const { acceptTc, ...dbData } = values;
   try {
-    const createdId = await createHouseAd({ ...dbData, savedBy, postedBy, reports: [] });
+    const createdId = await createHouseAd({ ...dbData, savedBy, postedBy, reports: [], gallery });
     revalidatePath("/house");
     return { data: createdId };
   } catch (error: any) {
@@ -32,7 +38,8 @@ export async function editHouse(
   values: z.infer<typeof HouseAdSchema>,
   savedBy: string[],
   postedBy: string,
-  reports: string[]
+  reports: string[],
+  gallery: Gallery[]
 ) {
   const validatedFields = HouseAdSchema.safeParse(values);
 
@@ -40,7 +47,7 @@ export async function editHouse(
 
   const { acceptTc, ...dbData } = values;
   try {
-    const updatedId = await editHouseAdById(adId, { ...dbData, savedBy, postedBy, reports });
+    const updatedId = await editHouseAdById(adId, { ...dbData, savedBy, postedBy, reports, gallery });
     revalidatePath("/house");
     return { data: updatedId };
   } catch (error: any) {

@@ -16,45 +16,48 @@ import { zipCodeList } from "@/lib/NJStateInfo";
 import { Checkbox } from "../ui/checkbox";
 import { editHouse } from "@/actions/house";
 import useAuth from "../providers/AuthProvider";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useRouter } from "next/navigation";
 import Required from "./Required";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "../ui/calendar";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
+import { deleteFile, uploadFile } from "@/firebase/firebaseDBFunctions";
+import { Gallery } from "@prisma/client";
+import Image from "next/image";
 
-export default function HouseEditForm({ houseAd }: { houseAd?: HouseAd }) {
+export default function HouseEditForm({ houseAd }: { houseAd: HouseAd }) {
   const [descriptionChar, setDescriptionChar] = useState(5000);
-  const [date, setDate] = useState<Date | undefined>(houseAd?.available);
-  const [data, setData] = useState<string | undefined>();
-  const [error, setError] = useState<string | undefined>();
+  const [date, setDate] = useState<Date>(houseAd.available);
   const [isPending, startTransition] = useTransition();
+  const [files, setFiles] = useState<File[]>([]);
+  const [gallery, setGallery] = useState<Gallery[]>(houseAd.gallery);
+  const [fileError, setFileError] = useState<string>();
   const router = useRouter();
   const currentUser = useAuth();
 
   const form = useForm<z.infer<typeof HouseAdSchema>>({
     resolver: zodResolver(HouseAdSchema),
     defaultValues: {
-      title: houseAd?.title,
-      description: houseAd?.description,
+      title: houseAd.title,
+      description: houseAd.description || "",
       address: {
-        address1: houseAd?.address.address1 || "",
-        city: houseAd?.address.city,
+        address1: houseAd.address.address1 || "",
+        city: houseAd.address.city,
         state: "NJ",
-        zip: houseAd?.address.zip,
+        zip: houseAd.address.zip,
       },
-      pictures: [],
-      price: houseAd?.price,
-      available: houseAd?.available,
-      duration: houseAd?.duration,
+      price: houseAd.price,
+      available: houseAd.available,
+      duration: houseAd.duration,
       acceptTc: false,
-      showEmail: houseAd?.showEmail,
+      showEmail: houseAd.showEmail,
     },
   });
 
   useEffect(() => {
-    if (!currentUser || currentUser.uid !== houseAd?.postedBy) {
+    if (!currentUser || currentUser.uid !== houseAd.postedBy) {
       throw new Error("Unauthorized Access");
     }
   }, [currentUser, houseAd]);
@@ -93,25 +96,50 @@ export default function HouseEditForm({ houseAd }: { houseAd?: HouseAd }) {
     form.setValue("available", value, { shouldDirty: true, shouldTouch: true, shouldValidate: true });
   };
 
-  const onSubmit = (values: z.infer<typeof HouseAdSchema>) => {
-    setData(undefined);
-    setError(undefined);
+  const getFileData = async () => {
+    const addedFiles: Gallery[] = [];
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const uniqueId = Math.random().toString(16).slice(2);
+      const { url } = await uploadFile(uniqueId, file);
+      addedFiles.push({ type: file.type.split("/")[0], name: uniqueId, url: url });
+    }
+    return addedFiles;
+  };
 
+  const onSubmit = (values: z.infer<typeof HouseAdSchema>) => {
     if (!form.getValues("acceptTc")) {
       form.setError("acceptTc", { message: "Please accept terms and conditions to continue." });
       return;
     }
 
     startTransition(async () => {
-      const { data, error } = await editHouse(
-        houseAd?.id!,
-        values,
-        houseAd?.savedBy!,
-        currentUser.uid!,
-        houseAd?.reports!
-      );
-      setError(error);
-      setData(houseAd?.id);
+      try {
+        const originalGallery: string[] = houseAd.gallery.map((item) => JSON.stringify(item));
+        const newGallery: string[] = gallery.map((item) => JSON.stringify(item));
+        const notRequriedGalleryItems: Gallery[] = originalGallery
+          .filter((item) => !newGallery.includes(item))
+          .map((item) => JSON.parse(item));
+        notRequriedGalleryItems.map(async (item) => {
+          await deleteFile(item.name);
+        });
+
+        const { data, error } = await editHouse(
+          houseAd.id!,
+          values,
+          houseAd.savedBy!,
+          currentUser.uid!,
+          houseAd.reports!,
+          [...(await getFileData()), ...gallery]
+        );
+        if (error) throw new Error();
+        else {
+          toast.success("Ad updated successfully");
+          router.push(`/house/${houseAd.id}`);
+        }
+      } catch (error) {
+        toast.error("Error in updating ad");
+      }
     });
   };
 
@@ -124,6 +152,9 @@ export default function HouseEditForm({ houseAd }: { houseAd?: HouseAd }) {
   };
 
   const handleFormReset = () => {
+    setFileError(undefined);
+    setFiles([]);
+    setGallery(houseAd.gallery);
     form.reset();
   };
 
@@ -304,6 +335,75 @@ export default function HouseEditForm({ houseAd }: { houseAd?: HouseAd }) {
             </FormItem>
           )}
         />
+        <FormItem>
+          <FormLabel>Click to upload images or videos</FormLabel>
+          <FormControl>
+            <Input
+              type="file"
+              accept="image/*, video/*"
+              id="files"
+              multiple
+              onChange={(e) => {
+                if (!e.target.files || e.target.files.length === 0) {
+                  setFileError(undefined);
+                  return;
+                }
+                Array.from(e.target.files).forEach((file) => {
+                  if (file.type.startsWith("video") && file.size > 5242880) {
+                    toast.info("Video size too big. Maximum 5MB allowed");
+                    setFileError("Video size too big. Maximum 5MB allowed");
+                    e.target.value = "";
+                    setFiles([]);
+                    return;
+                  } else if (!file.type.startsWith("video") && file.size > 2097152) {
+                    toast.info("Image size too big. Maximum 2MB allowed");
+                    setFileError("Image size too big. Maximum 2MB allowed");
+                    e.target.value = "";
+                    setFiles([]);
+                    return;
+                  } else {
+                    setFiles((fileList) => [...fileList, file]);
+                    setFileError(undefined);
+                  }
+                });
+              }}
+            />
+          </FormControl>
+          {fileError && <div className="text-sm text-destructive">{fileError}</div>}
+        </FormItem>
+        {gallery && gallery.length > 0 && (
+          <div className="space-y-2">
+            <div>Gallery</div>
+            <div className="grid grid-cols-2 gap-5">
+              {gallery.map((item) => (
+                <div key={item.name} className="relative">
+                  {item.type.startsWith("video") ? (
+                    <video src={item.url} controls className="h-52 w-full" />
+                  ) : (
+                    <a href={item.url} target="_blank">
+                      <Image
+                        alt={item.type}
+                        src={item.url}
+                        width={1024}
+                        height={1024}
+                        priority
+                        className="h-52 w-full object-cover"
+                      />
+                    </a>
+                  )}
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    className="absolute top-2 right-2"
+                    onClick={() => setGallery((gallery) => gallery?.filter((i) => i.url !== item.url))}
+                  >
+                    Remove
+                  </Button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
         <FormField
           control={form.control}
           name="showEmail"
@@ -349,51 +449,13 @@ export default function HouseEditForm({ houseAd }: { houseAd?: HouseAd }) {
         />
         <div className="flex gap-10">
           <Button className="w-full mt-5" type="submit" disabled={isPending}>
-            Create Ad
+            Save Ad
           </Button>
           <Button variant="secondary" className="w-full mt-5" type="reset" disabled={isPending}>
             Reset form
           </Button>
         </div>
       </form>
-      {data && (
-        <Dialog open={true} onOpenChange={() => setData(undefined)}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle className="text-success">Congratulations!</DialogTitle>
-              <DialogDescription>
-                Your house Ad has been successfully updated. You can click the button below to go to your Ad.
-              </DialogDescription>
-            </DialogHeader>
-            <Button
-              className="w-1/4"
-              onClick={() => {
-                router.push(`/house/${data}`);
-              }}
-            >
-              Go to Ad
-            </Button>
-          </DialogContent>
-        </Dialog>
-      )}
-      {error && (
-        <Dialog open={true} onOpenChange={() => setError(undefined)}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle className="text-destructive">Oops! Something went wrong</DialogTitle>
-              <DialogDescription>Error in creating your Ad. Please try again later.</DialogDescription>
-            </DialogHeader>
-            <Button
-              className="w-1/4"
-              onClick={() => {
-                setError(undefined);
-              }}
-            >
-              Close
-            </Button>
-          </DialogContent>
-        </Dialog>
-      )}
     </Form>
   );
 }
