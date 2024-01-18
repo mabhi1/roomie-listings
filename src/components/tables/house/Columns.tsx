@@ -35,7 +35,7 @@ export type HouseColumnsType = {
   updatedAt: Date;
 };
 
-function getCurrentUser() {
+function GetCurrentUser() {
   const currentUser = useAuth();
   return currentUser;
 }
@@ -143,7 +143,7 @@ export const HouseColumns: ColumnDef<HouseColumnsType>[] = [
     id: "actions",
     cell: ({ row }) => {
       const house = row.original;
-      const currentUser = getCurrentUser();
+      const currentUser = GetCurrentUser();
       const handleSaveAd = async () => {
         if (currentUser && currentUser.uid) {
           const data = await savehouse(house.id!, currentUser.uid);

@@ -33,7 +33,7 @@ export type RoommateColumnsType = {
   updatedAt: Date;
 };
 
-function getCurrentUser() {
+function GetCurrentUser() {
   const currentUser = useAuth();
   return currentUser;
 }
@@ -141,7 +141,7 @@ export const RoommateColumns: ColumnDef<RoommateColumnsType>[] = [
     id: "actions",
     cell: ({ row }) => {
       const roommate = row.original;
-      const currentUser = getCurrentUser();
+      const currentUser = GetCurrentUser();
       const handleSaveAd = async () => {
         if (currentUser && currentUser.uid) {
           const data = await saveRoommate(roommate.id!, currentUser.uid);
