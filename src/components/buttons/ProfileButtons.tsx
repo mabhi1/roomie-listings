@@ -6,6 +6,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { User } from "firebase/auth";
 import ChangePasswordForm from "../forms/ChangePasswordForm";
 import EditProfileForm from "../forms/EditProfileForm";
+import Link from "next/link";
 
 export default function ProfileButtons({ currentUser }: { currentUser: User }) {
   const [passwordDialog, setPasswordDialog] = useState(false);
@@ -17,6 +18,9 @@ export default function ProfileButtons({ currentUser }: { currentUser: User }) {
 
   return (
     <>
+      <Link href={`/user/${currentUser.uid}`} passHref legacyBehavior>
+        <Button variant="secondary">View User Profile</Button>
+      </Link>
       {getProvider === "password" && (
         <Dialog open={passwordDialog} onOpenChange={setPasswordDialog}>
           <DialogTrigger asChild>

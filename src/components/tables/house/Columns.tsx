@@ -14,6 +14,9 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { HouseAddress } from "@/lib/types";
 import Link from "next/link";
+import { savehouse } from "@/actions/house";
+import { toast } from "sonner";
+import useAuth from "@/components/providers/AuthProvider";
 
 export type HouseColumnsType = {
   id: string;
@@ -25,10 +28,17 @@ export type HouseColumnsType = {
     zip: string;
   };
   price: number;
+  postedBy: string;
+  savedBy: string[];
   available: Date;
   duration: "temporary" | "permanent";
   updatedAt: Date;
 };
+
+function getCurrentUser() {
+  const currentUser = useAuth();
+  return currentUser;
+}
 
 export const HouseColumns: ColumnDef<HouseColumnsType>[] = [
   // {
@@ -133,7 +143,14 @@ export const HouseColumns: ColumnDef<HouseColumnsType>[] = [
     id: "actions",
     cell: ({ row }) => {
       const house = row.original;
-
+      const currentUser = getCurrentUser();
+      const handleSaveAd = async () => {
+        if (currentUser && currentUser.uid) {
+          const data = await savehouse(house.id!, currentUser.uid);
+          if (data.error) toast.error(data.error);
+          else toast.success(data.message);
+        }
+      };
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -147,10 +164,24 @@ export const HouseColumns: ColumnDef<HouseColumnsType>[] = [
             <DropdownMenuItem>
               <Link href={`/house/${house.id}`}>View Details</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem>Save</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View Poster</DropdownMenuItem>
-            <DropdownMenuItem>Send Message</DropdownMenuItem>
+            {currentUser?.uid !== house.postedBy && (
+              <>
+                {house.savedBy.includes(currentUser?.uid!) ? (
+                  <DropdownMenuItem className="text-muted-foreground focus:text-muted-foreground">
+                    Saved
+                  </DropdownMenuItem>
+                ) : (
+                  <DropdownMenuItem onClick={handleSaveAd} className="cursor-pointer">
+                    Save
+                  </DropdownMenuItem>
+                )}
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <Link href={`/user/${house.postedBy}`}>View User</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>Send Message</DropdownMenuItem>
+              </>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
       );

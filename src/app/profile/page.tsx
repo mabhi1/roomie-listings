@@ -67,7 +67,7 @@ export default function Profile() {
             )}
           </div>
           <div className="flex flex-col justify-center mr-auto">
-            <div className="">{currentUser.displayName}</div>
+            <div className="text-lg">{currentUser.displayName}</div>
             <div className="">{currentUser.email}</div>
             {currentUser.emailVerified ? (
               <span className="flex items-center gap-1 text-success">

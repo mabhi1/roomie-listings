@@ -47,6 +47,7 @@ export async function saveRoommateByUser(id: string, uid: string) {
   try {
     const ad = await prisma.roommateAd.findUnique({ where: { id } });
     if (!ad) return null;
+    if (ad.savedBy.includes(uid)) return ad;
     const updatedAd = await prisma.roommateAd.update({ where: { id }, data: { savedBy: [...ad.savedBy, uid] } });
     if (!updatedAd) return null;
     return updatedAd;

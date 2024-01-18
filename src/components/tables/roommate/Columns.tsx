@@ -14,6 +14,9 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { RoommateAddress } from "@/lib/types";
 import Link from "next/link";
+import useAuth from "@/components/providers/AuthProvider";
+import { saveRoommate } from "@/actions/roommate";
+import { toast } from "sonner";
 
 export type RoommateColumnsType = {
   id: string;
@@ -23,10 +26,17 @@ export type RoommateColumnsType = {
     state: string;
   };
   budget: number;
+  postedBy: string;
+  savedBy: string[];
   moveIn: Date;
   duration: "temporary" | "permanent";
   updatedAt: Date;
 };
+
+function getCurrentUser() {
+  const currentUser = useAuth();
+  return currentUser;
+}
 
 export const RoommateColumns: ColumnDef<RoommateColumnsType>[] = [
   // {
@@ -131,7 +141,14 @@ export const RoommateColumns: ColumnDef<RoommateColumnsType>[] = [
     id: "actions",
     cell: ({ row }) => {
       const roommate = row.original;
-
+      const currentUser = getCurrentUser();
+      const handleSaveAd = async () => {
+        if (currentUser && currentUser.uid) {
+          const data = await saveRoommate(roommate.id!, currentUser.uid);
+          if (data.error) toast.error(data.error);
+          else toast.success(data.message);
+        }
+      };
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -145,10 +162,24 @@ export const RoommateColumns: ColumnDef<RoommateColumnsType>[] = [
             <DropdownMenuItem>
               <Link href={`/roommate/${roommate.id}`}>View Details</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem>Save</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View Poster</DropdownMenuItem>
-            <DropdownMenuItem>Send Message</DropdownMenuItem>
+            {currentUser?.uid !== roommate.postedBy && (
+              <>
+                {roommate.savedBy.includes(currentUser?.uid!) ? (
+                  <DropdownMenuItem className="text-muted-foreground focus:text-muted-foreground">
+                    Saved
+                  </DropdownMenuItem>
+                ) : (
+                  <DropdownMenuItem onClick={handleSaveAd} className="cursor-pointer">
+                    Save
+                  </DropdownMenuItem>
+                )}
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <Link href={`/user/${roommate.postedBy}`}>View User</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>Send Message</DropdownMenuItem>
+              </>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
       );

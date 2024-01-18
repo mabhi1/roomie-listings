@@ -82,7 +82,7 @@ export default function CommentProfileTable({ currentUser, tab }: { currentUser:
           {comments?.map((comment) => (
             <TableRow className="hover:bg-inherit" key={comment.id}>
               <TableCell className="border-r py-1 pl-4">
-                <Link href={`${comment.postType}/${comment.postId}#${comment.id}`}>
+                <Link href={`/${comment.postType}/${comment.postId}#${comment.id}`}>
                   <Button variant="link" className="p-0">
                     {comment.comment}
                   </Button>

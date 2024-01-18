@@ -378,7 +378,7 @@ export default function HouseEditForm({ houseAd }: { houseAd: HouseAd }) {
               {gallery.map((item) => (
                 <div key={item.name} className="relative">
                   {item.type.startsWith("video") ? (
-                    <video src={item.url} controls className="h-52 w-full" />
+                    <video src={item.url} controls className="h-52 w-full rounded" />
                   ) : (
                     <a href={item.url} target="_blank">
                       <Image
@@ -387,7 +387,7 @@ export default function HouseEditForm({ houseAd }: { houseAd: HouseAd }) {
                         width={1024}
                         height={1024}
                         priority
-                        className="h-52 w-full object-cover"
+                        className="h-52 w-full object-cover rounded"
                       />
                     </a>
                   )}

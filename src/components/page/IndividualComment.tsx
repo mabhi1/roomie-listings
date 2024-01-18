@@ -1,7 +1,6 @@
 import { Comment } from "@/lib/types";
 import { getUserById } from "@/prisma/db/users";
 import Image from "next/image";
-import Link from "next/link";
 import CommentButtons from "../buttons/CommentButtons";
 
 export default async function IndividualComment({ comment, adId }: { comment: Comment; adId: string }) {
@@ -9,7 +8,7 @@ export default async function IndividualComment({ comment, adId }: { comment: Co
 
   return (
     <div className="flex flex-col gap-2" id={comment.id}>
-      <Link href={`/user/${user.uid}`} className="flex gap-2 items-center">
+      <div className="flex gap-2 items-center">
         <div className="rounded-full w-fit overflow-clip">
           <Image
             src={user.photo ? user.photo : "/user.png"}
@@ -26,7 +25,7 @@ export default async function IndividualComment({ comment, adId }: { comment: Co
             {comment.updatedAt?.toLocaleDateString("en-us", { year: "numeric", month: "short", day: "numeric" })}
           </span>
         </div>
-      </Link>
+      </div>
       <span>{comment.comment}</span>
       <CommentButtons comment={comment} adId={adId} />
     </div>

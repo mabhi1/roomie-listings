@@ -68,7 +68,7 @@ export default function RoommateProfileTable({ currentUser, tab }: { currentUser
           {ads?.map((roommate) => (
             <TableRow className="hover:bg-inherit" key={roommate.id}>
               <TableCell className="border-r py-1 pl-4">
-                <Link href={`roommate/${roommate.id}`}>
+                <Link href={`/roommate/${roommate.id}`}>
                   <Button variant="link" className="p-0">
                     {roommate.title}
                   </Button>
@@ -91,7 +91,7 @@ export default function RoommateProfileTable({ currentUser, tab }: { currentUser
                     <TooltipProvider>
                       <Tooltip delayDuration={0}>
                         <TooltipTrigger asChild>
-                          <Link href={`roommate/${roommate.id}/edit`}>
+                          <Link href={`/roommate/${roommate.id}/edit`}>
                             <PenBoxIcon className="mx-auto text-success cursor-pointer mr-2 w-5" />
                           </Link>
                         </TooltipTrigger>

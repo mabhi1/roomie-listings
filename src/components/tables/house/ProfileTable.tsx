@@ -68,7 +68,7 @@ export default function HouseProfileTable({ currentUser, tab }: { currentUser: U
           {ads?.map((house) => (
             <TableRow className="hover:bg-inherit" key={house.id}>
               <TableCell className="border-r py-1 pl-4">
-                <Link href={`house/${house.id}`}>
+                <Link href={`/house/${house.id}`}>
                   <Button variant="link" className="p-0">
                     {house.title}
                   </Button>
@@ -91,7 +91,7 @@ export default function HouseProfileTable({ currentUser, tab }: { currentUser: U
                     <TooltipProvider>
                       <Tooltip delayDuration={0}>
                         <TooltipTrigger asChild>
-                          <Link href={`house/${house.id}/edit`}>
+                          <Link href={`/house/${house.id}/edit`}>
                             <PenBoxIcon className="mx-auto text-success cursor-pointer mr-2 w-5" />
                           </Link>
                         </TooltipTrigger>
