@@ -18,6 +18,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Gallery } from "@prisma/client";
+import { deleteFile } from "@/firebase/firebaseDBFunctions";
 
 export default function HouseProfileTable({ currentUser, tab }: { currentUser: User; tab: string }) {
   const [ads, setAds] = useState<HouseAd[] | null>();
@@ -32,16 +34,24 @@ export default function HouseProfileTable({ currentUser, tab }: { currentUser: U
     getAds();
   }, [currentUser.uid, tab]);
 
-  const handleDeleteAd = async (adId: string) => {
+  const handleDeleteAd = async (adId: string, gallery: Gallery[]) => {
     setLoading(true);
-    const ads = await deleteHouseAds(currentUser.uid, adId, tab);
-    if (!ads) {
+    try {
+      gallery.map(async (item) => {
+        await deleteFile(item.name);
+      });
+      const ads = await deleteHouseAds(currentUser.uid, adId, tab);
+      if (!ads) {
+        toast.error("Error removing Ad");
+        return;
+      }
+      setAds((ads) => ads?.filter((ad) => ad.id !== adId));
+      setLoading(false);
+      toast.success("Ad removed successfully");
+    } catch (error) {
+      setLoading(false);
       toast.error("Error removing Ad");
-      return;
     }
-    setAds((ads) => ads?.filter((ad) => ad.id !== adId));
-    setLoading(false);
-    toast.success("Ad removed successfully");
   };
 
   if (loading)
@@ -54,7 +64,7 @@ export default function HouseProfileTable({ currentUser, tab }: { currentUser: U
   else
     return (
       <Table className="border">
-        <TableHeader className="h-6">
+        <TableHeader>
           <TableRow className="bg-muted/50">
             <TableHead className="w-1/2 border-r font-normal text-accent-foreground h-8">Title</TableHead>
             <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Location</TableHead>
@@ -68,7 +78,7 @@ export default function HouseProfileTable({ currentUser, tab }: { currentUser: U
           {ads?.map((house) => (
             <TableRow className="hover:bg-inherit" key={house.id}>
               <TableCell className="border-r py-1 pl-4">
-                <Link href={`/house/${house.id}`}>
+                <Link href={`/house/${house.id}`} className="block w-[600px] overflow-hidden">
                   <Button variant="link" className="p-0">
                     {house.title}
                   </Button>
@@ -120,7 +130,7 @@ export default function HouseProfileTable({ currentUser, tab }: { currentUser: U
                         <DialogDescription>Are you sure you want to delete this ad?</DialogDescription>
                       </DialogHeader>
                       <DialogFooter>
-                        <Button onClick={() => handleDeleteAd(house.id!)}>Confirm</Button>
+                        <Button onClick={() => handleDeleteAd(house.id!, house.gallery)}>Confirm</Button>
                       </DialogFooter>
                     </DialogContent>
                   </Dialog>

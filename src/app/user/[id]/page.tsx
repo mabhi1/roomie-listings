@@ -16,7 +16,7 @@ export default async function UserPublicProfile({ params: { id } }: { params: { 
   return (
     <FullWrapper className="gap-5">
       <PageHeader heading="User Profile" />
-      <div className="flex gap-5">
+      <div className="flex gap-5 items-center">
         <div className="rounded-full w-fit h-fit overflow-clip">
           <Image
             src={user.photo ? user.photo : "/user.png"}
@@ -27,10 +27,7 @@ export default async function UserPublicProfile({ params: { id } }: { params: { 
             priority
           />
         </div>
-        <div className="flex flex-col justify-center mr-auto">
-          <div className="text-lg">{user.name}</div>
-          <div className="">{user.email}</div>
-        </div>
+        <div className="text-lg">{user.name}</div>
       </div>
       {houseAds && houseAds.length > 0 ? (
         <div className="space-y-3">
@@ -49,7 +46,7 @@ export default async function UserPublicProfile({ params: { id } }: { params: { 
               {houseAds?.map((house) => (
                 <TableRow className="hover:bg-inherit" key={house.id}>
                   <TableCell className="border-r py-1 pl-4">
-                    <Link href={`/house/${house.id}`}>
+                    <Link href={`/house/${house.id}`} className="block w-[600px] overflow-hidden">
                       <Button variant="link" className="p-0">
                         {house.title}
                       </Button>
@@ -80,18 +77,18 @@ export default async function UserPublicProfile({ params: { id } }: { params: { 
           <Table className="border">
             <TableHeader className="h-6">
               <TableRow className="bg-muted/50">
-                <TableHead className="w-1/2 border-r font-normal text-accent-foreground h-10">Title</TableHead>
-                <TableHead className="border-r text-center font-normal text-accent-foreground h-10">Location</TableHead>
-                <TableHead className="border-r text-center font-normal text-accent-foreground h-10">Budget</TableHead>
-                <TableHead className="border-r text-center font-normal text-accent-foreground h-10">Move in</TableHead>
-                <TableHead className="border-r text-center font-normal text-accent-foreground h-10">Duration</TableHead>
+                <TableHead className="w-1/2 border-r font-normal text-accent-foreground h-8">Title</TableHead>
+                <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Location</TableHead>
+                <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Budget</TableHead>
+                <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Move in</TableHead>
+                <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Duration</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {roommateAds.map((roommate) => (
                 <TableRow className="hover:bg-inherit" key={roommate.id}>
                   <TableCell className="border-r py-1 pl-4">
-                    <Link href={`/roommate/${roommate.id}`}>
+                    <Link href={`/roommate/${roommate.id}`} className="block w-[600px] overflow-hidden">
                       <Button variant="link" className="p-0">
                         {roommate.title}
                       </Button>

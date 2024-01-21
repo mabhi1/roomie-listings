@@ -72,4 +72,12 @@ type Comment = {
   updatedAt?: Date;
 };
 
-export type { User, HouseAddress, RoommateAddress, RoommateAd, HouseAd, Comment };
+type Message = {
+  id?: string;
+  messageId: string;
+  sender: string;
+  receiver: string;
+  attachments: string[];
+};
+
+export type { User, HouseAddress, RoommateAddress, RoommateAd, HouseAd, Comment, Message };

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ColumnDef,
   flexRender,
@@ -12,7 +12,6 @@ import {
   ColumnFiltersState,
   getFilteredRowModel,
   VisibilityState,
-  Row,
 } from "@tanstack/react-table";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "./button";
@@ -23,7 +22,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ColumnsIcon, FilterIcon, SearchIcon } from "lucide-react";
+import { ColumnsIcon, EyeIcon, EyeOffIcon, FilterIcon, SearchIcon } from "lucide-react";
 import { HouseAddress } from "@/lib/types";
 import {
   Sheet,
@@ -36,6 +35,7 @@ import {
 } from "@/components/ui/sheet";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import MultiSelect from "./multi-select";
+import useAuth from "../providers/AuthProvider";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -45,6 +45,9 @@ interface DataTableProps<TData, TValue> {
 }
 
 export default function DataTable<TData, TValue>({ columns, data, page, profile }: DataTableProps<TData, TValue>) {
+  const currentUser = useAuth();
+  const [showMyAd, setShowMyAd] = useState(false);
+  const [rowData, setRowData] = useState(data);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -54,8 +57,34 @@ export default function DataTable<TData, TValue>({ columns, data, page, profile 
   const [min, setMin] = useState(0);
   const [max, setMax] = useState(Number.MAX_SAFE_INTEGER);
 
+  useEffect(() => {
+    setRowData(
+      data
+        .filter((row: any) => {
+          if (selectedCity.length === 0) return true;
+          return selectedCity.includes(row.address.city.toUpperCase());
+        })
+        .filter((row: any) => {
+          if (selectedDuration === "all") return true;
+          return row.duration === selectedDuration;
+        })
+        .filter((row: any) => {
+          let amount;
+          if (page === "roommate") amount = row.budget;
+          else amount = row.price;
+          if (min > max) return true;
+          return amount >= min && amount <= max;
+        })
+        .filter((row: any) => {
+          const poster = row.postedBy;
+          if (!showMyAd && poster === currentUser?.uid) return false;
+          return true;
+        })
+    );
+  }, [showMyAd, page, selectedDuration, selectedCity]);
+
   const table = useReactTable({
-    data,
+    data: rowData,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -70,6 +99,7 @@ export default function DataTable<TData, TValue>({ columns, data, page, profile 
       columnFilters,
       columnVisibility,
       rowSelection,
+      pagination: { pageIndex: 0, pageSize: 30 },
     },
   });
 
@@ -91,31 +121,12 @@ export default function DataTable<TData, TValue>({ columns, data, page, profile 
     setMax(Number.MAX_SAFE_INTEGER);
   };
 
-  const getFilteredRows = (rows: Row<TData>[]) => {
-    return rows
-      .filter((row) => {
-        if (selectedCity.length === 0) return true;
-        return selectedCity.includes((row.getValue("address") as HouseAddress).city);
-      })
-      .filter((row) => {
-        if (selectedDuration === "all") return true;
-        return row.getValue("duration") === selectedDuration;
-      })
-      .filter((row) => {
-        let amount;
-        if (page === "roommate") amount = row.getValue("budget") as number;
-        else amount = row.getValue("price") as number;
-        if (min > max) return true;
-        return amount >= min && amount <= max;
-      });
-  };
-
   const getAllCities = () => {
     const cities: string[] = [];
     table.getRowModel().rows.forEach((row) => {
       const address: HouseAddress = row.getValue("address");
-      if (cities.includes(address.city)) return;
-      cities.push(address.city);
+      if (cities.includes(address.city.toUpperCase())) return;
+      cities.push(address.city.toUpperCase());
     });
     return cities;
   };
@@ -133,9 +144,12 @@ export default function DataTable<TData, TValue>({ columns, data, page, profile 
               className="w-80 pl-7"
             />
           </div>
-
+          <Button variant="outline" className="ml-auto mr-4" onClick={() => setShowMyAd((showMyAd) => !showMyAd)}>
+            {showMyAd ? <EyeOffIcon className="w-4 mr-1" /> : <EyeIcon className="w-4 mr-1" />}
+            {showMyAd ? "Hide my Ads" : "Show my Ads"}
+          </Button>
           <Sheet modal>
-            <SheetTrigger className="ml-auto mr-4" asChild>
+            <SheetTrigger className="mr-4" asChild>
               <Button variant="outline">
                 <FilterIcon className="mr-1 w-4" />
                 Filter
@@ -169,7 +183,6 @@ export default function DataTable<TData, TValue>({ columns, data, page, profile 
                     setSelected={setSelectedCity}
                   />
                 </div>
-
                 <div className="flex flex-col gap-2">
                   <div className="font-medium">{page === "roommate" ? "Budget" : "Price"}</div>
                   <div className="flex gap-2 justify-evenly items-center">
@@ -243,8 +256,8 @@ export default function DataTable<TData, TValue>({ columns, data, page, profile 
             ))}
           </TableHeader>
           <TableBody>
-            {getFilteredRows(table.getRowModel().rows)?.length ? (
-              getFilteredRows(table.getRowModel().rows).map((row) => (
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
                 <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id} className="h-12 p-2 border-r last:border-r-0">
@@ -269,6 +282,7 @@ export default function DataTable<TData, TValue>({ columns, data, page, profile 
           {table.getFilteredSelectedRowModel().rows.length} of {table.getFilteredRowModel().rows.length} row(s)
           selected.
         </div> */}
+          <div className="text-sm text-muted-foreground">{table.getFilteredRowModel().rows.length} row(s)</div>
           <div className="flex items-center justify-end ml-auto space-x-2">
             <Button
               variant="outline"

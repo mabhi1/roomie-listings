@@ -1,5 +1,5 @@
 {
-  "name": "aakash",
+  "name": "roomie-listings",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -40,6 +40,7 @@
     "react-day-picker": "^8.10.0",
     "react-dom": "^18",
     "react-hook-form": "^7.49.2",
+    "resend": "^3.0.0",
     "sonner": "^1.2.4",
     "tailwind-merge": "^2.2.0",
     "tailwindcss-animate": "^1.0.7",

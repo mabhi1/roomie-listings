@@ -54,21 +54,21 @@ export default function RoommateProfileTable({ currentUser, tab }: { currentUser
   else
     return (
       <Table className="border">
-        <TableHeader className="h-6">
+        <TableHeader>
           <TableRow className="bg-muted/50">
-            <TableHead className="w-1/2 border-r font-normal text-accent-foreground h-10">Title</TableHead>
-            <TableHead className="border-r text-center font-normal text-accent-foreground h-10">Location</TableHead>
-            <TableHead className="border-r text-center font-normal text-accent-foreground h-10">Budget</TableHead>
-            <TableHead className="border-r text-center font-normal text-accent-foreground h-10">Move in</TableHead>
-            <TableHead className="border-r text-center font-normal text-accent-foreground h-10">Duration</TableHead>
-            <TableHead className="text-center font-normal text-accent-foreground h-10"></TableHead>
+            <TableHead className="w-1/2 border-r font-normal text-accent-foreground h-8">Title</TableHead>
+            <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Location</TableHead>
+            <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Budget</TableHead>
+            <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Move in</TableHead>
+            <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Duration</TableHead>
+            <TableHead className="text-center font-normal text-accent-foreground h-8"></TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {ads?.map((roommate) => (
             <TableRow className="hover:bg-inherit" key={roommate.id}>
               <TableCell className="border-r py-1 pl-4">
-                <Link href={`/roommate/${roommate.id}`}>
+                <Link href={`/roommate/${roommate.id}`} className="block w-[600px] overflow-hidden">
                   <Button variant="link" className="p-0">
                     {roommate.title}
                   </Button>

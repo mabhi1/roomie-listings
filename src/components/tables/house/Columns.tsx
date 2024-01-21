@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { ArrowDownIcon, ArrowUpDown, ArrowUpIcon, MoreHorizontal } from "lucide-react";
 import { HouseAddress } from "@/lib/types";
 import Link from "next/link";
 import { savehouse } from "@/actions/house";
@@ -62,16 +62,16 @@ export const HouseColumns: ColumnDef<HouseColumnsType>[] = [
   // },
   {
     accessorKey: "title",
-    header: () => <div className="w-96">Title</div>,
+    header: () => <div>Title</div>,
     enableHiding: false,
     cell: ({ row }) => {
       const house = row.original;
 
       const title: string = row.getValue("title");
       return (
-        <div className="ml-1">
+        <div className="ml-1 w-[480px] overflow-hidden">
           <Link href={`/house/${house.id}`} passHref legacyBehavior>
-            <Button variant="link" className="p-0 h-0">
+            <Button variant="link" className="p-0 h-8">
               {title}
             </Button>
           </Link>
@@ -103,7 +103,13 @@ export const HouseColumns: ColumnDef<HouseColumnsType>[] = [
         <span className="flex justify-center">
           <Button variant="ghost" className="p-0" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
             Price
-            <ArrowUpDown className="ml-1 h-4 w-4" />
+            {column.getIsSorted() === "asc" ? (
+              <ArrowDownIcon className="ml-1 h-4 w-4" />
+            ) : column.getIsSorted() === "desc" ? (
+              <ArrowUpIcon className="ml-1 h-4 w-4" />
+            ) : (
+              <ArrowUpDown className="ml-1 h-4 w-4" />
+            )}
           </Button>
         </span>
       );
@@ -125,7 +131,13 @@ export const HouseColumns: ColumnDef<HouseColumnsType>[] = [
         <span className="flex justify-center">
           <Button variant="ghost" className="p-0" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
             Available
-            <ArrowUpDown className="ml-1 h-4 w-4" />
+            {column.getIsSorted() === "asc" ? (
+              <ArrowDownIcon className="ml-1 h-4 w-4" />
+            ) : column.getIsSorted() === "desc" ? (
+              <ArrowUpIcon className="ml-1 h-4 w-4" />
+            ) : (
+              <ArrowUpDown className="ml-1 h-4 w-4" />
+            )}
           </Button>
         </span>
       );
@@ -179,7 +191,9 @@ export const HouseColumns: ColumnDef<HouseColumnsType>[] = [
                 <DropdownMenuItem>
                   <Link href={`/user/${house.postedBy}`}>View User</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>Send Message</DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link href={`/message/${currentUser?.uid}/${house.postedBy}/house/${house.id}`}>Send Message</Link>
+                </DropdownMenuItem>
               </>
             )}
           </DropdownMenuContent>

@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { ArrowDownIcon, ArrowUpDown, ArrowUpIcon, MoreHorizontal } from "lucide-react";
 import { RoommateAddress } from "@/lib/types";
 import Link from "next/link";
 import useAuth from "@/components/providers/AuthProvider";
@@ -60,16 +60,16 @@ export const RoommateColumns: ColumnDef<RoommateColumnsType>[] = [
   // },
   {
     accessorKey: "title",
-    header: () => <div className="w-96">Title</div>,
+    header: () => <div>Title</div>,
     enableHiding: false,
     cell: ({ row }) => {
       const roommate = row.original;
 
       const title: string = row.getValue("title");
       return (
-        <div className="ml-1">
+        <div className="ml-1 w-[480px] overflow-hidden">
           <Link href={`/roommate/${roommate.id}`} passHref legacyBehavior>
-            <Button variant="link" className="p-0 h-0">
+            <Button variant="link" className="p-0 h-8">
               {title}
             </Button>
           </Link>
@@ -101,7 +101,13 @@ export const RoommateColumns: ColumnDef<RoommateColumnsType>[] = [
         <span className="flex justify-center">
           <Button variant="ghost" className="p-0" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
             Budget
-            <ArrowUpDown className="ml-1 h-4 w-4" />
+            {column.getIsSorted() === "asc" ? (
+              <ArrowDownIcon className="ml-1 h-4 w-4" />
+            ) : column.getIsSorted() === "desc" ? (
+              <ArrowUpIcon className="ml-1 h-4 w-4" />
+            ) : (
+              <ArrowUpDown className="ml-1 h-4 w-4" />
+            )}
           </Button>
         </span>
       );
@@ -123,7 +129,13 @@ export const RoommateColumns: ColumnDef<RoommateColumnsType>[] = [
         <span className="flex justify-center">
           <Button variant="ghost" className="p-0" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
             Move In
-            <ArrowUpDown className="ml-1 h-4 w-4" />
+            {column.getIsSorted() === "asc" ? (
+              <ArrowDownIcon className="ml-1 h-4 w-4" />
+            ) : column.getIsSorted() === "desc" ? (
+              <ArrowUpIcon className="ml-1 h-4 w-4" />
+            ) : (
+              <ArrowUpDown className="ml-1 h-4 w-4" />
+            )}
           </Button>
         </span>
       );
@@ -177,7 +189,11 @@ export const RoommateColumns: ColumnDef<RoommateColumnsType>[] = [
                 <DropdownMenuItem>
                   <Link href={`/user/${roommate.postedBy}`}>View User</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>Send Message</DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link href={`/message/${currentUser?.uid}/${roommate.postedBy}/roommate/${roommate.id}`}>
+                    Send Message
+                  </Link>
+                </DropdownMenuItem>
               </>
             )}
           </DropdownMenuContent>

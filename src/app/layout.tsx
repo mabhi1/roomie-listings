@@ -12,8 +12,8 @@ import QueryProvider from "@/components/providers/QueryProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Aakash",
-  description: "Connecting together with Aakash",
+  title: "Roomie Listings",
+  description: "Connecting together with Roomie Listings",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

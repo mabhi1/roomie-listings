@@ -1,6 +1,5 @@
 import { deleteObject, getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
-
-const storage = getStorage();
+import { storage } from "./firebase";
 
 async function uploadFile(fileName: string, file: File) {
   const storageRef = ref(storage, fileName);

@@ -7,10 +7,22 @@ import { useTransition } from "react";
 import { toast } from "sonner";
 import Link from "next/link";
 import { HouseAd } from "@/lib/types";
-import { reporthouse, savehouse } from "@/actions/house";
+import { deleteHouseAds, reporthouse, savehouse } from "@/actions/house";
+import { useRouter } from "next/navigation";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
+import { deleteFile } from "@/firebase/firebaseDBFunctions";
 
 export default function HouseButtons({ ad }: { ad: HouseAd }) {
   const currentUser = useAuth();
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
   const handleSaveAd = () => {
@@ -31,21 +43,59 @@ export default function HouseButtons({ ad }: { ad: HouseAd }) {
       });
   };
 
+  const handleDeleteAd = async () => {
+    startTransition(async () => {
+      if (!currentUser) return;
+      try {
+        ad.gallery.map(async (item) => {
+          await deleteFile(item.name);
+        });
+        const ads = await deleteHouseAds(currentUser.uid, ad.id!, "postedAds");
+        if (!ads) {
+          toast.error("Error removing Ad");
+          return;
+        }
+        toast.success("Ad removed successfully");
+        router.push("/house");
+      } catch (error) {
+        toast.error("Error removing Ad");
+      }
+    });
+  };
+
   if (!currentUser) return <></>;
   else if (ad.postedBy === currentUser?.uid)
     return (
-      <CardFooter className="p-5 gap-5">
+      <CardFooter className="p-5 gap-5 justify-between">
         <Link href={`/house/${ad.id}/edit`}>
           <Button variant="secondary" disabled={isPending}>
             Edit
           </Button>
         </Link>
+        <Dialog>
+          <DialogTrigger>
+            <Button variant="destructive" disabled={isPending}>
+              Delete
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Confirm Delete</DialogTitle>
+              <DialogDescription>Are you sure you want to delete this ad?</DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <Button onClick={handleDeleteAd} disabled={isPending}>
+                Confirm
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </CardFooter>
     );
   else
     return (
       <CardFooter className="p-5 gap-5">
-        <Link href="#">
+        <Link href={`/message/${currentUser.uid}/${ad.postedBy}/house/${ad.id}`}>
           <Button disabled={isPending}>Send Message</Button>
         </Link>
         {ad.savedBy.includes(currentUser.uid) ? (

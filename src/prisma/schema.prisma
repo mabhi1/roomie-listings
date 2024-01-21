@@ -94,6 +94,14 @@ type Gallery {
   url  String
 }
 
+model Message {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  messageId   String
+  sender      String
+  receiver    String
+  attachments String[]
+}
+
 model HouseAd {
   id          String       @id @default(auto()) @map("_id") @db.ObjectId
   title       String
