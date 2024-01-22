@@ -20,7 +20,7 @@ import { createRoommate } from "@/actions/roommate";
 import ComboBox from "../ui/combo-box";
 import Required from "./Required";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, FilePlus2Icon, LinkIcon, RotateCcwIcon } from "lucide-react";
 import { format } from "date-fns";
 import { Calendar } from "../ui/calendar";
 import { cn } from "@/lib/utils";
@@ -301,9 +301,11 @@ export default function RoommateAdForm() {
         />
         <div className="flex gap-10">
           <Button className="w-full mt-5" type="submit" disabled={isPending}>
+            <FilePlus2Icon className="w-4 mr-1" />
             Create Ad
           </Button>
           <Button variant="secondary" className="w-full mt-5" type="reset" disabled={isPending}>
+            <RotateCcwIcon className="w-4 mr-1" />
             Reset form
           </Button>
         </div>
@@ -326,6 +328,7 @@ export default function RoommateAdForm() {
               }
             }}
           >
+            <LinkIcon className="w-4 mr-1" />
             Send Verification link
           </Button>
         </DialogContent>

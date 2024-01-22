@@ -7,6 +7,7 @@ import FullWrapper from "./FullWrapper";
 import PageHeader from "./PageHeader";
 import Image from "next/image";
 import Link from "next/link";
+import { LogInIcon, RotateCcwIcon } from "lucide-react";
 
 export default function LoginRequest({ message }: { message?: string | undefined }) {
   const router = useRouter();
@@ -19,10 +20,14 @@ export default function LoginRequest({ message }: { message?: string | undefined
         </CardHeader>
         <CardContent className="space-x-5">
           <Button variant="secondary" onClick={() => router.back()}>
+            <RotateCcwIcon className="w-4 mr-1" />
             Go Back
           </Button>
           <Link href="/signin" legacyBehavior passHref>
-            <Button>Sign in</Button>
+            <Button>
+              <LogInIcon className="w-4 mr-1" />
+              Sign in
+            </Button>
           </Link>
         </CardContent>
         <CardFooter>

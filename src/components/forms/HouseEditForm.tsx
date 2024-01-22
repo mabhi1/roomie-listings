@@ -19,7 +19,7 @@ import useAuth from "../providers/AuthProvider";
 import { useRouter } from "next/navigation";
 import Required from "./Required";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, DeleteIcon, FilePlus2Icon, RotateCcwIcon } from "lucide-react";
 import { Calendar } from "../ui/calendar";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
@@ -397,6 +397,7 @@ export default function HouseEditForm({ houseAd }: { houseAd: HouseAd }) {
                     className="absolute top-2 right-2"
                     onClick={() => setGallery((gallery) => gallery?.filter((i) => i.url !== item.url))}
                   >
+                    <DeleteIcon className="w-3.5 mr-1" />
                     Remove
                   </Button>
                 </div>
@@ -449,9 +450,11 @@ export default function HouseEditForm({ houseAd }: { houseAd: HouseAd }) {
         />
         <div className="flex gap-10">
           <Button className="w-full mt-5" type="submit" disabled={isPending}>
+            <FilePlus2Icon className="w-4 mr-1" />
             Save Ad
           </Button>
           <Button variant="secondary" className="w-full mt-5" type="reset" disabled={isPending}>
+            <RotateCcwIcon className="w-4 mr-1" />
             Reset form
           </Button>
         </div>

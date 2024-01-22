@@ -96,19 +96,13 @@ export default function MessageForm({
         />
       </div>
       <div className="flex gap-5">
-        <Button className="w-fit group" disabled={isPending}>
+        <Button className="w-fit" disabled={isPending}>
+          <SendIcon className="w-4 mr-1" />
           Send Email
-          <SendIcon className="w-4 ml-1 group-hover:rotate-45 transition-all" />
         </Button>
-        <Button
-          variant="secondary"
-          className="w-fit group"
-          disabled={isPending}
-          type="button"
-          onClick={handleResetForm}
-        >
+        <Button variant="secondary" className="w-fit" disabled={isPending} type="button" onClick={handleResetForm}>
+          <RotateCcwIcon className="w-4 mr-1" />
           Reset
-          <RotateCcwIcon className="w-4 ml-1 group-hover:-rotate-180 transition-all" />
         </Button>
       </div>
     </form>

@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader } from "@/co
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import { CheckSquareIcon, LockIcon, UnlockIcon } from "lucide-react";
+import { CheckSquareIcon, ClipboardEditIcon, LockIcon, UnlockIcon } from "lucide-react";
 import { createUser } from "@/firebase/firebaseAuthFunctions";
 import { cn } from "@/lib/utils";
 import { useMutation } from "@tanstack/react-query";
@@ -180,7 +180,8 @@ export default function EmailSignupForm() {
             type="submit"
             disabled={invalidName() || invalidEmail() || invalidPassword() || invalidRePassword() || formLoading}
           >
-            {formLoading ? "Please wait..." : "Sign up"}
+            <ClipboardEditIcon className="w-4 mr-1" />
+            Sign up
           </Button>
         </CardFooter>
       </Card>

@@ -1,11 +1,8 @@
 import MessageForm from "@/components/forms/MessageForm";
-import Required from "@/components/forms/Required";
 import FullWrapper from "@/components/page/FullWrapper";
 import PageHeader from "@/components/page/PageHeader";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Textarea } from "@/components/ui/textarea";
 import { getHouseById } from "@/prisma/db/houseAds";
 import { getRoommateById } from "@/prisma/db/roommaateAds";
 import { getUserById } from "@/prisma/db/users";

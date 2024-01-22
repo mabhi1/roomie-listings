@@ -3,7 +3,7 @@ import prisma from "../prisma";
 
 export async function getAllRoommateAds() {
   try {
-    const rAds = await prisma.roommateAd.findMany();
+    const rAds = await prisma.roommateAd.findMany({ orderBy: { updatedAt: "desc" } });
     if (!rAds) throw new Error("Ads not found");
     return rAds;
   } catch (error: any) {
@@ -74,15 +74,21 @@ export async function getRoommateAdsByUser(uid: string, tab: string) {
   try {
     switch (tab) {
       case "savedAds":
-        const ads = await prisma.roommateAd.findMany({ where: { savedBy: { has: uid } } });
+        const ads = await prisma.roommateAd.findMany({
+          where: { savedBy: { has: uid } },
+          orderBy: { updatedAt: "desc" },
+        });
         if (!ads) return null;
         return ads;
       case "postedAds":
-        const ads1 = await prisma.roommateAd.findMany({ where: { postedBy: uid } });
+        const ads1 = await prisma.roommateAd.findMany({ where: { postedBy: uid }, orderBy: { updatedAt: "desc" } });
         if (!ads1) return null;
         return ads1;
       case "reportedAds":
-        const ads2 = await prisma.roommateAd.findMany({ where: { reports: { has: uid } } });
+        const ads2 = await prisma.roommateAd.findMany({
+          where: { reports: { has: uid } },
+          orderBy: { updatedAt: "desc" },
+        });
         if (!ads2) return null;
         return ads2;
       default:

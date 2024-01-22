@@ -19,6 +19,14 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { deleteFile } from "@/firebase/firebaseDBFunctions";
+import {
+  CheckSquareIcon,
+  DeleteIcon,
+  HardDriveDownloadIcon,
+  MessageSquareXIcon,
+  PenLineIcon,
+  SendIcon,
+} from "lucide-react";
 
 export default function HouseButtons({ ad }: { ad: HouseAd }) {
   const currentUser = useAuth();
@@ -69,12 +77,14 @@ export default function HouseButtons({ ad }: { ad: HouseAd }) {
       <CardFooter className="p-5 gap-5 justify-between">
         <Link href={`/house/${ad.id}/edit`}>
           <Button variant="secondary" disabled={isPending}>
+            <PenLineIcon className="mr-1 w-4" />
             Edit
           </Button>
         </Link>
         <Dialog>
           <DialogTrigger>
             <Button variant="destructive" disabled={isPending}>
+              <DeleteIcon className="mr-1 w-4" />
               Delete
             </Button>
           </DialogTrigger>
@@ -85,6 +95,7 @@ export default function HouseButtons({ ad }: { ad: HouseAd }) {
             </DialogHeader>
             <DialogFooter>
               <Button onClick={handleDeleteAd} disabled={isPending}>
+                <CheckSquareIcon className="w-4 mr-1" />
                 Confirm
               </Button>
             </DialogFooter>
@@ -96,16 +107,21 @@ export default function HouseButtons({ ad }: { ad: HouseAd }) {
     return (
       <CardFooter className="p-5 gap-5">
         <Link href={`/message/${currentUser.uid}/${ad.postedBy}/house/${ad.id}`}>
-          <Button disabled={isPending}>Send Message</Button>
+          <Button disabled={isPending}>
+            <SendIcon className="w-4 mr-1" />
+            Send Message
+          </Button>
         </Link>
         {ad.savedBy.includes(currentUser.uid) ? (
           <div className="mr-auto">You saved this Ad</div>
         ) : (
           <Button className="mr-auto" variant="secondary" onClick={handleSaveAd} disabled={isPending}>
+            <HardDriveDownloadIcon className="w-4 mr-1" />
             Save
           </Button>
         )}
         <Button variant="destructive" disabled={isPending} onClick={handleReportAd}>
+          <MessageSquareXIcon className="w-4 mr-1" />
           Report Inappropriate
         </Button>
       </CardFooter>

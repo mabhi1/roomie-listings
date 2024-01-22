@@ -7,6 +7,7 @@ import { addComment } from "@/actions/comment";
 import { toast } from "sonner";
 import { useState, useTransition } from "react";
 import { Label } from "../ui/label";
+import { SubtitlesIcon } from "lucide-react";
 
 export default function AddComment({ postId, postType }: { postId: string; postType: "house" | "roommate" }) {
   const [isPending, startTransition] = useTransition();
@@ -46,6 +47,7 @@ export default function AddComment({ postId, postType }: { postId: string; postT
             onChange={(e) => setComment(e.target.value)}
           />
           <Button type="submit" disabled={isPending}>
+            <SubtitlesIcon className="w-4 mr-1" />
             Submit
           </Button>
         </form>

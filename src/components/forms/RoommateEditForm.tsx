@@ -18,7 +18,7 @@ import useAuth from "../providers/AuthProvider";
 import { useRouter } from "next/navigation";
 import Required from "./Required";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, FilePlus2Icon, RotateCcwIcon } from "lucide-react";
 import { Calendar } from "../ui/calendar";
 import { cn } from "@/lib/utils";
 import ComboBox from "../ui/combo-box";
@@ -298,9 +298,11 @@ export default function RoommateEditForm({ roommateAd }: { roommateAd?: Roommate
         />
         <div className="flex gap-10">
           <Button className="w-full mt-5" type="submit" disabled={isPending}>
+            <FilePlus2Icon className="w-4 mr-1" />
             Save Ad
           </Button>
           <Button variant="secondary" className="w-full mt-5" type="reset" disabled={isPending}>
+            <RotateCcwIcon className="w-4 mr-1" />
             Reset form
           </Button>
         </div>

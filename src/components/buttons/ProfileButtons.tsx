@@ -7,6 +7,7 @@ import { User } from "firebase/auth";
 import ChangePasswordForm from "../forms/ChangePasswordForm";
 import EditProfileForm from "../forms/EditProfileForm";
 import Link from "next/link";
+import { ContactIcon, MessageSquareMoreIcon, SquareAsteriskIcon, UserCog2Icon } from "lucide-react";
 
 export default function ProfileButtons({ currentUser }: { currentUser: User }) {
   const [passwordDialog, setPasswordDialog] = useState(false);
@@ -19,12 +20,15 @@ export default function ProfileButtons({ currentUser }: { currentUser: User }) {
   return (
     <>
       <Link href={`/user/${currentUser.uid}`} passHref legacyBehavior>
-        <Button variant="secondary">View User Profile</Button>
+        <Button variant="secondary">
+          <ContactIcon className="w-4 mr-1" /> Public Profile
+        </Button>
       </Link>
       {getProvider === "password" && (
         <Dialog open={passwordDialog} onOpenChange={setPasswordDialog}>
           <DialogTrigger asChild>
             <Button variant="secondary" onClick={() => setPasswordDialog(true)}>
+              <SquareAsteriskIcon className="w-4 mr-1" />
               Change Password
             </Button>
           </DialogTrigger>
@@ -37,9 +41,18 @@ export default function ProfileButtons({ currentUser }: { currentUser: User }) {
           </DialogContent>
         </Dialog>
       )}
+      <Link href={`/profile/messages/${currentUser.uid}`} passHref legacyBehavior>
+        <Button variant="secondary">
+          <MessageSquareMoreIcon className="w-4 mr-1" />
+          Messages
+        </Button>
+      </Link>
       <Dialog open={profileDialog} onOpenChange={setProfileDialog}>
         <DialogTrigger asChild>
-          <Button onClick={() => setProfileDialog(true)}>Edit Profile</Button>
+          <Button onClick={() => setProfileDialog(true)}>
+            <UserCog2Icon className="w-4 mr-1" />
+            Edit Profile
+          </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[520px]">
           <DialogHeader>

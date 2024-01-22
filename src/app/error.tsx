@@ -3,6 +3,7 @@
 import FullWrapper from "@/components/page/FullWrapper";
 import PageHeader from "@/components/page/PageHeader";
 import { Button } from "@/components/ui/button";
+import { RotateCcwIcon, Undo2Icon } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
@@ -15,11 +16,14 @@ export default function Error({ error, reset }: { error: Error & { digest?: stri
       <div className="w-1/2 mx-auto text-center mt-20 space-y-5">
         <Image src="/error.png" alt="Error" width={200} height={200} className="mx-auto w-auto" priority />
         <h2 className="text-xl uppercase overflow-auto">{error.message}</h2>
-        <div className="space-x-5">
+        <div className="flex gap-5 items-center justify-center">
           <Button variant="secondary" onClick={() => router.back()}>
-            Go Back
+            <Undo2Icon className="mr-1 w-4" /> Go Back
           </Button>
-          <Button onClick={() => reset()}>Try again</Button>
+          <Button onClick={() => reset()}>
+            <RotateCcwIcon className="w-4 mr-1" />
+            Try again
+          </Button>
         </div>
       </div>
     </FullWrapper>

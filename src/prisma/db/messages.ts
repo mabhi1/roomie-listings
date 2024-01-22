@@ -11,3 +11,26 @@ export async function createMessage(data: Message) {
     return null;
   }
 }
+
+export async function getMessagesByType(userId: string, type: "sent" | "received") {
+  try {
+    switch (type) {
+      case "sent":
+        const sentMessages = await prisma.message.findMany({
+          where: { sender: userId },
+          orderBy: { updatedAt: "desc" },
+        });
+        if (!sentMessages) return null;
+        return sentMessages;
+      case "received":
+        const receivedMessages = await prisma.message.findMany({
+          where: { receiver: userId },
+          orderBy: { updatedAt: "desc" },
+        });
+        if (!receivedMessages) return null;
+        return receivedMessages;
+    }
+  } catch (error) {
+    return null;
+  }
+}

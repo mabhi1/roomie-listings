@@ -6,7 +6,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { HouseAd } from "@/lib/types";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { PenBoxIcon, XCircleIcon } from "lucide-react";
+import { CheckSquareIcon, PenBoxIcon, XCircleIcon } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { toast } from "sonner";
 import {
@@ -130,7 +130,10 @@ export default function HouseProfileTable({ currentUser, tab }: { currentUser: U
                         <DialogDescription>Are you sure you want to delete this ad?</DialogDescription>
                       </DialogHeader>
                       <DialogFooter>
-                        <Button onClick={() => handleDeleteAd(house.id!, house.gallery)}>Confirm</Button>
+                        <Button onClick={() => handleDeleteAd(house.id!, house.gallery)}>
+                          <CheckSquareIcon className="w-4 mr-1" />
+                          Confirm
+                        </Button>
                       </DialogFooter>
                     </DialogContent>
                   </Dialog>

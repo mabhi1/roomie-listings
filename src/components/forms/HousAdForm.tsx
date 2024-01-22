@@ -21,7 +21,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import Required from "./Required";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, FilePlus2Icon, LinkIcon, RotateCcwIcon } from "lucide-react";
 import { Calendar } from "../ui/calendar";
 import { cn } from "@/lib/utils";
 import { Gallery } from "@prisma/client";
@@ -403,9 +403,11 @@ export default function HouseAdForm() {
         />
         <div className="flex gap-10">
           <Button className="w-full mt-5" type="submit" disabled={isPending}>
+            <FilePlus2Icon className="w-4 mr-1" />
             Create Ad
           </Button>
           <Button variant="secondary" className="w-full mt-5" type="reset" disabled={isPending}>
+            <RotateCcwIcon className="w-4 mr-1" />
             Reset form
           </Button>
         </div>
@@ -417,7 +419,7 @@ export default function HouseAdForm() {
             <DialogDescription>Please verify your email to post an Ad.</DialogDescription>
           </DialogHeader>
           <Button
-            className="w-1/3"
+            className="w-fit"
             onClick={() => {
               try {
                 sendEmailVerification(currentUser);
@@ -428,6 +430,7 @@ export default function HouseAdForm() {
               }
             }}
           >
+            <LinkIcon className="w-4 mr-1" />
             Send Verification link
           </Button>
         </DialogContent>

@@ -18,7 +18,7 @@ export async function sendEmail(
     from: "Roommie Listings <no-reply@roomielistings.com>",
     to: [receiver.email],
     reply_to: [sender.email],
-    text: "",
+    text: message.toString(),
     subject: "New Enquiry for your listings",
     react: AdEnquiryTemplate({
       receiverName: receiver.name,

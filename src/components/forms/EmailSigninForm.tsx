@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader } from "@/co
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import { LockIcon, UnlockIcon } from "lucide-react";
+import { KeyIcon, LockIcon, LogInIcon, UnlockIcon } from "lucide-react";
 import { passwordReset, rememberSignIn, signIn } from "@/firebase/firebaseAuthFunctions";
 import axios from "axios";
 import PageHeader from "../page/PageHeader";
@@ -123,6 +123,7 @@ export default function EmailSigninForm() {
               </label>
             </span>
             <Button variant="link" type="button" className="p-0" onClick={handlePasswordReset} disabled={formLoading}>
+              <KeyIcon className="w-4 mr-1" />
               Forgot Password?
             </Button>
           </div>
@@ -133,7 +134,8 @@ export default function EmailSigninForm() {
             type="submit"
             disabled={invalidEmail() || password.trim().length === 0 || formLoading}
           >
-            {formLoading ? "Please wait..." : "Sign in"}
+            <LogInIcon className="w-4 mr-1" />
+            Sign in
           </Button>
         </CardFooter>
       </Card>

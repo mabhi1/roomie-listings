@@ -6,6 +6,7 @@ import { useTransition } from "react";
 import { deleteComment, likeComment, reportComment } from "@/actions/comment";
 import { toast } from "sonner";
 import { Comment } from "@/lib/types";
+import { DeleteIcon, HelpingHandIcon, MessageSquareXIcon } from "lucide-react";
 
 export default function CommentButtons({ comment, adId }: { comment: Comment; adId: string }) {
   const currentUser = useAuth();
@@ -51,15 +52,18 @@ export default function CommentButtons({ comment, adId }: { comment: Comment; ad
           <span className="text-xs text-muted-foreground">{commentReports.length} people reported this Ad</span>
         )}
         {currentUser.uid === comment.uid ? (
-          <Button className="w-fit" variant="outline" size="sm" onClick={handleDelteComment} disabled={isPending}>
+          <Button className="w-fit" variant="destructive" size="sm" onClick={handleDelteComment} disabled={isPending}>
+            <DeleteIcon className="mr-1 w-3.5" />
             Delete
           </Button>
         ) : (
           <div className="flex gap-3">
             <Button variant="outline" size="sm" disabled={isPending} onClick={handleLikeComment}>
+              <HelpingHandIcon className="mr-1 w-3.5" />
               Helpful
             </Button>
             <Button variant="destructive" size="sm" disabled={isPending} onClick={handleReportComment}>
+              <MessageSquareXIcon className="w-3.5 mr-1" />
               Report
             </Button>
           </div>

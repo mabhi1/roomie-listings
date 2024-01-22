@@ -9,6 +9,7 @@ import { uploadFile } from "@/firebase/firebaseDBFunctions";
 import { User } from "firebase/auth";
 import { updateName, updatePhoto } from "@/firebase/firebaseAuthFunctions";
 import { updateProfilePicture, updateUserName } from "@/actions/user";
+import { HardDriveDownloadIcon } from "lucide-react";
 
 export default function EditProfileForm({
   currentUser,
@@ -89,6 +90,7 @@ export default function EditProfileForm({
       </div>
       <div className="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2">
         <Button type="submit" className="ml-auto" disabled={loading}>
+          <HardDriveDownloadIcon className="w-4 mr-1" />
           Save changes
         </Button>
       </div>

@@ -7,6 +7,7 @@ import { Label } from "../ui/label";
 import { toast } from "sonner";
 import { changePassword } from "@/firebase/firebaseAuthFunctions";
 import { User } from "firebase/auth";
+import { HardDriveDownloadIcon } from "lucide-react";
 
 export default function ChangePasswordForm({
   currentUser,
@@ -96,6 +97,7 @@ export default function ChangePasswordForm({
       </div>
       <div className="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2">
         <Button type="submit" className="ml-auto" disabled={loading}>
+          <HardDriveDownloadIcon className="w-4 mr-1" />
           Save changes
         </Button>
       </div>

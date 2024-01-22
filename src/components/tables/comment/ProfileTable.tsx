@@ -5,7 +5,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Comment } from "@/lib/types";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { XCircleIcon } from "lucide-react";
+import { CheckSquareIcon, XCircleIcon } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { toast } from "sonner";
 import {
@@ -116,6 +116,7 @@ export default function CommentProfileTable({ currentUser, tab }: { currentUser:
                     </DialogHeader>
                     <DialogFooter>
                       <Button onClick={() => handleDeleteComment(comment.id!, comment.postId, comment.postType)}>
+                        <CheckSquareIcon className="w-4 mr-1" />
                         Confirm
                       </Button>
                     </DialogFooter>

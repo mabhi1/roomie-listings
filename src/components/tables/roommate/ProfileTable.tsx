@@ -6,7 +6,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { RoommateAd } from "@/lib/types";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { PenBoxIcon, XCircleIcon } from "lucide-react";
+import { CheckSquareIcon, PenBoxIcon, XCircleIcon } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { toast } from "sonner";
 import {
@@ -120,7 +120,10 @@ export default function RoommateProfileTable({ currentUser, tab }: { currentUser
                         <DialogDescription>Are you sure you want to delete this ad?</DialogDescription>
                       </DialogHeader>
                       <DialogFooter>
-                        <Button onClick={() => handleDeleteAd(roommate.id!)}>Confirm</Button>
+                        <Button onClick={() => handleDeleteAd(roommate.id!)}>
+                          <CheckSquareIcon className="w-4 mr-1" />
+                          Confirm
+                        </Button>
                       </DialogFooter>
                     </DialogContent>
                   </Dialog>

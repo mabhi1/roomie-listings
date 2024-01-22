@@ -3,7 +3,7 @@ import prisma from "../prisma";
 
 export async function getAllCommentsByAd(id: string) {
   try {
-    const comments = await prisma.comment.findMany({ where: { postId: id } });
+    const comments = await prisma.comment.findMany({ where: { postId: id }, orderBy: { updatedAt: "desc" } });
     if (!comments) return [];
     return comments;
   } catch (error) {
@@ -62,11 +62,14 @@ export async function getAllCommentsByUser(uid: string, tab: string) {
   try {
     switch (tab) {
       case "comments":
-        const comments = await prisma.comment.findMany({ where: { uid } });
+        const comments = await prisma.comment.findMany({ where: { uid }, orderBy: { updatedAt: "desc" } });
         if (!comments) return null;
         return comments;
       case "reportedComments":
-        const reportedComments = await prisma.comment.findMany({ where: { reports: { has: uid } } });
+        const reportedComments = await prisma.comment.findMany({
+          where: { reports: { has: uid } },
+          orderBy: { updatedAt: "desc" },
+        });
         if (!reportedComments) return null;
         return reportedComments;
       default:

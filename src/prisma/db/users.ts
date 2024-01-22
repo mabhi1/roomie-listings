@@ -33,7 +33,7 @@ export async function getUserByEmailAndProvider(email: string, provider: string)
 
 export async function getAllDBUsers() {
   try {
-    const users = await prisma.user.findMany();
+    const users = await prisma.user.findMany({ orderBy: { updatedAt: "desc" } });
     if (!users) throw new Error("Users not found");
     return users;
   } catch (error: any) {

@@ -22,7 +22,16 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ColumnsIcon, EyeIcon, EyeOffIcon, FilterIcon, SearchIcon } from "lucide-react";
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  ColumnsIcon,
+  EraserIcon,
+  EyeIcon,
+  EyeOffIcon,
+  FilterIcon,
+  SearchIcon,
+} from "lucide-react";
 import { HouseAddress } from "@/lib/types";
 import {
   Sheet,
@@ -81,7 +90,7 @@ export default function DataTable<TData, TValue>({ columns, data, page, profile 
           return true;
         })
     );
-  }, [showMyAd, page, selectedDuration, selectedCity]);
+  }, [showMyAd, page, selectedDuration, selectedCity, currentUser?.uid, data, max, min]);
 
   const table = useReactTable({
     data: rowData,
@@ -205,6 +214,7 @@ export default function DataTable<TData, TValue>({ columns, data, page, profile 
               </div>
               <SheetFooter>
                 <Button className="w-full" onClick={handleClearFilter}>
+                  <EraserIcon className="w-4 mr-1" />
                   Clear Filter
                 </Button>
               </SheetFooter>
@@ -290,10 +300,12 @@ export default function DataTable<TData, TValue>({ columns, data, page, profile 
               onClick={() => table.previousPage()}
               disabled={!table.getCanPreviousPage()}
             >
+              <ChevronLeftIcon className="w-4 mr-1" />
               Previous
             </Button>
             <Button variant="outline" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
               Next
+              <ChevronRightIcon className="w-4 ml-1" />
             </Button>
           </div>
         </div>

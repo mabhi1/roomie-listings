@@ -29,7 +29,7 @@ export const AdEnquiryTemplate: React.FC<Readonly<EmailTemplateProps>> = ({
       <p style={{ marginTop: "1.25rem", marginBottom: "1.25rem" }}>{message}</p>
       <div>Best Wishes&#44;</div>
       <div>Roomie Listings</div>
-      <img alt="roomie-listings" src="roomielistings.com/logo.png" width={40} height={40} />
+      <img alt="roomie-listings" src="roomielistings.com/logo.png" width={20} height={20} />
     </div>
   );
 };
