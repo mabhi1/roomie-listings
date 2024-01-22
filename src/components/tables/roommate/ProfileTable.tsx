@@ -56,7 +56,7 @@ export default function RoommateProfileTable({ currentUser, tab }: { currentUser
       <Table className="border">
         <TableHeader>
           <TableRow className="bg-muted/50">
-            <TableHead className="w-1/2 border-r font-normal text-accent-foreground h-8">Title</TableHead>
+            <TableHead className="border-r font-normal text-accent-foreground h-8">Title</TableHead>
             <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Location</TableHead>
             <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Budget</TableHead>
             <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Move in</TableHead>
@@ -69,7 +69,7 @@ export default function RoommateProfileTable({ currentUser, tab }: { currentUser
           {ads?.map((roommate) => (
             <TableRow className="hover:bg-inherit" key={roommate.id}>
               <TableCell className="border-r py-1 pl-4">
-                <Link href={`/roommate/${roommate.id}`} className="block w-[600px] overflow-hidden">
+                <Link href={`/roommate/${roommate.id}`} className="block w-[580px] overflow-hidden">
                   <Button variant="link" className="p-0">
                     {roommate.title}
                   </Button>

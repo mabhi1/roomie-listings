@@ -38,7 +38,7 @@ export default async function UserPublicProfile({ params: { id } }: { params: { 
           <Table className="border">
             <TableHeader className="h-6">
               <TableRow className="bg-muted/50">
-                <TableHead className="w-1/2 border-r font-normal text-accent-foreground h-8">Title</TableHead>
+                <TableHead className="border-r font-normal text-accent-foreground h-8">Title</TableHead>
                 <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Location</TableHead>
                 <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Price</TableHead>
                 <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Available</TableHead>
@@ -82,7 +82,7 @@ export default async function UserPublicProfile({ params: { id } }: { params: { 
           <Table className="border">
             <TableHeader className="h-6">
               <TableRow className="bg-muted/50">
-                <TableHead className="w-1/2 border-r font-normal text-accent-foreground h-8">Title</TableHead>
+                <TableHead className="border-r font-normal text-accent-foreground h-8">Title</TableHead>
                 <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Location</TableHead>
                 <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Budget</TableHead>
                 <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Move in</TableHead>

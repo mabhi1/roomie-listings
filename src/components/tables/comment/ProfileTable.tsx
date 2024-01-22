@@ -72,7 +72,7 @@ export default function CommentProfileTable({ currentUser, tab }: { currentUser:
       <Table className="border">
         <TableHeader className="h-6">
           <TableRow className="bg-muted/50">
-            <TableHead className="w-1/2 border-r font-normal text-accent-foreground h-8">Comment</TableHead>
+            <TableHead className="border-r font-normal text-accent-foreground h-8">Comment</TableHead>
             <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Ad Type</TableHead>
             <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Commented on</TableHead>
             <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Reports</TableHead>

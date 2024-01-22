@@ -66,7 +66,7 @@ export default function HouseProfileTable({ currentUser, tab }: { currentUser: U
       <Table className="border">
         <TableHeader>
           <TableRow className="bg-muted/50">
-            <TableHead className="w-1/2 border-r font-normal text-accent-foreground h-8">Title</TableHead>
+            <TableHead className="border-r font-normal text-accent-foreground h-8">Title</TableHead>
             <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Location</TableHead>
             <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Price</TableHead>
             <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Available</TableHead>
@@ -79,7 +79,7 @@ export default function HouseProfileTable({ currentUser, tab }: { currentUser: U
           {ads?.map((house) => (
             <TableRow className="hover:bg-inherit" key={house.id}>
               <TableCell className="border-r py-1 pl-4">
-                <Link href={`/house/${house.id}`} className="block w-[600px] overflow-hidden">
+                <Link href={`/house/${house.id}`} className="block w-[580px] overflow-hidden">
                   <Button variant="link" className="p-0">
                     {house.title}
                   </Button>
