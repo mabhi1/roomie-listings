@@ -13,7 +13,10 @@ export default async function House() {
   const houseData = await getAllHouseAds();
   return (
     <FullWrapper>
-      <PageHeader heading="House Ads" />
+      <PageHeader
+        heading="House Ads"
+        subHeading="Browse throught the list of house ads and find the perfect place to stay."
+      />
       <div className="relative flex gap-5">
         <div className="flex-1">
           <DataTable columns={HouseColumns} data={houseData} page="house" />

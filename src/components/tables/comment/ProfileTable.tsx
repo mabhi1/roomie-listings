@@ -66,7 +66,7 @@ export default function CommentProfileTable({ currentUser, tab }: { currentUser:
         <Spinner size="medium" />
       </div>
     );
-  else if (!comments || comments.length === 0) return <div className="w-full flex justify-center">0 Comments</div>;
+  else if (!comments || comments.length === 0) return <div className="w-full flex justify-center">No Comments</div>;
   else
     return (
       <Table className="border">

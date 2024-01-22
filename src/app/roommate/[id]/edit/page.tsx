@@ -8,8 +8,8 @@ export default async function EditRoommateAd({ params: { id } }: { params: { id:
   const roommateAd = await getRoommateById(id);
   if (!roommateAd) throw new Error("Invalid Roommate Ad");
   return (
-    <FullWrapper className="gap-5">
-      <PageHeader heading="Edit roommate Ad" />
+    <FullWrapper>
+      <PageHeader heading="Edit roommate Ad" subHeading="Fill out the form below to edit the ad." />
       <div className="w-full flex justify-between">
         <div className="w-1/2">
           <RoommateEditForm roommateAd={roommateAd} />

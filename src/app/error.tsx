@@ -12,7 +12,10 @@ export default function Error({ error, reset }: { error: Error & { digest?: stri
 
   return (
     <FullWrapper>
-      <PageHeader heading="OOPS! Something went wrong" />
+      <PageHeader
+        heading="OOPS! Something went wrong"
+        subHeading="The page you are looking for throws an error. You can either retry or go back."
+      />
       <div className="w-1/2 mx-auto text-center mt-20 space-y-5">
         <Image src="/error.png" alt="Error" width={200} height={200} className="mx-auto w-auto" priority />
         <h2 className="text-xl uppercase overflow-auto">{error.message}</h2>

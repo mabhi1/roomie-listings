@@ -160,7 +160,7 @@ export default function HouseEditForm({ houseAd }: { houseAd: HouseAd }) {
 
   return (
     <Form {...form}>
-      <div className="mb-5">
+      <div className="mb-5 text-muted-foreground">
         Fields marked <Required /> are required.
       </div>
       <form onSubmit={form.handleSubmit(onSubmit)} onReset={handleFormReset} className="space-y-5">

@@ -13,7 +13,7 @@ export default function PageHeader({
   backButton?: boolean;
 }) {
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-2">
       <div className="flex gap-1 items-center">
         {backButton && <BackButton />}
         <h1 className={cn("text-3xl font-light", className)}>{heading}</h1>

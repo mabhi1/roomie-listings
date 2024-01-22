@@ -60,7 +60,7 @@ export default function HouseProfileTable({ currentUser, tab }: { currentUser: U
         <Spinner size="medium" />
       </div>
     );
-  else if (!ads || ads.length === 0) return <div className="w-full flex justify-center">0 House Ads</div>;
+  else if (!ads || ads.length === 0) return <div className="w-full flex justify-center">No House Ads</div>;
   else
     return (
       <Table className="border">

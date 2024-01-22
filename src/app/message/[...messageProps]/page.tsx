@@ -21,8 +21,10 @@ export default async function SendMessage({ params: { messageProps } }: { params
 
   return (
     <FullWrapper className="gap-5">
-      <PageHeader heading="Send Message" />
-      <div>Submit the form below to send an enquiry email. Following details will be send along with your message</div>
+      <PageHeader
+        heading="Send Message"
+        subHeading="Submit the form below to send an enquiry email. Following details will be send along with your message"
+      />
       <Table className="border">
         <TableHeader className="h-6">
           <TableRow className="bg-muted/50">

@@ -15,7 +15,10 @@ export default async function UserPublicProfile({ params: { id } }: { params: { 
   const roommateAds = await getRoommateAdsByUser(user.uid, "postedAds");
   return (
     <FullWrapper className="gap-5">
-      <PageHeader heading="User Profile" />
+      <PageHeader
+        heading="User Profile"
+        subHeading="This is your public profile page shown to others. All your posted ads are shown here."
+      />
       <div className="flex gap-5 items-center">
         <div className="rounded-full w-fit h-fit overflow-clip">
           <Image

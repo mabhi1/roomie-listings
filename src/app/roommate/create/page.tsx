@@ -5,8 +5,8 @@ import Image from "next/image";
 
 export default function CreateRoommateAd() {
   return (
-    <FullWrapper className="gap-5">
-      <PageHeader heading="Become a roommate" />
+    <FullWrapper>
+      <PageHeader heading="Become a roommate" subHeading="Fill out the form below create a roommate ad." />
       <div className="w-full flex justify-between">
         <div className="w-1/2">
           <RoommateAdForm />

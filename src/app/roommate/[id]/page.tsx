@@ -15,7 +15,11 @@ export default async function RoommateId({ params: { id } }: { params: { id: str
 
   return (
     <FullWrapper className="gap-5">
-      <PageHeader heading="Roommate Available" backButton />
+      <PageHeader
+        heading="Roommate Available"
+        backButton
+        subHeading="Reach out by sending a message if you like the ad below."
+      />
       <Card>
         <CardHeader className="p-5 flex-row items-center justify-between">
           <div className="space-y-1.5 mr-auto">

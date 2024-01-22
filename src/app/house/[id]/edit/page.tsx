@@ -8,8 +8,8 @@ export default async function EditHouseAd({ params: { id } }: { params: { id: st
   const houseAd = await getHouseById(id);
   if (!houseAd) throw new Error("Invalid House Ad");
   return (
-    <FullWrapper className="gap-5">
-      <PageHeader heading="Edit house Ad" />
+    <FullWrapper>
+      <PageHeader heading="Edit house Ad" subHeading="Fill out the form below to edit the ad." />
       <div className="w-full flex justify-between">
         <div className="w-1/2">
           <HouseEditForm houseAd={houseAd} />

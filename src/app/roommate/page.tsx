@@ -13,7 +13,10 @@ export default async function Roommate() {
   const roommateData = await getAllRoommateAds();
   return (
     <FullWrapper>
-      <PageHeader heading="Roommate Ads" />
+      <PageHeader
+        heading="Roommate Ads"
+        subHeading="Browse throught the list of roommate ads and find the perfect partner you want to stay with."
+      />
       <div className="relative flex gap-5">
         <div className="flex-1">
           <DataTable columns={RoommateColumns} data={roommateData} page="roommate" />

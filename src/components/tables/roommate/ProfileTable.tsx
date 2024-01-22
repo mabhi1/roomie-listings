@@ -50,7 +50,7 @@ export default function RoommateProfileTable({ currentUser, tab }: { currentUser
         <Spinner size="medium" />
       </div>
     );
-  else if (!ads || ads.length === 0) return <div className="w-full flex justify-center">0 Roommate Ads</div>;
+  else if (!ads || ads.length === 0) return <div className="w-full flex justify-center">No Roommate Ads</div>;
   else
     return (
       <Table className="border">

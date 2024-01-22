@@ -16,7 +16,11 @@ export default async function HouseId({ params: { id } }: { params: { id: string
 
   return (
     <FullWrapper className="gap-5">
-      <PageHeader heading="House Available" backButton />
+      <PageHeader
+        heading="House Available"
+        backButton
+        subHeading="Reach out by sending a message if you like the ad below."
+      />
       <Card>
         <CardHeader className="p-5 flex-row items-center justify-between">
           <div className="space-y-1.5 mr-auto">

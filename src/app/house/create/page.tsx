@@ -5,8 +5,8 @@ import Image from "next/image";
 
 export default function CreateHouseAd() {
   return (
-    <FullWrapper className="gap-5">
-      <PageHeader heading="List a house" />
+    <FullWrapper>
+      <PageHeader heading="List a house" subHeading="Fill out the form below create a house ad." />
       <div className="w-full flex justify-between">
         <div className="w-1/2">
           <HouseAdForm />

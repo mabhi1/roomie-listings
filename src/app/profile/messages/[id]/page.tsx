@@ -1,7 +1,7 @@
 import FullWrapper from "@/components/page/FullWrapper";
 import PageHeader from "@/components/page/PageHeader";
 import { getMessagesByType } from "@/prisma/db/messages";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Accordion, AccordionItem } from "@/components/ui/accordion";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import IndividualMessage from "@/components/page/IndividualMessage";
 
@@ -10,7 +10,11 @@ export default async function MyMessages({ params: { id } }: { params: { id: str
   const receivedMessages = await getMessagesByType(id, "received");
   return (
     <FullWrapper className="gap-5">
-      <PageHeader heading="My Messages" backButton subHeading="See your all the sent and received messages below" />
+      <PageHeader
+        heading="My Messages"
+        backButton
+        subHeading="See your all the sent and received messages below. Ad link and sent date is provided in the description."
+      />
       <Tabs defaultValue="sent">
         <TabsList className="mb-2">
           <TabsTrigger value="sent">Sent</TabsTrigger>
@@ -25,7 +29,7 @@ export default async function MyMessages({ params: { id } }: { params: { id: str
                 </AccordionItem>
               ))
             ) : (
-              <>0 Sent Messages</>
+              <>No Sent Messages</>
             )}
           </Accordion>
         </TabsContent>
@@ -38,7 +42,7 @@ export default async function MyMessages({ params: { id } }: { params: { id: str
                 </AccordionItem>
               ))
             ) : (
-              <>0 Received Messages</>
+              <>No Received Messages</>
             )}
           </Accordion>
         </TabsContent>
