@@ -116,6 +116,9 @@ export default function RoommateButtons({ ad }: { ad: RoommateAd }) {
             Save
           </Button>
         )}
+        <div className="text-destructive">
+          {ad.reports.length} {ad.reports.length === 1 ? "Report" : "Reports"}
+        </div>
         <Button variant="destructive" disabled={isPending} onClick={handleReportAd}>
           <MessageSquareXIcon className="w-4 mr-1" />
           Report Inappropriate

@@ -71,6 +71,7 @@ export default function HouseProfileTable({ currentUser, tab }: { currentUser: U
             <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Price</TableHead>
             <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Available</TableHead>
             <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Duration</TableHead>
+            <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Reports</TableHead>
             <TableHead className="text-center font-normal text-accent-foreground h-8"></TableHead>
           </TableRow>
         </TableHeader>
@@ -95,6 +96,7 @@ export default function HouseProfileTable({ currentUser, tab }: { currentUser: U
                 {house.available.toLocaleDateString("en-us", { year: "numeric", month: "short", day: "numeric" })}
               </TableCell>
               <TableCell className="border-r text-center capitalize py-1">{house.duration}</TableCell>
+              <TableCell className="border-r text-center capitalize py-1">{house.reports.length}</TableCell>
               <TableCell className="text-center capitalize py-1">
                 <div className="flex justify-center">
                   {tab === "postedAds" && (

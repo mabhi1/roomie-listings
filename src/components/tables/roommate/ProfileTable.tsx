@@ -61,6 +61,7 @@ export default function RoommateProfileTable({ currentUser, tab }: { currentUser
             <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Budget</TableHead>
             <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Move in</TableHead>
             <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Duration</TableHead>
+            <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Reports</TableHead>
             <TableHead className="text-center font-normal text-accent-foreground h-8"></TableHead>
           </TableRow>
         </TableHeader>
@@ -85,6 +86,7 @@ export default function RoommateProfileTable({ currentUser, tab }: { currentUser
                 {roommate.moveIn.toLocaleDateString("en-us", { year: "numeric", month: "short", day: "numeric" })}
               </TableCell>
               <TableCell className="border-r text-center capitalize py-1">{roommate.duration}</TableCell>
+              <TableCell className="border-r text-center capitalize py-1">{roommate.reports.length}</TableCell>
               <TableCell className="text-center capitalize py-1">
                 <div className="flex justify-center">
                   {tab === "postedAds" && (

@@ -75,6 +75,7 @@ export default function CommentProfileTable({ currentUser, tab }: { currentUser:
             <TableHead className="w-1/2 border-r font-normal text-accent-foreground h-8">Comment</TableHead>
             <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Ad Type</TableHead>
             <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Commented on</TableHead>
+            <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Reports</TableHead>
             <TableHead className="text-center font-normal text-accent-foreground h-8"></TableHead>
           </TableRow>
         </TableHeader>
@@ -95,6 +96,7 @@ export default function CommentProfileTable({ currentUser, tab }: { currentUser:
               <TableCell className="border-r text-center py-1">
                 {comment.updatedAt?.toLocaleDateString("en-us", { year: "numeric", month: "short", day: "numeric" })}
               </TableCell>
+              <TableCell className="border-r text-center py-1">{comment.reports.length}</TableCell>
               <TableCell className="text-center capitalize py-1">
                 <Dialog>
                   <DialogTrigger>

@@ -38,18 +38,15 @@ export default function CommentButtons({ comment, adId }: { comment: Comment; ad
       });
   };
 
-  const commentLikes = comment.likes?.filter((id) => id !== currentUser?.uid);
-  const commentReports = comment.reports?.filter((id) => id !== currentUser?.uid);
-
   if (!currentUser) return;
   else
     return (
       <>
-        {commentLikes && commentLikes.length > 0 && (
-          <span className="text-xs text-muted-foreground">{commentLikes.length} people found this helpful</span>
+        {comment.likes.length > 0 && (
+          <span className="text-xs text-muted-foreground">{comment.likes.length} people found this helpful</span>
         )}
-        {commentReports && commentReports.length > 0 && (
-          <span className="text-xs text-muted-foreground">{commentReports.length} people reported this Ad</span>
+        {comment.reports.length > 0 && (
+          <span className="text-xs text-muted-foreground">{comment.reports.length} people reported this Ad</span>
         )}
         {currentUser.uid === comment.uid ? (
           <Button className="w-fit" variant="destructive" size="sm" onClick={handleDelteComment} disabled={isPending}>

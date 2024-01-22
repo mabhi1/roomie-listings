@@ -40,6 +40,7 @@ export default async function UserPublicProfile({ params: { id } }: { params: { 
                 <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Price</TableHead>
                 <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Available</TableHead>
                 <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Duration</TableHead>
+                <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Reports</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -63,6 +64,7 @@ export default async function UserPublicProfile({ params: { id } }: { params: { 
                     {house.available.toLocaleDateString("en-us", { year: "numeric", month: "short", day: "numeric" })}
                   </TableCell>
                   <TableCell className="border-r text-center capitalize py-1">{house.duration}</TableCell>
+                  <TableCell className="border-r text-center capitalize py-1">{house.reports.length}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -82,6 +84,7 @@ export default async function UserPublicProfile({ params: { id } }: { params: { 
                 <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Budget</TableHead>
                 <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Move in</TableHead>
                 <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Duration</TableHead>
+                <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Reports</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -105,6 +108,7 @@ export default async function UserPublicProfile({ params: { id } }: { params: { 
                     {roommate.moveIn.toLocaleDateString("en-us", { year: "numeric", month: "short", day: "numeric" })}
                   </TableCell>
                   <TableCell className="border-r text-center capitalize py-1">{roommate.duration}</TableCell>
+                  <TableCell className="border-r text-center capitalize py-1">{roommate.reports.length}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
