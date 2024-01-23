@@ -12,7 +12,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (currentUser?.uid !== pathArr[pathArr.length - 1]) router.push("/profile");
-  }, [currentUser, pathname, router]);
+  }, [currentUser, pathname, router, pathArr]);
 
   if (currentUser?.uid === pathArr[pathArr.length - 1]) return <>{children}</>;
   else return <div className="flex-1"></div>;
