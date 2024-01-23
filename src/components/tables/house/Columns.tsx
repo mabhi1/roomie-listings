@@ -191,9 +191,11 @@ export const HouseColumns: ColumnDef<HouseColumnsType>[] = [
                 <DropdownMenuItem>
                   <Link href={`/user/${house.postedBy}`}>View User</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Link href={`/message/${currentUser?.uid}/${house.postedBy}/house/${house.id}`}>Send Message</Link>
-                </DropdownMenuItem>
+                {currentUser?.emailVerified && (
+                  <DropdownMenuItem>
+                    <Link href={`/message/${currentUser?.uid}/${house.postedBy}/house/${house.id}`}>Send Message</Link>
+                  </DropdownMenuItem>
+                )}
               </>
             )}
           </DropdownMenuContent>

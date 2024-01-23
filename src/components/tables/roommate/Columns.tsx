@@ -189,11 +189,13 @@ export const RoommateColumns: ColumnDef<RoommateColumnsType>[] = [
                 <DropdownMenuItem>
                   <Link href={`/user/${roommate.postedBy}`}>View User</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Link href={`/message/${currentUser?.uid}/${roommate.postedBy}/roommate/${roommate.id}`}>
-                    Send Message
-                  </Link>
-                </DropdownMenuItem>
+                {currentUser?.emailVerified && (
+                  <DropdownMenuItem>
+                    <Link href={`/message/${currentUser?.uid}/${roommate.postedBy}/roommate/${roommate.id}`}>
+                      Send Message
+                    </Link>
+                  </DropdownMenuItem>
+                )}
               </>
             )}
           </DropdownMenuContent>

@@ -37,9 +37,10 @@ export default function HouseProfileTable({ currentUser, tab }: { currentUser: U
   const handleDeleteAd = async (adId: string, gallery: Gallery[]) => {
     setLoading(true);
     try {
-      gallery.map(async (item) => {
-        await deleteFile(item.name);
-      });
+      if (tab === "postedAds")
+        gallery.map(async (item) => {
+          await deleteFile(item.name);
+        });
       const ads = await deleteHouseAds(currentUser.uid, adId, tab);
       if (!ads) {
         toast.error("Error removing Ad");

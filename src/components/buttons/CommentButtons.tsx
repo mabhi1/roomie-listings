@@ -53,7 +53,7 @@ export default function CommentButtons({ comment, adId }: { comment: Comment; ad
             <DeleteIcon className="mr-1 w-3.5" />
             Delete
           </Button>
-        ) : (
+        ) : currentUser?.emailVerified ? (
           <div className="flex gap-3">
             <Button variant="outline" size="sm" disabled={isPending} onClick={handleLikeComment}>
               <HelpingHandIcon className="mr-1 w-3.5" />
@@ -64,6 +64,8 @@ export default function CommentButtons({ comment, adId }: { comment: Comment; ad
               Report
             </Button>
           </div>
+        ) : (
+          <div className="text-xs text-muted-foreground">Please verify your email to like or report this comment.</div>
         )}
       </>
     );

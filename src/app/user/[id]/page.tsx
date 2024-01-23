@@ -17,7 +17,7 @@ export default async function UserPublicProfile({ params: { id } }: { params: { 
     <FullWrapper className="gap-5">
       <PageHeader
         heading="User Profile"
-        subHeading="This is your public profile page shown to others. All your posted ads are shown here."
+        subHeading="This is the public profile page. All the posted ads by the user are listed below."
       />
       <div className="flex gap-5 items-center">
         <div className="rounded-full w-fit h-fit overflow-clip">
@@ -74,7 +74,7 @@ export default async function UserPublicProfile({ params: { id } }: { params: { 
           </Table>
         </div>
       ) : (
-        <div>0 posted house ads</div>
+        <div>No posted house ads</div>
       )}
       {roommateAds && roommateAds.length > 0 ? (
         <div className="space-y-3">
@@ -118,7 +118,7 @@ export default async function UserPublicProfile({ params: { id } }: { params: { 
           </Table>
         </div>
       ) : (
-        <div>0 posted roommate ads</div>
+        <div>No posted roommate ads</div>
       )}
     </FullWrapper>
   );

@@ -4,6 +4,7 @@ import { HouseAd, RoommateAd, User } from "@/lib/types";
 import { createMessage } from "@/prisma/db/messages";
 import { AdEnquiryTemplate } from "@/resend/emailTemplates/AdEnquiry";
 import resend from "@/resend/resend";
+import { revalidatePath } from "next/cache";
 
 export async function sendEmail(
   sender: User,
@@ -45,5 +46,6 @@ export async function sendEmail(
     messageId: data.id,
     attachments: url ? [url] : [],
   });
+  revalidatePath(`/profile/messages/${sender.uid}`);
   return createdMessage;
 }

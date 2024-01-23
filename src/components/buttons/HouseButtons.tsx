@@ -106,12 +106,14 @@ export default function HouseButtons({ ad }: { ad: HouseAd }) {
   else
     return (
       <CardFooter className="p-5 gap-5">
-        <Link href={`/message/${currentUser.uid}/${ad.postedBy}/house/${ad.id}`}>
-          <Button disabled={isPending}>
-            <SendIcon className="w-4 mr-1" />
-            Send Message
-          </Button>
-        </Link>
+        {currentUser.emailVerified && (
+          <Link href={`/message/${currentUser.uid}/${ad.postedBy}/house/${ad.id}`}>
+            <Button disabled={isPending}>
+              <SendIcon className="w-4 mr-1" />
+              Send Message
+            </Button>
+          </Link>
+        )}
         {ad.savedBy.includes(currentUser.uid) ? (
           <div className="mr-auto">You saved this Ad</div>
         ) : (
@@ -120,13 +122,19 @@ export default function HouseButtons({ ad }: { ad: HouseAd }) {
             Save
           </Button>
         )}
-        <div className="text-destructive">
-          {ad.reports.length} {ad.reports.length === 1 ? "Report" : "Reports"}
-        </div>
-        <Button variant="destructive" disabled={isPending} onClick={handleReportAd}>
-          <MessageSquareXIcon className="w-4 mr-1" />
-          Report Inappropriate
-        </Button>
+        {currentUser.emailVerified ? (
+          <>
+            <div className="text-destructive">
+              {ad.reports.length} {ad.reports.length === 1 ? "Report" : "Reports"}
+            </div>
+            <Button variant="destructive" disabled={isPending} onClick={handleReportAd}>
+              <MessageSquareXIcon className="w-4 mr-1" />
+              Report Inappropriate
+            </Button>
+          </>
+        ) : (
+          <div className="text-muted-foreground">Please verify your email to send email or report this ad.</div>
+        )}
       </CardFooter>
     );
 }

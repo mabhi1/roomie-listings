@@ -6,6 +6,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { getHouseById } from "@/prisma/db/houseAds";
 import { getRoommateById } from "@/prisma/db/roommaateAds";
 import { getUserById } from "@/prisma/db/users";
+import Image from "next/image";
 import Link from "next/link";
 
 export default async function SendMessage({ params: { messageProps } }: { params: { messageProps: string[] } }) {
@@ -25,6 +26,7 @@ export default async function SendMessage({ params: { messageProps } }: { params
         heading="Send Message"
         subHeading="Submit the form below to send an enquiry email. Following details will be send along with your message"
       />
+
       <Table className="border">
         <TableHeader className="h-6">
           <TableRow className="bg-muted/50">
@@ -37,7 +39,7 @@ export default async function SendMessage({ params: { messageProps } }: { params
         <TableBody>
           <TableRow className="hover:bg-inherit">
             <TableCell className="border-b py-2">
-              <Link href={`/${type}/${ad.id}`} className="block w-[600px] overflow-hidden">
+              <Link href={`/${type}/${ad.id}`} className="block overflow-hidden w-[200px] lg:w-[600px]">
                 <Button variant="link" className="h-8 p-0">
                   {ad.title}
                 </Button>
@@ -49,7 +51,22 @@ export default async function SendMessage({ params: { messageProps } }: { params
           </TableRow>
         </TableBody>
       </Table>
-      <MessageForm sender={sender} receiver={receiver} type={type} ad={ad} />
+      <div className="w-full flex gap-10 justify-between">
+        <div className="w-1/2 space-y-5">
+          <MessageForm sender={sender} receiver={receiver} type={type} ad={ad} />
+        </div>
+        <div className="relative w-1/2 pt-10">
+          <Image
+            src="/send-email.png"
+            alt="Send an email"
+            width={1003}
+            height={900}
+            className="h-auto w-auto"
+            priority
+          />
+          <div className="absolute top-0 left-0 w-full bg-white/30 h-full"></div>
+        </div>
+      </div>
     </FullWrapper>
   );
 }
