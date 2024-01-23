@@ -86,7 +86,7 @@ export default function RoommateEditForm({ roommateAd }: { roommateAd?: Roommate
         if (error) throw new Error();
         else {
           toast.success("Ad updated successfully");
-          router.push(`/roommate/${roommateAd?.id}`);
+          router.replace(`/roommate/${roommateAd?.id}`);
         }
       } catch (error) {
         toast.error("Error in updating ad");

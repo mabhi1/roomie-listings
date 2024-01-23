@@ -135,7 +135,7 @@ export default function HouseEditForm({ houseAd }: { houseAd: HouseAd }) {
         if (error) throw new Error();
         else {
           toast.success("Ad updated successfully");
-          router.push(`/house/${houseAd.id}`);
+          router.replace(`/house/${houseAd.id}`);
         }
       } catch (error) {
         toast.error("Error in updating ad");

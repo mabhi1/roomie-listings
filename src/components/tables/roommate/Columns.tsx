@@ -60,7 +60,7 @@ export const RoommateColumns: ColumnDef<RoommateColumnsType>[] = [
   // },
   {
     accessorKey: "title",
-    header: () => <div>Title</div>,
+    header: () => <div className="w-[480px]">Title</div>,
     enableHiding: false,
     cell: ({ row }) => {
       const roommate = row.original;

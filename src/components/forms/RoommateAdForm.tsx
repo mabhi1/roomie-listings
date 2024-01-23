@@ -89,7 +89,7 @@ export default function RoommateAdForm() {
         if (error) throw new Error();
         else {
           toast.success("Ad created successfully");
-          router.push(`/roommate/${data}`);
+          router.replace(`/roommate/${data}`);
         }
       } catch (error) {
         toast.error("Error in creating Ad");

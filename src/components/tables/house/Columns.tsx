@@ -62,7 +62,7 @@ export const HouseColumns: ColumnDef<HouseColumnsType>[] = [
   // },
   {
     accessorKey: "title",
-    header: () => <div>Title</div>,
+    header: () => <div className="w-[480px]">Title</div>,
     enableHiding: false,
     cell: ({ row }) => {
       const house = row.original;

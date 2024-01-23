@@ -123,7 +123,7 @@ export default function HouseAdForm() {
         if (error) throw new Error();
         else {
           toast.success("Ad created successfully");
-          router.push(`/house/${data}`);
+          router.replace(`/house/${data}`);
         }
       } catch (error) {
         toast.error("Error in creating Ad");
