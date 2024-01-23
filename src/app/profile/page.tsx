@@ -46,7 +46,7 @@ export default function Profile() {
       <FullWrapper className="gap-5">
         <PageHeader
           heading="My Profile"
-          subHeading="This is your private profile page not shown to others. Feel free to make changes."
+          subHeading="This is your profile page. You can see the related comments and ads here."
         />
         <div className="flex gap-5">
           <div className="group relative rounded-full w-fit h-fit overflow-clip">

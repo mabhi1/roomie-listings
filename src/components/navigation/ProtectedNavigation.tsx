@@ -3,11 +3,11 @@
 import Link from "next/link";
 import { NavigationMenuContent, NavigationMenuLink, NavigationMenuTrigger } from "../ui/navigation-menu";
 import {
-  Contact2Icon,
   ImagePlusIcon,
   KeySquareIcon,
   PackagePlusIcon,
   PlusCircleIcon,
+  SquareUserRoundIcon,
   UserPlusIcon,
 } from "lucide-react";
 import useAuth from "../providers/AuthProvider";
@@ -75,7 +75,7 @@ export default function ProtectedNavigation() {
         <NavigationMenuItem>
           <Link href="/profile" legacyBehavior passHref>
             <NavigationMenuLink className={linkStyle}>
-              <Contact2Icon className="w-4 mr-1" />
+              <SquareUserRoundIcon className="w-4 mr-1" />
               {title.profile}
             </NavigationMenuLink>
           </Link>

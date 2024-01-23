@@ -10,8 +10,11 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { BedDoubleIcon, HotelIcon, SearchCheckIcon, UsersIcon } from "lucide-react";
+import { BedDoubleIcon, HotelIcon, MailIcon, SearchCheckIcon, UsersIcon } from "lucide-react";
 import ProtectedNavigation from "./ProtectedNavigation";
+
+const linkStyle =
+  '"group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"';
 
 const browseAdComponents: { title: string; href: string; description: string; icon: React.ReactNode }[] = [
   {
@@ -65,8 +68,15 @@ export default function WebNavigation() {
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
-
         <ProtectedNavigation />
+        <NavigationMenuItem>
+          <Link href="/contact" legacyBehavior passHref>
+            <NavigationMenuLink className={linkStyle}>
+              <MailIcon className="mr-1 w-4" />
+              Contact Us
+            </NavigationMenuLink>
+          </Link>
+        </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
   );

@@ -3,6 +3,7 @@
 import { HouseAd, RoommateAd, User } from "@/lib/types";
 import { createMessage } from "@/prisma/db/messages";
 import { AdEnquiryTemplate } from "@/resend/emailTemplates/AdEnquiry";
+import { ContactTemplate } from "@/resend/emailTemplates/ContactTemplate";
 import resend from "@/resend/resend";
 import { revalidatePath } from "next/cache";
 
@@ -16,7 +17,7 @@ export async function sendEmail(
   url: string | undefined
 ) {
   const { data, error } = await resend.emails.send({
-    from: "Roommie Listings <no-reply@roomielistings.com>",
+    from: "Roomie Listings <no-reply@roomielistings.com>",
     to: [receiver.email],
     reply_to: [sender.email],
     text: message.toString(),
@@ -48,4 +49,21 @@ export async function sendEmail(
   });
   revalidatePath(`/profile/messages/${sender.uid}`);
   return createdMessage;
+}
+
+export async function contactEmail(senderName: string, senderEmail: string, message: string) {
+  const { data, error } = await resend.emails.send({
+    from: "Roomie Listings <no-reply@roomielistings.com>",
+    to: [process.env.ADMIN_EMAIL!],
+    reply_to: [senderEmail],
+    text: message.toString(),
+    subject: "You got a new message",
+    react: ContactTemplate({
+      senderName: senderName,
+      senderEmail: senderEmail,
+      message: message.toString(),
+    }),
+  });
+
+  return { data, error };
 }
