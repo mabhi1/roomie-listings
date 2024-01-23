@@ -65,9 +65,11 @@ export default function EmailSignupForm() {
         photo: user.photoURL,
       });
       toast.success(toastMessage.emailVerificationSuccess);
+      setReCaptcha(null);
       return;
     } catch (error: any) {
       setFormLoading(false);
+      setReCaptcha(null);
       toast.error(error);
     }
   };
@@ -184,8 +186,12 @@ export default function EmailSignupForm() {
           <ReCAPTCHA
             sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
             onChange={setReCaptcha}
-            className="mx-auto mb-2"
-            size="normal"
+            className={cn(
+              (invalidName() || invalidEmail() || invalidPassword() || invalidRePassword() || formLoading) && "hidden",
+              "mx-auto mb-2"
+            )}
+            onExpired={() => setReCaptcha(null)}
+            onErrored={() => setReCaptcha(null)}
           />
           <Button
             className="w-full"

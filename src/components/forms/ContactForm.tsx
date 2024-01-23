@@ -1,5 +1,6 @@
 "use client";
 
+import { verifyRecaptcha } from "@/actions/auth";
 import { contactEmail } from "@/actions/message";
 import Required from "@/components/forms/Required";
 import useAuth from "@/components/providers/AuthProvider";
@@ -7,8 +8,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { cn } from "@/lib/utils";
 import { RotateCcwIcon, SendIcon } from "lucide-react";
 import { FormEvent, useEffect, useState } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
 import { toast } from "sonner";
 
 export default function ContactUsForm() {
@@ -17,6 +20,7 @@ export default function ContactUsForm() {
   const [message, setMessage] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [reCaptcha, setReCaptcha] = useState<string | null>();
 
   useEffect(() => {
     if (currentUser) {
@@ -45,11 +49,15 @@ export default function ContactUsForm() {
       setEmail("");
     }
     setMessage("");
+    setReCaptcha(null);
   };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    if (!reCaptcha) return;
+    const success = verifyRecaptcha(reCaptcha);
+    if (!success) return;
     const { data, error } = await contactEmail(name, email, message);
     if (error) toast.error("Error in sending email");
     else toast.success("Email sent successfully");
@@ -104,8 +112,15 @@ export default function ContactUsForm() {
           onChange={(e) => setMessage(e.target.value)}
         />
       </div>
+      <ReCAPTCHA
+        sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+        onChange={setReCaptcha}
+        className={cn(!isValidForm() && "hidden", "mx-auto mb-2")}
+        onExpired={() => setReCaptcha(null)}
+        onErrored={() => setReCaptcha(null)}
+      />
       <div className="flex gap-5">
-        <Button disabled={!isValidForm() || loading}>
+        <Button disabled={!isValidForm() || loading || !reCaptcha}>
           <SendIcon className="w-4 mr-1" />
           Send
         </Button>
