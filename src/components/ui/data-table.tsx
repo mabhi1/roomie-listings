@@ -155,7 +155,7 @@ export default function DataTable<TData, TValue>({ columns, data, page, profile 
           </div>
           <Button variant="outline" className="ml-auto mr-4" onClick={() => setShowMyAd((showMyAd) => !showMyAd)}>
             {showMyAd ? <EyeOffIcon className="w-4 mr-1" /> : <EyeIcon className="w-4 mr-1" />}
-            {showMyAd ? "Hide my Ads" : "Show my Ads"}
+            {showMyAd ? "Hide my ads" : "Show my ads"}
           </Button>
           <Sheet modal>
             <SheetTrigger className="mr-4" asChild>

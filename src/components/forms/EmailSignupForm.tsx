@@ -14,6 +14,8 @@ import axios from "axios";
 import { User } from "@/lib/types";
 import { toastMessage } from "@/lib/constants";
 import PageHeader from "../page/PageHeader";
+import ReCAPTCHA from "react-google-recaptcha";
+import { verifyRecaptcha } from "@/actions/auth";
 
 export default function EmailSignupForm() {
   const [name, setName] = useState("");
@@ -22,6 +24,7 @@ export default function EmailSignupForm() {
   const [rePassword, setRePassword] = useState("");
   const [formLoading, setFormLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [reCaptcha, setReCaptcha] = useState<string | null>(null);
 
   const userMutation = useMutation({
     mutationFn: (data: User) => {
@@ -48,6 +51,9 @@ export default function EmailSignupForm() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    if (!reCaptcha) return;
+    const success = verifyRecaptcha(reCaptcha);
+    if (!success) return;
     setFormLoading(true);
     try {
       const user = await createUser(email, password, name);
@@ -175,10 +181,18 @@ export default function EmailSignupForm() {
           </div>
         </CardContent>
         <CardFooter className="flex flex-col gap-3 pb-0">
+          <ReCAPTCHA
+            sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+            onChange={setReCaptcha}
+            className="mx-auto mb-2"
+            size="normal"
+          />
           <Button
             className="w-full"
             type="submit"
-            disabled={invalidName() || invalidEmail() || invalidPassword() || invalidRePassword() || formLoading}
+            disabled={
+              invalidName() || invalidEmail() || invalidPassword() || invalidRePassword() || formLoading || !reCaptcha
+            }
           >
             <ClipboardEditIcon className="w-4 mr-1" />
             Sign up
