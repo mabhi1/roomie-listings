@@ -76,7 +76,7 @@ export default function RoommateButtons({ ad }: { ad: RoommateAd }) {
   else if (ad.postedBy === currentUser?.uid)
     return (
       <CardFooter className="p-5 gap-2 lg:gap-5">
-        <Link href={`/roommate/${ad.id}/edit`}>
+        <Link href={`/roommate/${ad.id}/edit`} passHref legacyBehavior>
           <Button variant="secondary" disabled={isPending}>
             <PenLineIcon className="mr-1 w-4" />
             Edit
@@ -108,7 +108,7 @@ export default function RoommateButtons({ ad }: { ad: RoommateAd }) {
     return (
       <CardFooter className="p-5 gap-2 lg:gap-5">
         {currentUser.emailVerified && (
-          <Link href={`/message/${currentUser.uid}/${ad.postedBy}/roommate/${ad.id}`}>
+          <Link href={`/message/${currentUser.uid}/${ad.postedBy}/roommate/${ad.id}`} passHref legacyBehavior>
             <Button disabled={isPending}>
               <SendIcon className="w-4 mr-1" />
               Send Message

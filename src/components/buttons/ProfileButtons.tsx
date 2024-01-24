@@ -58,7 +58,10 @@ export default function ProfileButtons({ currentUser }: { currentUser: User }) {
       </Link>
       <Dialog open={profileDialog} onOpenChange={setProfileDialog}>
         <DialogTrigger asChild>
-          <Button onClick={() => setProfileDialog(true)}>
+          <Button
+            onClick={() => setProfileDialog(true)}
+            className={provider !== "password" ? "col-start-2 xl:col-start-auto" : ""}
+          >
             <UserCog2Icon className="w-4 mr-1" />
             Edit Profile
           </Button>

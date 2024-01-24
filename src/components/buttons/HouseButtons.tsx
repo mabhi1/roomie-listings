@@ -80,7 +80,7 @@ export default function HouseButtons({ ad }: { ad: HouseAd }) {
   else if (ad.postedBy === currentUser?.uid)
     return (
       <CardFooter className="p-5 gap-2 lg:gap-5 justify-between">
-        <Link href={`/house/${ad.id}/edit`}>
+        <Link href={`/house/${ad.id}/edit`} passHref legacyBehavior>
           <Button variant="secondary" disabled={isPending}>
             <PenLineIcon className="mr-1 w-4" />
             Edit
@@ -112,7 +112,7 @@ export default function HouseButtons({ ad }: { ad: HouseAd }) {
     return (
       <CardFooter className="p-5 gap-2 lg:gap-5">
         {currentUser.emailVerified && (
-          <Link href={`/message/${currentUser.uid}/${ad.postedBy}/house/${ad.id}`}>
+          <Link href={`/message/${currentUser.uid}/${ad.postedBy}/house/${ad.id}`} passHref legacyBehavior>
             <Button disabled={isPending}>
               <SendIcon className="w-4 mr-1" />
               Send Message

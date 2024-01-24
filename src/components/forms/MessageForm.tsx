@@ -77,17 +77,18 @@ export default function MessageForm({
         />
       </div>
       <div className="flex flex-col gap-2">
-        <div>Attach a file</div>
+        <div>Attach an image file</div>
         <Input
           type="file"
+          accept="image/*"
           className="w-fit"
           id="file"
           name="file"
           onChange={(e) => {
             const file = e.target.files && e.target.files[0];
             if (!file || !file.size) return;
-            else if (file.size > 5133193) {
-              toast.info("Video size too big. Maximum 5MB allowed");
+            else if (file.size > 2097152) {
+              toast.info("Image size too big. Maximum 2MB allowed");
               e.target.value = "";
             } else {
               setFile(file);

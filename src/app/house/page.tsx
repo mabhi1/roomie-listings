@@ -32,7 +32,7 @@ export default async function House() {
           <Link href="/roommate/create" legacyBehavior passHref>
             <Button className="mt-2">
               <TagsIcon className="w-4 mr-1" />
-              Post Ad
+              Post a Roommate Ad
             </Button>
           </Link>
         </div>

@@ -39,7 +39,7 @@ export default async function IndividualMessage({ message }: { message: Message 
                 width={1024}
                 height={1024}
                 priority
-                className="h-52 w-52 object-cover rounded my-5"
+                className="h-40 w-40 lg:h-40 lg:w-40 xl:h-52 xl:w-52 object-cover rounded my-5"
               />
             </a>
           ) : (

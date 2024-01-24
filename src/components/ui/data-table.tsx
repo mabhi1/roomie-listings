@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   ColumnDef,
   flexRender,
@@ -67,7 +67,7 @@ export default function DataTable<TData, TValue>({ columns, data, page, profile 
   const [min, setMin] = useState(0);
   const [max, setMax] = useState(Number.MAX_SAFE_INTEGER);
 
-  const getAllCities = () => {
+  const getAllCities = useCallback(() => {
     const cities: string[] = [];
     data.forEach((row: any) => {
       const address: HouseAddress = row.address;
@@ -75,13 +75,13 @@ export default function DataTable<TData, TValue>({ columns, data, page, profile 
       cities.push(address.city.toUpperCase());
     });
     return cities;
-  };
+  }, [data]);
 
   useEffect(() => {
     const cities = getAllCities();
     if (cities.includes(currentCity)) setSelectedCity([currentCity]);
     else toast.info(`No ${page} ads in your city`);
-  }, [currentCity, page, setSelectedCity]);
+  }, [currentCity, page, setSelectedCity, getAllCities]);
 
   useEffect(() => {
     setRowData(
@@ -108,7 +108,7 @@ export default function DataTable<TData, TValue>({ columns, data, page, profile 
           return true;
         })
     );
-  }, [showMyAd, page, selectedDuration, selectedCity, currentUser?.uid, data, max, min]);
+  }, [showMyAd, page, selectedDuration, selectedCity, currentUser, data, max, min]);
 
   const table = useReactTable({
     data: rowData,
