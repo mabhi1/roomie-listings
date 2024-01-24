@@ -13,7 +13,7 @@ export default function LoginRequest({ message }: { message?: string | undefined
   const router = useRouter();
   return (
     <FullWrapper className="mt-20">
-      <Card className="relative w-1/2 mx-auto">
+      <Card className="relative w-2/3 xl:w-1/2 mx-auto">
         <CardHeader>
           <PageHeader heading="Authentication Required" className="text-destructive" backButton={false} />
           <CardDescription>{message || "Please login to continue."}</CardDescription>

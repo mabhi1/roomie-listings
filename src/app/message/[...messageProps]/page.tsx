@@ -39,7 +39,7 @@ export default async function SendMessage({ params: { messageProps } }: { params
         <TableBody>
           <TableRow className="hover:bg-inherit">
             <TableCell className="border-b py-2">
-              <Link href={`/${type}/${ad.id}`} className="block overflow-hidden w-[200px] lg:w-[600px]">
+              <Link href={`/${type}/${ad.id}`} className="block overflow-hidden w-[200px] lg:w-[400px] xl:w-[600px]">
                 <Button variant="link" className="h-8 p-0">
                   {ad.title}
                 </Button>

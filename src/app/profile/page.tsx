@@ -48,14 +48,14 @@ export default function Profile() {
           heading="My Profile"
           subHeading="This is your profile page. You can see the related comments and ads here."
         />
-        <div className="flex gap-5">
+        <div className="flex gap-3 lg:gap-5 items-center">
           <div className="group relative rounded-full w-fit h-fit overflow-clip">
             <Image
               src={currentUser.photoURL ? currentUser.photoURL : "/user.png"}
               alt={currentUser.displayName!}
               width={50}
               height={50}
-              className="w-[100px] h-[100px] object-cover"
+              className="w-[80px] h-[80px] xl:w-[100px] xl:h-[100px] object-cover"
               priority
             />
             {currentUser.photoURL && (
@@ -71,7 +71,7 @@ export default function Profile() {
           </div>
           <div className="flex flex-col justify-center mr-auto">
             <div className="text-lg">{currentUser.displayName}</div>
-            <div className="">{currentUser.email}</div>
+            <div className="w-72 lg:w-80 overflow-hidden">{currentUser.email}</div>
             {currentUser.emailVerified ? (
               <span className="flex items-center gap-1 text-success">
                 <BadgeCheckIcon className="w-4" /> Verified

@@ -221,7 +221,19 @@ export default function HouseAdForm() {
                 </FormItem>
               )}
             />
-
+            <FormField
+              control={form.control}
+              name="address.state"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="w-20 text-right">State</FormLabel>
+                  <FormControl>
+                    <Input {...field} placeholder="NJ" value="NJ" disabled />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="address.city"
@@ -233,19 +245,6 @@ export default function HouseAdForm() {
                   </FormLabel>
                   <FormControl>
                     <Input {...field} placeholder="Enter zip to select city" disabled />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="address.state"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="w-20 text-right">State</FormLabel>
-                  <FormControl>
-                    <Input {...field} placeholder="NJ" value="NJ" disabled />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -401,7 +400,7 @@ export default function HouseAdForm() {
             </FormItem>
           )}
         />
-        <div className="flex gap-10">
+        <div className="flex gap-5 lg:gap-10">
           <Button className="w-full mt-5" type="submit" disabled={isPending}>
             <FilePlus2Icon className="w-4 mr-1" />
             Create Ad

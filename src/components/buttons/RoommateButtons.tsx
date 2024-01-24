@@ -67,10 +67,15 @@ export default function RoommateButtons({ ad }: { ad: RoommateAd }) {
     });
   };
 
-  if (!currentUser) return <></>;
+  if (!currentUser)
+    return (
+      <CardFooter className="justify-end">
+        <div>Please login to save, or report this ad, or send a message to the user</div>
+      </CardFooter>
+    );
   else if (ad.postedBy === currentUser?.uid)
     return (
-      <CardFooter className="p-5 gap-5">
+      <CardFooter className="p-5 gap-2 lg:gap-5">
         <Link href={`/roommate/${ad.id}/edit`}>
           <Button variant="secondary" disabled={isPending}>
             <PenLineIcon className="mr-1 w-4" />
@@ -101,7 +106,7 @@ export default function RoommateButtons({ ad }: { ad: RoommateAd }) {
     );
   else
     return (
-      <CardFooter className="p-5 gap-5">
+      <CardFooter className="p-5 gap-2 lg:gap-5">
         {currentUser.emailVerified && (
           <Link href={`/message/${currentUser.uid}/${ad.postedBy}/roommate/${ad.id}`}>
             <Button disabled={isPending}>

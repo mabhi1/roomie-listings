@@ -22,7 +22,7 @@ export default async function HouseId({ params: { id } }: { params: { id: string
         subHeading="Reach out by sending a message if you like the ad below."
       />
       <Card>
-        <CardHeader className="p-5 flex-row items-center justify-between">
+        <CardHeader className="p-5 gap-2 lg:gap-0 flex-row items-center justify-between">
           <div className="space-y-1.5 mr-auto">
             <CardTitle className="font-light">{house.title}</CardTitle>
             <CardDescription>
@@ -31,8 +31,8 @@ export default async function HouseId({ params: { id } }: { params: { id: string
                 {house.updatedAt.toLocaleDateString("en-us", { year: "numeric", month: "short", day: "numeric" })}
               </span>
             </CardDescription>
+            {house.showEmail && <p className="text-xs mr-1 lg:mr-5">User Email: {poster.email}</p>}
           </div>
-          {house.showEmail && <p className="text-xs mr-5 text-muted-foreground">{poster.email}</p>}
           <PosterIcon poster={poster} />
         </CardHeader>
         <CardContent className="space-y-5 px-0">

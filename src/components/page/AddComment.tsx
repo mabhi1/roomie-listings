@@ -33,7 +33,7 @@ export default function AddComment({ postId, postType }: { postId: string; postT
   };
 
   return (
-    <div className="flex flex-col w-1/4">
+    <div className="flex flex-col w-1/3 lg:w-1/4">
       <Label htmlFor="comment">Add a comment</Label>
       <span className="text-muted-foreground text-xs">Share your thoughts on this Ad</span>
       {currentUser ? (

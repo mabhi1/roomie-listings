@@ -85,7 +85,7 @@ export default function CommentProfileTable({ currentUser, tab }: { currentUser:
               <TableCell className="border-r py-1 pl-4">
                 <Link
                   href={`/${comment.postType}/${comment.postId}#${comment.id}`}
-                  className="block w-[800px] overflow-hidden"
+                  className="block w-[320px] lg:w-[500px] xl:w-[800px] overflow-hidden"
                 >
                   <Button variant="link" className="p-0">
                     {comment.comment}

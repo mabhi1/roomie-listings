@@ -22,13 +22,16 @@ export default function HeaderMessage() {
         <MapPin className="w-3.5" />
         <div>
           Your current Location is set to{" "}
-          <span className="bg-primary/70 text-primary-foreground px-1 rounded">{currentCity}</span>.
+          <span className="bg-primary/70 text-primary-foreground px-1 rounded">{currentCity}</span>, NJ.
         </div>
         <NavigationIcon className="w-3.5" />
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
-            <div className="cursor-pointer">
-              Click here to change your current location for personalized recommendations.
+            <div>
+              <div className="cursor-pointer hidden lg:block">
+                Click here to change your current location for personalized recommendations.
+              </div>
+              <div className="cursor-pointer block lg:hidden">Click here to change.</div>
             </div>
           </PopoverTrigger>
           <PopoverContent className="p-0">

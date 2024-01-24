@@ -8,7 +8,7 @@ import EmailSignupForm from "@/components/forms/EmailSignupForm";
 
 export default function Signin() {
   return (
-    <FullWrapper className="pt-20 md:flex-row gap-20 justify-center">
+    <FullWrapper className="pt-20 md:flex-row xl:gap-10 justify-center">
       <div className="flex justify-center items-start mt-6">
         <Image src="/signin.png" alt="Sign in" width={500} height={500} priority />
       </div>

@@ -17,12 +17,12 @@ export default async function House() {
         heading="House Ads"
         subHeading="Browse throught the list of house ads and find the perfect place to stay."
       />
-      <div className="relative flex gap-5">
+      <div className="relative flex flex-col xl:flex-row gap-5">
         <div className="flex-1">
           <DataTable columns={HouseColumns} data={houseData} page="house" />
         </div>
-        <Separator orientation="vertical" />
-        <div className="w-1/5 flex flex-col gap-2 sticky top-20 h-60">
+        <Separator orientation="vertical" className="hidden lg:block" />
+        <div className="w-1/3 xl:w-1/5 flex flex-col gap-2 sticky top-20 h-60">
           <Image alt="House" src="/house.png" width={250} height={95} priority className="w-auto" />
           <h2 className="text-xl">Looking for a house?</h2>
           <p className="text-muted-foreground">

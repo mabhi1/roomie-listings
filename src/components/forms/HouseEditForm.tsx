@@ -234,7 +234,19 @@ export default function HouseEditForm({ houseAd }: { houseAd: HouseAd }) {
                 </FormItem>
               )}
             />
-
+            <FormField
+              control={form.control}
+              name="address.state"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="w-20 text-right">State</FormLabel>
+                  <FormControl>
+                    <Input {...field} placeholder="NJ" value="NJ" disabled />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="address.city"
@@ -246,19 +258,6 @@ export default function HouseEditForm({ houseAd }: { houseAd: HouseAd }) {
                   </FormLabel>
                   <FormControl>
                     <Input {...field} placeholder="Enter zip to select city" disabled />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="address.state"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="w-20 text-right">State</FormLabel>
-                  <FormControl>
-                    <Input {...field} placeholder="NJ" value="NJ" disabled />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -378,7 +377,7 @@ export default function HouseEditForm({ houseAd }: { houseAd: HouseAd }) {
               {gallery.map((item) => (
                 <div key={item.name} className="relative">
                   {item.type.startsWith("video") ? (
-                    <video src={item.url} controls className="h-52 w-full rounded" />
+                    <video src={item.url} controls className="h-40 w-full rounded" />
                   ) : (
                     <a href={item.url} target="_blank">
                       <Image
@@ -387,7 +386,7 @@ export default function HouseEditForm({ houseAd }: { houseAd: HouseAd }) {
                         width={1024}
                         height={1024}
                         priority
-                        className="h-52 w-full object-cover rounded"
+                        className="h-40 w-full object-cover rounded"
                       />
                     </a>
                   )}
@@ -448,7 +447,7 @@ export default function HouseEditForm({ houseAd }: { houseAd: HouseAd }) {
             </FormItem>
           )}
         />
-        <div className="flex gap-10">
+        <div className="flex gap-5 lg:gap-10">
           <Button className="w-full mt-5" type="submit" disabled={isPending}>
             <FilePlus2Icon className="w-4 mr-1" />
             Save Ad

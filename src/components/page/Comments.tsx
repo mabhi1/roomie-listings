@@ -16,7 +16,7 @@ export default async function Comments({ id, type }: { id: string; type: "house"
         </div>
         <span className="bg-foreground text-accent px-1 rounded">{comments.length}</span>
       </div>
-      <div className="flex gap-8 mt-5">
+      <div className="flex gap-5 lg:gap-8 mt-5">
         <AddComment postId={id} postType={type} />
         <Separator orientation="vertical" />
         <div className="flex flex-col gap-5">

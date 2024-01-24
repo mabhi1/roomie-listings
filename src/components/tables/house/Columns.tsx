@@ -62,14 +62,14 @@ export const HouseColumns: ColumnDef<HouseColumnsType>[] = [
   // },
   {
     accessorKey: "title",
-    header: () => <div className="w-[480px]">Title</div>,
+    header: () => <div className="w-[260px] lg:w-[450px] xl:w-[480px]">Title</div>,
     enableHiding: false,
     cell: ({ row }) => {
       const house = row.original;
 
       const title: string = row.getValue("title");
       return (
-        <div className="ml-1 w-[480px] overflow-hidden">
+        <div className="ml-1 w-[260px] lg:w-[450px] xl:w-[480px] overflow-hidden">
           <Link href={`/house/${house.id}`} passHref legacyBehavior>
             <Button variant="link" className="p-0 h-8">
               {title}
@@ -176,7 +176,7 @@ export const HouseColumns: ColumnDef<HouseColumnsType>[] = [
             <DropdownMenuItem>
               <Link href={`/house/${house.id}`}>View Details</Link>
             </DropdownMenuItem>
-            {currentUser?.uid !== house.postedBy && (
+            {currentUser && currentUser.uid !== house.postedBy && (
               <>
                 {house.savedBy.includes(currentUser?.uid!) ? (
                   <DropdownMenuItem className="text-muted-foreground focus:text-muted-foreground">
@@ -187,16 +187,16 @@ export const HouseColumns: ColumnDef<HouseColumnsType>[] = [
                     Save
                   </DropdownMenuItem>
                 )}
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <Link href={`/user/${house.postedBy}`}>View User</Link>
-                </DropdownMenuItem>
-                {currentUser?.emailVerified && (
-                  <DropdownMenuItem>
-                    <Link href={`/message/${currentUser?.uid}/${house.postedBy}/house/${house.id}`}>Send Message</Link>
-                  </DropdownMenuItem>
-                )}
               </>
+            )}
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>
+              <Link href={`/user/${house.postedBy}`}>View User</Link>
+            </DropdownMenuItem>
+            {currentUser && currentUser.uid !== house.postedBy && currentUser.emailVerified && (
+              <DropdownMenuItem>
+                <Link href={`/message/${currentUser?.uid}/${house.postedBy}/house/${house.id}`}>Send Message</Link>
+              </DropdownMenuItem>
             )}
           </DropdownMenuContent>
         </DropdownMenu>

@@ -4,9 +4,9 @@ import Image from "next/image";
 
 export default function GalleryCarousel({ gallery }: { gallery: Gallery[] }) {
   return (
-    <Carousel className="w-[32rem] mx-auto">
+    <Carousel className="w-[16rem] lg:w-[24rem] xl:w-[32rem] mx-auto">
       <CarouselPrevious type="button" />
-      <CarouselContent className="h-96 group">
+      <CarouselContent className="h-48 lg:h-72 xl:h-96 group">
         {gallery.map((item) => (
           <CarouselItem key={item.name} className="relative">
             {item.type.startsWith("video") ? (

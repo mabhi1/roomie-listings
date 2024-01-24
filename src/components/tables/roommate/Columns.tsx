@@ -60,14 +60,14 @@ export const RoommateColumns: ColumnDef<RoommateColumnsType>[] = [
   // },
   {
     accessorKey: "title",
-    header: () => <div className="w-[480px]">Title</div>,
+    header: () => <div className="w-[260px] lg:w-[450px] xl:w-[480px]">Title</div>,
     enableHiding: false,
     cell: ({ row }) => {
       const roommate = row.original;
 
       const title: string = row.getValue("title");
       return (
-        <div className="ml-1 w-[480px] overflow-hidden">
+        <div className="ml-1 w-[260px] lg:w-[450px] xl:w-[480px] overflow-hidden">
           <Link href={`/roommate/${roommate.id}`} passHref legacyBehavior>
             <Button variant="link" className="p-0 h-8">
               {title}
@@ -174,7 +174,7 @@ export const RoommateColumns: ColumnDef<RoommateColumnsType>[] = [
             <DropdownMenuItem>
               <Link href={`/roommate/${roommate.id}`}>View Details</Link>
             </DropdownMenuItem>
-            {currentUser?.uid !== roommate.postedBy && (
+            {currentUser && currentUser.uid !== roommate.postedBy && (
               <>
                 {roommate.savedBy.includes(currentUser?.uid!) ? (
                   <DropdownMenuItem className="text-muted-foreground focus:text-muted-foreground">
@@ -185,18 +185,18 @@ export const RoommateColumns: ColumnDef<RoommateColumnsType>[] = [
                     Save
                   </DropdownMenuItem>
                 )}
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <Link href={`/user/${roommate.postedBy}`}>View User</Link>
-                </DropdownMenuItem>
-                {currentUser?.emailVerified && (
-                  <DropdownMenuItem>
-                    <Link href={`/message/${currentUser?.uid}/${roommate.postedBy}/roommate/${roommate.id}`}>
-                      Send Message
-                    </Link>
-                  </DropdownMenuItem>
-                )}
               </>
+            )}
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>
+              <Link href={`/user/${roommate.postedBy}`}>View User</Link>
+            </DropdownMenuItem>
+            {currentUser && currentUser.uid !== roommate.postedBy && currentUser.emailVerified && (
+              <DropdownMenuItem>
+                <Link href={`/message/${currentUser?.uid}/${roommate.postedBy}/roommate/${roommate.id}`}>
+                  Send Message
+                </Link>
+              </DropdownMenuItem>
             )}
           </DropdownMenuContent>
         </DropdownMenu>

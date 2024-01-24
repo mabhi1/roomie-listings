@@ -10,12 +10,12 @@ const raleway = Rubik({ subsets: ["latin"] });
 
 export default function Home() {
   return (
-    <FullWrapper className="pt-24 gap-10 items-center">
-      <h1 className={cn("text-3xl flex gap-2", raleway.className)}>
+    <FullWrapper className="py-10 lg:py-18 xl:py-24 gap-10 items-center">
+      <h1 className={cn("text-2xl xl:text-3xl flex gap-2", raleway.className)}>
         <span className="uppercase">Welcome to</span>
         <span className="uppercase bg-primary rounded px-1 text-accent">{title.site}</span>
       </h1>
-      <div className="text-7xl leading-tight text-center">
+      <div className="text-4xl xl:text-7xl leading-tight text-center">
         You are at the right place to look for a roommate, rent a house, or buy, rent, and sell stuff.
       </div>
       <span className="text-2xl">Click one of the buttons below to continue browsing</span>

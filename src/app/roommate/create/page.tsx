@@ -8,7 +8,7 @@ export default function CreateRoommateAd() {
     <FullWrapper>
       <PageHeader heading="Become a roommate" subHeading="Fill out and submit the form below create a roommate ad." />
       <div className="w-full flex justify-between">
-        <div className="w-1/2">
+        <div className="w-11/12 lg:w-1/2">
           <RoommateAdForm />
         </div>
         <div className="relative">

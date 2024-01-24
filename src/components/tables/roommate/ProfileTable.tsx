@@ -57,10 +57,14 @@ export default function RoommateProfileTable({ currentUser, tab }: { currentUser
         <TableHeader>
           <TableRow className="bg-muted/50">
             <TableHead className="border-r font-normal text-accent-foreground h-8">Title</TableHead>
-            <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Location</TableHead>
+            <TableHead className="border-r text-center font-normal text-accent-foreground h-8">City</TableHead>
             <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Budget</TableHead>
-            <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Move in</TableHead>
-            <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Duration</TableHead>
+            <TableHead className="border-r text-center font-normal text-accent-foreground h-8 hidden lg:table-cell">
+              Move in
+            </TableHead>
+            <TableHead className="border-r text-center font-normal text-accent-foreground h-8 hidden lg:table-cell">
+              Duration
+            </TableHead>
             <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Reports</TableHead>
             <TableHead className="text-center font-normal text-accent-foreground h-8"></TableHead>
           </TableRow>
@@ -69,23 +73,25 @@ export default function RoommateProfileTable({ currentUser, tab }: { currentUser
           {ads?.map((roommate) => (
             <TableRow className="hover:bg-inherit" key={roommate.id}>
               <TableCell className="border-r py-1 pl-4">
-                <Link href={`/roommate/${roommate.id}`} className="block w-[580px] overflow-hidden">
+                <Link href={`/roommate/${roommate.id}`} className="block w-[320px] xl:w-[580px] overflow-hidden">
                   <Button variant="link" className="p-0">
                     {roommate.title}
                   </Button>
                 </Link>
               </TableCell>
-              <TableCell className="border-r text-center py-1">{`${roommate.address.city}, ${roommate.address.state}`}</TableCell>
+              <TableCell className="border-r text-center py-1">{roommate.address.city}</TableCell>
               <TableCell className="border-r text-center py-1">
                 {new Intl.NumberFormat("en-US", {
                   style: "currency",
                   currency: "USD",
                 }).format(roommate.budget)}
               </TableCell>
-              <TableCell className="border-r text-center py-1">
+              <TableCell className="border-r text-center py-1 hidden lg:table-cell">
                 {roommate.moveIn.toLocaleDateString("en-us", { year: "numeric", month: "short", day: "numeric" })}
               </TableCell>
-              <TableCell className="border-r text-center capitalize py-1">{roommate.duration}</TableCell>
+              <TableCell className="border-r text-center capitalize py-1 hidden lg:table-cell">
+                {roommate.duration}
+              </TableCell>
               <TableCell className="border-r text-center capitalize py-1">{roommate.reports.length}</TableCell>
               <TableCell className="text-center capitalize py-1">
                 <div className="flex justify-center">

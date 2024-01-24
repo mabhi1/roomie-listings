@@ -55,7 +55,6 @@ interface DataTableProps<TData, TValue> {
 }
 
 export default function DataTable<TData, TValue>({ columns, data, page, profile }: DataTableProps<TData, TValue>) {
-  console.log(data);
   const { currentUser, currentCity } = useAuth();
   const [showMyAd, setShowMyAd] = useState(true);
   const [rowData, setRowData] = useState(data);
@@ -68,11 +67,21 @@ export default function DataTable<TData, TValue>({ columns, data, page, profile 
   const [min, setMin] = useState(0);
   const [max, setMax] = useState(Number.MAX_SAFE_INTEGER);
 
+  const getAllCities = () => {
+    const cities: string[] = [];
+    data.forEach((row: any) => {
+      const address: HouseAddress = row.address;
+      if (cities.includes(address.city.toUpperCase())) return;
+      cities.push(address.city.toUpperCase());
+    });
+    return cities;
+  };
+
   useEffect(() => {
     const cities = getAllCities();
     if (cities.includes(currentCity)) setSelectedCity([currentCity]);
     else toast.info(`No ${page} ads in your city`);
-  }, []);
+  }, [currentCity, page, setSelectedCity]);
 
   useEffect(() => {
     setRowData(
@@ -93,6 +102,7 @@ export default function DataTable<TData, TValue>({ columns, data, page, profile 
           return amount >= min && amount <= max;
         })
         .filter((row: any) => {
+          if (!currentUser) return true;
           const poster = row.postedBy;
           if (!showMyAd && poster === currentUser?.uid) return false;
           return true;
@@ -142,36 +152,28 @@ export default function DataTable<TData, TValue>({ columns, data, page, profile 
     return selectedCity.length === 0 && selectedDuration === "all" && min === 0 && max === Number.MAX_SAFE_INTEGER;
   };
 
-  const getAllCities = () => {
-    const cities: string[] = [];
-    data.forEach((row: any) => {
-      const address: HouseAddress = row.address;
-      if (cities.includes(address.city.toUpperCase())) return;
-      cities.push(address.city.toUpperCase());
-    });
-    return cities;
-  };
-
   return (
     <div className="space-y-2">
       {!profile && (
         <>
           <div className="flex items-center mb-5">
-            <div className="relative">
+            <div className="relative mr-auto">
               <SearchIcon className="absolute left-2 top-1/2 -translate-y-1/2 w-4 text-muted-foreground" />
               <Input
                 placeholder="Search by title"
                 value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
                 onChange={(event) => table.getColumn("title")?.setFilterValue(event.target.value)}
-                className="w-80 pl-7"
+                className="w-60 lg:w-80 pl-7"
               />
             </div>
-            <Button variant="outline" className="ml-auto mr-4" onClick={() => setShowMyAd((showMyAd) => !showMyAd)}>
-              {showMyAd ? <EyeOffIcon className="w-4 mr-1" /> : <EyeIcon className="w-4 mr-1" />}
-              {showMyAd ? "Hide my ads" : "Show my ads"}
-            </Button>
+            {currentUser && (
+              <Button variant="outline" className="mr-2 lg:mr-4" onClick={() => setShowMyAd((showMyAd) => !showMyAd)}>
+                {showMyAd ? <EyeOffIcon className="w-4 mr-1" /> : <EyeIcon className="w-4 mr-1" />}
+                {showMyAd ? "Hide my ads" : "Show my ads"}
+              </Button>
+            )}
             <Sheet modal>
-              <SheetTrigger className="mr-4" asChild>
+              <SheetTrigger className="mr-2 lg:mr-4" asChild>
                 <Button variant="outline">
                   <FilterIcon className="mr-1 w-4" />
                   Filter
@@ -260,12 +262,14 @@ export default function DataTable<TData, TValue>({ columns, data, page, profile 
             </DropdownMenu>
           </div>
           <div className="text-xs text-muted-foreground w-fit flex gap-2 flex-wrap">
-            <div className="space-x-1">
-              <span>Your Ads :</span>
-              <span className="bg-muted-foreground text-muted rounded px-1 capitalize">
-                {showMyAd ? "Visible" : "Hidden"}
-              </span>
-            </div>
+            {currentUser && (
+              <div className="space-x-1">
+                <span>Your Ads :</span>
+                <span className="bg-muted-foreground text-muted rounded px-1 capitalize">
+                  {showMyAd ? "Visible" : "Hidden"}
+                </span>
+              </div>
+            )}
             {selectedCity.length > 0 && (
               <div className="space-x-1">
                 <span>Selected {selectedCity.length === 1 ? "City" : "Cities"} :</span>

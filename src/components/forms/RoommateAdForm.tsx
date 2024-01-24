@@ -158,6 +158,19 @@ export default function RoommateAdForm() {
           <div className="border p-5 grid grid-cols-2 gap-5 justify-evenly rounded-md">
             <FormField
               control={form.control}
+              name="address.state"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-right">State</FormLabel>
+                  <FormControl>
+                    <Input {...field} placeholder="NJ" value="NJ" disabled />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="address.city"
               render={({ field }) => (
                 <FormItem className="flex flex-col gap-2">
@@ -167,19 +180,6 @@ export default function RoommateAdForm() {
                   </FormLabel>
                   <FormControl>
                     <ComboBox {...field} value={field.value} setValue={field.onChange} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="address.state"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-right">State</FormLabel>
-                  <FormControl>
-                    <Input {...field} placeholder="NJ" value="NJ" disabled />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -299,7 +299,7 @@ export default function RoommateAdForm() {
             </FormItem>
           )}
         />
-        <div className="flex gap-10">
+        <div className="flex gap-5 lg:gap-10">
           <Button className="w-full mt-5" type="submit" disabled={isPending}>
             <FilePlus2Icon className="w-4 mr-1" />
             Create Ad

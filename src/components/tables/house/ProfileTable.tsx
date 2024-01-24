@@ -68,10 +68,14 @@ export default function HouseProfileTable({ currentUser, tab }: { currentUser: U
         <TableHeader>
           <TableRow className="bg-muted/50">
             <TableHead className="border-r font-normal text-accent-foreground h-8">Title</TableHead>
-            <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Location</TableHead>
+            <TableHead className="border-r text-center font-normal text-accent-foreground h-8">City</TableHead>
             <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Price</TableHead>
-            <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Available</TableHead>
-            <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Duration</TableHead>
+            <TableHead className="border-r text-center font-normal text-accent-foreground h-8 hidden lg:table-cell">
+              Available
+            </TableHead>
+            <TableHead className="border-r text-center font-normal text-accent-foreground h-8 hidden lg:table-cell">
+              Duration
+            </TableHead>
             <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Reports</TableHead>
             <TableHead className="text-center font-normal text-accent-foreground h-8"></TableHead>
           </TableRow>
@@ -80,23 +84,25 @@ export default function HouseProfileTable({ currentUser, tab }: { currentUser: U
           {ads?.map((house) => (
             <TableRow className="hover:bg-inherit" key={house.id}>
               <TableCell className="border-r py-1 pl-4">
-                <Link href={`/house/${house.id}`} className="block w-[580px] overflow-hidden">
+                <Link href={`/house/${house.id}`} className="block w-[320px] xl:w-[580px] overflow-hidden">
                   <Button variant="link" className="p-0">
                     {house.title}
                   </Button>
                 </Link>
               </TableCell>
-              <TableCell className="border-r text-center py-1">{`${house.address.city}, ${house.address.state}`}</TableCell>
+              <TableCell className="border-r text-center py-1">{house.address.city}</TableCell>
               <TableCell className="border-r text-center py-1">
                 {new Intl.NumberFormat("en-US", {
                   style: "currency",
                   currency: "USD",
                 }).format(house.price)}
               </TableCell>
-              <TableCell className="border-r text-center py-1">
+              <TableCell className="border-r text-center py-1 hidden lg:table-cell">
                 {house.available.toLocaleDateString("en-us", { year: "numeric", month: "short", day: "numeric" })}
               </TableCell>
-              <TableCell className="border-r text-center capitalize py-1">{house.duration}</TableCell>
+              <TableCell className="border-r text-center capitalize py-1 hidden lg:table-cell">
+                {house.duration}
+              </TableCell>
               <TableCell className="border-r text-center capitalize py-1">{house.reports.length}</TableCell>
               <TableCell className="text-center capitalize py-1">
                 <div className="flex justify-center">

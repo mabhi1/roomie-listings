@@ -8,8 +8,10 @@ import ChangePasswordForm from "../forms/ChangePasswordForm";
 import EditProfileForm from "../forms/EditProfileForm";
 import Link from "next/link";
 import { ContactIcon, MessageSquareMoreIcon, SquareAsteriskIcon, UserCog2Icon } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export default function ProfileButtons({ currentUser }: { currentUser: User }) {
+  console.log(currentUser);
   const [passwordDialog, setPasswordDialog] = useState(false);
   const [profileDialog, setProfileDialog] = useState(false);
 
@@ -17,8 +19,15 @@ export default function ProfileButtons({ currentUser }: { currentUser: User }) {
     return currentUser.providerData[0].providerId;
   }, [currentUser]);
 
+  const provider = currentUser.providerData[0].providerId;
+
   return (
-    <>
+    <div
+      className={cn(
+        "grid gap-3 xl:gap-5 justify-end items-center",
+        provider === "password" ? "grid-cols-2 xl:grid-cols-4" : "grid-cols-2 xl:grid-cols-3"
+      )}
+    >
       <Link href={`/user/${currentUser.uid}`} passHref legacyBehavior>
         <Button variant="secondary">
           <ContactIcon className="w-4 mr-1" /> Public Profile
@@ -62,6 +71,6 @@ export default function ProfileButtons({ currentUser }: { currentUser: User }) {
           <EditProfileForm currentUser={currentUser} setDialog={setProfileDialog} />
         </DialogContent>
       </Dialog>
-    </>
+    </div>
   );
 }
