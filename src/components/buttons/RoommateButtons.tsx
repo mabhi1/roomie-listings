@@ -28,7 +28,7 @@ import {
 import { useRouter } from "next/navigation";
 
 export default function RoommateButtons({ ad }: { ad: RoommateAd }) {
-  const currentUser = useAuth();
+  const { currentUser } = useAuth();
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 

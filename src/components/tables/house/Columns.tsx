@@ -36,7 +36,7 @@ export type HouseColumnsType = {
 };
 
 function GetCurrentUser() {
-  const currentUser = useAuth();
+  const { currentUser } = useAuth();
   return currentUser;
 }
 

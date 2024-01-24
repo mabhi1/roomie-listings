@@ -15,7 +15,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { toast } from "sonner";
 
 export default function ContactUsForm() {
-  const currentUser = useAuth();
+  const { currentUser } = useAuth();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [name, setName] = useState("");

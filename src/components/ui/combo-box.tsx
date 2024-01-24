@@ -6,14 +6,7 @@ import { cityList } from "@/lib/NJStateInfo";
 import { useState } from "react";
 import { Button } from "./button";
 
-export default function ComboBox({
-  value,
-  setValue,
-  ...field
-}: {
-  value: string;
-  setValue: (...event: any[]) => void;
-}) {
+export default function ComboBox({ value, setValue }: { value: string; setValue: (...event: any[]) => void }) {
   const [open, setOpen] = useState(false);
 
   return (

@@ -9,7 +9,7 @@ import { Comment } from "@/lib/types";
 import { DeleteIcon, HelpingHandIcon, MessageSquareXIcon } from "lucide-react";
 
 export default function CommentButtons({ comment, adId }: { comment: Comment; adId: string }) {
-  const currentUser = useAuth();
+  const { currentUser } = useAuth();
   const [isPending, startTransition] = useTransition();
 
   const handleDelteComment = () => {

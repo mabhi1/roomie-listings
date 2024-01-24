@@ -7,7 +7,7 @@ import { User } from "@/lib/types";
 import useAuth from "../providers/AuthProvider";
 
 export default function PosterIcon({ poster }: { poster: User }) {
-  const currentUser = useAuth();
+  const { currentUser } = useAuth();
 
   function getUserIcon() {
     return (

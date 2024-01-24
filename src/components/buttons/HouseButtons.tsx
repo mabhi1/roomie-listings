@@ -29,7 +29,7 @@ import {
 } from "lucide-react";
 
 export default function HouseButtons({ ad }: { ad: HouseAd }) {
-  const currentUser = useAuth();
+  const { currentUser } = useAuth();
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 

@@ -12,7 +12,7 @@ import { HouseColumns } from "@/components/tables/house/Columns";
 export default async function House() {
   const houseData = await getAllHouseAds();
   return (
-    <FullWrapper>
+    <FullWrapper className="gap-5">
       <PageHeader
         heading="House Ads"
         subHeading="Browse throught the list of house ads and find the perfect place to stay."

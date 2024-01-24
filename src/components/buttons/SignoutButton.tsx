@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 type Variant = "default" | "destructive" | "outline" | "secondary" | "ghost" | "link";
 
 export default function SignoutButton({ variant, className }: { variant: Variant; className?: string }) {
-  const currentUser = useAuth();
+  const { currentUser } = useAuth();
 
   const handleSignout = async () => {
     try {

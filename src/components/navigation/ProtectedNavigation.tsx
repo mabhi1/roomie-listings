@@ -41,7 +41,7 @@ const createAdComponents: { title: string; href: string; description: string; ic
 ];
 
 export default function ProtectedNavigation() {
-  const currentUser = useAuth();
+  const { currentUser } = useAuth();
   if (currentUser)
     return (
       <>

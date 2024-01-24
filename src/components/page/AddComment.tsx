@@ -12,7 +12,7 @@ import { SubtitlesIcon } from "lucide-react";
 export default function AddComment({ postId, postType }: { postId: string; postType: "house" | "roommate" }) {
   const [isPending, startTransition] = useTransition();
   const [comment, setComment] = useState("");
-  const currentUser = useAuth();
+  const { currentUser } = useAuth();
 
   const handleAddComment = async () => {
     if (!comment || comment.trim().length === 0) return;

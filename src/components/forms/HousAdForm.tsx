@@ -35,7 +35,7 @@ export default function HouseAdForm() {
   const [isPending, startTransition] = useTransition();
   const [verificationOpen, setVerificationOpen] = useState(false);
   const router = useRouter();
-  const currentUser = useAuth();
+  const { currentUser } = useAuth();
 
   const form = useForm<z.infer<typeof HouseAdSchema>>({
     resolver: zodResolver(HouseAdSchema),

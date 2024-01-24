@@ -34,7 +34,7 @@ export type RoommateColumnsType = {
 };
 
 function GetCurrentUser() {
-  const currentUser = useAuth();
+  const { currentUser } = useAuth();
   return currentUser;
 }
 

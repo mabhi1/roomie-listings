@@ -35,7 +35,7 @@ export default function HouseEditForm({ houseAd }: { houseAd: HouseAd }) {
   const [gallery, setGallery] = useState<Gallery[]>(houseAd.gallery);
   const [fileError, setFileError] = useState<string>();
   const router = useRouter();
-  const currentUser = useAuth();
+  const { currentUser } = useAuth();
 
   const form = useForm<z.infer<typeof HouseAdSchema>>({
     resolver: zodResolver(HouseAdSchema),

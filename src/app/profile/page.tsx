@@ -19,7 +19,7 @@ import Image from "next/image";
 import { toast } from "sonner";
 
 export default function Profile() {
-  const currentUser = useAuth();
+  const { currentUser } = useAuth();
 
   const handleSendVerification = async () => {
     try {

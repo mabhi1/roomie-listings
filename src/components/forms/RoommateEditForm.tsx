@@ -29,7 +29,7 @@ export default function RoommateEditForm({ roommateAd }: { roommateAd?: Roommate
   const [date, setDate] = useState<Date | undefined>(roommateAd?.moveIn);
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
-  const currentUser = useAuth();
+  const { currentUser } = useAuth();
 
   const form = useForm<z.infer<typeof RoommateAdSchema>>({
     resolver: zodResolver(RoommateAdSchema),

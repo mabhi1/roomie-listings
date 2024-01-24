@@ -12,7 +12,7 @@ import { LandmarkIcon } from "lucide-react";
 export default async function Roommate() {
   const roommateData = await getAllRoommateAds();
   return (
-    <FullWrapper>
+    <FullWrapper className="gap-5">
       <PageHeader
         heading="Roommate Ads"
         subHeading="Browse throught the list of roommate ads and find the perfect partner you want to stay with."

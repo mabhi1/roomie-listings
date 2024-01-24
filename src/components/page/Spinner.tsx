@@ -2,8 +2,9 @@ import { cn } from "@/lib/utils";
 
 interface props {
   size: "small" | "medium" | "large";
+  className?: string;
 }
-export default function Spinner({ size }: props) {
+export default function Spinner({ size, className = "" }: props) {
   const sizeId = {
     large: "w-12 h-12",
     medium: "w-8 h-8",
@@ -11,7 +12,7 @@ export default function Spinner({ size }: props) {
   };
 
   return (
-    <div role="status">
+    <div role="status" className={className}>
       <svg
         aria-hidden="true"
         className={cn("text-accent animate-spin fill-primary", size ? sizeId[size] : "w-4 h-4")}
