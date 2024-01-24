@@ -18,20 +18,24 @@ export default function HeaderMessage() {
 
   return (
     <div className="text-xs bg-secondary">
-      <div className="w-full max-w-screen-xl mx-auto px-10 xl:px-5 py-1 flex justify-center items-center gap-1">
-        <MapPin className="w-3.5" />
-        <div>
+      <div className="w-full max-w-screen-xl mx-auto px-5 md:px-10 xl:px-5 py-1 flex justify-center flex-wrap items-center gap-1">
+        <MapPin className="w-3.5 hidden md:block" />
+        <div className="hidden md:block">
           Your current Location is set to{" "}
           <span className="bg-primary/70 text-primary-foreground px-1 rounded">{currentCity}</span>, NJ.
         </div>
-        <NavigationIcon className="w-3.5" />
+        <div className="block md:hidden">
+          Current Location : <span className="bg-primary/70 text-primary-foreground px-1 rounded">{currentCity}</span>,
+          NJ.
+        </div>
+        <NavigationIcon className="w-3.5 hidden md:block" />
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
             <div>
               <div className="cursor-pointer hidden lg:block">
                 Click here to change your current location for personalized recommendations.
               </div>
-              <div className="cursor-pointer block lg:hidden">Click here to change.</div>
+              <div className="cursor-pointer block lg:hidden">Change here.</div>
             </div>
           </PopoverTrigger>
           <PopoverContent className="p-0">
@@ -56,19 +60,7 @@ export default function HeaderMessage() {
             </Command>
           </PopoverContent>
         </Popover>
-        {/* <Dialog open={open} onOpenChange={setOpen}>
-          <DialogTrigger>Click here to change your current location for personalized recommendations.</DialogTrigger>
-          <DialogContent className="space-y-5 top-52">
-            <DialogHeader>
-              <DialogTitle className="font-normal">Select your current city.</DialogTitle>
-            </DialogHeader>
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="city">City</Label>
-              <ComboBox value={currentCity} setValue={setCurrentCity} />
-            </div>
-          </DialogContent>
-        </Dialog> */}
-        <MapPin className="w-3.5" />
+        <MapPin className="w-3.5 hidden md:block" />
       </div>
     </div>
   );
