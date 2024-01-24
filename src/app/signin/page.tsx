@@ -8,11 +8,11 @@ import EmailSignupForm from "@/components/forms/EmailSignupForm";
 
 export default function Signin() {
   return (
-    <FullWrapper className="pt-20 md:flex-row xl:gap-10 justify-center">
-      <div className="flex justify-center items-start mt-6">
+    <FullWrapper className="pt-3 md:pt-20 md:flex-row xl:gap-10 md:justify-center">
+      <div className="hidden md:flex justify-center items-start mt-6">
         <Image src="/signin.png" alt="Sign in" width={500} height={500} priority />
       </div>
-      <div className="flex flex-col gap-5 w-full max-w-[28rem]">
+      <div className="flex flex-col gap-3 md:gap-5 w-full max-w-[28rem]">
         <Tabs defaultValue="account" className="w-full">
           <TabsList className="w-full">
             <TabsTrigger value="account">

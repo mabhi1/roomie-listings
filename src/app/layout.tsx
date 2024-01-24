@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/header/Header";
@@ -16,10 +16,16 @@ export const metadata: Metadata = {
   description: "Connecting together with Roomie Listings",
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={cn(inter.className, "text-sm min-h-screen flex flex-col")}>
+      <body className={cn(inter.className, "text-xs md:text-sm min-h-screen flex flex-col")}>
         <AuthProvider>
           <QueryProvider>
             <HeaderMessage />

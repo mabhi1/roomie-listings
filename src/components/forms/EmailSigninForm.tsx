@@ -59,9 +59,11 @@ export default function EmailSigninForm() {
   return (
     <form className="flex justify-center" onSubmit={handleSubmit}>
       <Card className="border-0 shadow-none w-96">
-        <CardHeader className="space-y-1">
+        <CardHeader className="py-3 md:py-6 space-y-1">
           <PageHeader heading="Sign in with Email" backButton={false} />
-          <CardDescription className="text-left">Enter your email and password below to sign in.</CardDescription>
+          <CardDescription className="hidden md:block text-left">
+            Enter your email and password below to sign in.
+          </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-2">
           <div className="grid gap-2">

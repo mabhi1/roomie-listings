@@ -39,7 +39,7 @@ const browseAdComponents: { title: string; href: string; description: string; ic
 
 export default function WebNavigation() {
   return (
-    <NavigationMenu className="hidden md:flex">
+    <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
           <NavigationMenuTrigger>

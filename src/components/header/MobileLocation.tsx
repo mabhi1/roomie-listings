@@ -1,42 +1,47 @@
 "use client";
 
-import { Check, MapPin, NavigationIcon } from "lucide-react";
-import useAuth from "../providers/AuthProvider";
-import { useEffect, useState } from "react";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
 import { cityList } from "@/lib/NJStateInfo";
+import { Button } from "../ui/button";
+import { Check, MapPinIcon } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { useState } from "react";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "../ui/command";
+import useAuth from "../providers/AuthProvider";
 import { cn } from "@/lib/utils";
 
-export default function HeaderMessage() {
+export default function MobileLocation() {
   const { currentCity, setCurrentCity } = useAuth();
   const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    setOpen(false);
-  }, [currentCity]);
+  const [popMessage, setPopMessage] = useState(true);
 
   return (
-    <div className="hidden md:block text-xs bg-secondary">
-      <div className="w-full max-w-screen-xl mx-auto px-5 md:px-10 xl:px-5 py-2 md:py-1 flex justify-center flex-wrap items-center gap-1">
-        <MapPin className="w-3.5 hidden md:block" />
-        <div className="hidden md:block">
-          Your current Location is set to{" "}
-          <span className="bg-primary/70 text-primary-foreground px-1 rounded">{currentCity}</span>, NJ.
-        </div>
-        <div className="block md:hidden">
-          Current Location : <span className="bg-primary/70 text-primary-foreground px-1 rounded">{currentCity}</span>,
-          NJ.
-        </div>
-        <NavigationIcon className="w-3.5 hidden md:block" />
+    <Drawer>
+      <DrawerTrigger>
+        <Popover open={popMessage} onOpenChange={setPopMessage}>
+          <PopoverTrigger asChild>
+            <MapPinIcon className="w-5" />
+          </PopoverTrigger>
+          <PopoverContent className="text-xs md:text-sm w-full md:hidden">
+            Your current location is set to {currentCity}, NJ.
+          </PopoverContent>
+        </Popover>
+      </DrawerTrigger>
+      <DrawerContent className="p-5 pb-10">
+        <DrawerHeader>
+          <DrawerTitle>Your current location is set to {currentCity}, NJ.</DrawerTitle>
+          <DrawerDescription>Change it to your current location for personalized recommendations.</DrawerDescription>
+        </DrawerHeader>
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
-            <div>
-              <div className="cursor-pointer hidden lg:block">
-                Click here to change your current location for personalized recommendations.
-              </div>
-              <div className="cursor-pointer block lg:hidden">Click here to change.</div>
-            </div>
+            <Button>Change</Button>
           </PopoverTrigger>
           <PopoverContent className="p-0">
             <Command>
@@ -60,8 +65,7 @@ export default function HeaderMessage() {
             </Command>
           </PopoverContent>
         </Popover>
-        <MapPin className="w-3.5 hidden md:block" />
-      </div>
-    </div>
+      </DrawerContent>
+    </Drawer>
   );
 }

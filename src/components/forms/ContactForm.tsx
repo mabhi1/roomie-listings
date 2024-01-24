@@ -66,8 +66,8 @@ export default function ContactUsForm() {
   };
 
   return (
-    <form className="space-y-5" onSubmit={handleSubmit}>
-      <div className="space-y-2">
+    <form className="space-y-3 md:space-y-5" onSubmit={handleSubmit}>
+      <div className="space-y-1 md:space-y-2">
         <Label htmlFor="name">
           Name
           <Required />
@@ -82,7 +82,7 @@ export default function ContactUsForm() {
           disabled={currentUser ? true : false}
         />
       </div>
-      <div className="space-y-2">
+      <div className="space-y-1 md:space-y-2">
         <Label htmlFor="email">
           Email
           <Required />
@@ -97,7 +97,7 @@ export default function ContactUsForm() {
           disabled={currentUser ? true : false}
         />
       </div>
-      <div className="space-y-2">
+      <div className="space-y-1 md:space-y-2">
         <Label htmlFor="message">
           Message
           <Required />
@@ -119,7 +119,7 @@ export default function ContactUsForm() {
         onExpired={() => setReCaptcha(null)}
         onErrored={() => setReCaptcha(null)}
       />
-      <div className="flex gap-5">
+      <div className="flex gap-2 md:gap-5 justify-end md:justify-start">
         <Button disabled={!isValidForm() || loading || !reCaptcha}>
           <SendIcon className="w-4 mr-1" />
           Send
