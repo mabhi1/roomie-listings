@@ -81,7 +81,7 @@ export const HouseColumns: ColumnDef<HouseColumnsType>[] = [
   },
   {
     accessorKey: "address",
-    header: () => <div className="text-center mx-auto">City</div>,
+    header: () => <div className="text-center mx-auto w-20">City</div>,
     cell: ({ row }) => {
       const address: HouseAddress = row.getValue("address");
       const city = address.city;
@@ -129,7 +129,11 @@ export const HouseColumns: ColumnDef<HouseColumnsType>[] = [
     header: ({ column }) => {
       return (
         <span className="flex justify-center">
-          <Button variant="ghost" className="p-0" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          <Button
+            variant="ghost"
+            className="p-0 w-20"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
             Available
             {column.getIsSorted() === "asc" ? (
               <ArrowDownIcon className="ml-1 h-4 w-4" />

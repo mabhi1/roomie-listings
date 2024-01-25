@@ -8,10 +8,10 @@ export default function CreateHouseAd() {
     <FullWrapper>
       <PageHeader heading="List a house" subHeading="Fill out and submit the form below create a house ad." />
       <div className="w-full flex justify-between">
-        <div className="w-11/12 lg:w-1/2">
+        <div className="md:w-11/12 lg:w-1/2">
           <HouseAdForm />
         </div>
-        <div className="relative">
+        <div className="relative hidden md:block">
           <Image
             src="/house-ad.webp"
             alt="List a house"

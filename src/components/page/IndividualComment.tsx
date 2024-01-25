@@ -7,7 +7,7 @@ export default async function IndividualComment({ comment, adId }: { comment: Co
   const user = await getUserById(comment.uid);
 
   return (
-    <div className="flex flex-col gap-2" id={comment.id}>
+    <div className="flex flex-col gap-1 md:gap-2" id={comment.id}>
       <div className="flex gap-2 items-center">
         <div className="rounded-full w-fit overflow-clip">
           <Image

@@ -16,10 +16,10 @@ export default async function Comments({ id, type }: { id: string; type: "house"
         </div>
         <span className="bg-foreground text-accent px-1 rounded">{comments.length}</span>
       </div>
-      <div className="flex gap-5 lg:gap-8 mt-5">
+      <div className="flex flex-col md:flex-row gap-5 lg:gap-8 mt-3 md:mt-5">
         <AddComment postId={id} postType={type} />
-        <Separator orientation="vertical" />
-        <div className="flex flex-col gap-5">
+        <Separator orientation="vertical" className="hidden md:block" />
+        <div className="flex flex-col gap-5 ml-5">
           {comments.map((comment) => (
             <IndividualComment key={comment.id} comment={comment} adId={id} />
           ))}

@@ -156,112 +156,114 @@ export default function DataTable<TData, TValue>({ columns, data, page, profile 
     <div className="space-y-2">
       {!profile && (
         <>
-          <div className="flex items-center mb-5">
+          <div className="flex flex-col gap-3 md:flex-row md:justify-between items-start md:items-center mb-5">
             <div className="relative mr-auto">
               <SearchIcon className="absolute left-2 top-1/2 -translate-y-1/2 w-4 text-muted-foreground" />
               <Input
                 placeholder="Search by title"
                 value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
                 onChange={(event) => table.getColumn("title")?.setFilterValue(event.target.value)}
-                className="w-60 lg:w-80 pl-7"
+                className="w-80 md:w-60 lg:w-80 pl-7"
               />
             </div>
-            {currentUser && (
-              <Button variant="outline" className="mr-2 lg:mr-4" onClick={() => setShowMyAd((showMyAd) => !showMyAd)}>
-                {showMyAd ? <EyeOffIcon className="w-4 mr-1" /> : <EyeIcon className="w-4 mr-1" />}
-                {showMyAd ? "Hide my ads" : "Show my ads"}
-              </Button>
-            )}
-            <Sheet modal>
-              <SheetTrigger className="mr-2 lg:mr-4" asChild>
-                <Button variant="outline">
-                  <FilterIcon className="mr-1 w-4" />
-                  Filter
+            <div>
+              {currentUser && (
+                <Button variant="outline" className="mr-2 lg:mr-4" onClick={() => setShowMyAd((showMyAd) => !showMyAd)}>
+                  {showMyAd ? <EyeOffIcon className="w-4 mr-1" /> : <EyeIcon className="w-4 mr-1" />}
+                  {showMyAd ? "Hide my ads" : "Show my ads"}
                 </Button>
-              </SheetTrigger>
-              <SheetContent className="w-[50rem]">
-                <SheetHeader className="space-y-0">
-                  <SheetTitle>Filter Ads</SheetTitle>
-                  <SheetDescription>Select the options below to filter the table.</SheetDescription>
-                </SheetHeader>
-                <div className="my-5 flex flex-col gap-5">
-                  <div className="flex flex-col gap-2">
-                    <div className="font-medium">Duration</div>
-                    <Select onValueChange={(value) => setSelectedDuration(value)} value={selectedDuration}>
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select duration..." />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="temporary">Temporary</SelectItem>
-                        <SelectItem value="permanent">Permanent</SelectItem>
-                        <SelectItem value="all">Select All</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <div className="font-medium">Cities</div>
-                    <MultiSelect
-                      label="cities"
-                      data={getAllCities()}
-                      selected={selectedCity}
-                      setSelected={setSelectedCity}
-                    />
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <div className="font-medium">{page === "roommate" ? "Budget" : "Price"}</div>
-                    <div className="flex gap-2 justify-evenly items-center">
-                      <span>Min: </span>
-                      <Input
-                        type="number"
-                        className="w-28"
-                        value={min}
-                        onChange={(e) => setMin(Number(e.target.value))}
-                      />
-                      <span>Max: </span>
-                      <Input
-                        type="number"
-                        className="w-28"
-                        value={max}
-                        onChange={(e) => setMax(Number(e.target.value))}
+              )}
+              <Sheet modal>
+                <SheetTrigger className="mr-2 lg:mr-4" asChild>
+                  <Button variant="outline">
+                    <FilterIcon className="mr-1 w-4" />
+                    Filter
+                  </Button>
+                </SheetTrigger>
+                <SheetContent className="md:w-[50rem]">
+                  <SheetHeader className="space-y-0">
+                    <SheetTitle>Filter Ads</SheetTitle>
+                    <SheetDescription>Select the options below to filter the table.</SheetDescription>
+                  </SheetHeader>
+                  <div className="my-5 flex flex-col gap-5">
+                    <div className="flex flex-col gap-2">
+                      <div className="font-medium">Duration</div>
+                      <Select onValueChange={(value) => setSelectedDuration(value)} value={selectedDuration}>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select duration..." />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="temporary">Temporary</SelectItem>
+                          <SelectItem value="permanent">Permanent</SelectItem>
+                          <SelectItem value="all">Select All</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <div className="font-medium">Cities</div>
+                      <MultiSelect
+                        label="cities"
+                        data={getAllCities()}
+                        selected={selectedCity}
+                        setSelected={setSelectedCity}
                       />
                     </div>
+                    <div className="flex flex-col gap-2">
+                      <div className="font-medium">{page === "roommate" ? "Budget" : "Price"}</div>
+                      <div className="flex flex-col md:flex-row gap-2 justify-evenly md:items-center">
+                        <span>Min: </span>
+                        <Input
+                          type="number"
+                          className="md:w-28"
+                          value={min}
+                          onChange={(e) => setMin(Number(e.target.value))}
+                        />
+                        <span>Max: </span>
+                        <Input
+                          type="number"
+                          className="md:w-28"
+                          value={max}
+                          onChange={(e) => setMax(Number(e.target.value))}
+                        />
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <SheetFooter>
-                  <Button className="w-full" onClick={handleClearFilter}>
-                    <EraserIcon className="w-4 mr-1" />
-                    Clear Filter
+                  <SheetFooter>
+                    <Button className="w-full" onClick={handleClearFilter}>
+                      <EraserIcon className="w-4 mr-1" />
+                      Clear Filter
+                    </Button>
+                  </SheetFooter>
+                </SheetContent>
+              </Sheet>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline">
+                    <ColumnsIcon className="mr-1 w-4" />
+                    Columns
                   </Button>
-                </SheetFooter>
-              </SheetContent>
-            </Sheet>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline">
-                  <ColumnsIcon className="mr-1 w-4" />
-                  Columns
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                {table
-                  .getAllColumns()
-                  .filter((column) => column.getCanHide())
-                  .map((column) => {
-                    return (
-                      <DropdownMenuCheckboxItem
-                        key={column.id}
-                        className="capitalize"
-                        checked={column.getIsVisible()}
-                        onCheckedChange={(value) => column.toggleVisibility(!!value)}
-                      >
-                        {(filterColumnMapping as any)[column.id]}
-                      </DropdownMenuCheckboxItem>
-                    );
-                  })}
-              </DropdownMenuContent>
-            </DropdownMenu>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  {table
+                    .getAllColumns()
+                    .filter((column) => column.getCanHide())
+                    .map((column) => {
+                      return (
+                        <DropdownMenuCheckboxItem
+                          key={column.id}
+                          className="capitalize"
+                          checked={column.getIsVisible()}
+                          onCheckedChange={(value) => column.toggleVisibility(!!value)}
+                        >
+                          {(filterColumnMapping as any)[column.id]}
+                        </DropdownMenuCheckboxItem>
+                      );
+                    })}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
           </div>
-          <div className="text-xs text-muted-foreground w-fit flex gap-2 flex-wrap">
+          <div className="text-xs text-muted-foreground w-fit flex gap-x-2 gap-y-1 flex-wrap items-center">
             {currentUser && (
               <div className="space-x-1">
                 <span>Your Ads :</span>
@@ -301,7 +303,7 @@ export default function DataTable<TData, TValue>({ columns, data, page, profile 
               </div>
             )}
             {!isNotFiltered() && (
-              <Button variant="link" className="p-0 h-4" onClick={handleClearFilter}>
+              <Button variant="link" className="p-0 h-[10px] md:h-[10px]" onClick={handleClearFilter}>
                 Clear filters
               </Button>
             )}

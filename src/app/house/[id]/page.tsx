@@ -15,15 +15,15 @@ export default async function HouseId({ params: { id } }: { params: { id: string
   const poster = await getUserById(house.postedBy);
 
   return (
-    <FullWrapper className="gap-5">
+    <FullWrapper className="gap-3 md:gap-5">
       <PageHeader
         heading="House Available"
         backButton
         subHeading="Reach out by sending a message if you like the ad below."
       />
       <Card>
-        <CardHeader className="p-5 gap-2 lg:gap-0 flex-row items-center justify-between">
-          <div className="space-y-1.5 mr-auto">
+        <CardHeader className="space-y-0 md:space-y-1.5 p-3 md:p-5 flex-col-reverse md:flex-row gap-1 md:gap-2 lg:gap-0 md:items-center justify-between">
+          <div className="md:space-y-1.5 mr-auto">
             <CardTitle className="font-light">{house.title}</CardTitle>
             <CardDescription>
               <span className="italic text-xs ">
@@ -31,8 +31,9 @@ export default async function HouseId({ params: { id } }: { params: { id: string
                 {house.updatedAt.toLocaleDateString("en-us", { year: "numeric", month: "short", day: "numeric" })}
               </span>
             </CardDescription>
-            {house.showEmail && <p className="text-xs mr-1 lg:mr-5">User Email: {poster.email}</p>}
+            {house.showEmail && <p className="hidden md:block text-xs mr-1 lg:mr-5">User Email: {poster.email}</p>}
           </div>
+          {house.showEmail && <p className="md:hidden text-xs lg:mr-5 mr-auto">User Email: {poster.email}</p>}
           <PosterIcon poster={poster} />
         </CardHeader>
         <CardContent className="space-y-5 px-0">
@@ -61,9 +62,9 @@ export default async function HouseId({ params: { id } }: { params: { id: string
               </TableRow>
             </TableBody>
           </Table>
-          <div className="px-6">{house.description}</div>
+          <div className="px-3 md:px-6">{house.description}</div>
           {house.gallery.length > 0 && (
-            <div className="px-16 w-fit">
+            <div className="mx-auto md:mx-0 md:px-16 w-fit">
               <GalleryCarousel gallery={house.gallery} />
             </div>
           )}

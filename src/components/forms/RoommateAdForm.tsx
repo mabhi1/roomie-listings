@@ -173,7 +173,7 @@ export default function RoommateAdForm() {
               control={form.control}
               name="address.city"
               render={({ field }) => (
-                <FormItem className="flex flex-col gap-2">
+                <FormItem className="flex flex-col">
                   <FormLabel htmlFor="city">
                     City
                     <Required />

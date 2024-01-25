@@ -14,15 +14,15 @@ export default async function RoommateId({ params: { id } }: { params: { id: str
   const poster = await getUserById(roommate.postedBy);
 
   return (
-    <FullWrapper className="gap-5">
+    <FullWrapper className="gap-3 md:gap-5">
       <PageHeader
         heading="Roommate Available"
         backButton
         subHeading="Reach out by sending a message if you like the ad below."
       />
       <Card>
-        <CardHeader className="p-5 flex-row gap-2 lg:gap-0 items-center justify-between">
-          <div className="space-y-1.5 mr-auto">
+        <CardHeader className="space-y-0 md:space-y-1.5 p-3 md:p-5 flex-col-reverse md:flex-row gap-1 md:gap-2 lg:gap-0 md:items-center justify-between">
+          <div className="md:space-y-1.5 mr-auto">
             <CardTitle className="font-light">{roommate.title}</CardTitle>
             <CardDescription>
               <span className="italic text-xs ">
@@ -30,8 +30,9 @@ export default async function RoommateId({ params: { id } }: { params: { id: str
                 {roommate.updatedAt.toLocaleDateString("en-us", { year: "numeric", month: "short", day: "numeric" })}
               </span>
             </CardDescription>
-            {roommate.showEmail && <p className="text-xs mr-1 lg:mr-5">User Email: {poster.email}</p>}
+            {roommate.showEmail && <p className="hidden md:block text-xs mr-1 lg:mr-5">User Email: {poster.email}</p>}
           </div>
+          {roommate.showEmail && <p className="md:hidden text-xs lg:mr-5 mr-auto">User Email: {poster.email}</p>}
           <PosterIcon poster={poster} />
         </CardHeader>
         <CardContent className="space-y-5 px-0">
@@ -40,7 +41,9 @@ export default async function RoommateId({ params: { id } }: { params: { id: str
               <TableRow className="bg-muted/50">
                 <TableHead className="text-center font-normal text-accent-foreground h-8">Location</TableHead>
                 <TableHead className="text-center font-normal text-accent-foreground h-8">Budget</TableHead>
-                <TableHead className="text-center font-normal text-accent-foreground h-8">Move in</TableHead>
+                <TableHead className="text-center font-normal text-accent-foreground h-8 w-20 md:w-auto">
+                  Move in
+                </TableHead>
                 <TableHead className="text-center font-normal text-accent-foreground h-8">Duration</TableHead>
               </TableRow>
             </TableHeader>
@@ -60,7 +63,7 @@ export default async function RoommateId({ params: { id } }: { params: { id: str
               </TableRow>
             </TableBody>
           </Table>
-          <div className="px-6">{roommate.description}</div>
+          <div className="px-3 md:px-6">{roommate.description}</div>
         </CardContent>
         <RoommateButtons ad={roommate} />
       </Card>

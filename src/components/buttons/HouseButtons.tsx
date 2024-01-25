@@ -79,7 +79,7 @@ export default function HouseButtons({ ad }: { ad: HouseAd }) {
     );
   else if (ad.postedBy === currentUser?.uid)
     return (
-      <CardFooter className="p-5 gap-2 lg:gap-5 justify-between">
+      <CardFooter className="justify-between p-3 md:p-5 gap-2 lg:gap-5">
         <Link href={`/house/${ad.id}/edit`} passHref legacyBehavior>
           <Button variant="secondary" disabled={isPending}>
             <PenLineIcon className="mr-1 w-4" />
@@ -110,25 +110,27 @@ export default function HouseButtons({ ad }: { ad: HouseAd }) {
     );
   else
     return (
-      <CardFooter className="p-5 gap-2 lg:gap-5">
-        {currentUser.emailVerified && (
-          <Link href={`/message/${currentUser.uid}/${ad.postedBy}/house/${ad.id}`} passHref legacyBehavior>
-            <Button disabled={isPending}>
-              <SendIcon className="w-4 mr-1" />
-              Send Message
+      <CardFooter className="flex-col md:flex-row p-3 md:p-5 gap-2 lg:gap-5 justify-between">
+        <div className="flex flex-row justify-between w-full md:w-fit gap-2 lg:gap-5">
+          {currentUser.emailVerified && (
+            <Link href={`/message/${currentUser.uid}/${ad.postedBy}/house/${ad.id}`} passHref legacyBehavior>
+              <Button disabled={isPending}>
+                <SendIcon className="w-4 mr-1" />
+                Send Message
+              </Button>
+            </Link>
+          )}
+          {ad.savedBy.includes(currentUser.uid) ? (
+            <div className="mr-auto">You saved this Ad</div>
+          ) : (
+            <Button className="mr-auto" variant="secondary" onClick={handleSaveAd} disabled={isPending}>
+              <HardDriveDownloadIcon className="w-4 mr-1" />
+              Save
             </Button>
-          </Link>
-        )}
-        {ad.savedBy.includes(currentUser.uid) ? (
-          <div className="mr-auto">You saved this Ad</div>
-        ) : (
-          <Button className="mr-auto" variant="secondary" onClick={handleSaveAd} disabled={isPending}>
-            <HardDriveDownloadIcon className="w-4 mr-1" />
-            Save
-          </Button>
-        )}
+          )}
+        </div>
         {currentUser.emailVerified ? (
-          <>
+          <div className="flex flex-row-reverse md:flex-row items-center justify-between w-full md:w-fit md:gap-2 lg:gap-5">
             <div className="text-destructive">
               {ad.reports.length} {ad.reports.length === 1 ? "Report" : "Reports"}
             </div>
@@ -136,7 +138,7 @@ export default function HouseButtons({ ad }: { ad: HouseAd }) {
               <MessageSquareXIcon className="w-4 mr-1" />
               Report Inappropriate
             </Button>
-          </>
+          </div>
         ) : (
           <div className="text-muted-foreground">Please verify your email to send email or report this ad.</div>
         )}

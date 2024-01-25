@@ -28,10 +28,10 @@ export default function MobileNavigation() {
               </div>
             </AccordionTrigger>
             <AccordionContent className="flex flex-col gap-5 mt-2">
-              <Link href="/roommate" className="py-0 text-xs ml-6" onClick={() => setOpen(false)}>
+              <Link href="/roommate" className="py-0 text-xs ml-11" onClick={() => setOpen(false)}>
                 Search Roommate
               </Link>
-              <Link href="/house" className="py-0 text-xs ml-6" onClick={() => setOpen(false)}>
+              <Link href="/house" className="py-0 text-xs ml-11" onClick={() => setOpen(false)}>
                 Search House
               </Link>
             </AccordionContent>
@@ -48,10 +48,10 @@ export default function MobileNavigation() {
                   </div>
                 </AccordionTrigger>
                 <AccordionContent className="flex flex-col gap-5 mt-2">
-                  <Link href="/roommate/create" className="py-0 text-xs ml-6" onClick={() => setOpen(false)}>
+                  <Link href="/roommate/create" className="py-0 text-xs ml-11" onClick={() => setOpen(false)}>
                     Create Roommate Ad
                   </Link>
-                  <Link href="/house/create" className="py-0 text-xs ml-6" onClick={() => setOpen(false)}>
+                  <Link href="/house/create" className="py-0 text-xs ml-11" onClick={() => setOpen(false)}>
                     Create House Ad
                   </Link>
                 </AccordionContent>
