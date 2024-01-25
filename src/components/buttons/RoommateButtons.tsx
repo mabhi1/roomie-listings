@@ -69,7 +69,7 @@ export default function RoommateButtons({ ad }: { ad: RoommateAd }) {
 
   if (!currentUser)
     return (
-      <CardFooter className="justify-end">
+      <CardFooter className="p-3 md:p-6 justify-start md:justify-end">
         <div>Please login to save, or report this ad, or send a message to the user</div>
       </CardFooter>
     );

@@ -13,7 +13,7 @@ export default function LoginRequest({ message }: { message?: string | undefined
   const router = useRouter();
   return (
     <FullWrapper className="mt-20">
-      <Card className="relative w-2/3 xl:w-1/2 mx-auto">
+      <Card className="relative md:w-2/3 xl:w-1/2 mx-auto">
         <CardHeader>
           <PageHeader heading="Authentication Required" className="text-destructive" backButton={false} />
           <CardDescription>{message || "Please login to continue."}</CardDescription>
@@ -30,7 +30,7 @@ export default function LoginRequest({ message }: { message?: string | undefined
             </Button>
           </Link>
         </CardContent>
-        <CardFooter>
+        <CardFooter className="hidden md:flex">
           <Image
             src="/login-req.png"
             alt="Sign in Required"
