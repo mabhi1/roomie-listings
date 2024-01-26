@@ -21,7 +21,7 @@ export default function ComboBox({ value, setValue }: { value: string; setValue:
         <Command>
           <CommandInput placeholder="Search city..." />
           <CommandEmpty>No city found.</CommandEmpty>
-          <CommandGroup className="h-80 overflow-auto w-full">
+          <CommandGroup className="h-40 md:h-80 overflow-auto w-full">
             {cityList.map((city) => (
               <CommandItem
                 key={city}

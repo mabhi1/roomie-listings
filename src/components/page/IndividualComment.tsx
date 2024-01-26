@@ -2,6 +2,7 @@ import { Comment } from "@/lib/types";
 import { getUserById } from "@/prisma/db/users";
 import Image from "next/image";
 import CommentButtons from "../buttons/CommentButtons";
+import userImage from "../../../public/user.png";
 
 export default async function IndividualComment({ comment, adId }: { comment: Comment; adId: string }) {
   const user = await getUserById(comment.uid);
@@ -11,12 +12,14 @@ export default async function IndividualComment({ comment, adId }: { comment: Co
       <div className="flex gap-2 items-center">
         <div className="rounded-full w-fit overflow-clip">
           <Image
-            src={user.photo ? user.photo : "/user.png"}
+            src={user.photo ? user.photo : userImage}
             alt={user.name}
             width={40}
             height={40}
             className="w-[35px] h-[35px] object-cover"
             priority
+            placeholder="blur"
+            blurDataURL={user.photo ? user.photo : ""}
           />
         </div>
         <div className="flex flex-col">

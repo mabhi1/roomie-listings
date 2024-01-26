@@ -8,6 +8,7 @@ import { getRoommateById } from "@/prisma/db/roommaateAds";
 import { getUserById } from "@/prisma/db/users";
 import Image from "next/image";
 import Link from "next/link";
+import sendEmailImage from "../../../../public/send-email.png";
 
 export default async function SendMessage({ params: { messageProps } }: { params: { messageProps: string[] } }) {
   if (messageProps.length !== 4) throw new Error("Invalid Request");
@@ -21,7 +22,7 @@ export default async function SendMessage({ params: { messageProps } }: { params
   if (!ad) throw new Error("Invalid Request");
 
   return (
-    <FullWrapper className="gap-5">
+    <FullWrapper className="gap-3 md:gap-5">
       <PageHeader
         heading="Send Message"
         subHeading="Submit the form below to send an enquiry email. Following details will be send along with your message"
@@ -39,30 +40,31 @@ export default async function SendMessage({ params: { messageProps } }: { params
         <TableBody>
           <TableRow className="hover:bg-inherit">
             <TableCell className="border-b py-2">
-              <Link href={`/${type}/${ad.id}`} className="block overflow-hidden w-[200px] lg:w-[400px] xl:w-[600px]">
+              <Link href={`/${type}/${ad.id}`} className="block overflow-hidden w-[260px] lg:w-[400px] xl:w-[600px]">
                 <Button variant="link" className="h-8 p-0">
                   {ad.title}
                 </Button>
               </Link>
             </TableCell>
             <TableCell className="border-b text-center py-2 capitalize">{type}</TableCell>
-            <TableCell className="border-b text-center py-2">{sender.name}</TableCell>
+            <TableCell className="text-center py-2 min-w-24 block md:table-cell">{sender.name}</TableCell>
             <TableCell className="border-b text-center py-2">{sender.email}</TableCell>
           </TableRow>
         </TableBody>
       </Table>
       <div className="w-full flex gap-10 justify-between">
-        <div className="w-1/2 space-y-5">
+        <div className="w-full md:w-1/2 space-y-5">
           <MessageForm sender={sender} receiver={receiver} type={type} ad={ad} />
         </div>
-        <div className="relative w-1/2 pt-10">
+        <div className="hidden md:block relative w-1/2 pt-10">
           <Image
-            src="/send-email.png"
+            src={sendEmailImage}
             alt="Send an email"
             width={1003}
             height={900}
             className="h-auto w-auto"
             priority
+            placeholder="blur"
           />
           <div className="absolute top-0 left-0 w-full bg-white/30 h-full"></div>
         </div>

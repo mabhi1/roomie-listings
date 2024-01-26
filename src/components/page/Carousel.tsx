@@ -20,6 +20,8 @@ export default function GalleryCarousel({ gallery }: { gallery: Gallery[] }) {
                   height={1024}
                   priority
                   className="w-full h-full object-contain bg-secondary-foreground/5 rounded"
+                  placeholder="blur"
+                  blurDataURL={item.url}
                 />
               </a>
             )}

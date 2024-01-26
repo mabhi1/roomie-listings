@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useRouter } from "next/navigation";
+import leftSignImage from "../../../public/left-sign.png";
 
 export default function BackButton() {
   const router = useRouter();
@@ -13,12 +14,13 @@ export default function BackButton() {
         <TooltipTrigger asChild>
           <Image
             alt="go back"
-            src="/left-sign.png"
+            src={leftSignImage}
             width={20}
             height={20}
             priority
             className="w-5 md:w-auto cursor-pointer"
             onClick={() => router.back()}
+            placeholder="blur"
           />
         </TooltipTrigger>
         <TooltipContent>

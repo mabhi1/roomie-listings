@@ -5,12 +5,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ClipboardSignatureIcon, MailIcon } from "lucide-react";
 import Image from "next/image";
 import EmailSignupForm from "@/components/forms/EmailSignupForm";
+import signInImage from "../../../public/signin.png";
 
 export default function Signin() {
   return (
     <FullWrapper className="pt-5 md:pt-20 md:flex-row xl:gap-10 md:justify-center">
       <div className="hidden md:flex justify-center items-start mt-6">
-        <Image src="/signin.png" alt="Sign in" width={500} height={500} priority />
+        <Image src={signInImage} alt="Sign in" width={500} height={500} priority placeholder="blur" />
       </div>
       <div className="flex flex-col gap-3 md:gap-5 w-full max-w-[28rem]">
         <Tabs defaultValue="account" className="w-full">

@@ -7,6 +7,7 @@ import { getRoommateAdsByUser } from "@/prisma/db/roommaateAds";
 import { getUserById } from "@/prisma/db/users";
 import Image from "next/image";
 import Link from "next/link";
+import userImage from "../../../../public/user.png";
 
 export default async function UserPublicProfile({ params: { id } }: { params: { id: string } }) {
   const user = await getUserById(id);
@@ -14,7 +15,7 @@ export default async function UserPublicProfile({ params: { id } }: { params: { 
   const houseAds = await getHouseAdsByUser(user.uid, "postedAds");
   const roommateAds = await getRoommateAdsByUser(user.uid, "postedAds");
   return (
-    <FullWrapper className="gap-5">
+    <FullWrapper className="gap-3 md:gap-5">
       <PageHeader
         heading="User Profile"
         subHeading="This is the public profile page. All the posted ads by the user are listed below."
@@ -22,12 +23,14 @@ export default async function UserPublicProfile({ params: { id } }: { params: { 
       <div className="flex gap-5 items-center">
         <div className="rounded-full w-fit h-fit overflow-clip">
           <Image
-            src={user.photo ? user.photo : "/user.png"}
+            src={user.photo ? user.photo : userImage}
             alt={user.name!}
             width={50}
             height={50}
             className="w-[60px] h-[60px] xl:w-[80px] xl:h-[80px] object-cover"
             priority
+            placeholder="blur"
+            blurDataURL={user.photo ? user.photo : ""}
           />
         </div>
         <div className="text-lg">{user.name}</div>
@@ -54,7 +57,10 @@ export default async function UserPublicProfile({ params: { id } }: { params: { 
               {houseAds?.map((house) => (
                 <TableRow className="hover:bg-inherit" key={house.id}>
                   <TableCell className="border-r py-1 pl-4">
-                    <Link href={`/house/${house.id}`} className="block w-[350px] xl:w-[650px] overflow-hidden">
+                    <Link
+                      href={`/house/${house.id}`}
+                      className="block w-[260px] md:w-[350px] xl:w-[650px] overflow-hidden"
+                    >
                       <Button variant="link" className="p-0">
                         {house.title}
                       </Button>
@@ -106,7 +112,10 @@ export default async function UserPublicProfile({ params: { id } }: { params: { 
               {roommateAds.map((roommate) => (
                 <TableRow className="hover:bg-inherit" key={roommate.id}>
                   <TableCell className="border-r py-1 pl-4">
-                    <Link href={`/roommate/${roommate.id}`} className="block w-[350px] xl:w-[650px] overflow-hidden">
+                    <Link
+                      href={`/roommate/${roommate.id}`}
+                      className="block w-[260px] md:w-[350px] xl:w-[650px] overflow-hidden"
+                    >
                       <Button variant="link" className="p-0">
                         {roommate.title}
                       </Button>
@@ -119,7 +128,7 @@ export default async function UserPublicProfile({ params: { id } }: { params: { 
                       currency: "USD",
                     }).format(roommate.budget)}
                   </TableCell>
-                  <TableCell className="border-r text-center py-1">
+                  <TableCell className="border-r text-center py-1 min-w-20">
                     {roommate.moveIn.toLocaleDateString("en-us", { year: "numeric", month: "short", day: "numeric" })}
                   </TableCell>
                   <TableCell className="border-r text-center capitalize py-1 hidden lg:table-cell">

@@ -4,13 +4,22 @@ import { Button } from "@/components/ui/button";
 import { HomeIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import notFoundImage from "../../public/not-found.png";
 
 export default function NotFound() {
   return (
     <FullWrapper>
       <PageHeader heading="OOPS! Page not found" subHeading="The page you are looking for does not exists." />
-      <div className="w-1/2 mx-auto text-center mt-20 space-y-5">
-        <Image src="/not-found.png" alt="Error" width={260} height={260} className="mx-auto w-[500px]" priority />
+      <div className="md:w-1/2 mx-auto text-center mt-3 md:mt-20 space-y-3 md:space-y-5">
+        <Image
+          src={notFoundImage}
+          alt="Error"
+          width={260}
+          height={260}
+          className="mx-auto w-[500px]"
+          priority
+          placeholder="blur"
+        />
         <Link href="/" passHref legacyBehavior>
           <Button variant="secondary">
             <HomeIcon className="mr-1 w-4" />

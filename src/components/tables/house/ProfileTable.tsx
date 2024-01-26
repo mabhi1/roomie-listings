@@ -84,7 +84,7 @@ export default function HouseProfileTable({ currentUser, tab }: { currentUser: U
           {ads?.map((house) => (
             <TableRow className="hover:bg-inherit" key={house.id}>
               <TableCell className="border-r py-1 pl-4">
-                <Link href={`/house/${house.id}`} className="block w-[320px] xl:w-[580px] overflow-hidden">
+                <Link href={`/house/${house.id}`} className="block w-[260px] md:w-[320px] xl:w-[580px] overflow-hidden">
                   <Button variant="link" className="p-0">
                     {house.title}
                   </Button>

@@ -51,8 +51,8 @@ export default function EditProfileForm({
   return (
     <form onSubmit={handleChangeProfile}>
       <div className="grid gap-4 py-4">
-        <div className="grid grid-cols-4 items-center gap-4">
-          <Label htmlFor="picture" className="text-right">
+        <div className="flex flex-col md:grid grid-cols-4 md:items-center gap-2 md:gap-4">
+          <Label htmlFor="picture" className="md:text-right">
             Change Picture
           </Label>
           <Input
@@ -74,8 +74,8 @@ export default function EditProfileForm({
           />
         </div>
 
-        <div className="grid grid-cols-4 items-center gap-4">
-          <Label htmlFor="name" className="text-right">
+        <div className="flex flex-col md:grid grid-cols-4 md:items-center gap-2 md:gap-4">
+          <Label htmlFor="name" className="md:text-right">
             Change Name
           </Label>
           <Input

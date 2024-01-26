@@ -47,7 +47,7 @@ export default function MobileLocation() {
             <Command>
               <CommandInput placeholder="Search city..." />
               <CommandEmpty>No city found.</CommandEmpty>
-              <CommandGroup className="h-80 overflow-auto w-full">
+              <CommandGroup className="h-40 overflow-auto w-full">
                 {cityList.map((city) => (
                   <CommandItem
                     key={city}

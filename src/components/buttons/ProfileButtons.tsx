@@ -60,14 +60,14 @@ export default function ProfileButtons({ currentUser }: { currentUser: User }) {
         <DialogTrigger asChild>
           <Button
             onClick={() => setProfileDialog(true)}
-            className={provider !== "password" ? "col-start-2 xl:col-start-auto" : ""}
+            className={provider !== "password" ? "md:col-start-2 xl:col-start-auto" : ""}
           >
             <UserCog2Icon className="w-4 mr-1" />
             Edit Profile
           </Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[520px]">
-          <DialogHeader>
+        <DialogContent className="max-w-[350px] md:max-w-[520px]">
+          <DialogHeader className="text-left">
             <DialogTitle>Edit Profile</DialogTitle>
             <DialogDescription>Edit your profile here. Click save when you&apos;re done.</DialogDescription>
           </DialogHeader>

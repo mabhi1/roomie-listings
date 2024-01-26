@@ -387,6 +387,8 @@ export default function HouseEditForm({ houseAd }: { houseAd: HouseAd }) {
                         height={1024}
                         priority
                         className="h-40 w-full object-cover rounded"
+                        placeholder="blur"
+                        blurDataURL={item.url}
                       />
                     </a>
                   )}

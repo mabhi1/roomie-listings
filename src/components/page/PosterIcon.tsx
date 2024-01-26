@@ -5,6 +5,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/
 import Image from "next/image";
 import { User } from "@/lib/types";
 import useAuth from "../providers/AuthProvider";
+import userImage from "../../../public/user.png";
 
 export default function PosterIcon({ poster }: { poster: User }) {
   const { currentUser } = useAuth();
@@ -16,12 +17,14 @@ export default function PosterIcon({ poster }: { poster: User }) {
           <TooltipTrigger asChild>
             <div className="rounded-full w-fit overflow-clip">
               <Image
-                src={poster.photo ? poster.photo : "/user.png"}
+                src={poster.photo ? poster.photo : userImage}
                 alt={poster.name!}
                 width={60}
                 height={60}
                 className="w-[50px] h-[50px] object-cover"
                 priority
+                placeholder="blur"
+                blurDataURL={poster.photo ? poster.photo : ""}
               />
             </div>
           </TooltipTrigger>

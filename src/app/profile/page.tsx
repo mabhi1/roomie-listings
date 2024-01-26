@@ -17,6 +17,7 @@ import { sendEmailVerification } from "firebase/auth";
 import { BadgeCheckIcon, BadgeXIcon, HomeIcon, MessageSquareMoreIcon, UsersIcon } from "lucide-react";
 import Image from "next/image";
 import { toast } from "sonner";
+import noUserImage from "../../../public/user.png";
 
 export default function Profile() {
   const { currentUser } = useAuth();
@@ -43,20 +44,22 @@ export default function Profile() {
 
   if (currentUser)
     return (
-      <FullWrapper className="gap-5">
+      <FullWrapper className="gap-3 md:gap-5">
         <PageHeader
           heading="My Profile"
           subHeading="This is your profile page. You can see the related comments and ads here."
         />
-        <div className="flex gap-3 lg:gap-5 items-center">
+        <div className="flex flex-col md:flex-row gap-3 lg:gap-5 md:items-center">
           <div className="group relative rounded-full w-fit h-fit overflow-clip">
             <Image
-              src={currentUser.photoURL ? currentUser.photoURL : "/user.png"}
+              src={currentUser.photoURL ? currentUser.photoURL : noUserImage}
               alt={currentUser.displayName!}
               width={50}
               height={50}
               className="w-[80px] h-[80px] xl:w-[100px] xl:h-[100px] object-cover"
               priority
+              placeholder="blur"
+              blurDataURL={currentUser.photoURL ? currentUser.photoURL : ""}
             />
             {currentUser.photoURL && (
               <Button
@@ -88,8 +91,8 @@ export default function Profile() {
           </div>
           <ProfileButtons currentUser={currentUser} />
         </div>
-        <Tabs defaultValue="savedAds" className="w-full">
-          <TabsList className="w-full">
+        <Tabs defaultValue="savedAds" className="w-full mt-5 md:mt-0">
+          <TabsList className="flex-wrap md:flex-nowrap h-16 overflow-y-auto md:h-10 w-full">
             <TabsTrigger value="savedAds">Saved Ads</TabsTrigger>
             <TabsTrigger value="postedAds">Posted Ads</TabsTrigger>
             <TabsTrigger value="comments">Comments</TabsTrigger>

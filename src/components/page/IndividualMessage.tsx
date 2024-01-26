@@ -15,7 +15,7 @@ export default async function IndividualMessage({ message }: { message: Message 
   return (
     <>
       <AccordionTrigger>{messageText}</AccordionTrigger>
-      <AccordionContent>
+      <AccordionContent className="text-xs md:text-sm">
         <>
           <div className="grid grid-cols-2 w-fit text-muted-foreground">
             <div>Date sent</div>
@@ -39,7 +39,9 @@ export default async function IndividualMessage({ message }: { message: Message 
                 width={1024}
                 height={1024}
                 priority
-                className="h-40 w-40 lg:h-40 lg:w-40 xl:h-52 xl:w-52 object-cover rounded my-5"
+                className="h-40 w-40 lg:h-40 lg:w-40 xl:h-52 xl:w-52 object-cover rounded my-3 md:my-5"
+                placeholder="blur"
+                blurDataURL={message.attachments[0]}
               />
             </a>
           ) : (

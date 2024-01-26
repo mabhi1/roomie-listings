@@ -8,6 +8,7 @@ import PageHeader from "./PageHeader";
 import Image from "next/image";
 import Link from "next/link";
 import { LogInIcon, RotateCcwIcon } from "lucide-react";
+import loginRequestImage from "../../../public/login-req.png";
 
 export default function LoginRequest({ message }: { message?: string | undefined }) {
   const router = useRouter();
@@ -32,12 +33,13 @@ export default function LoginRequest({ message }: { message?: string | undefined
         </CardContent>
         <CardFooter className="hidden md:flex">
           <Image
-            src="/login-req.png"
+            src={loginRequestImage}
             alt="Sign in Required"
             width={100}
             height={100}
             className="w-auto absolute right-6 top-6"
             priority
+            placeholder="blur"
           />
         </CardFooter>
       </Card>

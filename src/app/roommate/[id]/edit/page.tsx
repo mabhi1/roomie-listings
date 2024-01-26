@@ -3,6 +3,7 @@ import FullWrapper from "@/components/page/FullWrapper";
 import PageHeader from "@/components/page/PageHeader";
 import { getRoommateById } from "@/prisma/db/roommaateAds";
 import Image from "next/image";
+import editAdImage from "../../../../../public/edit-ad.webp";
 
 export default async function EditRoommateAd({ params: { id } }: { params: { id: string } }) {
   const roommateAd = await getRoommateById(id);
@@ -15,7 +16,15 @@ export default async function EditRoommateAd({ params: { id } }: { params: { id:
           <RoommateEditForm roommateAd={roommateAd} />
         </div>
         <div className="relative h-fit">
-          <Image src="/edit-ad.webp" alt="Edit Ad" width={1003} height={1200} className="h-auto w-[501px]" priority />
+          <Image
+            src={editAdImage}
+            alt="Edit Ad"
+            width={1003}
+            height={1200}
+            className="h-auto w-[501px]"
+            priority
+            placeholder="blur"
+          />
           <div className="absolute top-0 left-0 w-full bg-white/30 h-full"></div>
         </div>
       </div>

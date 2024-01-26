@@ -8,6 +8,7 @@ import { ButtonHTMLAttributes } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { User } from "@/lib/types";
 import axios from "axios";
+import googleImage from "../../../public/google.png";
 
 export default function GoogleButton(props: ButtonHTMLAttributes<HTMLButtonElement>) {
   const userMutation = useMutation({
@@ -40,7 +41,7 @@ export default function GoogleButton(props: ButtonHTMLAttributes<HTMLButtonEleme
       onClick={handleSocialSignin}
       {...props}
     >
-      <Image src="/google.png" alt="Google" width={16} height={16} />
+      <Image src={googleImage} alt="Google" width={16} height={16} placeholder="blur" />
       <span>Sign in with Google</span>
     </Button>
   );

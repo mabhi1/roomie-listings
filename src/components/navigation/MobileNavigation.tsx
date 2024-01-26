@@ -36,47 +36,43 @@ export default function MobileNavigation() {
               </Link>
             </AccordionContent>
           </AccordionItem>
+          {currentUser && (
+            <AccordionItem value="create">
+              <AccordionTrigger className="py-2 text-xs px-5">
+                <div className="flex gap-2 items-center font-medium">
+                  <PlusCircleIcon className="w-4" />
+                  Create Ads
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="flex flex-col gap-5 mt-2">
+                <Link href="/roommate/create" className="py-0 text-xs ml-11" onClick={() => setOpen(false)}>
+                  Create Roommate Ad
+                </Link>
+                <Link href="/house/create" className="py-0 text-xs ml-11" onClick={() => setOpen(false)}>
+                  Create House Ad
+                </Link>
+              </AccordionContent>
+            </AccordionItem>
+          )}
         </Accordion>
         {currentUser ? (
-          <>
-            <Accordion type="single" collapsible>
-              <AccordionItem value="browse">
-                <AccordionTrigger className="py-2 text-xs px-5">
-                  <div className="flex gap-2 items-center font-medium">
-                    <PlusCircleIcon className="w-4" />
-                    Create Ads
-                  </div>
-                </AccordionTrigger>
-                <AccordionContent className="flex flex-col gap-5 mt-2">
-                  <Link href="/roommate/create" className="py-0 text-xs ml-11" onClick={() => setOpen(false)}>
-                    Create Roommate Ad
-                  </Link>
-                  <Link href="/house/create" className="py-0 text-xs ml-11" onClick={() => setOpen(false)}>
-                    Create House Ad
-                  </Link>
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-            <Link
-              href="/profile"
-              className="py-2 text-xs flex gap-2 items-center font-medium px-5"
-              onClick={() => setOpen(false)}
-            >
-              <SquareUserRoundIcon className="w-4" />
-              Profile
-            </Link>
-          </>
+          <Link
+            href="/profile"
+            className="py-2 text-xs flex gap-2 items-center font-medium px-5"
+            onClick={() => setOpen(false)}
+          >
+            <SquareUserRoundIcon className="w-4" />
+            Profile
+          </Link>
         ) : (
-          <>
-            <Link
-              href="/signin"
-              className="py-2 text-xs flex gap-2 items-center font-medium px-5"
-              onClick={() => setOpen(false)}
-            >
-              <KeySquareIcon className="w-4" />
-              Sign in
-            </Link>
-          </>
+          <Link
+            href="/signin"
+            className="py-2 text-xs flex gap-2 items-center font-medium px-5"
+            onClick={() => setOpen(false)}
+          >
+            <KeySquareIcon className="w-4" />
+            Sign in
+          </Link>
         )}
         <Link
           href="/contact"

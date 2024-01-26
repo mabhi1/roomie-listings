@@ -8,6 +8,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { LandmarkIcon } from "lucide-react";
+import roommateImage from "../../../public/roommate.webp";
 
 export default async function Roommate() {
   const roommateData = await getAllRoommateAds();
@@ -23,7 +24,15 @@ export default async function Roommate() {
         </div>
         <Separator orientation="vertical" className="hidden lg:block" />
         <div className="md:w-1/3 xl:w-1/5 flex flex-col gap-2 sticky top-20 h-60">
-          <Image alt="Roommate" src="/roommate.webp" width={250} height={95} priority className="w-auto" />
+          <Image
+            alt="Roommate"
+            src={roommateImage}
+            width={250}
+            height={95}
+            priority
+            className="w-auto"
+            placeholder="blur"
+          />
           <h2 className="text-xl">Looking for a roommate?</h2>
           <p className="text-muted-foreground">
             Are you looking for a roommate and couldn&apos;t find one? Click the button below to list your house and let

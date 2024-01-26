@@ -73,7 +73,10 @@ export default function RoommateProfileTable({ currentUser, tab }: { currentUser
           {ads?.map((roommate) => (
             <TableRow className="hover:bg-inherit" key={roommate.id}>
               <TableCell className="border-r py-1 pl-4">
-                <Link href={`/roommate/${roommate.id}`} className="block w-[320px] xl:w-[580px] overflow-hidden">
+                <Link
+                  href={`/roommate/${roommate.id}`}
+                  className="block w-[260px] md:w-[320px] xl:w-[580px] overflow-hidden"
+                >
                   <Button variant="link" className="p-0">
                     {roommate.title}
                   </Button>
