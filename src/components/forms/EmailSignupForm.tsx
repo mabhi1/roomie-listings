@@ -16,6 +16,8 @@ import { toastMessage } from "@/lib/constants";
 import PageHeader from "../page/PageHeader";
 import ReCAPTCHA from "react-google-recaptcha";
 import { verifyRecaptcha } from "@/actions/auth";
+import Link from "next/link";
+import { Checkbox } from "../ui/checkbox";
 
 export default function EmailSignupForm() {
   const [name, setName] = useState("");
@@ -24,6 +26,7 @@ export default function EmailSignupForm() {
   const [rePassword, setRePassword] = useState("");
   const [formLoading, setFormLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [terms, setTerms] = useState(false);
   const [reCaptcha, setReCaptcha] = useState<string | null>(null);
 
   const userMutation = useMutation({
@@ -51,6 +54,7 @@ export default function EmailSignupForm() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    if (!terms) return;
     if (!reCaptcha) return;
     const success = verifyRecaptcha(reCaptcha);
     if (!success) return;
@@ -183,13 +187,29 @@ export default function EmailSignupForm() {
               )}
             </span>
           </div>
+          <div className="relative mt-2 flex items-center gap-2">
+            <Checkbox
+              id="terms&conditions"
+              name="acceptTc"
+              defaultChecked={false}
+              onCheckedChange={checked => setTerms(checked ? true : false)}
+              checked={terms}
+            />
+            <Label htmlFor="terms&conditions">
+              I have read and agree to{" "}
+              <Link href="/terms&conditions" className="text-primary underline underline-offset-2">
+                Terms and Conditions
+              </Link>
+            </Label>
+          </div>
         </CardContent>
         <CardFooter className="flex flex-col gap-3 pb-0">
           <ReCAPTCHA
             sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
             onChange={setReCaptcha}
             className={cn(
-              (invalidName() || invalidEmail() || invalidPassword() || invalidRePassword() || formLoading) && "hidden",
+              (invalidName() || invalidEmail() || invalidPassword() || invalidRePassword() || formLoading || !terms) &&
+                "hidden",
               "mx-auto mb-2",
             )}
             onExpired={() => setReCaptcha(null)}
@@ -199,7 +219,13 @@ export default function EmailSignupForm() {
             className="w-full"
             type="submit"
             disabled={
-              invalidName() || invalidEmail() || invalidPassword() || invalidRePassword() || formLoading || !reCaptcha
+              invalidName() ||
+              invalidEmail() ||
+              invalidPassword() ||
+              invalidRePassword() ||
+              formLoading ||
+              !terms ||
+              !reCaptcha
             }
           >
             <ClipboardEditIcon className="mr-1 w-4" />
