@@ -41,7 +41,7 @@ export default function GoogleButton(props: ButtonHTMLAttributes<HTMLButtonEleme
       onClick={handleSocialSignin}
       {...props}
     >
-      <Image src={googleImage} alt="Google" width={16} height={16} placeholder="blur" />
+      <Image src={googleImage} alt="Google" width={16} height={16} />
       <span>Sign in with Google</span>
     </Button>
   );
