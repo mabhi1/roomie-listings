@@ -23,6 +23,7 @@ import { Calendar } from "../ui/calendar";
 import { cn } from "@/lib/utils";
 import ComboBox from "../ui/combo-box";
 import { toast } from "sonner";
+import Link from "next/link";
 
 export default function RoommateEditForm({ roommateAd }: { roommateAd?: RoommateAd }) {
   const [descriptionChar, setDescriptionChar] = useState(5000);
@@ -280,7 +281,10 @@ export default function RoommateEditForm({ roommateAd }: { roommateAd?: Roommate
             <FormItem>
               <div className="flex flex-row-reverse items-center justify-end gap-2">
                 <FormLabel>
-                  I have read and agree to Terms and Conditions
+                  I have read and agree to{" "}
+                  <Link href="/terms&conditions" className="text-primary underline underline-offset-2">
+                    Terms and Conditions
+                  </Link>
                   <Required />
                 </FormLabel>
                 <FormControl {...field}>
@@ -296,7 +300,7 @@ export default function RoommateEditForm({ roommateAd }: { roommateAd?: Roommate
             </FormItem>
           )}
         />
-        <div className="flex gap-5 lg:gap-10">
+        <div className="flex gap-3 md:gap-5 lg:gap-10">
           <Button className="mt-5 w-full" type="submit" disabled={isPending}>
             <FilePlus2Icon className="mr-1 w-4" />
             Save Ad
