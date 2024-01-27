@@ -1,4 +1,4 @@
-import { deleteObject, getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "./firebase";
 
 async function uploadFile(fileName: string, file: File) {
