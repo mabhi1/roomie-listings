@@ -11,14 +11,14 @@ export default function StickyWrapper({ children }: { children: React.ReactNode 
     primaryHeader.before(scrollWatcher);
 
     const navObserver = new IntersectionObserver(
-      (entries) => {
+      entries => {
         primaryHeader.classList.toggle("shadow", !entries[0].isIntersecting);
       },
-      { rootMargin: "0px 0px 0px 0px" }
+      { rootMargin: "0px 0px 0px 0px" },
     );
 
     navObserver.observe(scrollWatcher);
   }, []);
 
-  return <div className="primary-header sticky top-0 z-10 w-full backdrop-blur bg-white/60">{children}</div>;
+  return <div className="primary-header sticky top-0 z-10 w-full bg-white/60 backdrop-blur">{children}</div>;
 }

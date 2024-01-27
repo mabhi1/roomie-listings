@@ -4,10 +4,10 @@ import Image from "next/image";
 
 export default function GalleryCarousel({ gallery }: { gallery: Gallery[] }) {
   return (
-    <Carousel className="w-[16rem] lg:w-[24rem] xl:w-[32rem] mx-auto">
+    <Carousel className="mx-auto w-[16rem] lg:w-[24rem] xl:w-[32rem]">
       <CarouselPrevious type="button" />
-      <CarouselContent className="h-48 lg:h-72 xl:h-96 group">
-        {gallery.map((item) => (
+      <CarouselContent className="group h-48 lg:h-72 xl:h-96">
+        {gallery.map(item => (
           <CarouselItem key={item.name} className="relative">
             {item.type.startsWith("video") ? (
               <video src={item.url} controls className="h-full w-full rounded" />
@@ -19,7 +19,7 @@ export default function GalleryCarousel({ gallery }: { gallery: Gallery[] }) {
                   width={1024}
                   height={1024}
                   priority
-                  className="w-full h-full object-contain bg-secondary-foreground/5 rounded"
+                  className="h-full w-full rounded bg-secondary-foreground/5 object-contain"
                   placeholder="blur"
                   blurDataURL={item.url}
                 />

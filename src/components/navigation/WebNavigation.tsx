@@ -21,19 +21,19 @@ const browseAdComponents: { title: string; href: string; description: string; ic
     title: "Search Roommate",
     href: "/roommate",
     description: "Find your perfect roommate match with just a click. Your ideal living companion awaits!",
-    icon: <UsersIcon className="w-4 mr-1" />,
+    icon: <UsersIcon className="mr-1 w-4" />,
   },
   {
     title: "Search House",
     href: "/house",
     description: "Discover your dream rental home effortlessly. Choose, and move into your sanctuary!",
-    icon: <HotelIcon className="w-4 mr-1" />,
+    icon: <HotelIcon className="mr-1 w-4" />,
   },
   {
     title: "Search Products",
     href: "#",
     description: "Explore a world of possibilities. Hunt for new or used treasures posted by fellow users!",
-    icon: <BedDoubleIcon className="w-4 mr-1" />,
+    icon: <BedDoubleIcon className="mr-1 w-4" />,
   },
 ];
 
@@ -43,16 +43,16 @@ export default function WebNavigation() {
       <NavigationMenuList>
         <NavigationMenuItem>
           <NavigationMenuTrigger>
-            <SearchCheckIcon className="w-4 mr-1" />
+            <SearchCheckIcon className="mr-1 w-4" />
             Browse Ads
           </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="w-[290px] gap-3 p-2">
-              {browseAdComponents.map((component) => (
+              {browseAdComponents.map(component => (
                 <Link key={component.title} href={component.href}>
                   <div
                     className={cn(
-                      "block select-none space-y-1 p-2 py-4 rounded-md leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                      "block select-none space-y-1 rounded-md p-2 py-4 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
                     )}
                   >
                     <div className="flex items-center">
@@ -90,7 +90,7 @@ const ListItem = React.forwardRef<React.ElementRef<"a">, React.ComponentPropsWit
           <a
             className={cn(
               "block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-              className
+              className,
             )}
             {...props}
           >
@@ -102,6 +102,6 @@ const ListItem = React.forwardRef<React.ElementRef<"a">, React.ComponentPropsWit
         </NavigationMenuLink>
       </li>
     );
-  }
+  },
 );
 ListItem.displayName = "ListItem";

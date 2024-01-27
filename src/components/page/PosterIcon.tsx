@@ -15,13 +15,13 @@ export default function PosterIcon({ poster }: { poster: User }) {
       <TooltipProvider>
         <Tooltip delayDuration={0}>
           <TooltipTrigger asChild>
-            <div className="rounded-full w-fit overflow-clip">
+            <div className="w-fit overflow-clip rounded-full">
               <Image
                 src={poster.photo ? poster.photo : userImage}
                 alt={poster.name!}
                 width={60}
                 height={60}
-                className="w-[50px] h-[50px] object-cover"
+                className="h-[50px] w-[50px] object-cover"
                 priority
                 placeholder="blur"
                 blurDataURL={poster.photo ? poster.photo : ""}
@@ -38,7 +38,7 @@ export default function PosterIcon({ poster }: { poster: User }) {
 
   if (!currentUser || currentUser.uid !== poster.uid)
     return (
-      <Link href={`/user/${poster.uid}`} className="md:hover:scale-110 transition">
+      <Link href={`/user/${poster.uid}`} className="transition md:hover:scale-110">
         {getUserIcon()}
       </Link>
     );

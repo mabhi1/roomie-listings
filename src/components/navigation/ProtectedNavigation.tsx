@@ -24,19 +24,19 @@ const createAdComponents: { title: string; href: string; description: string; ic
     title: "Roommate",
     href: "/roommate/create",
     description: "Craft your roommate ad, be seen, and connect with like-minded cohabitants effortlessly!",
-    icon: <UserPlusIcon className="w-4 mr-1" />,
+    icon: <UserPlusIcon className="mr-1 w-4" />,
   },
   {
     title: "House",
     href: "/house/create",
     description: "Showcase your home with a captivating ad. Rent to the perfect tenant easily!",
-    icon: <ImagePlusIcon className="w-4 mr-1" />,
+    icon: <ImagePlusIcon className="mr-1 w-4" />,
   },
   {
     title: "Products",
     href: "#",
     description: "Craft a compelling product ad, attract buyers, and turn your stuff into someone's treasure!",
-    icon: <PackagePlusIcon className="w-4 mr-1" />,
+    icon: <PackagePlusIcon className="mr-1 w-4" />,
   },
 ];
 
@@ -47,16 +47,16 @@ export default function ProtectedNavigation() {
       <>
         <NavigationMenuItem>
           <NavigationMenuTrigger>
-            <PlusCircleIcon className="w-4 mr-1" />
+            <PlusCircleIcon className="mr-1 w-4" />
             Create Ads
           </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="w-[290px] gap-3 p-2">
-              {createAdComponents.map((component) => (
+              {createAdComponents.map(component => (
                 <Link key={component.title} href={component.href}>
                   <div
                     className={cn(
-                      "block select-none space-y-1 rounded-md p-2 py-4 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                      "block select-none space-y-1 rounded-md p-2 py-4 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
                     )}
                   >
                     <div className="flex items-center">
@@ -75,7 +75,7 @@ export default function ProtectedNavigation() {
         <NavigationMenuItem>
           <Link href="/profile" legacyBehavior passHref>
             <NavigationMenuLink className={linkStyle}>
-              <SquareUserRoundIcon className="w-4 mr-1" />
+              <SquareUserRoundIcon className="mr-1 w-4" />
               {title.profile}
             </NavigationMenuLink>
           </Link>
@@ -89,7 +89,7 @@ export default function ProtectedNavigation() {
         <NavigationMenuItem>
           <Link href="/signin" legacyBehavior passHref>
             <NavigationMenuLink className={linkStyle}>
-              <KeySquareIcon className="w-4 mr-1" />
+              <KeySquareIcon className="mr-1 w-4" />
               Sign in
             </NavigationMenuLink>
           </Link>

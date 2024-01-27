@@ -67,7 +67,7 @@ export default function HouseButtons({ ad }: { ad: HouseAd }) {
     startTransition(async () => {
       if (!currentUser) return;
       try {
-        ad.gallery.map(async (item) => {
+        ad.gallery.map(async item => {
           await deleteFile(item.name);
         });
         const ads = await deleteHouseAds(currentUser.uid, ad.id!, "postedAds");
@@ -85,13 +85,13 @@ export default function HouseButtons({ ad }: { ad: HouseAd }) {
 
   if (!currentUser)
     return (
-      <CardFooter className="p-3 md:p-6 justify-start md:justify-end">
+      <CardFooter className="justify-start p-3 md:justify-end md:p-6">
         <div>Please login to save, or report this ad, or send a message to the user</div>
       </CardFooter>
     );
   else if (ad.postedBy === currentUser?.uid)
     return (
-      <CardFooter className="justify-between p-3 md:p-5 gap-2 lg:gap-5">
+      <CardFooter className="justify-between gap-2 p-3 md:p-5 lg:gap-5">
         <Link href={`/house/${ad.id}/edit`} passHref legacyBehavior>
           <Button variant="secondary" disabled={isPending}>
             <PenLineIcon className="mr-1 w-4" />
@@ -111,14 +111,14 @@ export default function HouseButtons({ ad }: { ad: HouseAd }) {
                 <DrawerTitle>Confirm Delete</DrawerTitle>
                 <DrawerDescription>Are you sure you want to delete this ad?</DrawerDescription>
               </DrawerHeader>
-              <DrawerFooter className="flex-row mx-auto">
+              <DrawerFooter className="mx-auto flex-row">
                 <Button onClick={handleDeleteAd} disabled={isPending}>
-                  <CheckSquareIcon className="w-4 mr-1" />
+                  <CheckSquareIcon className="mr-1 w-4" />
                   Confirm
                 </Button>
                 <DrawerClose>
                   <Button variant="outline">
-                    <BanIcon className="w-4 mr-1" />
+                    <BanIcon className="mr-1 w-4" />
                     Cancel
                   </Button>
                 </DrawerClose>
@@ -140,7 +140,7 @@ export default function HouseButtons({ ad }: { ad: HouseAd }) {
               </DialogHeader>
               <DialogFooter>
                 <Button onClick={handleDeleteAd} disabled={isPending}>
-                  <CheckSquareIcon className="w-4 mr-1" />
+                  <CheckSquareIcon className="mr-1 w-4" />
                   Confirm
                 </Button>
               </DialogFooter>
@@ -151,12 +151,12 @@ export default function HouseButtons({ ad }: { ad: HouseAd }) {
     );
   else
     return (
-      <CardFooter className="flex-col md:flex-row p-3 md:p-5 gap-2 lg:gap-5 justify-between">
-        <div className="flex flex-row justify-between w-full md:w-fit gap-2 lg:gap-5">
+      <CardFooter className="flex-col justify-between gap-2 p-3 md:flex-row md:p-5 lg:gap-5">
+        <div className="flex w-full flex-row justify-between gap-2 md:w-fit lg:gap-5">
           {currentUser.emailVerified && (
             <Link href={`/message/${currentUser.uid}/${ad.postedBy}/house/${ad.id}`} passHref legacyBehavior>
               <Button disabled={isPending}>
-                <SendIcon className="w-4 mr-1" />
+                <SendIcon className="mr-1 w-4" />
                 Send Message
               </Button>
             </Link>
@@ -165,18 +165,18 @@ export default function HouseButtons({ ad }: { ad: HouseAd }) {
             <div className="mr-auto">You saved this Ad</div>
           ) : (
             <Button className="mr-auto" variant="secondary" onClick={handleSaveAd} disabled={isPending}>
-              <HardDriveDownloadIcon className="w-4 mr-1" />
+              <HardDriveDownloadIcon className="mr-1 w-4" />
               Save
             </Button>
           )}
         </div>
         {currentUser.emailVerified ? (
-          <div className="flex flex-row-reverse md:flex-row items-center justify-between w-full md:w-fit md:gap-2 lg:gap-5">
+          <div className="flex w-full flex-row-reverse items-center justify-between md:w-fit md:flex-row md:gap-2 lg:gap-5">
             <div className="text-destructive">
               {ad.reports.length} {ad.reports.length === 1 ? "Report" : "Reports"}
             </div>
             <Button variant="destructive" disabled={isPending} onClick={handleReportAd}>
-              <MessageSquareXIcon className="w-4 mr-1" />
+              <MessageSquareXIcon className="mr-1 w-4" />
               Report Inappropriate
             </Button>
           </div>

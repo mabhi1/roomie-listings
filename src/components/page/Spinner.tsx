@@ -15,7 +15,7 @@ export default function Spinner({ size, className = "" }: props) {
     <div role="status" className={className}>
       <svg
         aria-hidden="true"
-        className={cn("text-accent animate-spin fill-primary", size ? sizeId[size] : "w-4 h-4")}
+        className={cn("animate-spin fill-primary text-accent", size ? sizeId[size] : "h-4 w-4")}
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

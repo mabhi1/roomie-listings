@@ -29,7 +29,7 @@ export default function MobileLocation() {
           <PopoverTrigger asChild>
             <MapPinIcon className="w-5" />
           </PopoverTrigger>
-          <PopoverContent className="text-xs md:text-sm w-full md:hidden">
+          <PopoverContent className="w-full text-xs md:hidden md:text-sm">
             Your current location is set to {currentCity}, NJ.
           </PopoverContent>
         </Popover>
@@ -47,12 +47,12 @@ export default function MobileLocation() {
             <Command>
               <CommandInput placeholder="Search city..." />
               <CommandEmpty>No city found.</CommandEmpty>
-              <CommandGroup className="h-40 overflow-auto w-full">
-                {cityList.map((city) => (
+              <CommandGroup className="h-40 w-full overflow-auto">
+                {cityList.map(city => (
                   <CommandItem
                     key={city}
                     value={city}
-                    onSelect={(currentValue) => {
+                    onSelect={currentValue => {
                       setCurrentCity(currentValue.toUpperCase());
                       setOpen(false);
                     }}

@@ -67,9 +67,9 @@ export const RoommateColumns: ColumnDef<RoommateColumnsType>[] = [
 
       const title: string = row.getValue("title");
       return (
-        <div className="ml-1 w-[260px] lg:w-[450px] xl:w-[480px] overflow-hidden">
+        <div className="ml-1 w-[260px] overflow-hidden lg:w-[450px] xl:w-[480px]">
           <Link href={`/roommate/${roommate.id}`} passHref legacyBehavior>
-            <Button variant="link" className="p-0 h-8">
+            <Button variant="link" className="h-8 p-0">
               {title}
             </Button>
           </Link>
@@ -79,7 +79,7 @@ export const RoommateColumns: ColumnDef<RoommateColumnsType>[] = [
   },
   {
     accessorKey: "address",
-    header: () => <div className="text-center mx-auto w-20">City</div>,
+    header: () => <div className="mx-auto w-20 text-center">City</div>,
     cell: ({ row }) => {
       const address: RoommateAddress = row.getValue("address");
       const city = address.city;
@@ -88,7 +88,7 @@ export const RoommateColumns: ColumnDef<RoommateColumnsType>[] = [
   },
   {
     accessorKey: "duration",
-    header: () => <div className="text-center mx-auto">Duration</div>,
+    header: () => <div className="mx-auto text-center">Duration</div>,
     cell: ({ row }) => {
       const duration: "temporary" | "permanent" = row.getValue("duration");
       return <div className="text-center capitalize">{duration}</div>;
@@ -129,7 +129,7 @@ export const RoommateColumns: ColumnDef<RoommateColumnsType>[] = [
         <span className="flex justify-center">
           <Button
             variant="ghost"
-            className="p-0 w-20"
+            className="w-20 p-0"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Move In

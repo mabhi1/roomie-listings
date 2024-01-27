@@ -8,7 +8,7 @@ export default function CreateHouseAd() {
   return (
     <FullWrapper>
       <PageHeader heading="List a house" subHeading="Fill out and submit the form below create a house ad." />
-      <div className="w-full flex justify-between">
+      <div className="flex w-full justify-between">
         <div className="md:w-11/12 lg:w-1/2">
           <HouseAdForm />
         </div>
@@ -22,7 +22,7 @@ export default function CreateHouseAd() {
             priority
             placeholder="blur"
           />
-          <div className="absolute top-0 left-0 w-full bg-white/30 h-full"></div>
+          <div className="absolute left-0 top-0 h-full w-full bg-white/30"></div>
         </div>
       </div>
     </FullWrapper>

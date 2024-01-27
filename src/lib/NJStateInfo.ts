@@ -4938,7 +4938,7 @@ const zipCodeList = [
 
 const visited: { [index: string]: boolean } = {};
 const cityList: string[] = [];
-zipCodeList.forEach((zip) => {
+zipCodeList.forEach(zip => {
   if (visited[zip.City]) return;
   cityList.push(zip.City);
   visited[zip.City] = true;

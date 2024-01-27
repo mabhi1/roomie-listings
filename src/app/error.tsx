@@ -17,7 +17,7 @@ export default function Error({ error, reset }: { error: Error & { digest?: stri
         heading="OOPS! Something went wrong"
         subHeading="The page you are looking for throws an error. You can either retry or go back."
       />
-      <div className="md:w-1/2 mx-auto text-center mt-3 md:mt-20 space-y-5">
+      <div className="mx-auto mt-3 space-y-5 text-center md:mt-20 md:w-1/2">
         <Image
           src={errorImage}
           alt="Error"
@@ -27,13 +27,13 @@ export default function Error({ error, reset }: { error: Error & { digest?: stri
           priority
           placeholder="blur"
         />
-        <h2 className="text-base md:text-xl uppercase overflow-auto">{error.message}</h2>
-        <div className="flex gap-5 items-center justify-center">
+        <h2 className="overflow-auto text-base uppercase md:text-xl">{error.message}</h2>
+        <div className="flex items-center justify-center gap-5">
           <Button variant="secondary" onClick={() => router.back()}>
             <Undo2Icon className="mr-1 w-4" /> Go Back
           </Button>
           <Button onClick={() => reset()}>
-            <RotateCcwIcon className="w-4 mr-1" />
+            <RotateCcwIcon className="mr-1 w-4" />
             Try again
           </Button>
         </div>

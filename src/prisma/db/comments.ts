@@ -36,7 +36,7 @@ export async function likeCommentById(id: string, uid: string) {
   try {
     const comment = await prisma.comment.findUnique({ where: { id } });
     if (!comment) return null;
-    const likes = comment.likes.filter((like) => like !== uid);
+    const likes = comment.likes.filter(like => like !== uid);
     const newComment = await prisma.comment.update({ where: { id }, data: { likes: [...likes, uid] } });
     if (!comment) return null;
     return newComment;
@@ -49,7 +49,7 @@ export async function reportCommentById(id: string, uid: string) {
   try {
     const comment = await prisma.comment.findUnique({ where: { id } });
     if (!comment) return null;
-    const reports = !comment.reports ? [] : comment.reports.filter((report) => report !== uid);
+    const reports = !comment.reports ? [] : comment.reports.filter(report => report !== uid);
     const newComment = await prisma.comment.update({ where: { id }, data: { reports: [...reports, uid] } });
     if (!comment) return null;
     return newComment;
@@ -85,7 +85,7 @@ export async function deleteReportedCommentByUser(commentId: string, uid: string
   try {
     const comment = await prisma.comment.findUnique({ where: { id: commentId } });
     if (!comment) return null;
-    const reports = comment.reports ? comment.reports.filter((id) => id !== uid) : [];
+    const reports = comment.reports ? comment.reports.filter(id => id !== uid) : [];
     const reportedComments = await prisma.comment.update({ where: { id: commentId }, data: { reports } });
     if (!reportedComments) return null;
     return reportedComments;

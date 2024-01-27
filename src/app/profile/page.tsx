@@ -49,14 +49,14 @@ export default function Profile() {
           heading="My Profile"
           subHeading="This is your profile page. You can see the related comments and ads here."
         />
-        <div className="flex flex-col md:flex-row gap-3 lg:gap-5 md:items-center">
-          <div className="group relative rounded-full w-fit h-fit overflow-clip">
+        <div className="flex flex-col gap-3 md:flex-row md:items-center lg:gap-5">
+          <div className="group relative h-fit w-fit overflow-clip rounded-full">
             <Image
               src={currentUser.photoURL ? currentUser.photoURL : noUserImage}
               alt={currentUser.displayName!}
               width={50}
               height={50}
-              className="w-[80px] h-[80px] xl:w-[100px] xl:h-[100px] object-cover"
+              className="h-[80px] w-[80px] object-cover xl:h-[100px] xl:w-[100px]"
               priority
               placeholder="blur"
               blurDataURL={currentUser.photoURL ? currentUser.photoURL : ""}
@@ -65,16 +65,16 @@ export default function Profile() {
               <Button
                 variant="ghost"
                 size="sm"
-                className="hidden group-hover:block absolute text-xs top-0 bg-primary-foreground/80 p-2 h-7 w-full border"
+                className="absolute top-0 hidden h-7 w-full border bg-primary-foreground/80 p-2 text-xs group-hover:block"
                 onClick={handleRemoveProfilePicture}
               >
                 Remove
               </Button>
             )}
           </div>
-          <div className="flex flex-col justify-center mr-auto">
+          <div className="mr-auto flex flex-col justify-center">
             <div className="text-lg">{currentUser.displayName}</div>
-            <div className="w-72 lg:w-80 overflow-hidden">{currentUser.email}</div>
+            <div className="w-72 overflow-hidden lg:w-80">{currentUser.email}</div>
             {currentUser.emailVerified ? (
               <span className="flex items-center gap-1 text-success">
                 <BadgeCheckIcon className="w-4" /> Verified
@@ -83,7 +83,7 @@ export default function Profile() {
               <span className="flex items-center gap-1 text-destructive">
                 <BadgeXIcon className="w-4" />
                 <span>Not Verified</span>
-                <Button onClick={handleSendVerification} variant="link" className="text-xs p-0 h-0">
+                <Button onClick={handleSendVerification} variant="link" className="h-0 p-0 text-xs">
                   &#40;Send Verification link&#41;
                 </Button>
               </span>
@@ -91,8 +91,8 @@ export default function Profile() {
           </div>
           <ProfileButtons currentUser={currentUser} />
         </div>
-        <Tabs defaultValue="savedAds" className="w-full mt-5 md:mt-0">
-          <TabsList className="flex-wrap md:flex-nowrap h-16 overflow-y-auto md:h-10 w-full">
+        <Tabs defaultValue="savedAds" className="mt-5 w-full md:mt-0">
+          <TabsList className="h-16 w-full flex-wrap overflow-y-auto md:h-10 md:flex-nowrap">
             <TabsTrigger value="savedAds">Saved Ads</TabsTrigger>
             <TabsTrigger value="postedAds">Posted Ads</TabsTrigger>
             <TabsTrigger value="comments">Comments</TabsTrigger>
@@ -100,8 +100,8 @@ export default function Profile() {
             <TabsTrigger value="reportedComments">Reported Comments</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="savedAds" className="flex flex-col gap-2 mt-0">
-            <div className="flex items-center mt-2">
+          <TabsContent value="savedAds" className="mt-0 flex flex-col gap-2">
+            <div className="mt-2 flex items-center">
               <HomeIcon className="mr-1 w-4" />
               Saved House Ads
             </div>
@@ -112,8 +112,8 @@ export default function Profile() {
             </div>
             <RoommateProfileTable currentUser={currentUser} tab="savedAds" />
           </TabsContent>
-          <TabsContent value="postedAds" className="flex flex-col gap-2 mt-0">
-            <div className="flex items-center mt-2">
+          <TabsContent value="postedAds" className="mt-0 flex flex-col gap-2">
+            <div className="mt-2 flex items-center">
               <HomeIcon className="mr-1 w-4" />
               Posted House Ads
             </div>
@@ -124,15 +124,15 @@ export default function Profile() {
             </div>
             <RoommateProfileTable currentUser={currentUser} tab="postedAds" />
           </TabsContent>
-          <TabsContent value="comments" className="flex flex-col gap-2 mt-0">
-            <div className="flex items-center mt-2">
+          <TabsContent value="comments" className="mt-0 flex flex-col gap-2">
+            <div className="mt-2 flex items-center">
               <MessageSquareMoreIcon className="mr-1 w-4" />
               Posted Comments
             </div>
             <CommentProfileTable currentUser={currentUser} tab="comments" />
           </TabsContent>
-          <TabsContent value="reportedAds" className="flex flex-col gap-2 mt-0">
-            <div className="flex items-center mt-2">
+          <TabsContent value="reportedAds" className="mt-0 flex flex-col gap-2">
+            <div className="mt-2 flex items-center">
               <HomeIcon className="mr-1 w-4" />
               Reported House Ads
             </div>
@@ -143,8 +143,8 @@ export default function Profile() {
             </div>
             <RoommateProfileTable currentUser={currentUser} tab="reportedAds" />
           </TabsContent>
-          <TabsContent value="reportedComments" className="flex flex-col gap-2 mt-0">
-            <div className="flex items-center mt-2">
+          <TabsContent value="reportedComments" className="mt-0 flex flex-col gap-2">
+            <div className="mt-2 flex items-center">
               <MessageSquareMoreIcon className="mr-1 w-4" />
               Reported Comments
             </div>

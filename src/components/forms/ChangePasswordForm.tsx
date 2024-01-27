@@ -56,7 +56,7 @@ export default function ChangePasswordForm({
     <form onSubmit={handleChangePassword}>
       <div className="grid gap-4 py-4">
         <div className="grid grid-cols-7 items-center gap-4">
-          <Label htmlFor="old-password" className="text-right col-span-2">
+          <Label htmlFor="old-password" className="col-span-2 text-right">
             Old Password
           </Label>
           <Input
@@ -64,12 +64,12 @@ export default function ChangePasswordForm({
             type="password"
             className="col-span-5"
             value={oldPassword}
-            onChange={(e) => setOldPassword(e.target.value.trim())}
+            onChange={e => setOldPassword(e.target.value.trim())}
             placeholder="Enter old password"
           />
         </div>
         <div className="grid grid-cols-7 items-center gap-4">
-          <Label htmlFor="password" className="text-right col-span-2">
+          <Label htmlFor="password" className="col-span-2 text-right">
             New Password
           </Label>
           <Input
@@ -77,12 +77,12 @@ export default function ChangePasswordForm({
             type="password"
             className="col-span-5"
             value={password}
-            onChange={(e) => setPassword(e.target.value.trim())}
+            onChange={e => setPassword(e.target.value.trim())}
             placeholder="Enter new password"
           />
         </div>
         <div className="grid grid-cols-7 items-center gap-4">
-          <Label htmlFor="re-password" className="text-right col-span-2">
+          <Label htmlFor="re-password" className="col-span-2 text-right">
             Re-type Password
           </Label>
           <Input
@@ -90,14 +90,14 @@ export default function ChangePasswordForm({
             type="password"
             className="col-span-5"
             value={rePassword}
-            onChange={(e) => setRePassword(e.target.value.trim())}
+            onChange={e => setRePassword(e.target.value.trim())}
             placeholder="Re-enter new password"
           />
         </div>
       </div>
       <div className="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2">
         <Button type="submit" className="ml-auto" disabled={loading}>
-          <HardDriveDownloadIcon className="w-4 mr-1" />
+          <HardDriveDownloadIcon className="mr-1 w-4" />
           Save changes
         </Button>
       </div>

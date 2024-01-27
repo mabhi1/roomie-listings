@@ -48,7 +48,7 @@ const Carousel = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEl
         ...opts,
         axis: orientation === "horizontal" ? "x" : "y",
       },
-      plugins
+      plugins,
     );
     const [canScrollPrev, setCanScrollPrev] = React.useState(false);
     const [canScrollNext, setCanScrollNext] = React.useState(false);
@@ -80,7 +80,7 @@ const Carousel = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEl
           scrollNext();
         }
       },
-      [scrollPrev, scrollNext]
+      [scrollPrev, scrollNext],
     );
 
     React.useEffect(() => {
@@ -130,7 +130,7 @@ const Carousel = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEl
         </div>
       </CarouselContext.Provider>
     );
-  }
+  },
 );
 Carousel.displayName = "Carousel";
 
@@ -147,7 +147,7 @@ const CarouselContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HT
         />
       </div>
     );
-  }
+  },
 );
 CarouselContent.displayName = "CarouselContent";
 
@@ -164,7 +164,7 @@ const CarouselItem = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLD
         {...props}
       />
     );
-  }
+  },
 );
 CarouselItem.displayName = "CarouselItem";
 
@@ -180,9 +180,9 @@ const CarouselPrevious = React.forwardRef<HTMLButtonElement, React.ComponentProp
         className={cn(
           "absolute  h-8 w-8 rounded-full",
           orientation === "horizontal"
-            ? "-left-9 md:-left-12 top-1/2 -translate-y-1/2"
-            : "-top-9 md:-top-12 left-1/2 -translate-x-1/2 rotate-90",
-          className
+            ? "-left-9 top-1/2 -translate-y-1/2 md:-left-12"
+            : "-top-9 left-1/2 -translate-x-1/2 rotate-90 md:-top-12",
+          className,
         )}
         disabled={!canScrollPrev}
         onClick={scrollPrev}
@@ -192,7 +192,7 @@ const CarouselPrevious = React.forwardRef<HTMLButtonElement, React.ComponentProp
         <span className="sr-only">Previous slide</span>
       </Button>
     );
-  }
+  },
 );
 CarouselPrevious.displayName = "CarouselPrevious";
 
@@ -208,9 +208,9 @@ const CarouselNext = React.forwardRef<HTMLButtonElement, React.ComponentProps<ty
         className={cn(
           "absolute h-8 w-8 rounded-full",
           orientation === "horizontal"
-            ? "-right-9 md:-right-12 top-1/2 -translate-y-1/2"
-            : "-bottom-9 md:-bottom-12 left-1/2 -translate-x-1/2 rotate-90",
-          className
+            ? "-right-9 top-1/2 -translate-y-1/2 md:-right-12"
+            : "-bottom-9 left-1/2 -translate-x-1/2 rotate-90 md:-bottom-12",
+          className,
         )}
         disabled={!canScrollNext}
         onClick={scrollNext}
@@ -220,7 +220,7 @@ const CarouselNext = React.forwardRef<HTMLButtonElement, React.ComponentProps<ty
         <span className="sr-only">Next slide</span>
       </Button>
     );
-  }
+  },
 );
 CarouselNext.displayName = "CarouselNext";
 

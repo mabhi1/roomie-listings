@@ -49,7 +49,7 @@ export default function HouseProfileTable({ currentUser, tab }: { currentUser: U
     setLoading(true);
     try {
       if (tab === "postedAds")
-        gallery.map(async (item) => {
+        gallery.map(async item => {
           await deleteFile(item.name);
         });
       const ads = await deleteHouseAds(currentUser.uid, adId, tab);
@@ -57,7 +57,7 @@ export default function HouseProfileTable({ currentUser, tab }: { currentUser: U
         toast.error("Error removing Ad");
         return;
       }
-      setAds((ads) => ads?.filter((ad) => ad.id !== adId));
+      setAds(ads => ads?.filter(ad => ad.id !== adId));
       setLoading(false);
       toast.success("Ad removed successfully");
     } catch (error) {
@@ -68,61 +68,61 @@ export default function HouseProfileTable({ currentUser, tab }: { currentUser: U
 
   if (loading)
     return (
-      <div className="w-full mt-10 flex justify-center">
+      <div className="mt-10 flex w-full justify-center">
         <Spinner size="medium" />
       </div>
     );
-  else if (!ads || ads.length === 0) return <div className="w-full flex justify-center">No House Ads</div>;
+  else if (!ads || ads.length === 0) return <div className="flex w-full justify-center">No House Ads</div>;
   else
     return (
       <Table className="border">
         <TableHeader>
           <TableRow className="bg-muted/50">
-            <TableHead className="border-r font-normal text-accent-foreground h-8">Title</TableHead>
-            <TableHead className="border-r text-center font-normal text-accent-foreground h-8">City</TableHead>
-            <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Price</TableHead>
-            <TableHead className="border-r text-center font-normal text-accent-foreground h-8 hidden lg:table-cell">
+            <TableHead className="h-8 border-r font-normal text-accent-foreground">Title</TableHead>
+            <TableHead className="h-8 border-r text-center font-normal text-accent-foreground">City</TableHead>
+            <TableHead className="h-8 border-r text-center font-normal text-accent-foreground">Price</TableHead>
+            <TableHead className="hidden h-8 border-r text-center font-normal text-accent-foreground lg:table-cell">
               Available
             </TableHead>
-            <TableHead className="border-r text-center font-normal text-accent-foreground h-8 hidden lg:table-cell">
+            <TableHead className="hidden h-8 border-r text-center font-normal text-accent-foreground lg:table-cell">
               Duration
             </TableHead>
-            <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Reports</TableHead>
-            <TableHead className="text-center font-normal text-accent-foreground h-8"></TableHead>
+            <TableHead className="h-8 border-r text-center font-normal text-accent-foreground">Reports</TableHead>
+            <TableHead className="h-8 text-center font-normal text-accent-foreground"></TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {ads?.map((house) => (
+          {ads?.map(house => (
             <TableRow className="hover:bg-inherit" key={house.id}>
               <TableCell className="border-r py-1 pl-4">
-                <Link href={`/house/${house.id}`} className="block w-[260px] md:w-[320px] xl:w-[580px] overflow-hidden">
+                <Link href={`/house/${house.id}`} className="block w-[260px] overflow-hidden md:w-[320px] xl:w-[580px]">
                   <Button variant="link" className="p-0">
                     {house.title}
                   </Button>
                 </Link>
               </TableCell>
-              <TableCell className="border-r text-center py-1">{house.address.city}</TableCell>
-              <TableCell className="border-r text-center py-1">
+              <TableCell className="border-r py-1 text-center">{house.address.city}</TableCell>
+              <TableCell className="border-r py-1 text-center">
                 {new Intl.NumberFormat("en-US", {
                   style: "currency",
                   currency: "USD",
                 }).format(house.price)}
               </TableCell>
-              <TableCell className="border-r text-center py-1 hidden lg:table-cell">
+              <TableCell className="hidden border-r py-1 text-center lg:table-cell">
                 {house.available.toLocaleDateString("en-us", { year: "numeric", month: "short", day: "numeric" })}
               </TableCell>
-              <TableCell className="border-r text-center capitalize py-1 hidden lg:table-cell">
+              <TableCell className="hidden border-r py-1 text-center capitalize lg:table-cell">
                 {house.duration}
               </TableCell>
-              <TableCell className="border-r text-center capitalize py-1">{house.reports.length}</TableCell>
-              <TableCell className="text-center capitalize py-1">
+              <TableCell className="border-r py-1 text-center capitalize">{house.reports.length}</TableCell>
+              <TableCell className="py-1 text-center capitalize">
                 <div className="flex justify-center">
                   {tab === "postedAds" && (
                     <TooltipProvider>
                       <Tooltip delayDuration={0}>
                         <TooltipTrigger asChild>
                           <Link href={`/house/${house.id}/edit`}>
-                            <PenBoxIcon className="mx-auto text-success cursor-pointer mr-2 w-5" />
+                            <PenBoxIcon className="mx-auto mr-2 w-5 cursor-pointer text-success" />
                           </Link>
                         </TooltipTrigger>
                         <TooltipContent>
@@ -134,21 +134,21 @@ export default function HouseProfileTable({ currentUser, tab }: { currentUser: U
                   {isMobile ? (
                     <Drawer>
                       <DrawerTrigger asChild>
-                        <XCircleIcon className="mx-auto text-destructive cursor-pointer w-5" />
+                        <XCircleIcon className="mx-auto w-5 cursor-pointer text-destructive" />
                       </DrawerTrigger>
                       <DrawerContent>
                         <DrawerHeader>
                           <DrawerTitle>Confirm Delete</DrawerTitle>
                           <DrawerDescription>Are you sure you want to delete this ad?</DrawerDescription>
                         </DrawerHeader>
-                        <DrawerFooter className="flex-row mx-auto">
+                        <DrawerFooter className="mx-auto flex-row">
                           <Button onClick={() => handleDeleteAd(house.id!, house.gallery)}>
-                            <CheckSquareIcon className="w-4 mr-1" />
+                            <CheckSquareIcon className="mr-1 w-4" />
                             Confirm
                           </Button>
                           <DrawerClose>
                             <Button variant="outline">
-                              <BanIcon className="w-4 mr-1" />
+                              <BanIcon className="mr-1 w-4" />
                               Cancel
                             </Button>
                           </DrawerClose>
@@ -161,7 +161,7 @@ export default function HouseProfileTable({ currentUser, tab }: { currentUser: U
                         <TooltipProvider>
                           <Tooltip delayDuration={0}>
                             <TooltipTrigger asChild>
-                              <XCircleIcon className="mx-auto text-destructive cursor-pointer w-5" />
+                              <XCircleIcon className="mx-auto w-5 cursor-pointer text-destructive" />
                             </TooltipTrigger>
                             <TooltipContent>
                               <p>Delete</p>
@@ -176,7 +176,7 @@ export default function HouseProfileTable({ currentUser, tab }: { currentUser: U
                         </DialogHeader>
                         <DialogFooter>
                           <Button onClick={() => handleDeleteAd(house.id!, house.gallery)}>
-                            <CheckSquareIcon className="w-4 mr-1" />
+                            <CheckSquareIcon className="mr-1 w-4" />
                             Confirm
                           </Button>
                         </DialogFooter>

@@ -78,7 +78,7 @@ export default function ContactUsForm() {
           placeholder="Enter your name"
           id="name"
           value={name}
-          onChange={(e) => setName(e.target.value)}
+          onChange={e => setName(e.target.value)}
           disabled={currentUser ? true : false}
         />
       </div>
@@ -93,7 +93,7 @@ export default function ContactUsForm() {
           placeholder="Enter your email"
           id="email"
           value={email}
-          onChange={(e) => setEmail(e.target.value.trim())}
+          onChange={e => setEmail(e.target.value.trim())}
           disabled={currentUser ? true : false}
         />
       </div>
@@ -109,7 +109,7 @@ export default function ContactUsForm() {
           id="message"
           name="message"
           value={message}
-          onChange={(e) => setMessage(e.target.value)}
+          onChange={e => setMessage(e.target.value)}
         />
       </div>
       <ReCAPTCHA
@@ -119,13 +119,13 @@ export default function ContactUsForm() {
         onExpired={() => setReCaptcha(null)}
         onErrored={() => setReCaptcha(null)}
       />
-      <div className="flex gap-2 md:gap-5 justify-end md:justify-start">
+      <div className="flex justify-end gap-2 md:justify-start md:gap-5">
         <Button disabled={!isValidForm() || loading || !reCaptcha}>
-          <SendIcon className="w-4 mr-1" />
+          <SendIcon className="mr-1 w-4" />
           Send
         </Button>
         <Button variant="secondary" type="button" onClick={handleResetForm} disabled={isEmptyForm() || loading}>
-          <RotateCcwIcon className="w-4 mr-1" />
+          <RotateCcwIcon className="mr-1 w-4" />
           Reset
         </Button>
       </div>

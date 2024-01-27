@@ -25,7 +25,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={cn(inter.className, "text-xs md:text-sm min-h-screen flex flex-col")}>
+      <body className={cn(inter.className, "flex min-h-screen flex-col text-xs md:text-sm")}>
         <AuthProvider>
           <QueryProvider>
             <HeaderMessage />

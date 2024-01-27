@@ -17,7 +17,7 @@ export async function createHouse(
   values: z.infer<typeof HouseAdSchema>,
   savedBy: string[],
   postedBy: string,
-  gallery: Gallery[]
+  gallery: Gallery[],
 ) {
   const validatedFields = HouseAdSchema.safeParse(values);
 
@@ -39,7 +39,7 @@ export async function editHouse(
   savedBy: string[],
   postedBy: string,
   reports: string[],
-  gallery: Gallery[]
+  gallery: Gallery[],
 ) {
   const validatedFields = HouseAdSchema.safeParse(values);
 

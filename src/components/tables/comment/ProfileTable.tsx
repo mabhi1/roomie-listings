@@ -52,7 +52,7 @@ export default function CommentProfileTable({ currentUser, tab }: { currentUser:
           toast.error("Error removing Comment");
           return;
         }
-        setComments((comments) => comments?.filter((com) => com.id !== commentId));
+        setComments(comments => comments?.filter(com => com.id !== commentId));
         setLoading(false);
         toast.success("Comment removed successfully");
         return;
@@ -62,7 +62,7 @@ export default function CommentProfileTable({ currentUser, tab }: { currentUser:
           toast.error("Error removing Comment");
           return;
         }
-        setComments((comments) => comments?.filter((com) => com.id !== commentId));
+        setComments(comments => comments?.filter(com => com.id !== commentId));
         setLoading(false);
         toast.success("Comment removed successfully");
         return;
@@ -73,60 +73,60 @@ export default function CommentProfileTable({ currentUser, tab }: { currentUser:
 
   if (loading)
     return (
-      <div className="w-full mt-10 flex justify-center">
+      <div className="mt-10 flex w-full justify-center">
         <Spinner size="medium" />
       </div>
     );
-  else if (!comments || comments.length === 0) return <div className="w-full flex justify-center">No Comments</div>;
+  else if (!comments || comments.length === 0) return <div className="flex w-full justify-center">No Comments</div>;
   else
     return (
       <Table className="border">
         <TableHeader className="h-6">
           <TableRow className="bg-muted/50">
-            <TableHead className="border-r font-normal text-accent-foreground h-8">Comment</TableHead>
-            <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Ad Type</TableHead>
-            <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Commented on</TableHead>
-            <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Reports</TableHead>
-            <TableHead className="text-center font-normal text-accent-foreground h-8"></TableHead>
+            <TableHead className="h-8 border-r font-normal text-accent-foreground">Comment</TableHead>
+            <TableHead className="h-8 border-r text-center font-normal text-accent-foreground">Ad Type</TableHead>
+            <TableHead className="h-8 border-r text-center font-normal text-accent-foreground">Commented on</TableHead>
+            <TableHead className="h-8 border-r text-center font-normal text-accent-foreground">Reports</TableHead>
+            <TableHead className="h-8 text-center font-normal text-accent-foreground"></TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {comments?.map((comment) => (
+          {comments?.map(comment => (
             <TableRow className="hover:bg-inherit" key={comment.id}>
               <TableCell className="border-r py-1 pl-4">
                 <Link
                   href={`/${comment.postType}/${comment.postId}#${comment.id}`}
-                  className="block w-[260px] md:w-[320px] lg:w-[500px] xl:w-[800px] overflow-hidden"
+                  className="block w-[260px] overflow-hidden md:w-[320px] lg:w-[500px] xl:w-[800px]"
                 >
                   <Button variant="link" className="p-0">
                     {comment.comment}
                   </Button>
                 </Link>
               </TableCell>
-              <TableCell className="border-r text-center py-1 capitalize">{`${comment.postType}`}</TableCell>
-              <TableCell className="border-r text-center py-1 min-w-32">
+              <TableCell className="border-r py-1 text-center capitalize">{`${comment.postType}`}</TableCell>
+              <TableCell className="min-w-32 border-r py-1 text-center">
                 {comment.updatedAt?.toLocaleDateString("en-us", { year: "numeric", month: "short", day: "numeric" })}
               </TableCell>
-              <TableCell className="border-r text-center py-1">{comment.reports.length}</TableCell>
-              <TableCell className="text-center capitalize py-1">
+              <TableCell className="border-r py-1 text-center">{comment.reports.length}</TableCell>
+              <TableCell className="py-1 text-center capitalize">
                 {isMobile ? (
                   <Drawer>
                     <DrawerTrigger asChild>
-                      <XCircleIcon className="mx-auto text-destructive cursor-pointer w-5" />
+                      <XCircleIcon className="mx-auto w-5 cursor-pointer text-destructive" />
                     </DrawerTrigger>
                     <DrawerContent>
                       <DrawerHeader>
                         <DrawerTitle>Confirm Delete</DrawerTitle>
                         <DrawerDescription>Are you sure you want to delete this comment?</DrawerDescription>
                       </DrawerHeader>
-                      <DrawerFooter className="flex-row mx-auto">
+                      <DrawerFooter className="mx-auto flex-row">
                         <Button onClick={() => handleDeleteComment(comment.id!, comment.postId, comment.postType)}>
-                          <CheckSquareIcon className="w-4 mr-1" />
+                          <CheckSquareIcon className="mr-1 w-4" />
                           Confirm
                         </Button>
                         <DrawerClose>
                           <Button variant="outline">
-                            <BanIcon className="w-4 mr-1" />
+                            <BanIcon className="mr-1 w-4" />
                             Cancel
                           </Button>
                         </DrawerClose>
@@ -139,7 +139,7 @@ export default function CommentProfileTable({ currentUser, tab }: { currentUser:
                       <TooltipProvider>
                         <Tooltip delayDuration={0}>
                           <TooltipTrigger asChild>
-                            <XCircleIcon className="mx-auto text-destructive cursor-pointer w-5" />
+                            <XCircleIcon className="mx-auto w-5 cursor-pointer text-destructive" />
                           </TooltipTrigger>
                           <TooltipContent>
                             <p>Delete</p>
@@ -154,7 +154,7 @@ export default function CommentProfileTable({ currentUser, tab }: { currentUser:
                       </DialogHeader>
                       <DialogFooter>
                         <Button onClick={() => handleDeleteComment(comment.id!, comment.postId, comment.postType)}>
-                          <CheckSquareIcon className="w-4 mr-1" />
+                          <CheckSquareIcon className="mr-1 w-4" />
                           Confirm
                         </Button>
                       </DialogFooter>

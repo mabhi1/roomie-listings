@@ -60,7 +60,7 @@ export async function reportHouseById(id: string, uid: string) {
   try {
     const ad = await prisma.houseAd.findUnique({ where: { id }, select: { reports: true } });
     if (!ad) return null;
-    const reports = ad.reports ? ad.reports.filter((report) => report !== uid) : [];
+    const reports = ad.reports ? ad.reports.filter(report => report !== uid) : [];
     const newAd = await prisma.houseAd.update({ where: { id }, data: { reports: [...reports, uid] } });
     if (!newAd) return null;
     return newAd;
@@ -103,7 +103,7 @@ export async function deleteHouseAdsByUser(uid: string, adId: string, tab: strin
 
     switch (tab) {
       case "savedAds":
-        const savedBy = ad.savedBy ? ad.savedBy.filter((id) => id !== uid) : [];
+        const savedBy = ad.savedBy ? ad.savedBy.filter(id => id !== uid) : [];
         const updatedAd = await prisma.houseAd.update({ where: { id: adId }, data: { savedBy } });
         if (!updatedAd) return null;
         return updatedAd;
@@ -115,7 +115,7 @@ export async function deleteHouseAdsByUser(uid: string, adId: string, tab: strin
         if (!deletedAd) return null;
         return deletedAd;
       case "reportedAds":
-        const reports = ad.reports ? ad.reports.filter((id) => id !== uid) : [];
+        const reports = ad.reports ? ad.reports.filter(id => id !== uid) : [];
         const updatedAd1 = await prisma.houseAd.update({ where: { id: adId }, data: { reports } });
         if (!updatedAd1) return null;
         return updatedAd1;

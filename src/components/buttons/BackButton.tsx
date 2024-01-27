@@ -18,7 +18,7 @@ export default function BackButton() {
             width={20}
             height={20}
             priority
-            className="w-5 md:w-auto cursor-pointer"
+            className="w-5 cursor-pointer md:w-auto"
             onClick={() => router.back()}
             placeholder="blur"
           />

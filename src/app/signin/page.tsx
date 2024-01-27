@@ -9,11 +9,11 @@ import signInImage from "../../../public/signin.png";
 
 export default function Signin() {
   return (
-    <FullWrapper className="pt-5 md:pt-20 md:flex-row xl:gap-10 md:justify-center">
-      <div className="hidden md:flex justify-center items-start mt-6">
+    <FullWrapper className="pt-5 md:flex-row md:justify-center md:pt-20 xl:gap-10">
+      <div className="mt-6 hidden items-start justify-center md:flex">
         <Image src={signInImage} alt="Sign in" width={500} height={500} priority placeholder="blur" />
       </div>
-      <div className="flex flex-col gap-3 md:gap-5 w-full max-w-[28rem]">
+      <div className="flex w-full max-w-[28rem] flex-col gap-3 md:gap-5">
         <Tabs defaultValue="account" className="w-full">
           <TabsList className="w-full">
             <TabsTrigger value="account">
@@ -21,7 +21,7 @@ export default function Signin() {
               Sign in
             </TabsTrigger>
             <TabsTrigger value="password">
-              <ClipboardSignatureIcon className="w-4 mr-1" />
+              <ClipboardSignatureIcon className="mr-1 w-4" />
               Sign up
             </TabsTrigger>
           </TabsList>

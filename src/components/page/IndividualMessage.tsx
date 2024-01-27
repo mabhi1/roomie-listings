@@ -17,7 +17,7 @@ export default async function IndividualMessage({ message }: { message: Message 
       <AccordionTrigger>{messageText}</AccordionTrigger>
       <AccordionContent className="text-xs md:text-sm">
         <>
-          <div className="grid grid-cols-2 w-fit text-muted-foreground">
+          <div className="grid w-fit grid-cols-2 text-muted-foreground">
             <div>Date sent</div>
             <div>
               {new Date(data.created_at).toLocaleDateString("en-us", {
@@ -39,7 +39,7 @@ export default async function IndividualMessage({ message }: { message: Message 
                 width={1024}
                 height={1024}
                 priority
-                className="h-40 w-40 lg:h-40 lg:w-40 xl:h-52 xl:w-52 object-cover rounded my-3 md:my-5"
+                className="my-3 h-40 w-40 rounded object-cover md:my-5 lg:h-40 lg:w-40 xl:h-52 xl:w-52"
                 placeholder="blur"
                 blurDataURL={message.attachments[0]}
               />

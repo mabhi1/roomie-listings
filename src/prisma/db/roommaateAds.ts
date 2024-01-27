@@ -60,7 +60,7 @@ export async function reportRoommateById(id: string, uid: string) {
   try {
     const ad = await prisma.roommateAd.findUnique({ where: { id } });
     if (!ad) return null;
-    const reports = !ad.reports ? [] : ad.reports.filter((report) => report !== uid);
+    const reports = !ad.reports ? [] : ad.reports.filter(report => report !== uid);
     const newAd = await prisma.roommateAd.update({ where: { id }, data: { reports: [...reports, uid] } });
     if (!newAd) return null;
     return newAd;
@@ -106,7 +106,7 @@ export async function deleteRoommateAdsByUser(uid: string, adId: string, tab: st
 
     switch (tab) {
       case "savedAds":
-        const savedBy = ad.savedBy ? ad.savedBy.filter((id) => id !== uid) : [];
+        const savedBy = ad.savedBy ? ad.savedBy.filter(id => id !== uid) : [];
         const updatedAd = await prisma.roommateAd.update({ where: { id: adId }, data: { savedBy } });
         if (!updatedAd) return null;
         return updatedAd;
@@ -118,7 +118,7 @@ export async function deleteRoommateAdsByUser(uid: string, adId: string, tab: st
         if (!deletedAd) return null;
         return deletedAd;
       case "reportedAds":
-        const reports = ad.reports ? ad.reports.filter((id) => id !== uid) : [];
+        const reports = ad.reports ? ad.reports.filter(id => id !== uid) : [];
         const updatedAd1 = await prisma.roommateAd.update({ where: { id: adId }, data: { reports } });
         if (!updatedAd1) return null;
         return updatedAd1;

@@ -21,9 +21,9 @@ export default function MultiSelect({ label = "", data, selected, setSelected }:
 
   const handleUnselect = React.useCallback(
     (item: string) => {
-      setSelected((prev) => prev.filter((s) => s !== item));
+      setSelected(prev => prev.filter(s => s !== item));
     },
-    [setSelected]
+    [setSelected],
   );
 
   const handleKeyDown = React.useCallback(
@@ -32,7 +32,7 @@ export default function MultiSelect({ label = "", data, selected, setSelected }:
       if (input) {
         if (e.key === "Delete" || e.key === "Backspace") {
           if (input.value === "") {
-            setSelected((prev) => {
+            setSelected(prev => {
               const newSelected = [...prev];
               newSelected.pop();
               return newSelected;
@@ -45,26 +45,26 @@ export default function MultiSelect({ label = "", data, selected, setSelected }:
         }
       }
     },
-    [setSelected]
+    [setSelected],
   );
 
-  const selectables = data.filter((item) => !selected.includes(item));
+  const selectables = data.filter(item => !selected.includes(item));
 
   return (
     <Command onKeyDown={handleKeyDown} className="h-auto overflow-visible bg-transparent">
-      <div className="group border border-input px-3 py-2 text-sm ring-offset-background rounded-md focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
-        <div className="flex gap-1 flex-wrap">
-          {selected.map((item) => (
+      <div className="group rounded-md border border-input px-3 py-2 text-sm ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
+        <div className="flex flex-wrap gap-1">
+          {selected.map(item => (
             <Badge key={item} variant="secondary" className="capitalize">
               {item}
               <button
-                className="ml-1 ring-offset-background rounded-full outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                onKeyDown={(e) => {
+                className="ml-1 rounded-full outline-none ring-offset-background focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                onKeyDown={e => {
                   if (e.key === "Enter") {
                     handleUnselect(item);
                   }
                 }}
-                onMouseDown={(e) => {
+                onMouseDown={e => {
                   e.preventDefault();
                   e.stopPropagation();
                 }}
@@ -81,29 +81,29 @@ export default function MultiSelect({ label = "", data, selected, setSelected }:
             onValueChange={setInputValue}
             onBlur={() => setOpen(false)}
             onFocus={() => setOpen(true)}
-            onKeyDown={(e) => {
+            onKeyDown={e => {
               if (e.key === "Tab") setOpen(false);
             }}
             placeholder={`Select ${label}...`}
-            className="ml-2 bg-transparent outline-none placeholder:text-muted-foreground flex-1"
+            className="ml-2 flex-1 bg-transparent outline-none placeholder:text-muted-foreground"
           />
         </div>
       </div>
       <div className="relative">
         {open && selectables.length > 0 ? (
-          <div className="absolute h-40 mt-2 w-full z-10 top-0 rounded-md border bg-popover text-popover-foreground shadow-md outline-none animate-in">
+          <div className="absolute top-0 z-10 mt-2 h-40 w-full rounded-md border bg-popover text-popover-foreground shadow-md outline-none animate-in">
             <CommandGroup className="h-full overflow-auto">
-              {selectables.map((item) => {
+              {selectables.map(item => {
                 return (
                   <CommandItem
                     key={item}
-                    onMouseDown={(e) => {
+                    onMouseDown={e => {
                       e.preventDefault();
                       e.stopPropagation();
                     }}
                     onSelect={() => {
                       setInputValue("");
-                      setSelected((prev) => [...prev, item]);
+                      setSelected(prev => [...prev, item]);
                     }}
                     className="cursor-pointer capitalize"
                   >

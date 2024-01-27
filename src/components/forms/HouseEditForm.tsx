@@ -82,7 +82,7 @@ export default function HouseEditForm({ houseAd }: { houseAd: HouseAd }) {
     form.setValue("address.zip", zipCode);
     if (zipCode.length === 5) {
       form.setValue("address.zip", zipCode, { shouldDirty: true, shouldTouch: true, shouldValidate: true });
-      const zipFound = zipCodeList.find((z) => z.zip === zipCode);
+      const zipFound = zipCodeList.find(z => z.zip === zipCode);
       if (zipFound) setCityValue(zipFound.City);
       else setCityValue("");
       return;
@@ -115,12 +115,12 @@ export default function HouseEditForm({ houseAd }: { houseAd: HouseAd }) {
 
     startTransition(async () => {
       try {
-        const originalGallery: string[] = houseAd.gallery.map((item) => JSON.stringify(item));
-        const newGallery: string[] = gallery.map((item) => JSON.stringify(item));
+        const originalGallery: string[] = houseAd.gallery.map(item => JSON.stringify(item));
+        const newGallery: string[] = gallery.map(item => JSON.stringify(item));
         const notRequriedGalleryItems: Gallery[] = originalGallery
-          .filter((item) => !newGallery.includes(item))
-          .map((item) => JSON.parse(item));
-        notRequriedGalleryItems.map(async (item) => {
+          .filter(item => !newGallery.includes(item))
+          .map(item => JSON.parse(item));
+        notRequriedGalleryItems.map(async item => {
           await deleteFile(item.name);
         });
 
@@ -130,7 +130,7 @@ export default function HouseEditForm({ houseAd }: { houseAd: HouseAd }) {
           houseAd.savedBy!,
           currentUser.uid!,
           houseAd.reports!,
-          [...(await getFileData()), ...gallery]
+          [...(await getFileData()), ...gallery],
         );
         if (error) throw new Error();
         else {
@@ -204,7 +204,7 @@ export default function HouseEditForm({ houseAd }: { houseAd: HouseAd }) {
         />
         <div className="space-y-2">
           <div className="text-sm leading-none">Address</div>
-          <div className="grid grid-cols-2 border p-5 gap-5 rounded-md">
+          <div className="grid grid-cols-2 gap-5 rounded-md border p-5">
             <FormField
               control={form.control}
               name="address.address1"
@@ -342,12 +342,12 @@ export default function HouseEditForm({ houseAd }: { houseAd: HouseAd }) {
               accept="image/*, video/*"
               id="files"
               multiple
-              onChange={(e) => {
+              onChange={e => {
                 if (!e.target.files || e.target.files.length === 0) {
                   setFileError(undefined);
                   return;
                 }
-                Array.from(e.target.files).forEach((file) => {
+                Array.from(e.target.files).forEach(file => {
                   if (file.type.startsWith("video") && file.size > 5242880) {
                     toast.info("Video size too big. Maximum 5MB allowed");
                     setFileError("Video size too big. Maximum 5MB allowed");
@@ -361,7 +361,7 @@ export default function HouseEditForm({ houseAd }: { houseAd: HouseAd }) {
                     setFiles([]);
                     return;
                   } else {
-                    setFiles((fileList) => [...fileList, file]);
+                    setFiles(fileList => [...fileList, file]);
                     setFileError(undefined);
                   }
                 });
@@ -374,7 +374,7 @@ export default function HouseEditForm({ houseAd }: { houseAd: HouseAd }) {
           <div className="space-y-2">
             <div>Gallery</div>
             <div className="grid grid-cols-2 gap-5">
-              {gallery.map((item) => (
+              {gallery.map(item => (
                 <div key={item.name} className="relative">
                   {item.type.startsWith("video") ? (
                     <video src={item.url} controls className="h-40 w-full rounded" />
@@ -386,7 +386,7 @@ export default function HouseEditForm({ houseAd }: { houseAd: HouseAd }) {
                         width={1024}
                         height={1024}
                         priority
-                        className="h-40 w-full object-cover rounded"
+                        className="h-40 w-full rounded object-cover"
                         placeholder="blur"
                         blurDataURL={item.url}
                       />
@@ -395,10 +395,10 @@ export default function HouseEditForm({ houseAd }: { houseAd: HouseAd }) {
                   <Button
                     variant="destructive"
                     size="sm"
-                    className="absolute top-2 right-2"
-                    onClick={() => setGallery((gallery) => gallery?.filter((i) => i.url !== item.url))}
+                    className="absolute right-2 top-2"
+                    onClick={() => setGallery(gallery => gallery?.filter(i => i.url !== item.url))}
                   >
-                    <DeleteIcon className="w-3.5 mr-1" />
+                    <DeleteIcon className="mr-1 w-3.5" />
                     Remove
                   </Button>
                 </div>
@@ -411,7 +411,7 @@ export default function HouseEditForm({ houseAd }: { houseAd: HouseAd }) {
           name="showEmail"
           render={({ field }) => (
             <FormItem>
-              <div className="flex flex-row-reverse justify-end items-center gap-2">
+              <div className="flex flex-row-reverse items-center justify-end gap-2">
                 <FormLabel>Show your email in the Ad</FormLabel>
                 <FormControl {...field}>
                   <Checkbox
@@ -431,7 +431,7 @@ export default function HouseEditForm({ houseAd }: { houseAd: HouseAd }) {
           name="acceptTc"
           render={({ field }) => (
             <FormItem>
-              <div className="flex flex-row-reverse justify-end items-center gap-2">
+              <div className="flex flex-row-reverse items-center justify-end gap-2">
                 <FormLabel>
                   I have read and agree to Terms and Conditions
                   <Required />
@@ -450,12 +450,12 @@ export default function HouseEditForm({ houseAd }: { houseAd: HouseAd }) {
           )}
         />
         <div className="flex gap-5 lg:gap-10">
-          <Button className="w-full mt-5" type="submit" disabled={isPending}>
-            <FilePlus2Icon className="w-4 mr-1" />
+          <Button className="mt-5 w-full" type="submit" disabled={isPending}>
+            <FilePlus2Icon className="mr-1 w-4" />
             Save Ad
           </Button>
-          <Button variant="secondary" className="w-full mt-5" type="reset" disabled={isPending}>
-            <RotateCcwIcon className="w-4 mr-1" />
+          <Button variant="secondary" className="mt-5 w-full" type="reset" disabled={isPending}>
+            <RotateCcwIcon className="mr-1 w-4" />
             Reset form
           </Button>
         </div>

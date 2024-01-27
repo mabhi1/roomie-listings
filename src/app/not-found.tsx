@@ -10,7 +10,7 @@ export default function NotFound() {
   return (
     <FullWrapper>
       <PageHeader heading="OOPS! Page not found" subHeading="The page you are looking for does not exists." />
-      <div className="md:w-1/2 mx-auto text-center mt-3 md:mt-20 space-y-3 md:space-y-5">
+      <div className="mx-auto mt-3 space-y-3 text-center md:mt-20 md:w-1/2 md:space-y-5">
         <Image
           src={notFoundImage}
           alt="Error"

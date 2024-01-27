@@ -9,14 +9,14 @@ export default async function IndividualComment({ comment, adId }: { comment: Co
 
   return (
     <div className="flex flex-col gap-1 md:gap-2" id={comment.id}>
-      <div className="flex gap-2 items-center">
-        <div className="rounded-full w-fit overflow-clip">
+      <div className="flex items-center gap-2">
+        <div className="w-fit overflow-clip rounded-full">
           <Image
             src={user.photo ? user.photo : userImage}
             alt={user.name}
             width={40}
             height={40}
-            className="w-[35px] h-[35px] object-cover"
+            className="h-[35px] w-[35px] object-cover"
             priority
             placeholder="blur"
             blurDataURL={user.photo ? user.photo : ""}
@@ -24,7 +24,7 @@ export default async function IndividualComment({ comment, adId }: { comment: Co
         </div>
         <div className="flex flex-col">
           <span>{user.name}</span>
-          <span className="text-xs text-muted-foreground italic">
+          <span className="text-xs italic text-muted-foreground">
             {comment.updatedAt?.toLocaleDateString("en-us", { year: "numeric", month: "short", day: "numeric" })}
           </span>
         </div>

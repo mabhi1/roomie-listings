@@ -39,7 +39,7 @@ export default function MessageForm({
           ad,
           message.trim(),
           file ? file.name : undefined,
-          url ? url : ""
+          url ? url : "",
         );
 
         if (!data) toast.error("Error in sending email");
@@ -73,7 +73,7 @@ export default function MessageForm({
           id="message"
           name="message"
           value={message}
-          onChange={(e) => setMessage(e.target.value)}
+          onChange={e => setMessage(e.target.value)}
         />
       </div>
       <div className="flex flex-col gap-2">
@@ -84,7 +84,7 @@ export default function MessageForm({
           className="w-fit"
           id="file"
           name="file"
-          onChange={(e) => {
+          onChange={e => {
             const file = e.target.files && e.target.files[0];
             if (!file || !file.size) return;
             else if (file.size > 2097152) {
@@ -98,11 +98,11 @@ export default function MessageForm({
       </div>
       <div className="flex gap-5">
         <Button className="w-fit" disabled={isPending}>
-          <SendIcon className="w-4 mr-1" />
+          <SendIcon className="mr-1 w-4" />
           Send Email
         </Button>
         <Button variant="secondary" className="w-fit" disabled={isPending} type="button" onClick={handleResetForm}>
-          <RotateCcwIcon className="w-4 mr-1" />
+          <RotateCcwIcon className="mr-1 w-4" />
           Reset
         </Button>
       </div>

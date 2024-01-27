@@ -4,15 +4,15 @@ import Spinner from "./Spinner";
 export default function LoadingPage() {
   return (
     <FullWrapper>
-      <div className="flex items-center gap-5 animate-pulse">
-        <div className="rounded-full h-8 w-8 bg-accent"></div>
-        <div className="rounded h-3 w-16 bg-accent mr-auto"></div>
-        <div className="rounded h-3 w-16 bg-accent hidden md:block"></div>
-        <div className="rounded h-3 w-16 bg-accent hidden md:block"></div>
-        <div className="rounded h-3 w-8 md:w-16 bg-accent"></div>
-        <div className="rounded h-3 w-8 md:w-16 bg-accent"></div>
+      <div className="flex animate-pulse items-center gap-5">
+        <div className="h-8 w-8 rounded-full bg-accent"></div>
+        <div className="mr-auto h-3 w-16 rounded bg-accent"></div>
+        <div className="hidden h-3 w-16 rounded bg-accent md:block"></div>
+        <div className="hidden h-3 w-16 rounded bg-accent md:block"></div>
+        <div className="h-3 w-8 rounded bg-accent md:w-16"></div>
+        <div className="h-3 w-8 rounded bg-accent md:w-16"></div>
       </div>
-      <div className="flex flex-col gap-10 justify-center items-center mt-32">
+      <div className="mt-32 flex flex-col items-center justify-center gap-10">
         <Spinner size="large" />
       </div>
     </FullWrapper>

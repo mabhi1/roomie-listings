@@ -58,10 +58,10 @@ export default function EmailSigninForm() {
 
   return (
     <form className="flex justify-center" onSubmit={handleSubmit}>
-      <Card className="border-0 shadow-none w-96">
-        <CardHeader className="py-3 md:py-6 space-y-1">
+      <Card className="w-96 border-0 shadow-none">
+        <CardHeader className="space-y-1 py-3 md:py-6">
           <PageHeader heading="Sign in with Email" backButton={false} />
-          <CardDescription className="hidden md:block text-left">
+          <CardDescription className="hidden text-left md:block">
             Enter your email and password below to sign in.
           </CardDescription>
         </CardHeader>
@@ -72,19 +72,19 @@ export default function EmailSigninForm() {
               id="email"
               type="email"
               placeholder="email@example.com"
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={e => setEmail(e.target.value)}
               value={email}
               autoFocus
             />
           </div>
-          <div className="grid gap-2 mt-2">
+          <div className="mt-2 grid gap-2">
             <Label htmlFor="password">Password</Label>
             <div className="relative">
               <Input
                 id="password"
                 type={showPassword ? "text" : "password"}
                 placeholder="***************"
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={e => setPassword(e.target.value)}
                 value={password}
                 className="pr-8"
               />
@@ -92,7 +92,7 @@ export default function EmailSigninForm() {
                 <Button
                   type="button"
                   variant="ghost"
-                  className="absolute right-0 top-1/2 -translate-y-1/2 mr-1 cursor-pointer p-[0.4rem] w-8 h-8 border-l"
+                  className="absolute right-0 top-1/2 mr-1 h-8 w-8 -translate-y-1/2 cursor-pointer border-l p-[0.4rem]"
                   onClick={() => setShowPassword(false)}
                 >
                   <UnlockIcon />
@@ -101,7 +101,7 @@ export default function EmailSigninForm() {
                 <Button
                   type="button"
                   variant="ghost"
-                  className="absolute right-0 top-1/2 -translate-y-1/2 mr-1 cursor-pointer p-[0.4rem] w-8 h-8 border-l"
+                  className="absolute right-0 top-1/2 mr-1 h-8 w-8 -translate-y-1/2 cursor-pointer border-l p-[0.4rem]"
                   onClick={() => setShowPassword(true)}
                 >
                   <LockIcon />
@@ -110,22 +110,22 @@ export default function EmailSigninForm() {
             </div>
           </div>
           <div className="flex justify-between">
-            <span className="flex gap-1 items-center">
+            <span className="flex items-center gap-1">
               <Input
                 type="checkbox"
                 id="remember"
                 name="remember"
                 value="remember"
-                onChange={(e) => setRemember(e.target.checked)}
+                onChange={e => setRemember(e.target.checked)}
                 checked={remember}
-                className="hover:cursor-pointer h-4 w-4"
+                className="h-4 w-4 hover:cursor-pointer"
               />
               <label htmlFor="remember" className="cursor-pointer">
                 Remember Me
               </label>
             </span>
             <Button variant="link" type="button" className="p-0" onClick={handlePasswordReset} disabled={formLoading}>
-              <KeyIcon className="w-4 mr-1" />
+              <KeyIcon className="mr-1 w-4" />
               Forgot Password?
             </Button>
           </div>
@@ -136,7 +136,7 @@ export default function EmailSigninForm() {
             type="submit"
             disabled={invalidEmail() || password.trim().length === 0 || formLoading}
           >
-            <LogInIcon className="w-4 mr-1" />
+            <LogInIcon className="mr-1 w-4" />
             Sign in
           </Button>
         </CardFooter>

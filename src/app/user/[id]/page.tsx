@@ -20,14 +20,14 @@ export default async function UserPublicProfile({ params: { id } }: { params: { 
         heading="User Profile"
         subHeading="This is the public profile page. All the posted ads by the user are listed below."
       />
-      <div className="flex gap-5 items-center">
-        <div className="rounded-full w-fit h-fit overflow-clip">
+      <div className="flex items-center gap-5">
+        <div className="h-fit w-fit overflow-clip rounded-full">
           <Image
             src={user.photo ? user.photo : userImage}
             alt={user.name!}
             width={50}
             height={50}
-            className="w-[60px] h-[60px] xl:w-[80px] xl:h-[80px] object-cover"
+            className="h-[60px] w-[60px] object-cover xl:h-[80px] xl:w-[80px]"
             priority
             placeholder="blur"
             blurDataURL={user.photo ? user.photo : ""}
@@ -41,45 +41,45 @@ export default async function UserPublicProfile({ params: { id } }: { params: { 
           <Table className="border">
             <TableHeader className="h-6">
               <TableRow className="bg-muted/50">
-                <TableHead className="border-r font-normal text-accent-foreground h-8">Title</TableHead>
-                <TableHead className="border-r text-center font-normal text-accent-foreground h-8">City</TableHead>
-                <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Price</TableHead>
-                <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Available</TableHead>
-                <TableHead className="border-r text-center font-normal text-accent-foreground h-8 hidden lg:table-cell">
+                <TableHead className="h-8 border-r font-normal text-accent-foreground">Title</TableHead>
+                <TableHead className="h-8 border-r text-center font-normal text-accent-foreground">City</TableHead>
+                <TableHead className="h-8 border-r text-center font-normal text-accent-foreground">Price</TableHead>
+                <TableHead className="h-8 border-r text-center font-normal text-accent-foreground">Available</TableHead>
+                <TableHead className="hidden h-8 border-r text-center font-normal text-accent-foreground lg:table-cell">
                   Duration
                 </TableHead>
-                <TableHead className="border-r text-center font-normal text-accent-foreground h-8 hidden lg:table-cell">
+                <TableHead className="hidden h-8 border-r text-center font-normal text-accent-foreground lg:table-cell">
                   Reports
                 </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {houseAds?.map((house) => (
+              {houseAds?.map(house => (
                 <TableRow className="hover:bg-inherit" key={house.id}>
                   <TableCell className="border-r py-1 pl-4">
                     <Link
                       href={`/house/${house.id}`}
-                      className="block w-[260px] md:w-[350px] xl:w-[650px] overflow-hidden"
+                      className="block w-[260px] overflow-hidden md:w-[350px] xl:w-[650px]"
                     >
                       <Button variant="link" className="p-0">
                         {house.title}
                       </Button>
                     </Link>
                   </TableCell>
-                  <TableCell className="border-r text-center py-1">{house.address.city}</TableCell>
-                  <TableCell className="border-r text-center py-1">
+                  <TableCell className="border-r py-1 text-center">{house.address.city}</TableCell>
+                  <TableCell className="border-r py-1 text-center">
                     {new Intl.NumberFormat("en-US", {
                       style: "currency",
                       currency: "USD",
                     }).format(house.price)}
                   </TableCell>
-                  <TableCell className="border-r text-center py-1">
+                  <TableCell className="border-r py-1 text-center">
                     {house.available.toLocaleDateString("en-us", { year: "numeric", month: "short", day: "numeric" })}
                   </TableCell>
-                  <TableCell className="border-r text-center capitalize py-1 hidden lg:table-cell">
+                  <TableCell className="hidden border-r py-1 text-center capitalize lg:table-cell">
                     {house.duration}
                   </TableCell>
-                  <TableCell className="border-r text-center capitalize py-1 hidden lg:table-cell">
+                  <TableCell className="hidden border-r py-1 text-center capitalize lg:table-cell">
                     {house.reports.length}
                   </TableCell>
                 </TableRow>
@@ -96,45 +96,45 @@ export default async function UserPublicProfile({ params: { id } }: { params: { 
           <Table className="border">
             <TableHeader className="h-6">
               <TableRow className="bg-muted/50">
-                <TableHead className="border-r font-normal text-accent-foreground h-8">Title</TableHead>
-                <TableHead className="border-r text-center font-normal text-accent-foreground h-8">City</TableHead>
-                <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Budget</TableHead>
-                <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Move in</TableHead>
-                <TableHead className="border-r text-center font-normal text-accent-foreground h-8 hidden lg:table-cell">
+                <TableHead className="h-8 border-r font-normal text-accent-foreground">Title</TableHead>
+                <TableHead className="h-8 border-r text-center font-normal text-accent-foreground">City</TableHead>
+                <TableHead className="h-8 border-r text-center font-normal text-accent-foreground">Budget</TableHead>
+                <TableHead className="h-8 border-r text-center font-normal text-accent-foreground">Move in</TableHead>
+                <TableHead className="hidden h-8 border-r text-center font-normal text-accent-foreground lg:table-cell">
                   Duration
                 </TableHead>
-                <TableHead className="border-r text-center font-normal text-accent-foreground h-8 hidden lg:table-cell">
+                <TableHead className="hidden h-8 border-r text-center font-normal text-accent-foreground lg:table-cell">
                   Reports
                 </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {roommateAds.map((roommate) => (
+              {roommateAds.map(roommate => (
                 <TableRow className="hover:bg-inherit" key={roommate.id}>
                   <TableCell className="border-r py-1 pl-4">
                     <Link
                       href={`/roommate/${roommate.id}`}
-                      className="block w-[260px] md:w-[350px] xl:w-[650px] overflow-hidden"
+                      className="block w-[260px] overflow-hidden md:w-[350px] xl:w-[650px]"
                     >
                       <Button variant="link" className="p-0">
                         {roommate.title}
                       </Button>
                     </Link>
                   </TableCell>
-                  <TableCell className="border-r text-center py-1">{roommate.address.city}</TableCell>
-                  <TableCell className="border-r text-center py-1">
+                  <TableCell className="border-r py-1 text-center">{roommate.address.city}</TableCell>
+                  <TableCell className="border-r py-1 text-center">
                     {new Intl.NumberFormat("en-US", {
                       style: "currency",
                       currency: "USD",
                     }).format(roommate.budget)}
                   </TableCell>
-                  <TableCell className="border-r text-center py-1 min-w-20">
+                  <TableCell className="min-w-20 border-r py-1 text-center">
                     {roommate.moveIn.toLocaleDateString("en-us", { year: "numeric", month: "short", day: "numeric" })}
                   </TableCell>
-                  <TableCell className="border-r text-center capitalize py-1 hidden lg:table-cell">
+                  <TableCell className="hidden border-r py-1 text-center capitalize lg:table-cell">
                     {roommate.duration}
                   </TableCell>
-                  <TableCell className="border-r text-center capitalize py-1 hidden lg:table-cell">
+                  <TableCell className="hidden border-r py-1 text-center capitalize lg:table-cell">
                     {roommate.reports.length}
                   </TableCell>
                 </TableRow>

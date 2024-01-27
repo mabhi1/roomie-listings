@@ -11,7 +11,7 @@ export default async function EditHouseAd({ params: { id } }: { params: { id: st
   return (
     <FullWrapper>
       <PageHeader heading="Edit house Ad" subHeading="Fill out and submit the form below to edit the ad." />
-      <div className="w-full flex justify-between">
+      <div className="flex w-full justify-between">
         <div className="w-11/12 lg:w-1/2">
           <HouseEditForm houseAd={houseAd} />
         </div>
@@ -25,7 +25,7 @@ export default async function EditHouseAd({ params: { id } }: { params: { id: st
             priority
             placeholder="blur"
           />
-          <div className="absolute top-0 left-0 w-full bg-white/30 h-full"></div>
+          <div className="absolute left-0 top-0 h-full w-full bg-white/30"></div>
         </div>
       </div>
     </FullWrapper>

@@ -35,20 +35,20 @@ export default function AddComment({ postId, postType }: { postId: string; postT
   return (
     <div className="flex flex-col md:w-1/3 lg:w-1/4">
       <Label htmlFor="comment">Add a comment</Label>
-      <span className="text-muted-foreground text-xs">Share your thoughts on this Ad</span>
+      <span className="text-xs text-muted-foreground">Share your thoughts on this Ad</span>
       {currentUser ? (
         currentUser?.emailVerified ? (
-          <form action={handleAddComment} className="flex flex-col gap-3 mt-3 md:mt-5">
+          <form action={handleAddComment} className="mt-3 flex flex-col gap-3 md:mt-5">
             <Input
               type="text"
               placeholder="Enter comment"
               name="comment"
               id="comment"
               value={comment}
-              onChange={(e) => setComment(e.target.value)}
+              onChange={e => setComment(e.target.value)}
             />
             <Button type="submit" disabled={isPending}>
-              <SubtitlesIcon className="w-4 mr-1" />
+              <SubtitlesIcon className="mr-1 w-4" />
               Submit
             </Button>
           </form>

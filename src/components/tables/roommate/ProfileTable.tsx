@@ -50,71 +50,71 @@ export default function RoommateProfileTable({ currentUser, tab }: { currentUser
       toast.error("Error removing Ad");
       return;
     }
-    setAds((ads) => ads?.filter((ad) => ad.id !== adId));
+    setAds(ads => ads?.filter(ad => ad.id !== adId));
     setLoading(false);
     toast.success("Ad removed successfully");
   };
 
   if (loading)
     return (
-      <div className="w-full mt-10 flex justify-center">
+      <div className="mt-10 flex w-full justify-center">
         <Spinner size="medium" />
       </div>
     );
-  else if (!ads || ads.length === 0) return <div className="w-full flex justify-center">No Roommate Ads</div>;
+  else if (!ads || ads.length === 0) return <div className="flex w-full justify-center">No Roommate Ads</div>;
   else
     return (
       <Table className="border">
         <TableHeader>
           <TableRow className="bg-muted/50">
-            <TableHead className="border-r font-normal text-accent-foreground h-8">Title</TableHead>
-            <TableHead className="border-r text-center font-normal text-accent-foreground h-8">City</TableHead>
-            <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Budget</TableHead>
-            <TableHead className="border-r text-center font-normal text-accent-foreground h-8 hidden lg:table-cell">
+            <TableHead className="h-8 border-r font-normal text-accent-foreground">Title</TableHead>
+            <TableHead className="h-8 border-r text-center font-normal text-accent-foreground">City</TableHead>
+            <TableHead className="h-8 border-r text-center font-normal text-accent-foreground">Budget</TableHead>
+            <TableHead className="hidden h-8 border-r text-center font-normal text-accent-foreground lg:table-cell">
               Move in
             </TableHead>
-            <TableHead className="border-r text-center font-normal text-accent-foreground h-8 hidden lg:table-cell">
+            <TableHead className="hidden h-8 border-r text-center font-normal text-accent-foreground lg:table-cell">
               Duration
             </TableHead>
-            <TableHead className="border-r text-center font-normal text-accent-foreground h-8">Reports</TableHead>
-            <TableHead className="text-center font-normal text-accent-foreground h-8"></TableHead>
+            <TableHead className="h-8 border-r text-center font-normal text-accent-foreground">Reports</TableHead>
+            <TableHead className="h-8 text-center font-normal text-accent-foreground"></TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {ads?.map((roommate) => (
+          {ads?.map(roommate => (
             <TableRow className="hover:bg-inherit" key={roommate.id}>
               <TableCell className="border-r py-1 pl-4">
                 <Link
                   href={`/roommate/${roommate.id}`}
-                  className="block w-[260px] md:w-[320px] xl:w-[580px] overflow-hidden"
+                  className="block w-[260px] overflow-hidden md:w-[320px] xl:w-[580px]"
                 >
                   <Button variant="link" className="p-0">
                     {roommate.title}
                   </Button>
                 </Link>
               </TableCell>
-              <TableCell className="border-r text-center py-1">{roommate.address.city}</TableCell>
-              <TableCell className="border-r text-center py-1">
+              <TableCell className="border-r py-1 text-center">{roommate.address.city}</TableCell>
+              <TableCell className="border-r py-1 text-center">
                 {new Intl.NumberFormat("en-US", {
                   style: "currency",
                   currency: "USD",
                 }).format(roommate.budget)}
               </TableCell>
-              <TableCell className="border-r text-center py-1 hidden lg:table-cell">
+              <TableCell className="hidden border-r py-1 text-center lg:table-cell">
                 {roommate.moveIn.toLocaleDateString("en-us", { year: "numeric", month: "short", day: "numeric" })}
               </TableCell>
-              <TableCell className="border-r text-center capitalize py-1 hidden lg:table-cell">
+              <TableCell className="hidden border-r py-1 text-center capitalize lg:table-cell">
                 {roommate.duration}
               </TableCell>
-              <TableCell className="border-r text-center capitalize py-1">{roommate.reports.length}</TableCell>
-              <TableCell className="text-center capitalize py-1">
+              <TableCell className="border-r py-1 text-center capitalize">{roommate.reports.length}</TableCell>
+              <TableCell className="py-1 text-center capitalize">
                 <div className="flex justify-center">
                   {tab === "postedAds" && (
                     <TooltipProvider>
                       <Tooltip delayDuration={0}>
                         <TooltipTrigger asChild>
                           <Link href={`/roommate/${roommate.id}/edit`}>
-                            <PenBoxIcon className="mx-auto text-success cursor-pointer mr-2 w-5" />
+                            <PenBoxIcon className="mx-auto mr-2 w-5 cursor-pointer text-success" />
                           </Link>
                         </TooltipTrigger>
                         <TooltipContent>
@@ -126,21 +126,21 @@ export default function RoommateProfileTable({ currentUser, tab }: { currentUser
                   {isMobile ? (
                     <Drawer>
                       <DrawerTrigger asChild>
-                        <XCircleIcon className="mx-auto text-destructive cursor-pointer w-5" />
+                        <XCircleIcon className="mx-auto w-5 cursor-pointer text-destructive" />
                       </DrawerTrigger>
                       <DrawerContent>
                         <DrawerHeader>
                           <DrawerTitle>Confirm Delete</DrawerTitle>
                           <DrawerDescription>Are you sure you want to delete this ad?</DrawerDescription>
                         </DrawerHeader>
-                        <DrawerFooter className="flex-row mx-auto">
+                        <DrawerFooter className="mx-auto flex-row">
                           <Button onClick={() => handleDeleteAd(roommate.id!)}>
-                            <CheckSquareIcon className="w-4 mr-1" />
+                            <CheckSquareIcon className="mr-1 w-4" />
                             Confirm
                           </Button>
                           <DrawerClose>
                             <Button variant="outline">
-                              <BanIcon className="w-4 mr-1" />
+                              <BanIcon className="mr-1 w-4" />
                               Cancel
                             </Button>
                           </DrawerClose>
@@ -153,7 +153,7 @@ export default function RoommateProfileTable({ currentUser, tab }: { currentUser
                         <TooltipProvider>
                           <Tooltip delayDuration={0}>
                             <TooltipTrigger asChild>
-                              <XCircleIcon className="mx-auto text-destructive cursor-pointer w-5" />
+                              <XCircleIcon className="mx-auto w-5 cursor-pointer text-destructive" />
                             </TooltipTrigger>
                             <TooltipContent>
                               <p>Delete</p>
@@ -168,7 +168,7 @@ export default function RoommateProfileTable({ currentUser, tab }: { currentUser
                         </DialogHeader>
                         <DialogFooter>
                           <Button onClick={() => handleDeleteAd(roommate.id!)}>
-                            <CheckSquareIcon className="w-4 mr-1" />
+                            <CheckSquareIcon className="mr-1 w-4" />
                             Confirm
                           </Button>
                         </DialogFooter>

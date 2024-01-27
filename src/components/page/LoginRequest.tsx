@@ -14,19 +14,19 @@ export default function LoginRequest({ message }: { message?: string | undefined
   const router = useRouter();
   return (
     <FullWrapper className="mt-20">
-      <Card className="relative md:w-2/3 xl:w-1/2 mx-auto">
+      <Card className="relative mx-auto md:w-2/3 xl:w-1/2">
         <CardHeader>
           <PageHeader heading="Authentication Required" className="text-destructive" backButton={false} />
           <CardDescription>{message || "Please login to continue."}</CardDescription>
         </CardHeader>
         <CardContent className="space-x-5">
           <Button variant="secondary" onClick={() => router.back()}>
-            <RotateCcwIcon className="w-4 mr-1" />
+            <RotateCcwIcon className="mr-1 w-4" />
             Go Back
           </Button>
           <Link href="/signin" legacyBehavior passHref>
             <Button>
-              <LogInIcon className="w-4 mr-1" />
+              <LogInIcon className="mr-1 w-4" />
               Sign in
             </Button>
           </Link>
@@ -37,7 +37,7 @@ export default function LoginRequest({ message }: { message?: string | undefined
             alt="Sign in Required"
             width={100}
             height={100}
-            className="w-auto absolute right-6 top-6"
+            className="absolute right-6 top-6 w-auto"
             priority
             placeholder="blur"
           />

@@ -33,13 +33,13 @@ export default function ProfileButtons({ currentUser }: { currentUser: User }) {
   return (
     <div
       className={cn(
-        "grid gap-3 xl:gap-5 justify-end items-center",
-        provider === "password" ? "grid-cols-2 xl:grid-cols-4" : "grid-cols-2 xl:grid-cols-3"
+        "grid items-center justify-end gap-3 xl:gap-5",
+        provider === "password" ? "grid-cols-2 xl:grid-cols-4" : "grid-cols-2 xl:grid-cols-3",
       )}
     >
       <Link href={`/user/${currentUser.uid}`} passHref legacyBehavior>
         <Button variant="secondary">
-          <ContactIcon className="w-4 mr-1" /> Public Profile
+          <ContactIcon className="mr-1 w-4" /> Public Profile
         </Button>
       </Link>
       {getProvider === "password" && (
@@ -48,7 +48,7 @@ export default function ProfileButtons({ currentUser }: { currentUser: User }) {
             <Drawer open={passwordDialog} onOpenChange={setPasswordDialog}>
               <DrawerTrigger asChild>
                 <Button variant="secondary" onClick={() => setPasswordDialog(true)}>
-                  <SquareAsteriskIcon className="w-4 mr-1" />
+                  <SquareAsteriskIcon className="mr-1 w-4" />
                   Change Password
                 </Button>
               </DrawerTrigger>
@@ -66,7 +66,7 @@ export default function ProfileButtons({ currentUser }: { currentUser: User }) {
             <Dialog open={passwordDialog} onOpenChange={setPasswordDialog}>
               <DialogTrigger asChild>
                 <Button variant="secondary" onClick={() => setPasswordDialog(true)}>
-                  <SquareAsteriskIcon className="w-4 mr-1" />
+                  <SquareAsteriskIcon className="mr-1 w-4" />
                   Change Password
                 </Button>
               </DialogTrigger>
@@ -83,7 +83,7 @@ export default function ProfileButtons({ currentUser }: { currentUser: User }) {
       )}
       <Link href={`/profile/messages/${currentUser.uid}`} passHref legacyBehavior>
         <Button variant="secondary">
-          <MessageSquareMoreIcon className="w-4 mr-1" />
+          <MessageSquareMoreIcon className="mr-1 w-4" />
           Messages
         </Button>
       </Link>
@@ -94,7 +94,7 @@ export default function ProfileButtons({ currentUser }: { currentUser: User }) {
               onClick={() => setProfileDialog(true)}
               className={cn(provider !== "password" ? "md:col-start-2 xl:col-start-auto" : "")}
             >
-              <UserCog2Icon className="w-4 mr-1" />
+              <UserCog2Icon className="mr-1 w-4" />
               Edit Profile
             </Button>
           </DrawerTrigger>
@@ -115,7 +115,7 @@ export default function ProfileButtons({ currentUser }: { currentUser: User }) {
               onClick={() => setProfileDialog(true)}
               className={cn(provider !== "password" ? "md:col-start-2 xl:col-start-auto" : "")}
             >
-              <UserCog2Icon className="w-4 mr-1" />
+              <UserCog2Icon className="mr-1 w-4" />
               Edit Profile
             </Button>
           </DialogTrigger>

@@ -31,32 +31,32 @@ export default async function SendMessage({ params: { messageProps } }: { params
       <Table className="border">
         <TableHeader className="h-6">
           <TableRow className="bg-muted/50">
-            <TableHead className="font-normal text-accent-foreground h-8">Ad Title</TableHead>
-            <TableHead className="text-center font-normal text-accent-foreground h-8">Ad Type</TableHead>
-            <TableHead className="text-center font-normal text-accent-foreground h-8">Your Name</TableHead>
-            <TableHead className="text-center font-normal text-accent-foreground h-8">Your Email</TableHead>
+            <TableHead className="h-8 font-normal text-accent-foreground">Ad Title</TableHead>
+            <TableHead className="h-8 text-center font-normal text-accent-foreground">Ad Type</TableHead>
+            <TableHead className="h-8 text-center font-normal text-accent-foreground">Your Name</TableHead>
+            <TableHead className="h-8 text-center font-normal text-accent-foreground">Your Email</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           <TableRow className="hover:bg-inherit">
             <TableCell className="border-b py-2">
-              <Link href={`/${type}/${ad.id}`} className="block overflow-hidden w-[260px] lg:w-[400px] xl:w-[600px]">
+              <Link href={`/${type}/${ad.id}`} className="block w-[260px] overflow-hidden lg:w-[400px] xl:w-[600px]">
                 <Button variant="link" className="h-8 p-0">
                   {ad.title}
                 </Button>
               </Link>
             </TableCell>
-            <TableCell className="border-b text-center py-2 capitalize">{type}</TableCell>
-            <TableCell className="text-center py-2 min-w-24 block md:table-cell">{sender.name}</TableCell>
-            <TableCell className="border-b text-center py-2">{sender.email}</TableCell>
+            <TableCell className="border-b py-2 text-center capitalize">{type}</TableCell>
+            <TableCell className="block min-w-24 py-2 text-center md:table-cell">{sender.name}</TableCell>
+            <TableCell className="border-b py-2 text-center">{sender.email}</TableCell>
           </TableRow>
         </TableBody>
       </Table>
-      <div className="w-full flex gap-10 justify-between">
-        <div className="w-full md:w-1/2 space-y-5">
+      <div className="flex w-full justify-between gap-10">
+        <div className="w-full space-y-5 md:w-1/2">
           <MessageForm sender={sender} receiver={receiver} type={type} ad={ad} />
         </div>
-        <div className="hidden md:block relative w-1/2 pt-10">
+        <div className="relative hidden w-1/2 pt-10 md:block">
           <Image
             src={sendEmailImage}
             alt="Send an email"
@@ -66,7 +66,7 @@ export default async function SendMessage({ params: { messageProps } }: { params
             priority
             placeholder="blur"
           />
-          <div className="absolute top-0 left-0 w-full bg-white/30 h-full"></div>
+          <div className="absolute left-0 top-0 h-full w-full bg-white/30"></div>
         </div>
       </div>
     </FullWrapper>

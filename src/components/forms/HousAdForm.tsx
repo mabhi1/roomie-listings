@@ -92,7 +92,7 @@ export default function HouseAdForm() {
     form.setValue("address.zip", zipCode);
     if (zipCode.length === 5) {
       form.setValue("address.zip", zipCode, { shouldDirty: true, shouldTouch: true, shouldValidate: true });
-      const zipFound = zipCodeList.find((z) => z.zip === zipCode);
+      const zipFound = zipCodeList.find(z => z.zip === zipCode);
       if (zipFound) setCityValue(zipFound.City);
       else setCityValue("");
       return;
@@ -201,7 +201,7 @@ export default function HouseAdForm() {
         />
         <div className="space-y-2">
           <div className="text-sm leading-none">Address</div>
-          <div className="grid grid-cols-2 border p-5 gap-5 rounded-md">
+          <div className="grid grid-cols-2 gap-5 rounded-md border p-5">
             <FormField
               control={form.control}
               name="address.address1"
@@ -339,12 +339,12 @@ export default function HouseAdForm() {
               accept="image/*, video/*"
               id="files"
               multiple
-              onChange={(e) => {
+              onChange={e => {
                 if (!e.target.files || e.target.files.length === 0) {
                   setFileError(undefined);
                   return;
                 }
-                Array.from(e.target.files).forEach((file) => {
+                Array.from(e.target.files).forEach(file => {
                   if (file.type.startsWith("video") && file.size > 5242880) {
                     toast.info("Video size too big. Maximum 5MB allowed");
                     setFileError("Video size too big. Maximum 5MB allowed");
@@ -358,7 +358,7 @@ export default function HouseAdForm() {
                     setFiles([]);
                     return;
                   } else {
-                    setFiles((fileList) => [...fileList, file]);
+                    setFiles(fileList => [...fileList, file]);
                     setFileError(undefined);
                   }
                 });
@@ -372,7 +372,7 @@ export default function HouseAdForm() {
           name="showEmail"
           render={({ field }) => (
             <FormItem>
-              <div className="flex flex-row-reverse justify-end items-center gap-2">
+              <div className="flex flex-row-reverse items-center justify-end gap-2">
                 <FormLabel>Show your email in the Ad</FormLabel>
                 <FormControl {...field}>
                   <Checkbox
@@ -392,7 +392,7 @@ export default function HouseAdForm() {
           name="acceptTc"
           render={({ field }) => (
             <FormItem>
-              <div className="flex flex-row-reverse justify-end items-center gap-2">
+              <div className="flex flex-row-reverse items-center justify-end gap-2">
                 <FormLabel>
                   I have read and agree to Terms and Conditions
                   <Required />
@@ -411,12 +411,12 @@ export default function HouseAdForm() {
           )}
         />
         <div className="flex gap-5 lg:gap-10">
-          <Button className="w-full mt-5" type="submit" disabled={isPending}>
-            <FilePlus2Icon className="w-4 mr-1" />
+          <Button className="mt-5 w-full" type="submit" disabled={isPending}>
+            <FilePlus2Icon className="mr-1 w-4" />
             Create Ad
           </Button>
-          <Button variant="secondary" className="w-full mt-5" type="reset" disabled={isPending}>
-            <RotateCcwIcon className="w-4 mr-1" />
+          <Button variant="secondary" className="mt-5 w-full" type="reset" disabled={isPending}>
+            <RotateCcwIcon className="mr-1 w-4" />
             Reset form
           </Button>
         </div>
@@ -428,7 +428,7 @@ export default function HouseAdForm() {
               <DrawerTitle>Verification Required!</DrawerTitle>
               <DrawerDescription>Please verify your email to post an Ad.</DrawerDescription>
             </DrawerHeader>
-            <DrawerFooter className="flex-row mx-auto">
+            <DrawerFooter className="mx-auto flex-row">
               <Button
                 className="w-fit"
                 onClick={() => {
@@ -441,12 +441,12 @@ export default function HouseAdForm() {
                   }
                 }}
               >
-                <LinkIcon className="w-4 mr-1" />
+                <LinkIcon className="mr-1 w-4" />
                 Send Verification link
               </Button>
               <DrawerClose>
                 <Button variant="outline">
-                  <BanIcon className="w-4 mr-1" />
+                  <BanIcon className="mr-1 w-4" />
                   Cancel
                 </Button>
               </DrawerClose>
@@ -472,7 +472,7 @@ export default function HouseAdForm() {
                 }
               }}
             >
-              <LinkIcon className="w-4 mr-1" />
+              <LinkIcon className="mr-1 w-4" />
               Send Verification link
             </Button>
           </DialogContent>

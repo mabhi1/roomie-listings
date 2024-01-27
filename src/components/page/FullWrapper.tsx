@@ -4,8 +4,8 @@ export default function FullWrapper({ children, className }: { children: React.R
   return (
     <main
       className={cn(
-        "flex-1 flex flex-col w-full max-w-screen-xl mx-auto px-5 md:px-10 xl:px-5 pt-3 md:pt-5 pb-24",
-        className
+        "mx-auto flex w-full max-w-screen-xl flex-1 flex-col px-5 pb-24 pt-3 md:px-10 md:pt-5 xl:px-5",
+        className,
       )}
     >
       {children}

@@ -11,7 +11,7 @@ export default async function EditRoommateAd({ params: { id } }: { params: { id:
   return (
     <FullWrapper>
       <PageHeader heading="Edit roommate Ad" subHeading="Fill out and submit the form below to edit the ad." />
-      <div className="w-full flex justify-between">
+      <div className="flex w-full justify-between">
         <div className="w-11/12 lg:w-1/2">
           <RoommateEditForm roommateAd={roommateAd} />
         </div>
@@ -25,7 +25,7 @@ export default async function EditRoommateAd({ params: { id } }: { params: { id:
             priority
             placeholder="blur"
           />
-          <div className="absolute top-0 left-0 w-full bg-white/30 h-full"></div>
+          <div className="absolute left-0 top-0 h-full w-full bg-white/30"></div>
         </div>
       </div>
     </FullWrapper>

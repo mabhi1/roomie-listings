@@ -21,7 +21,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [currentCity, setCurrentCity] = useState<string>("JERSEY CITY");
 
   useEffect(() => {
-    auth.onAuthStateChanged((user) => {
+    auth.onAuthStateChanged(user => {
       setCurrentUser(user);
       setLoading(false);
     });

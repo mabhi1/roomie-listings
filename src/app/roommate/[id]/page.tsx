@@ -21,45 +21,45 @@ export default async function RoommateId({ params: { id } }: { params: { id: str
         subHeading="Reach out by sending a message if you like the ad below."
       />
       <Card>
-        <CardHeader className="space-y-0 md:space-y-1.5 p-3 md:p-5 flex-col-reverse md:flex-row gap-1 md:gap-2 lg:gap-0 md:items-center justify-between">
-          <div className="md:space-y-1.5 mr-auto">
+        <CardHeader className="flex-col-reverse justify-between gap-1 space-y-0 p-3 md:flex-row md:items-center md:gap-2 md:space-y-1.5 md:p-5 lg:gap-0">
+          <div className="mr-auto md:space-y-1.5">
             <CardTitle className="font-light">{roommate.title}</CardTitle>
             <CardDescription>
-              <span className="italic text-xs ">
+              <span className="text-xs italic ">
                 Last Updated:{" "}
                 {roommate.updatedAt.toLocaleDateString("en-us", { year: "numeric", month: "short", day: "numeric" })}
               </span>
             </CardDescription>
-            {roommate.showEmail && <p className="hidden md:block text-xs mr-1 lg:mr-5">User Email: {poster.email}</p>}
+            {roommate.showEmail && <p className="mr-1 hidden text-xs md:block lg:mr-5">User Email: {poster.email}</p>}
           </div>
-          {roommate.showEmail && <p className="md:hidden text-xs lg:mr-5 mr-auto">User Email: {poster.email}</p>}
+          {roommate.showEmail && <p className="mr-auto text-xs md:hidden lg:mr-5">User Email: {poster.email}</p>}
           <PosterIcon poster={poster} />
         </CardHeader>
         <CardContent className="space-y-5 px-0">
           <Table>
             <TableHeader className="h-6">
               <TableRow className="bg-muted/50">
-                <TableHead className="text-center font-normal text-accent-foreground h-8">Location</TableHead>
-                <TableHead className="text-center font-normal text-accent-foreground h-8">Budget</TableHead>
-                <TableHead className="text-center font-normal text-accent-foreground h-8 w-20 md:w-auto">
+                <TableHead className="h-8 text-center font-normal text-accent-foreground">Location</TableHead>
+                <TableHead className="h-8 text-center font-normal text-accent-foreground">Budget</TableHead>
+                <TableHead className="h-8 w-20 text-center font-normal text-accent-foreground md:w-auto">
                   Move in
                 </TableHead>
-                <TableHead className="text-center font-normal text-accent-foreground h-8">Duration</TableHead>
+                <TableHead className="h-8 text-center font-normal text-accent-foreground">Duration</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               <TableRow className="hover:bg-inherit">
-                <TableCell className="border-b text-center py-2">{`${roommate.address.city}, ${roommate.address.state}`}</TableCell>
-                <TableCell className="border-b text-center py-2">
+                <TableCell className="border-b py-2 text-center">{`${roommate.address.city}, ${roommate.address.state}`}</TableCell>
+                <TableCell className="border-b py-2 text-center">
                   {new Intl.NumberFormat("en-US", {
                     style: "currency",
                     currency: "USD",
                   }).format(roommate.budget)}
                 </TableCell>
-                <TableCell className="border-b text-center py-2">
+                <TableCell className="border-b py-2 text-center">
                   {roommate.moveIn.toLocaleDateString("en-us", { year: "numeric", month: "short", day: "numeric" })}
                 </TableCell>
-                <TableCell className="border-b text-center capitalize py-2">{roommate.duration}</TableCell>
+                <TableCell className="border-b py-2 text-center capitalize">{roommate.duration}</TableCell>
               </TableRow>
             </TableBody>
           </Table>

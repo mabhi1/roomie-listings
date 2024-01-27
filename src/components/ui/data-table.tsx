@@ -106,7 +106,7 @@ export default function DataTable<TData, TValue>({ columns, data, page, profile 
           const poster = row.postedBy;
           if (!showMyAd && poster === currentUser?.uid) return false;
           return true;
-        })
+        }),
     );
   }, [showMyAd, page, selectedDuration, selectedCity, currentUser, data, max, min]);
 
@@ -156,20 +156,20 @@ export default function DataTable<TData, TValue>({ columns, data, page, profile 
     <div className="space-y-2">
       {!profile && (
         <>
-          <div className="flex flex-col gap-3 md:flex-row md:justify-between items-start md:items-center mb-5">
+          <div className="mb-5 flex flex-col items-start gap-3 md:flex-row md:items-center md:justify-between">
             <div className="relative mr-auto">
-              <SearchIcon className="absolute left-2 top-1/2 -translate-y-1/2 w-4 text-muted-foreground" />
+              <SearchIcon className="absolute left-2 top-1/2 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
                 placeholder="Search by title"
                 value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
-                onChange={(event) => table.getColumn("title")?.setFilterValue(event.target.value)}
-                className="w-80 md:w-60 lg:w-80 pl-7"
+                onChange={event => table.getColumn("title")?.setFilterValue(event.target.value)}
+                className="w-80 pl-7 md:w-60 lg:w-80"
               />
             </div>
             <div>
               {currentUser && (
-                <Button variant="outline" className="mr-2 lg:mr-4" onClick={() => setShowMyAd((showMyAd) => !showMyAd)}>
-                  {showMyAd ? <EyeOffIcon className="w-4 mr-1" /> : <EyeIcon className="w-4 mr-1" />}
+                <Button variant="outline" className="mr-2 lg:mr-4" onClick={() => setShowMyAd(showMyAd => !showMyAd)}>
+                  {showMyAd ? <EyeOffIcon className="mr-1 w-4" /> : <EyeIcon className="mr-1 w-4" />}
                   {showMyAd ? "Hide my ads" : "Show my ads"}
                 </Button>
               )}
@@ -188,7 +188,7 @@ export default function DataTable<TData, TValue>({ columns, data, page, profile 
                   <div className="my-5 flex flex-col gap-5">
                     <div className="flex flex-col gap-2">
                       <div className="font-medium">Duration</div>
-                      <Select onValueChange={(value) => setSelectedDuration(value)} value={selectedDuration}>
+                      <Select onValueChange={value => setSelectedDuration(value)} value={selectedDuration}>
                         <SelectTrigger className="w-full">
                           <SelectValue placeholder="Select duration..." />
                         </SelectTrigger>
@@ -210,27 +210,27 @@ export default function DataTable<TData, TValue>({ columns, data, page, profile 
                     </div>
                     <div className="flex flex-col gap-2">
                       <div className="font-medium">{page === "roommate" ? "Budget" : "Price"}</div>
-                      <div className="flex flex-col md:flex-row gap-2 justify-evenly md:items-center">
+                      <div className="flex flex-col justify-evenly gap-2 md:flex-row md:items-center">
                         <span>Min: </span>
                         <Input
                           type="number"
                           className="md:w-28"
                           value={min}
-                          onChange={(e) => setMin(Number(e.target.value))}
+                          onChange={e => setMin(Number(e.target.value))}
                         />
                         <span>Max: </span>
                         <Input
                           type="number"
                           className="md:w-28"
                           value={max}
-                          onChange={(e) => setMax(Number(e.target.value))}
+                          onChange={e => setMax(Number(e.target.value))}
                         />
                       </div>
                     </div>
                   </div>
                   <SheetFooter>
                     <Button className="w-full" onClick={handleClearFilter}>
-                      <EraserIcon className="w-4 mr-1" />
+                      <EraserIcon className="mr-1 w-4" />
                       Clear Filter
                     </Button>
                   </SheetFooter>
@@ -246,14 +246,14 @@ export default function DataTable<TData, TValue>({ columns, data, page, profile 
                 <DropdownMenuContent align="end">
                   {table
                     .getAllColumns()
-                    .filter((column) => column.getCanHide())
-                    .map((column) => {
+                    .filter(column => column.getCanHide())
+                    .map(column => {
                       return (
                         <DropdownMenuCheckboxItem
                           key={column.id}
                           className="capitalize"
                           checked={column.getIsVisible()}
-                          onCheckedChange={(value) => column.toggleVisibility(!!value)}
+                          onCheckedChange={value => column.toggleVisibility(!!value)}
                         >
                           {(filterColumnMapping as any)[column.id]}
                         </DropdownMenuCheckboxItem>
@@ -263,11 +263,11 @@ export default function DataTable<TData, TValue>({ columns, data, page, profile 
               </DropdownMenu>
             </div>
           </div>
-          <div className="text-xs text-muted-foreground w-fit flex gap-x-2 gap-y-1 flex-wrap items-center">
+          <div className="flex w-fit flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted-foreground">
             {currentUser && (
               <div className="space-x-1">
                 <span>Your Ads :</span>
-                <span className="bg-muted-foreground text-muted rounded px-1 capitalize">
+                <span className="rounded bg-muted-foreground px-1 capitalize text-muted">
                   {showMyAd ? "Visible" : "Hidden"}
                 </span>
               </div>
@@ -276,8 +276,8 @@ export default function DataTable<TData, TValue>({ columns, data, page, profile 
               <div className="space-x-1">
                 <span>Selected {selectedCity.length === 1 ? "City" : "Cities"} :</span>
                 <span className="space-x-1">
-                  {selectedCity.map((city) => (
-                    <span key={city} className="bg-muted-foreground text-muted rounded px-1">
+                  {selectedCity.map(city => (
+                    <span key={city} className="rounded bg-muted-foreground px-1 text-muted">
                       {city}
                     </span>
                   ))}
@@ -287,23 +287,23 @@ export default function DataTable<TData, TValue>({ columns, data, page, profile 
             {selectedDuration !== "all" && (
               <div className="space-x-1">
                 <span>Selected Duration :</span>
-                <span className="bg-muted-foreground text-muted rounded px-1 capitalize">{selectedDuration}</span>
+                <span className="rounded bg-muted-foreground px-1 capitalize text-muted">{selectedDuration}</span>
               </div>
             )}
             {min !== 0 && (
               <div className="space-x-1">
                 <span>Min {page === "roommate" ? "Budget" : "Price"} :</span>
-                <span className="bg-muted-foreground text-muted rounded px-1 capitalize">${min}</span>
+                <span className="rounded bg-muted-foreground px-1 capitalize text-muted">${min}</span>
               </div>
             )}
             {max !== Number.MAX_SAFE_INTEGER && (
               <div className="space-x-1">
                 <span>Max {page === "roommate" ? "Budget" : "Price"} :</span>
-                <span className="bg-muted-foreground text-muted rounded px-1 capitalize">${max}</span>
+                <span className="rounded bg-muted-foreground px-1 capitalize text-muted">${max}</span>
               </div>
             )}
             {!isNotFiltered() && (
-              <Button variant="link" className="p-0 h-[10px] md:h-[10px]" onClick={handleClearFilter}>
+              <Button variant="link" className="h-[10px] p-0 md:h-[10px]" onClick={handleClearFilter}>
                 Clear filters
               </Button>
             )}
@@ -313,13 +313,13 @@ export default function DataTable<TData, TValue>({ columns, data, page, profile 
       <div className="rounded-md border">
         <Table className="font-normal">
           <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
+            {table.getHeaderGroups().map(headerGroup => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
+                {headerGroup.headers.map(header => {
                   return (
                     <TableHead
                       key={header.id}
-                      className="font-normal text-black bg-muted h-8 px-3 border-r last:border-r-0"
+                      className="h-8 border-r bg-muted px-3 font-normal text-black last:border-r-0"
                     >
                       {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                     </TableHead>
@@ -330,10 +330,10 @@ export default function DataTable<TData, TValue>({ columns, data, page, profile 
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
+              table.getRowModel().rows.map(row => (
                 <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className="h-12 p-2 border-r last:border-r-0">
+                  {row.getVisibleCells().map(cell => (
+                    <TableCell key={cell.id} className="h-12 border-r p-2 last:border-r-0">
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
@@ -356,19 +356,19 @@ export default function DataTable<TData, TValue>({ columns, data, page, profile 
           selected.
         </div> */}
           <div className="text-sm text-muted-foreground">{table.getFilteredRowModel().rows.length} row(s)</div>
-          <div className="flex items-center justify-end ml-auto space-x-2">
+          <div className="ml-auto flex items-center justify-end space-x-2">
             <Button
               variant="outline"
               size="sm"
               onClick={() => table.previousPage()}
               disabled={!table.getCanPreviousPage()}
             >
-              <ChevronLeftIcon className="w-4 mr-1" />
+              <ChevronLeftIcon className="mr-1 w-4" />
               Previous
             </Button>
             <Button variant="outline" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
               Next
-              <ChevronRightIcon className="w-4 ml-1" />
+              <ChevronRightIcon className="ml-1 w-4" />
             </Button>
           </div>
         </div>

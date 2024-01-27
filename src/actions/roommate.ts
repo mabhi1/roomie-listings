@@ -32,7 +32,7 @@ export async function editRoommate(
   values: z.infer<typeof RoommateAdSchema>,
   savedBy: string[],
   postedBy: string,
-  reports: string[]
+  reports: string[],
 ) {
   const validatedFields = RoommateAdSchema.safeParse(values);
 

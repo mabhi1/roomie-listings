@@ -11,15 +11,15 @@ import LandingMessage from "../page/LandingMessage";
 export default function Header() {
   return (
     <StickyWrapper>
-      <div className="bg-secondary/50 md:bg-inherit flex flex-row md:flex-col lg:flex-row px-5 md:px-10 xl:px-5 py-2 w-full max-w-screen-xl mx-auto items-center justify-between">
-        <Link href="/" className="flex gap-3 items-center my-1 md:my-2 lg:my-0">
+      <div className="mx-auto flex w-full max-w-screen-xl flex-row items-center justify-between bg-secondary/50 px-5 py-2 md:flex-col md:bg-inherit md:px-10 lg:flex-row xl:px-5">
+        <Link href="/" className="my-1 flex items-center gap-3 md:my-2 lg:my-0">
           <Image src={logoImage} alt={title.site} width={30} height={30} priority />
           <span className="text-base">{title.site}</span>
         </Link>
         <div className="hidden md:flex">
           <WebNavigation />
         </div>
-        <div className="flex md:hidden gap-3">
+        <div className="flex gap-3 md:hidden">
           <MobileLocation />
           <MobileNavigation />
         </div>

@@ -8,11 +8,11 @@ export default function CreateRoommateAd() {
   return (
     <FullWrapper>
       <PageHeader heading="Become a roommate" subHeading="Fill out and submit the form below create a roommate ad." />
-      <div className="w-full flex justify-between">
+      <div className="flex w-full justify-between">
         <div className="md:w-11/12 lg:w-1/2">
           <RoommateAdForm />
         </div>
-        <div className="hidden md:block relative">
+        <div className="relative hidden md:block">
           <Image
             src={houseAdImage}
             alt="List a roommate"
@@ -22,7 +22,7 @@ export default function CreateRoommateAd() {
             priority
             placeholder="blur"
           />
-          <div className="absolute top-0 left-0 w-full bg-white/30 h-full"></div>
+          <div className="absolute left-0 top-0 h-full w-full bg-white/30"></div>
         </div>
       </div>
     </FullWrapper>

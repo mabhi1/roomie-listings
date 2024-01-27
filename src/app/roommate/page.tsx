@@ -18,12 +18,12 @@ export default async function Roommate() {
         heading="Roommate Ads"
         subHeading="Browse throught the list of roommate ads and find the perfect partner you want to stay with."
       />
-      <div className="relative flex flex-col xl:flex-row gap-5">
+      <div className="relative flex flex-col gap-5 xl:flex-row">
         <div className="flex-1">
           <DataTable columns={RoommateColumns} data={roommateData} page="roommate" />
         </div>
         <Separator orientation="vertical" className="hidden lg:block" />
-        <div className="md:w-1/3 xl:w-1/5 flex flex-col gap-2 sticky top-20 h-60">
+        <div className="sticky top-20 flex h-60 flex-col gap-2 md:w-1/3 xl:w-1/5">
           <Image
             alt="Roommate"
             src={roommateImage}
@@ -40,7 +40,7 @@ export default async function Roommate() {
           </p>
           <Link href="/house/create" legacyBehavior passHref>
             <Button className="mt-2">
-              <LandmarkIcon className="w-4 mr-1" />
+              <LandmarkIcon className="mr-1 w-4" />
               List your house
             </Button>
           </Link>

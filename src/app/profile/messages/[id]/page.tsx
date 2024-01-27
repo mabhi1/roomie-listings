@@ -17,8 +17,8 @@ export default async function MyMessages({ params: { id } }: { params: { id: str
         backButton
         subHeading="See your all the sent and received messages below. Ad link and sent date is provided in the description."
       />
-      <div className="w-full flex gap-10 justify-between">
-        <div className="w-full md:w-4/6 space-y-3 md:space-y-5">
+      <div className="flex w-full justify-between gap-10">
+        <div className="w-full space-y-3 md:w-4/6 md:space-y-5">
           <Tabs defaultValue="sent">
             <TabsList className="md:mb-2">
               <TabsTrigger value="sent">Sent</TabsTrigger>
@@ -27,7 +27,7 @@ export default async function MyMessages({ params: { id } }: { params: { id: str
             <TabsContent value="sent">
               <Accordion type="single" collapsible>
                 {sentMessages && sentMessages.length > 0 ? (
-                  sentMessages.map((message) => (
+                  sentMessages.map(message => (
                     <AccordionItem value={message.id} key={message.id}>
                       <IndividualMessage message={message} />
                     </AccordionItem>
@@ -40,7 +40,7 @@ export default async function MyMessages({ params: { id } }: { params: { id: str
             <TabsContent value="received">
               <Accordion type="single" collapsible>
                 {receivedMessages && receivedMessages.length > 0 ? (
-                  receivedMessages.map((message) => (
+                  receivedMessages.map(message => (
                     <AccordionItem value={message.id} key={message.id}>
                       <IndividualMessage message={message} />
                     </AccordionItem>
@@ -52,7 +52,7 @@ export default async function MyMessages({ params: { id } }: { params: { id: str
             </TabsContent>
           </Tabs>
         </div>
-        <div className="hidden md:block relative w-2/6">
+        <div className="relative hidden w-2/6 md:block">
           <Image
             src={messagesImage}
             alt="Messages"
@@ -62,7 +62,7 @@ export default async function MyMessages({ params: { id } }: { params: { id: str
             priority
             placeholder="blur"
           />
-          <div className="absolute top-0 left-0 w-full bg-white/30 h-full"></div>
+          <div className="absolute left-0 top-0 h-full w-full bg-white/30"></div>
         </div>
       </div>
     </FullWrapper>

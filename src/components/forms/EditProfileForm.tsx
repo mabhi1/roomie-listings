@@ -51,7 +51,7 @@ export default function EditProfileForm({
   return (
     <form onSubmit={handleChangeProfile}>
       <div className="grid gap-4 py-4">
-        <div className="flex flex-col md:grid grid-cols-4 md:items-center gap-2 md:gap-4">
+        <div className="flex grid-cols-4 flex-col gap-2 md:grid md:items-center md:gap-4">
           <Label htmlFor="picture" className="md:text-right">
             Change Picture
           </Label>
@@ -60,7 +60,7 @@ export default function EditProfileForm({
             type="file"
             className="col-span-3"
             accept="image/*"
-            onChange={(e) => {
+            onChange={e => {
               if (!e.target.files || e.target.files.length === 0) return;
               const file = e.target.files[0];
               if (file.size > 2097152) {
@@ -74,7 +74,7 @@ export default function EditProfileForm({
           />
         </div>
 
-        <div className="flex flex-col md:grid grid-cols-4 md:items-center gap-2 md:gap-4">
+        <div className="flex grid-cols-4 flex-col gap-2 md:grid md:items-center md:gap-4">
           <Label htmlFor="name" className="md:text-right">
             Change Name
           </Label>
@@ -83,14 +83,14 @@ export default function EditProfileForm({
             type="text"
             className="col-span-3"
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={e => setName(e.target.value)}
             placeholder="Enter name"
           />
         </div>
       </div>
       <div className="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2">
         <Button type="submit" className="ml-auto" disabled={loading}>
-          <HardDriveDownloadIcon className="w-4 mr-1" />
+          <HardDriveDownloadIcon className="mr-1 w-4" />
           Save changes
         </Button>
       </div>

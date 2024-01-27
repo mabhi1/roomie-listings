@@ -60,7 +60,7 @@ export default function CommentButtons({ comment, adId }: { comment: Comment; ad
               Helpful
             </Button>
             <Button variant="destructive" size="sm" disabled={isPending} onClick={handleReportComment}>
-              <MessageSquareXIcon className="w-3.5 mr-1" />
+              <MessageSquareXIcon className="mr-1 w-3.5" />
               Report
             </Button>
           </div>

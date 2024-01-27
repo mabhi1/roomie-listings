@@ -14,7 +14,7 @@ export async function sendEmail(
   ad: HouseAd | RoommateAd,
   message: string,
   filename: string | undefined,
-  url: string | undefined
+  url: string | undefined,
 ) {
   const { data, error } = await resend.emails.send({
     from: "Roomie Listings <no-reply@roomielistings.com>",

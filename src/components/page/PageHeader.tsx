@@ -14,9 +14,9 @@ export default function PageHeader({
 }) {
   return (
     <div className="flex flex-col gap-2">
-      <div className="flex gap-1 items-center">
+      <div className="flex items-center gap-1">
         {backButton && <BackButton />}
-        <h1 className={cn("text-xl md:text-3xl font-light", className)}>{heading}</h1>
+        <h1 className={cn("text-xl font-light md:text-3xl", className)}>{heading}</h1>
       </div>
       {subHeading && <h2 className="hidden md:block">{subHeading}</h2>}
     </div>

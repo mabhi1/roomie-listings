@@ -21,12 +21,12 @@ export default function ComboBox({ value, setValue }: { value: string; setValue:
         <Command>
           <CommandInput placeholder="Search city..." />
           <CommandEmpty>No city found.</CommandEmpty>
-          <CommandGroup className="h-40 md:h-80 overflow-auto w-full">
-            {cityList.map((city) => (
+          <CommandGroup className="h-40 w-full overflow-auto md:h-80">
+            {cityList.map(city => (
               <CommandItem
                 key={city}
                 value={city}
-                onSelect={(currentValue) => {
+                onSelect={currentValue => {
                   setValue(currentValue.toUpperCase() === value ? "" : currentValue.toUpperCase());
                   setOpen(false);
                 }}

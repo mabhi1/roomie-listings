@@ -23,7 +23,7 @@ function createErrorMessage(error: { message: string }) {
     .split("/")[1]
     .split(")")[0]
     .split("-")
-    .map((word) => {
+    .map(word => {
       return word.charAt(0).toUpperCase() + word.slice(1);
     })
     .join(" ");
@@ -36,7 +36,7 @@ async function createUser(email: string, password: string, displayName: string) 
       await updateProfile(auth.currentUser, {
         displayName: displayName
           .split(" ")
-          .map((word) => {
+          .map(word => {
             return word.charAt(0).toUpperCase() + word.slice(1);
           })
           .join(" "),

@@ -76,69 +76,69 @@ export default function EmailSignupForm() {
 
   return (
     <form className="flex justify-center" onSubmit={handleSubmit}>
-      <Card className="border-0 shadow-none w-96">
-        <CardHeader className="py-3 md:py-6 space-y-1">
+      <Card className="w-96 border-0 shadow-none">
+        <CardHeader className="space-y-1 py-3 md:py-6">
           <PageHeader heading="Sign up with Email" backButton={false} />
-          <CardDescription className="hidden md:block text-left">
+          <CardDescription className="hidden text-left md:block">
             Enter email and password below to sign up.
           </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-2">
-          <div className="grid gap-2 relative">
+          <div className="relative grid gap-2">
             <Label htmlFor="name">Name</Label>
             <Input
               id="name"
               type="text"
               placeholder="John Doe"
-              onChange={(e) => setName(e.target.value)}
+              onChange={e => setName(e.target.value)}
               value={name}
               className={cn(
                 name && "outline outline-offset-2",
-                invalidName() ? "outline-destructive" : "outline-success"
+                invalidName() ? "outline-destructive" : "outline-success",
               )}
               autoFocus
             />
-            <span className={cn("text-xs text-destructive absolute top-0 right-0", name ? "inline" : "hidden")}>
-              {invalidName() ? <>{"Invalid Name"}</> : <CheckSquareIcon className="w-4 h-4 text-success" />}
+            <span className={cn("absolute right-0 top-0 text-xs text-destructive", name ? "inline" : "hidden")}>
+              {invalidName() ? <>{"Invalid Name"}</> : <CheckSquareIcon className="h-4 w-4 text-success" />}
             </span>
           </div>
-          <div className="grid gap-2 mt-2 relative">
+          <div className="relative mt-2 grid gap-2">
             <Label htmlFor="email">Email</Label>
             <Input
               id="email"
               type="email"
               placeholder="email@example.com"
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={e => setEmail(e.target.value)}
               value={email}
               className={cn(
                 email && "outline outline-offset-2",
-                invalidEmail() ? "outline-destructive" : "outline-success"
+                invalidEmail() ? "outline-destructive" : "outline-success",
               )}
             />
-            <span className={cn("text-xs text-destructive absolute top-0 right-0", email ? "inline" : "hidden")}>
-              {invalidEmail() ? <>{"Invalid Email"}</> : <CheckSquareIcon className="w-4 h-4 text-success" />}
+            <span className={cn("absolute right-0 top-0 text-xs text-destructive", email ? "inline" : "hidden")}>
+              {invalidEmail() ? <>{"Invalid Email"}</> : <CheckSquareIcon className="h-4 w-4 text-success" />}
             </span>
           </div>
-          <div className="grid gap-2 mt-2 relative">
+          <div className="relative mt-2 grid gap-2">
             <Label htmlFor="password">Password</Label>
             <div className="relative">
               <Input
                 id="password"
                 type={showPassword ? "text" : "password"}
                 placeholder="***************"
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={e => setPassword(e.target.value)}
                 value={password}
                 className={cn(
                   "pr-8",
                   password && "outline outline-offset-2",
-                  invalidPassword() ? "outline-destructive" : "outline-success"
+                  invalidPassword() ? "outline-destructive" : "outline-success",
                 )}
               />
               {showPassword ? (
                 <Button
                   type="button"
                   variant="ghost"
-                  className="absolute right-0 top-1/2 -translate-y-1/2 mr-1 cursor-pointer p-[0.4rem] w-8 h-8 border-l"
+                  className="absolute right-0 top-1/2 mr-1 h-8 w-8 -translate-y-1/2 cursor-pointer border-l p-[0.4rem]"
                   onClick={() => setShowPassword(false)}
                 >
                   <UnlockIcon />
@@ -147,39 +147,39 @@ export default function EmailSignupForm() {
                 <Button
                   type="button"
                   variant="ghost"
-                  className="absolute right-0 top-1/2 -translate-y-1/2 mr-1 cursor-pointer p-[0.4rem] w-8 h-8 border-l"
+                  className="absolute right-0 top-1/2 mr-1 h-8 w-8 -translate-y-1/2 cursor-pointer border-l p-[0.4rem]"
                   onClick={() => setShowPassword(true)}
                 >
                   <LockIcon />
                 </Button>
               )}
             </div>
-            <span className={cn("text-xs text-destructive absolute top-0 right-0", password ? "inline" : "hidden")}>
+            <span className={cn("absolute right-0 top-0 text-xs text-destructive", password ? "inline" : "hidden")}>
               {invalidPassword() ? (
                 <>{"Must be at least 6 letters"}</>
               ) : (
-                <CheckSquareIcon className="w-4 h-4 text-success" />
+                <CheckSquareIcon className="h-4 w-4 text-success" />
               )}
             </span>
           </div>
-          <div className="grid gap-2 mt-2 relative">
+          <div className="relative mt-2 grid gap-2">
             <Label htmlFor="repassword">Re-enter Password</Label>
             <Input
               id="repassword"
               type="password"
               placeholder="***************"
-              onChange={(e) => setRePassword(e.target.value)}
+              onChange={e => setRePassword(e.target.value)}
               value={rePassword}
               className={cn(
                 rePassword && "outline outline-offset-2",
-                invalidRePassword() ? "outline-destructive" : "outline-success"
+                invalidRePassword() ? "outline-destructive" : "outline-success",
               )}
             />
-            <span className={cn("text-xs text-destructive absolute top-0 right-0", rePassword ? "inline" : "hidden")}>
+            <span className={cn("absolute right-0 top-0 text-xs text-destructive", rePassword ? "inline" : "hidden")}>
               {invalidRePassword() ? (
                 <>{"Passwords do not match"}</>
               ) : (
-                <CheckSquareIcon className="w-4 h-4 text-success" />
+                <CheckSquareIcon className="h-4 w-4 text-success" />
               )}
             </span>
           </div>
@@ -190,7 +190,7 @@ export default function EmailSignupForm() {
             onChange={setReCaptcha}
             className={cn(
               (invalidName() || invalidEmail() || invalidPassword() || invalidRePassword() || formLoading) && "hidden",
-              "mx-auto mb-2"
+              "mx-auto mb-2",
             )}
             onExpired={() => setReCaptcha(null)}
             onErrored={() => setReCaptcha(null)}
@@ -202,7 +202,7 @@ export default function EmailSignupForm() {
               invalidName() || invalidEmail() || invalidPassword() || invalidRePassword() || formLoading || !reCaptcha
             }
           >
-            <ClipboardEditIcon className="w-4 mr-1" />
+            <ClipboardEditIcon className="mr-1 w-4" />
             Sign up
           </Button>
         </CardFooter>
