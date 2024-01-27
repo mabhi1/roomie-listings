@@ -79,7 +79,6 @@ async function main() {
       },
     },
   });
-  console.log({ hello, abhishek_mishra });
 }
 main()
   .then(async () => {
