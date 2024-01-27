@@ -5,7 +5,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Comment } from "@/lib/types";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { CheckSquareIcon, XCircleIcon } from "lucide-react";
+import { BanIcon, CheckSquareIcon, XCircleIcon } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { toast } from "sonner";
 import {
@@ -18,6 +18,17 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { deleteComment, deleteReportedComment, getAllComments } from "@/actions/comment";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+import { isMobile } from "react-device-detect";
 
 export default function CommentProfileTable({ currentUser, tab }: { currentUser: User; tab: string }) {
   const [comments, setComments] = useState<Comment[] | null>();
@@ -98,32 +109,58 @@ export default function CommentProfileTable({ currentUser, tab }: { currentUser:
               </TableCell>
               <TableCell className="border-r text-center py-1">{comment.reports.length}</TableCell>
               <TableCell className="text-center capitalize py-1">
-                <Dialog>
-                  <DialogTrigger>
-                    <TooltipProvider>
-                      <Tooltip delayDuration={0}>
-                        <TooltipTrigger asChild>
-                          <XCircleIcon className="mx-auto text-destructive cursor-pointer w-5" />
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>Delete</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  </DialogTrigger>
-                  <DialogContent>
-                    <DialogHeader>
-                      <DialogTitle>Confirm Delete</DialogTitle>
-                      <DialogDescription>Are you sure you want to delete this comment?</DialogDescription>
-                    </DialogHeader>
-                    <DialogFooter>
-                      <Button onClick={() => handleDeleteComment(comment.id!, comment.postId, comment.postType)}>
-                        <CheckSquareIcon className="w-4 mr-1" />
-                        Confirm
-                      </Button>
-                    </DialogFooter>
-                  </DialogContent>
-                </Dialog>
+                {isMobile ? (
+                  <Drawer>
+                    <DrawerTrigger asChild>
+                      <XCircleIcon className="mx-auto text-destructive cursor-pointer w-5" />
+                    </DrawerTrigger>
+                    <DrawerContent>
+                      <DrawerHeader>
+                        <DrawerTitle>Confirm Delete</DrawerTitle>
+                        <DrawerDescription>Are you sure you want to delete this comment?</DrawerDescription>
+                      </DrawerHeader>
+                      <DrawerFooter className="flex-row mx-auto">
+                        <Button onClick={() => handleDeleteComment(comment.id!, comment.postId, comment.postType)}>
+                          <CheckSquareIcon className="w-4 mr-1" />
+                          Confirm
+                        </Button>
+                        <DrawerClose>
+                          <Button variant="outline">
+                            <BanIcon className="w-4 mr-1" />
+                            Cancel
+                          </Button>
+                        </DrawerClose>
+                      </DrawerFooter>
+                    </DrawerContent>
+                  </Drawer>
+                ) : (
+                  <Dialog>
+                    <DialogTrigger>
+                      <TooltipProvider>
+                        <Tooltip delayDuration={0}>
+                          <TooltipTrigger asChild>
+                            <XCircleIcon className="mx-auto text-destructive cursor-pointer w-5" />
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Delete</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Confirm Delete</DialogTitle>
+                        <DialogDescription>Are you sure you want to delete this comment?</DialogDescription>
+                      </DialogHeader>
+                      <DialogFooter>
+                        <Button onClick={() => handleDeleteComment(comment.id!, comment.postId, comment.postType)}>
+                          <CheckSquareIcon className="w-4 mr-1" />
+                          Confirm
+                        </Button>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
+                )}
               </TableCell>
             </TableRow>
           ))}

@@ -20,10 +20,20 @@ import { createRoommate } from "@/actions/roommate";
 import ComboBox from "../ui/combo-box";
 import Required from "./Required";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { CalendarIcon, FilePlus2Icon, LinkIcon, RotateCcwIcon } from "lucide-react";
+import { BanIcon, CalendarIcon, FilePlus2Icon, LinkIcon, RotateCcwIcon } from "lucide-react";
 import { format } from "date-fns";
 import { Calendar } from "../ui/calendar";
 import { cn } from "@/lib/utils";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/ui/drawer";
+import { isMobile } from "react-device-detect";
 
 export default function RoommateAdForm() {
   const [descriptionChar, setDescriptionChar] = useState(5000);
@@ -310,29 +320,63 @@ export default function RoommateAdForm() {
           </Button>
         </div>
       </form>
-      <Dialog onOpenChange={setVerificationOpen} open={verificationOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Verification Required!</DialogTitle>
-            <DialogDescription>Please verify your email to post an Ad.</DialogDescription>
-          </DialogHeader>
-          <Button
-            className="w-1/3"
-            onClick={() => {
-              try {
-                sendEmailVerification(currentUser);
-                toast.success("Email Verification link sent");
-                setVerificationOpen(false);
-              } catch (error) {
-                toast.error("Error in sending link! Please try again later.");
-              }
-            }}
-          >
-            <LinkIcon className="w-4 mr-1" />
-            Send Verification link
-          </Button>
-        </DialogContent>
-      </Dialog>
+      {isMobile ? (
+        <Drawer open={verificationOpen} onOpenChange={setVerificationOpen}>
+          <DrawerContent>
+            <DrawerHeader>
+              <DrawerTitle>Verification Required!</DrawerTitle>
+              <DrawerDescription>Please verify your email to post an Ad.</DrawerDescription>
+            </DrawerHeader>
+            <DrawerFooter className="flex-row mx-auto">
+              <Button
+                className="w-fit"
+                onClick={() => {
+                  try {
+                    sendEmailVerification(currentUser);
+                    toast.success("Email Verification link sent");
+                    setVerificationOpen(false);
+                  } catch (error) {
+                    toast.error("Error in sending link! Please try again later.");
+                  }
+                }}
+              >
+                <LinkIcon className="w-4 mr-1" />
+                Send Verification link
+              </Button>
+              <DrawerClose>
+                <Button variant="outline">
+                  <BanIcon className="w-4 mr-1" />
+                  Cancel
+                </Button>
+              </DrawerClose>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
+      ) : (
+        <Dialog onOpenChange={setVerificationOpen} open={verificationOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Verification Required!</DialogTitle>
+              <DialogDescription>Please verify your email to post an Ad.</DialogDescription>
+            </DialogHeader>
+            <Button
+              className="w-1/3"
+              onClick={() => {
+                try {
+                  sendEmailVerification(currentUser);
+                  toast.success("Email Verification link sent");
+                  setVerificationOpen(false);
+                } catch (error) {
+                  toast.error("Error in sending link! Please try again later.");
+                }
+              }}
+            >
+              <LinkIcon className="w-4 mr-1" />
+              Send Verification link
+            </Button>
+          </DialogContent>
+        </Dialog>
+      )}
     </Form>
   );
 }

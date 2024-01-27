@@ -21,11 +21,21 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import Required from "./Required";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { CalendarIcon, FilePlus2Icon, LinkIcon, RotateCcwIcon } from "lucide-react";
+import { BanIcon, CalendarIcon, FilePlus2Icon, LinkIcon, RotateCcwIcon } from "lucide-react";
 import { Calendar } from "../ui/calendar";
 import { cn } from "@/lib/utils";
 import { Gallery } from "@prisma/client";
 import { uploadFile } from "@/firebase/firebaseDBFunctions";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/ui/drawer";
+import { isMobile } from "react-device-detect";
 
 export default function HouseAdForm() {
   const [descriptionChar, setDescriptionChar] = useState(5000);
@@ -411,29 +421,63 @@ export default function HouseAdForm() {
           </Button>
         </div>
       </form>
-      <Dialog onOpenChange={setVerificationOpen} open={verificationOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Verification Required!</DialogTitle>
-            <DialogDescription>Please verify your email to post an Ad.</DialogDescription>
-          </DialogHeader>
-          <Button
-            className="w-fit"
-            onClick={() => {
-              try {
-                sendEmailVerification(currentUser);
-                toast.success("Email Verification link sent");
-                setVerificationOpen(false);
-              } catch (error) {
-                toast.error("Error in sending link! Please try again later.");
-              }
-            }}
-          >
-            <LinkIcon className="w-4 mr-1" />
-            Send Verification link
-          </Button>
-        </DialogContent>
-      </Dialog>
+      {isMobile ? (
+        <Drawer open={verificationOpen} onOpenChange={setVerificationOpen}>
+          <DrawerContent>
+            <DrawerHeader>
+              <DrawerTitle>Verification Required!</DrawerTitle>
+              <DrawerDescription>Please verify your email to post an Ad.</DrawerDescription>
+            </DrawerHeader>
+            <DrawerFooter className="flex-row mx-auto">
+              <Button
+                className="w-fit"
+                onClick={() => {
+                  try {
+                    sendEmailVerification(currentUser);
+                    toast.success("Email Verification link sent");
+                    setVerificationOpen(false);
+                  } catch (error) {
+                    toast.error("Error in sending link! Please try again later.");
+                  }
+                }}
+              >
+                <LinkIcon className="w-4 mr-1" />
+                Send Verification link
+              </Button>
+              <DrawerClose>
+                <Button variant="outline">
+                  <BanIcon className="w-4 mr-1" />
+                  Cancel
+                </Button>
+              </DrawerClose>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
+      ) : (
+        <Dialog onOpenChange={setVerificationOpen} open={verificationOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Verification Required!</DialogTitle>
+              <DialogDescription>Please verify your email to post an Ad.</DialogDescription>
+            </DialogHeader>
+            <Button
+              className="w-fit"
+              onClick={() => {
+                try {
+                  sendEmailVerification(currentUser);
+                  toast.success("Email Verification link sent");
+                  setVerificationOpen(false);
+                } catch (error) {
+                  toast.error("Error in sending link! Please try again later.");
+                }
+              }}
+            >
+              <LinkIcon className="w-4 mr-1" />
+              Send Verification link
+            </Button>
+          </DialogContent>
+        </Dialog>
+      )}
     </Form>
   );
 }

@@ -9,6 +9,7 @@ import { deleteRoommateAds, reportRoommate, saveRoommate } from "@/actions/roomm
 import { toast } from "sonner";
 import Link from "next/link";
 import {
+  BanIcon,
   CheckSquareIcon,
   DeleteIcon,
   HardDriveDownloadIcon,
@@ -25,7 +26,18 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
 import { useRouter } from "next/navigation";
+import { isMobile } from "react-device-detect";
 
 export default function RoommateButtons({ ad }: { ad: RoommateAd }) {
   const { currentUser } = useAuth();
@@ -82,26 +94,55 @@ export default function RoommateButtons({ ad }: { ad: RoommateAd }) {
             Edit
           </Button>
         </Link>
-        <Dialog>
-          <DialogTrigger>
-            <Button variant="destructive" disabled={isPending}>
-              <DeleteIcon className="mr-1 w-4" />
-              Delete
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Confirm Delete</DialogTitle>
-              <DialogDescription>Are you sure you want to delete this ad?</DialogDescription>
-            </DialogHeader>
-            <DialogFooter>
-              <Button onClick={handleDeleteAd} disabled={isPending}>
-                <CheckSquareIcon className="w-4 mr-1" />
-                Confirm
+        {isMobile ? (
+          <Drawer>
+            <DrawerTrigger asChild>
+              <Button variant="destructive" disabled={isPending}>
+                <DeleteIcon className="mr-1 w-4" />
+                Delete
               </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+            </DrawerTrigger>
+            <DrawerContent>
+              <DrawerHeader>
+                <DrawerTitle>Confirm Delete</DrawerTitle>
+                <DrawerDescription>Are you sure you want to delete this ad?</DrawerDescription>
+              </DrawerHeader>
+              <DrawerFooter className="flex-row mx-auto">
+                <Button onClick={handleDeleteAd} disabled={isPending}>
+                  <CheckSquareIcon className="w-4 mr-1" />
+                  Confirm
+                </Button>
+                <DrawerClose>
+                  <Button variant="outline">
+                    <BanIcon className="w-4 mr-1" />
+                    Cancel
+                  </Button>
+                </DrawerClose>
+              </DrawerFooter>
+            </DrawerContent>
+          </Drawer>
+        ) : (
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="destructive" disabled={isPending}>
+                <DeleteIcon className="mr-1 w-4" />
+                Delete
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Confirm Delete</DialogTitle>
+                <DialogDescription>Are you sure you want to delete this ad?</DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+                <Button onClick={handleDeleteAd} disabled={isPending}>
+                  <CheckSquareIcon className="w-4 mr-1" />
+                  Confirm
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        )}
       </CardFooter>
     );
   else

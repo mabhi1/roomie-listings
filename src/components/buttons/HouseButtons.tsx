@@ -20,6 +20,7 @@ import {
 } from "../ui/dialog";
 import { deleteFile } from "@/firebase/firebaseDBFunctions";
 import {
+  BanIcon,
   CheckSquareIcon,
   DeleteIcon,
   HardDriveDownloadIcon,
@@ -27,6 +28,17 @@ import {
   PenLineIcon,
   SendIcon,
 } from "lucide-react";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+import { isMobile } from "react-device-detect";
 
 export default function HouseButtons({ ad }: { ad: HouseAd }) {
   const { currentUser } = useAuth();
@@ -86,26 +98,55 @@ export default function HouseButtons({ ad }: { ad: HouseAd }) {
             Edit
           </Button>
         </Link>
-        <Dialog>
-          <DialogTrigger>
-            <Button variant="destructive" disabled={isPending}>
-              <DeleteIcon className="mr-1 w-4" />
-              Delete
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Confirm Delete</DialogTitle>
-              <DialogDescription>Are you sure you want to delete this ad?</DialogDescription>
-            </DialogHeader>
-            <DialogFooter>
-              <Button onClick={handleDeleteAd} disabled={isPending}>
-                <CheckSquareIcon className="w-4 mr-1" />
-                Confirm
+        {isMobile ? (
+          <Drawer>
+            <DrawerTrigger asChild>
+              <Button variant="destructive" disabled={isPending}>
+                <DeleteIcon className="mr-1 w-4" />
+                Delete
               </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+            </DrawerTrigger>
+            <DrawerContent>
+              <DrawerHeader>
+                <DrawerTitle>Confirm Delete</DrawerTitle>
+                <DrawerDescription>Are you sure you want to delete this ad?</DrawerDescription>
+              </DrawerHeader>
+              <DrawerFooter className="flex-row mx-auto">
+                <Button onClick={handleDeleteAd} disabled={isPending}>
+                  <CheckSquareIcon className="w-4 mr-1" />
+                  Confirm
+                </Button>
+                <DrawerClose>
+                  <Button variant="outline">
+                    <BanIcon className="w-4 mr-1" />
+                    Cancel
+                  </Button>
+                </DrawerClose>
+              </DrawerFooter>
+            </DrawerContent>
+          </Drawer>
+        ) : (
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="destructive" disabled={isPending}>
+                <DeleteIcon className="mr-1 w-4" />
+                Delete
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Confirm Delete</DialogTitle>
+                <DialogDescription>Are you sure you want to delete this ad?</DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+                <Button onClick={handleDeleteAd} disabled={isPending}>
+                  <CheckSquareIcon className="w-4 mr-1" />
+                  Confirm
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        )}
       </CardFooter>
     );
   else

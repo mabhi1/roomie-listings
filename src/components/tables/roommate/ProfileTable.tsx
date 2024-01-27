@@ -6,7 +6,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { RoommateAd } from "@/lib/types";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { CheckSquareIcon, PenBoxIcon, XCircleIcon } from "lucide-react";
+import { BanIcon, CheckSquareIcon, PenBoxIcon, XCircleIcon } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { toast } from "sonner";
 import {
@@ -18,6 +18,17 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+import { isMobile } from "react-device-detect";
 
 export default function RoommateProfileTable({ currentUser, tab }: { currentUser: User; tab: string }) {
   const [ads, setAds] = useState<RoommateAd[] | null>();
@@ -112,32 +123,58 @@ export default function RoommateProfileTable({ currentUser, tab }: { currentUser
                       </Tooltip>
                     </TooltipProvider>
                   )}
-                  <Dialog>
-                    <DialogTrigger>
-                      <TooltipProvider>
-                        <Tooltip delayDuration={0}>
-                          <TooltipTrigger asChild>
-                            <XCircleIcon className="mx-auto text-destructive cursor-pointer w-5" />
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <p>Delete</p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
-                    </DialogTrigger>
-                    <DialogContent>
-                      <DialogHeader>
-                        <DialogTitle>Confirm Delete</DialogTitle>
-                        <DialogDescription>Are you sure you want to delete this ad?</DialogDescription>
-                      </DialogHeader>
-                      <DialogFooter>
-                        <Button onClick={() => handleDeleteAd(roommate.id!)}>
-                          <CheckSquareIcon className="w-4 mr-1" />
-                          Confirm
-                        </Button>
-                      </DialogFooter>
-                    </DialogContent>
-                  </Dialog>
+                  {isMobile ? (
+                    <Drawer>
+                      <DrawerTrigger asChild>
+                        <XCircleIcon className="mx-auto text-destructive cursor-pointer w-5" />
+                      </DrawerTrigger>
+                      <DrawerContent>
+                        <DrawerHeader>
+                          <DrawerTitle>Confirm Delete</DrawerTitle>
+                          <DrawerDescription>Are you sure you want to delete this ad?</DrawerDescription>
+                        </DrawerHeader>
+                        <DrawerFooter className="flex-row mx-auto">
+                          <Button onClick={() => handleDeleteAd(roommate.id!)}>
+                            <CheckSquareIcon className="w-4 mr-1" />
+                            Confirm
+                          </Button>
+                          <DrawerClose>
+                            <Button variant="outline">
+                              <BanIcon className="w-4 mr-1" />
+                              Cancel
+                            </Button>
+                          </DrawerClose>
+                        </DrawerFooter>
+                      </DrawerContent>
+                    </Drawer>
+                  ) : (
+                    <Dialog>
+                      <DialogTrigger>
+                        <TooltipProvider>
+                          <Tooltip delayDuration={0}>
+                            <TooltipTrigger asChild>
+                              <XCircleIcon className="mx-auto text-destructive cursor-pointer w-5" />
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>Delete</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      </DialogTrigger>
+                      <DialogContent>
+                        <DialogHeader>
+                          <DialogTitle>Confirm Delete</DialogTitle>
+                          <DialogDescription>Are you sure you want to delete this ad?</DialogDescription>
+                        </DialogHeader>
+                        <DialogFooter>
+                          <Button onClick={() => handleDeleteAd(roommate.id!)}>
+                            <CheckSquareIcon className="w-4 mr-1" />
+                            Confirm
+                          </Button>
+                        </DialogFooter>
+                      </DialogContent>
+                    </Dialog>
+                  )}
                 </div>
               </TableCell>
             </TableRow>
