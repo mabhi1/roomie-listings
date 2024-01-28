@@ -10,7 +10,7 @@ import Link from "next/link";
 import { LogInIcon, RotateCcwIcon } from "lucide-react";
 import loginRequestImage from "../../../public/login-req.png";
 
-export default function LoginRequest({ message }: { message?: string | undefined }) {
+export default function LoginRequest({ message, fallbackUrl }: { message?: string | undefined; fallbackUrl: string }) {
   const router = useRouter();
   return (
     <FullWrapper className="mt-20">
@@ -24,7 +24,7 @@ export default function LoginRequest({ message }: { message?: string | undefined
             <RotateCcwIcon className="mr-1 w-4" />
             Go Back
           </Button>
-          <Link href="/signin" legacyBehavior passHref>
+          <Link href={`/signin?fallbackUrl=${fallbackUrl}`} legacyBehavior passHref>
             <Button>
               <LogInIcon className="mr-1 w-4" />
               Sign in
