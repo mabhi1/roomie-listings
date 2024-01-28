@@ -10,7 +10,7 @@ export default function BackButton() {
 
   return (
     <TooltipProvider>
-      <Tooltip delayStay={0}>
+      <Tooltip delayDuration={0}>
         <TooltipTrigger asChild>
           <Image
             alt="go back"
