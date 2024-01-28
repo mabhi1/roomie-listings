@@ -1,19 +1,19 @@
-import HouseEditForm from "@/components/forms/HouseEditForm";
+import RoomEditForm from "@/components/forms/RoomEditForm";
 import FullWrapper from "@/components/page/FullWrapper";
 import PageHeader from "@/components/page/PageHeader";
-import { getHouseById } from "@/prisma/db/houseAds";
+import { getRoomById } from "@/prisma/db/roomAds";
 import Image from "next/image";
 import editAdImage from "../../../../../public/edit-ad.webp";
 
-export default async function EditHouseAd({ params: { id } }: { params: { id: string } }) {
-  const houseAd = await getHouseById(id);
-  if (!houseAd) throw new Error("Invalid House Ad");
+export default async function EditRoomAd({ params: { id } }: { params: { id: string } }) {
+  const roomAd = await getRoomById(id);
+  if (!roomAd) throw new Error("Room ad not found");
   return (
     <FullWrapper>
-      <PageHeader heading="Edit house Ad" subHeading="Fill out and submit the form below to edit the ad." />
+      <PageHeader heading="Edit room Ad" subHeading="Fill out and submit the form below to edit the ad." />
       <div className="flex w-full justify-between">
         <div className="md:w-11/12 lg:w-1/2">
-          <HouseEditForm houseAd={houseAd} />
+          <RoomEditForm roomAd={roomAd} />
         </div>
         <div className="relative hidden h-fit md:block">
           <Image

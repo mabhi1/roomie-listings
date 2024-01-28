@@ -1,6 +1,6 @@
 "use server";
 
-import { HouseAd, RoommateAd, User } from "@/lib/types";
+import { RoomAd, RoommateAd, User } from "@/lib/types";
 import { createMessage } from "@/prisma/db/messages";
 import { AdEnquiryTemplate } from "@/resend/emailTemplates/AdEnquiry";
 import { ContactTemplate } from "@/resend/emailTemplates/ContactTemplate";
@@ -11,7 +11,7 @@ export async function sendEmail(
   sender: User,
   receiver: User,
   type: string,
-  ad: HouseAd | RoommateAd,
+  ad: RoomAd | RoommateAd,
   message: string,
   filename: string | undefined,
   url: string | undefined,

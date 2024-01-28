@@ -16,7 +16,7 @@ export default function Home() {
         <span className="rounded bg-primary px-1 uppercase text-accent">{title.site}</span>
       </h1>
       <div className="text-center text-2xl leading-tight md:text-4xl xl:text-7xl">
-        You are at the right place to look for a roommate, rent a house, or buy, rent, and sell stuff.
+        You are at the right place to look for a roommate, rent a room, or buy, rent, and sell stuff.
       </div>
       <span className="text-center text-lg md:text-xl xl:text-2xl">
         Click one of the buttons below to continue browsing
@@ -28,10 +28,10 @@ export default function Home() {
             {title.roommate}
           </Button>
         </Link>
-        <Link href={navigation.house} legacyBehavior passHref>
+        <Link href={navigation.room} legacyBehavior passHref>
           <Button>
             <HotelIcon className="mr-1 w-4" />
-            {title.house}
+            {title.room}
           </Button>
         </Link>
         <Link href="#" legacyBehavior passHref>

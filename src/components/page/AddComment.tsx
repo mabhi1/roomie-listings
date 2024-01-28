@@ -9,7 +9,7 @@ import { useState, useTransition } from "react";
 import { Label } from "../ui/label";
 import { SubtitlesIcon } from "lucide-react";
 
-export default function AddComment({ postId, postType }: { postId: string; postType: "house" | "roommate" }) {
+export default function AddComment({ postId, postType }: { postId: string; postType: "room" | "roommate" }) {
   const [isPending, startTransition] = useTransition();
   const [comment, setComment] = useState("");
   const { currentUser } = useAuth();

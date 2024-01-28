@@ -74,7 +74,7 @@ export default function RoommateProfileTable({ currentUser, tab }: { currentUser
               Move in
             </TableHead>
             <TableHead className="hidden h-8 border-r text-center font-normal text-accent-foreground lg:table-cell">
-              Duration
+              Stay
             </TableHead>
             <TableHead className="h-8 border-r text-center font-normal text-accent-foreground">Reports</TableHead>
             <TableHead className="h-8 text-center font-normal text-accent-foreground"></TableHead>
@@ -104,7 +104,7 @@ export default function RoommateProfileTable({ currentUser, tab }: { currentUser
                 {roommate.moveIn.toLocaleDateString("en-us", { year: "numeric", month: "short", day: "numeric" })}
               </TableCell>
               <TableCell className="hidden border-r py-1 text-center capitalize lg:table-cell">
-                {roommate.duration}
+                {roommate.stay}
               </TableCell>
               <TableCell className="border-r py-1 text-center capitalize">{roommate.reports.length}</TableCell>
               <TableCell className="py-1 text-center capitalize">

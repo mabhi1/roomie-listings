@@ -29,7 +29,7 @@ export type RoommateColumnsType = {
   postedBy: string;
   savedBy: string[];
   moveIn: Date;
-  duration: "temporary" | "permanent";
+  stay: "temporary" | "permanent";
   updatedAt: Date;
 };
 
@@ -87,11 +87,11 @@ export const RoommateColumns: ColumnDef<RoommateColumnsType>[] = [
     },
   },
   {
-    accessorKey: "duration",
-    header: () => <div className="mx-auto text-center">Duration</div>,
+    accessorKey: "stay",
+    header: () => <div className="mx-auto text-center">Stay</div>,
     cell: ({ row }) => {
-      const duration: "temporary" | "permanent" = row.getValue("duration");
-      return <div className="text-center capitalize">{duration}</div>;
+      const stay: "temporary" | "permanent" = row.getValue("stay");
+      return <div className="text-center capitalize">{stay}</div>;
     },
   },
   {

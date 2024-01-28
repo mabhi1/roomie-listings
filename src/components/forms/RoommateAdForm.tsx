@@ -54,9 +54,10 @@ export default function RoommateAdForm() {
         state: "NJ",
       },
       budget: 0,
-      duration: "temporary",
+      stay: "temporary",
       acceptTc: false,
       showEmail: false,
+      showPhone: false,
     },
   });
 
@@ -116,6 +117,10 @@ export default function RoommateAdForm() {
     form.setValue("showEmail", checked, { shouldDirty: true, shouldTouch: true, shouldValidate: true });
   };
 
+  const handleShowPhoneChecked = (checked: boolean) => {
+    form.setValue("showPhone", checked, { shouldDirty: true, shouldTouch: true, shouldValidate: true });
+  };
+
   const handleFormReset = () => {
     form.reset();
   };
@@ -123,7 +128,7 @@ export default function RoommateAdForm() {
   return (
     <Form {...form}>
       <div className="mb-5 text-muted-foreground">
-        Fields marked <Required /> are required.
+        <Required /> indicates required fields.
       </div>
       <form onSubmit={form.handleSubmit(onSubmit)} onReset={handleFormReset} className="space-y-5">
         <FormField
@@ -245,17 +250,17 @@ export default function RoommateAdForm() {
         />
         <FormField
           control={form.control}
-          name="duration"
+          name="stay"
           render={({ field }) => (
             <FormItem>
-              <FormLabel htmlFor="duration">
-                Duration
+              <FormLabel htmlFor="stay">
+                Stay
                 <Required />
               </FormLabel>
               <FormControl>
-                <Select name="duration" defaultValue="temporary" value={field.value} onValueChange={field.onChange}>
-                  <SelectTrigger id="duration">
-                    <SelectValue placeholder="Select duration..." />
+                <Select name="stay" defaultValue="temporary" value={field.value} onValueChange={field.onChange}>
+                  <SelectTrigger id="stay">
+                    <SelectValue placeholder="Select stay..." />
                   </SelectTrigger>
                   <SelectContent {...field}>
                     <SelectItem value="temporary">Temporary</SelectItem>
@@ -279,6 +284,26 @@ export default function RoommateAdForm() {
                     name="showEmail"
                     defaultChecked={false}
                     onCheckedChange={handleShowEmailChecked}
+                    checked={field.value}
+                  />
+                </FormControl>
+              </div>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="showPhone"
+          render={({ field }) => (
+            <FormItem>
+              <div className="flex flex-row-reverse items-center justify-end gap-2">
+                <FormLabel>Show your phone number in the Ad</FormLabel>
+                <FormControl {...field}>
+                  <Checkbox
+                    name="showPhone"
+                    defaultChecked={false}
+                    onCheckedChange={handleShowPhoneChecked}
                     checked={field.value}
                   />
                 </FormControl>

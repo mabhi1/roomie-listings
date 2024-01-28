@@ -6,7 +6,7 @@ const toastMessage = {
 const title = {
   site: "Roomie Listings",
   roommate: "Roommate",
-  house: "House",
+  room: "Room",
   products: "Products",
   profile: "Profile",
 };
@@ -15,7 +15,7 @@ const navigation = {
   profile: "profile",
   signin: "signin",
   roommate: "roommate",
-  house: "house",
+  room: "room",
   products: "products",
 };
 

@@ -15,7 +15,7 @@ export async function addComment(
   comment: FormDataEntryValue,
   uid: string,
   postId: string,
-  postType: "house" | "roommate",
+  postType: "room" | "roommate",
 ) {
   const schema = z.string().min(1);
   const parse = schema.safeParse(comment);

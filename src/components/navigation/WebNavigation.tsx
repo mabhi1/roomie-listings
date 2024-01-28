@@ -24,8 +24,8 @@ const browseAdComponents: { title: string; href: string; description: string; ic
     icon: <UsersIcon className="mr-1 w-4" />,
   },
   {
-    title: "Search House",
-    href: "/house",
+    title: "Search Room",
+    href: "/room",
     description: "Discover your dream rental home effortlessly. Choose, and move into your sanctuary!",
     icon: <HotelIcon className="mr-1 w-4" />,
   },

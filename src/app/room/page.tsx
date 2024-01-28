@@ -6,29 +6,29 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { TagsIcon } from "lucide-react";
-import { getAllHouseAds } from "@/prisma/db/houseAds";
-import { HouseColumns } from "@/components/tables/house/Columns";
-import houseImage from "../../../public/house.png";
+import { getAllRoomAds } from "@/prisma/db/roomAds";
+import { RoomColumns } from "@/components/tables/room/Columns";
+import roomImage from "../../../public/room.png";
 
-export default async function House() {
-  const houseData = await getAllHouseAds();
+export default async function Room() {
+  const roomData = await getAllRoomAds();
   return (
     <FullWrapper className="gap-3 md:gap-5">
       <PageHeader
-        heading="House Ads"
-        subHeading="Browse throught the list of house ads and find the perfect place to stay."
+        heading="Room Ads"
+        subHeading="Browse throught the list of room ads and find the perfect place to stay."
       />
       <div className="relative flex flex-col gap-5 xl:flex-row">
         <div className="flex-1">
-          <DataTable columns={HouseColumns} data={houseData} page="house" />
+          <DataTable columns={RoomColumns} data={roomData} page="room" />
         </div>
         <Separator orientation="vertical" className="hidden lg:block" />
         <div className="sticky top-20 flex h-60 flex-col gap-2 md:w-1/3 xl:w-1/5">
-          <Image alt="House" src={houseImage} width={250} height={95} priority className="w-auto" placeholder="blur" />
-          <h2 className="text-xl">Looking for a house?</h2>
+          <Image alt="Room" src={roomImage} width={250} height={95} priority className="w-auto" placeholder="blur" />
+          <h2 className="text-xl">Looking for a room?</h2>
           <p className="text-muted-foreground">
-            Are you looking for a house and couldn&apos;t find one? Click the button below to post an Ad in roommates
-            and let others find you.
+            Are you looking for a room and couldn&apos;t find one? Click the button below to post an Ad in roommates and
+            let others find you.
           </p>
           <Link href="/roommate/create" legacyBehavior passHref>
             <Button className="mt-2">

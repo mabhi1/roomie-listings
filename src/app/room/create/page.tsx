@@ -1,21 +1,21 @@
-import HouseAdForm from "@/components/forms/HousAdForm";
+import RoomAdForm from "@/components/forms/RoomAdForm";
 import FullWrapper from "@/components/page/FullWrapper";
 import PageHeader from "@/components/page/PageHeader";
 import Image from "next/image";
-import houseAdImage from "../../../../public/house-ad.webp";
+import roomAdImage from "../../../../public/ad-image.webp";
 
-export default function CreateHouseAd() {
+export default function CreateRoomAd() {
   return (
     <FullWrapper>
-      <PageHeader heading="List a house" subHeading="Fill out and submit the form below create a house ad." />
+      <PageHeader heading="List a room" subHeading="Fill out and submit the form below create a room ad." />
       <div className="flex w-full justify-between">
         <div className="md:w-11/12 lg:w-1/2">
-          <HouseAdForm />
+          <RoomAdForm />
         </div>
         <div className="relative hidden md:block">
           <Image
-            src={houseAdImage}
-            alt="List a house"
+            src={roomAdImage}
+            alt="List a room"
             width={1003}
             height={1200}
             className="h-auto w-auto"
