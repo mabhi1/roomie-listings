@@ -194,9 +194,9 @@ export const RoomColumns: ColumnDef<RoomColumnsType>[] = [
               </>
             )}
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            {/* <DropdownMenuItem>
               <Link href={`/user/${room.postedBy}`}>View User</Link>
-            </DropdownMenuItem>
+            </DropdownMenuItem> */}
             {currentUser && currentUser.uid !== room.postedBy && currentUser.emailVerified && (
               <DropdownMenuItem>
                 <Link href={`/message/${currentUser?.uid}/${room.postedBy}/room/${room.id}`}>Send Message</Link>

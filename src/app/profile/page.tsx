@@ -75,16 +75,16 @@ export default function Profile() {
             </div>
             <div className="mr-auto flex flex-col justify-center">
               <div className="text-base md:text-lg">{currentUser.displayName}</div>
-              <div className="w-60 overflow-hidden md:w-72 lg:w-80">{currentUser.email}</div>
+              <div className="w-60 overflow-hidden lg:w-80">{currentUser.email}</div>
               {currentUser.emailVerified ? (
                 <span className="flex items-center gap-1 text-success">
-                  <BadgeCheckIcon className="w-4" /> Verified
+                  <BadgeCheckIcon className="w-3 md:w-4" /> Verified
                 </span>
               ) : (
                 <span className="flex items-center gap-1 text-destructive">
-                  <BadgeXIcon className="w-4" />
+                  <BadgeXIcon className="w-3 md:w-4" />
                   <span>Not Verified</span>
-                  <Button onClick={handleSendVerification} variant="link" className="h-0 p-0 text-xs">
+                  <Button onClick={handleSendVerification} variant="link" className="h-0 p-0 text-xs md:h-0">
                     &#40;Send Verification link&#41;
                   </Button>
                 </span>
