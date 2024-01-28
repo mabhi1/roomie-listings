@@ -4,7 +4,7 @@ import { Separator } from "@/components/ui/separator";
 import { getAllCommentsByAd } from "@/prisma/db/comments";
 import { MessageSquareDotIcon } from "lucide-react";
 
-export default async function Comments({ id, type }: { id: string; type: "house" | "roommate" }) {
+export default async function Comments({ id, type }: { id: string; type: "room" | "roommate" }) {
   const comments = await getAllCommentsByAd(id);
 
   return (

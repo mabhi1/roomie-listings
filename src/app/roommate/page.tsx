@@ -35,13 +35,13 @@ export default async function Roommate() {
           />
           <h2 className="text-xl">Looking for a roommate?</h2>
           <p className="text-muted-foreground">
-            Are you looking for a roommate and couldn&apos;t find one? Click the button below to list your house and let
+            Are you looking for a roommate and couldn&apos;t find one? Click the button below to list your room and let
             others find you.
           </p>
-          <Link href="/house/create" legacyBehavior passHref>
+          <Link href="/room/create" legacyBehavior passHref>
             <Button className="mt-2">
               <LandmarkIcon className="mr-1 w-4" />
-              List your house
+              List your room
             </Button>
           </Link>
         </div>

@@ -3,7 +3,7 @@ import FullWrapper from "@/components/page/FullWrapper";
 import PageHeader from "@/components/page/PageHeader";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { getHouseById } from "@/prisma/db/houseAds";
+import { getRoomById } from "@/prisma/db/roomAds";
 import { getRoommateById } from "@/prisma/db/roommaateAds";
 import { getUserById } from "@/prisma/db/users";
 import Image from "next/image";
@@ -17,8 +17,8 @@ export default async function SendMessage({ params: { messageProps } }: { params
   const receiver = await getUserById(messageProps[1]);
   if (!receiver) throw new Error("Invalid Request");
   const type = messageProps[2];
-  if (!["house", "roommate"].includes(type)) throw new Error("Invalid Request");
-  const ad = type === "house" ? await getHouseById(messageProps[3]) : await getRoommateById(messageProps[3]);
+  if (!["room", "roommate"].includes(type)) throw new Error("Invalid Request");
+  const ad = type === "room" ? await getRoomById(messageProps[3]) : await getRoommateById(messageProps[3]);
   if (!ad) throw new Error("Invalid Request");
 
   return (

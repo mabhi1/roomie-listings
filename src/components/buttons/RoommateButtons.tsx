@@ -72,7 +72,7 @@ export default function RoommateButtons({ ad }: { ad: RoommateAd }) {
           return;
         }
         toast.success("Ad removed successfully");
-        router.push("/house");
+        router.push("/room");
       } catch (error) {
         toast.error("Error removing Ad");
       }

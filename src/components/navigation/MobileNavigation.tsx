@@ -31,8 +31,8 @@ export default function MobileNavigation() {
               <Link href="/roommate" className="ml-11 py-0 text-xs" onClick={() => setOpen(false)}>
                 Search Roommate
               </Link>
-              <Link href="/house" className="ml-11 py-0 text-xs" onClick={() => setOpen(false)}>
-                Search House
+              <Link href="/room" className="ml-11 py-0 text-xs" onClick={() => setOpen(false)}>
+                Search Room
               </Link>
             </AccordionContent>
           </AccordionItem>
@@ -48,8 +48,8 @@ export default function MobileNavigation() {
                 <Link href="/roommate/create" className="ml-11 py-0 text-xs" onClick={() => setOpen(false)}>
                   Create Roommate Ad
                 </Link>
-                <Link href="/house/create" className="ml-11 py-0 text-xs" onClick={() => setOpen(false)}>
-                  Create House Ad
+                <Link href="/room/create" className="ml-11 py-0 text-xs" onClick={() => setOpen(false)}>
+                  Create Room Ad
                 </Link>
               </AccordionContent>
             </AccordionItem>

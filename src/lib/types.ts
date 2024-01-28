@@ -9,7 +9,7 @@ type User = {
   updatedAt?: Date;
 };
 
-type HouseAddress = {
+type RoomAddress = {
   address1: string | null;
   city: string;
   state: string;
@@ -27,11 +27,12 @@ type RoommateAd = {
   description: string;
   address: RoommateAddress;
   budget: number;
-  duration: "temporary" | "permanent";
+  stay: "temporary" | "permanent";
   postedBy: string;
   savedBy: string[];
   reports: string[];
   showEmail: boolean;
+  showPhone: boolean;
   moveIn: Date;
   createdAt?: Date;
   updatedAt?: Date;
@@ -43,19 +44,20 @@ type Gallery = {
   url: string;
 };
 
-type HouseAd = {
+type RoomAd = {
   id?: string;
   title: string;
   description: string;
-  address: HouseAddress;
-  price: number;
-  duration: "temporary" | "permanent";
+  address: RoomAddress;
+  rent: number;
+  stay: "temporary" | "permanent";
   gallery: Gallery[];
   postedBy: string;
   savedBy: string[];
   reports: string[];
   showEmail: boolean;
-  available: Date;
+  showPhone: boolean;
+  moveIn: Date;
   createdAt?: Date;
   updatedAt?: Date;
 };
@@ -64,7 +66,7 @@ type Comment = {
   id?: string;
   uid: string;
   postId: string;
-  postType: "house" | "roommate";
+  postType: "room" | "roommate";
   comment: string;
   likes: string[];
   reports: string[];
@@ -80,4 +82,4 @@ type Message = {
   attachments: string[];
 };
 
-export type { User, HouseAddress, RoommateAddress, RoommateAd, HouseAd, Comment, Message };
+export type { User, RoomAddress, RoommateAddress, RoommateAd, RoomAd, Comment, Message };

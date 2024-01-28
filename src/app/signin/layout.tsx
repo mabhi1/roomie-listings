@@ -9,7 +9,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
 
   useEffect(() => {
-    if (currentUser) router.back();
+    if (currentUser) router.replace("/profile");
   }, [currentUser, router]);
 
   if (!currentUser) return <>{children}</>;

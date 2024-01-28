@@ -6,8 +6,8 @@ import { CardFooter } from "../ui/card";
 import { useTransition } from "react";
 import { toast } from "sonner";
 import Link from "next/link";
-import { HouseAd } from "@/lib/types";
-import { deleteHouseAds, reporthouse, savehouse } from "@/actions/house";
+import { RoomAd } from "@/lib/types";
+import { deleteRoomAds, reportRoom, saveRoom } from "@/actions/room";
 import { useRouter } from "next/navigation";
 import {
   Dialog,
@@ -40,7 +40,7 @@ import {
 } from "@/components/ui/drawer";
 import { isMobile } from "react-device-detect";
 
-export default function HouseButtons({ ad }: { ad: HouseAd }) {
+export default function RoomButtons({ ad }: { ad: RoomAd }) {
   const { currentUser } = useAuth();
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -48,7 +48,7 @@ export default function HouseButtons({ ad }: { ad: HouseAd }) {
   const handleSaveAd = () => {
     if (currentUser && currentUser.uid)
       startTransition(async () => {
-        const data = await savehouse(ad.id!, currentUser.uid);
+        const data = await saveRoom(ad.id!, currentUser.uid);
         if (data.error) toast.error(data.error);
         else toast.success(data.message);
       });
@@ -57,7 +57,7 @@ export default function HouseButtons({ ad }: { ad: HouseAd }) {
   const handleReportAd = () => {
     if (currentUser && currentUser.uid)
       startTransition(async () => {
-        const data = await reporthouse(ad.id!, currentUser.uid);
+        const data = await reportRoom(ad.id!, currentUser.uid);
         if (data.error) toast.error(data.error);
         else toast.success(data.message);
       });
@@ -70,13 +70,13 @@ export default function HouseButtons({ ad }: { ad: HouseAd }) {
         ad.gallery.map(async item => {
           await deleteFile(item.name);
         });
-        const ads = await deleteHouseAds(currentUser.uid, ad.id!, "postedAds");
+        const ads = await deleteRoomAds(currentUser.uid, ad.id!, "postedAds");
         if (!ads) {
           toast.error("Error removing Ad");
           return;
         }
         toast.success("Ad removed successfully");
-        router.push("/house");
+        router.push("/room");
       } catch (error) {
         toast.error("Error removing Ad");
       }
@@ -92,7 +92,7 @@ export default function HouseButtons({ ad }: { ad: HouseAd }) {
   else if (ad.postedBy === currentUser?.uid)
     return (
       <CardFooter className="justify-between gap-2 p-3 md:p-5 lg:gap-5">
-        <Link href={`/house/${ad.id}/edit`} passHref legacyBehavior>
+        <Link href={`/room/${ad.id}/edit`} passHref legacyBehavior>
           <Button variant="secondary" disabled={isPending}>
             <PenLineIcon className="mr-1 w-4" />
             Edit
@@ -154,7 +154,7 @@ export default function HouseButtons({ ad }: { ad: HouseAd }) {
       <CardFooter className="flex-col justify-between gap-2 p-3 md:flex-row md:p-5 lg:gap-5">
         <div className="flex w-full flex-row justify-between gap-2 md:w-fit lg:gap-5">
           {currentUser.emailVerified && (
-            <Link href={`/message/${currentUser.uid}/${ad.postedBy}/house/${ad.id}`} passHref legacyBehavior>
+            <Link href={`/message/${currentUser.uid}/${ad.postedBy}/room/${ad.id}`} passHref legacyBehavior>
               <Button disabled={isPending}>
                 <SendIcon className="mr-1 w-4" />
                 Send Message
