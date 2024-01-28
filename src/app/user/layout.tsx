@@ -1,9 +1,14 @@
-import { Metadata } from "next";
+"use client";
 
-export const metadata: Metadata = {
-  title: "Profile",
-};
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
+  const router = useRouter();
+
+  useEffect(() => {
+    router.replace("/");
+  }, [router]);
+
+  return <></>;
 }

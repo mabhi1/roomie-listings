@@ -55,7 +55,7 @@ export default function ChangePasswordForm({
   return (
     <form onSubmit={handleChangePassword}>
       <div className="grid gap-4 py-4">
-        <div className="grid grid-cols-7 items-center gap-4">
+        <div className="flex grid-cols-7 flex-col items-start gap-2 md:grid md:items-center md:gap-4">
           <Label htmlFor="old-password" className="col-span-2 text-right">
             Old Password
           </Label>
@@ -68,7 +68,7 @@ export default function ChangePasswordForm({
             placeholder="Enter old password"
           />
         </div>
-        <div className="grid grid-cols-7 items-center gap-4">
+        <div className="flex grid-cols-7 flex-col items-start gap-2 md:grid md:items-center md:gap-4">
           <Label htmlFor="password" className="col-span-2 text-right">
             New Password
           </Label>
@@ -81,7 +81,7 @@ export default function ChangePasswordForm({
             placeholder="Enter new password"
           />
         </div>
-        <div className="grid grid-cols-7 items-center gap-4">
+        <div className="flex grid-cols-7 flex-col items-start gap-2 md:grid md:items-center md:gap-4">
           <Label htmlFor="re-password" className="col-span-2 text-right">
             Re-type Password
           </Label>
