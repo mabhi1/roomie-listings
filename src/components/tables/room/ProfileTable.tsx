@@ -117,7 +117,7 @@ export default function RoomProfileTable({ currentUser, tab }: { currentUser: Us
                 <div className="flex justify-center">
                   {tab === "postedAds" && (
                     <TooltipProvider>
-                      <Tooltip delayStay={0}>
+                      <Tooltip delayDuration={0}>
                         <TooltipTrigger asChild>
                           <Link href={`/room/${room.id}/edit`}>
                             <PenBoxIcon className="mx-auto mr-2 w-5 cursor-pointer text-success" />
@@ -157,7 +157,7 @@ export default function RoomProfileTable({ currentUser, tab }: { currentUser: Us
                     <Dialog>
                       <DialogTrigger>
                         <TooltipProvider>
-                          <Tooltip delayStay={0}>
+                          <Tooltip delayDuration={0}>
                             <TooltipTrigger asChild>
                               <XCircleIcon className="mx-auto w-5 cursor-pointer text-destructive" />
                             </TooltipTrigger>

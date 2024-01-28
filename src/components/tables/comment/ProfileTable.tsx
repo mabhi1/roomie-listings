@@ -137,7 +137,7 @@ export default function CommentProfileTable({ currentUser, tab }: { currentUser:
                   <Dialog>
                     <DialogTrigger>
                       <TooltipProvider>
-                        <Tooltip delayStay={0}>
+                        <Tooltip delayDuration={0}>
                           <TooltipTrigger asChild>
                             <XCircleIcon className="mx-auto w-5 cursor-pointer text-destructive" />
                           </TooltipTrigger>

@@ -13,7 +13,7 @@ export default function PosterIcon({ poster }: { poster: User }) {
   function getUserIcon() {
     return (
       <TooltipProvider>
-        <Tooltip delayStay={0}>
+        <Tooltip delayDuration={0}>
           <TooltipTrigger asChild>
             <div className="w-fit overflow-clip rounded-full">
               <Image

@@ -111,7 +111,7 @@ export default function RoommateProfileTable({ currentUser, tab }: { currentUser
                 <div className="flex justify-center">
                   {tab === "postedAds" && (
                     <TooltipProvider>
-                      <Tooltip delayStay={0}>
+                      <Tooltip delayDuration={0}>
                         <TooltipTrigger asChild>
                           <Link href={`/roommate/${roommate.id}/edit`}>
                             <PenBoxIcon className="mx-auto mr-2 w-5 cursor-pointer text-success" />
@@ -151,7 +151,7 @@ export default function RoommateProfileTable({ currentUser, tab }: { currentUser
                     <Dialog>
                       <DialogTrigger>
                         <TooltipProvider>
-                          <Tooltip delayStay={0}>
+                          <Tooltip delayDuration={0}>
                             <TooltipTrigger asChild>
                               <XCircleIcon className="mx-auto w-5 cursor-pointer text-destructive" />
                             </TooltipTrigger>
