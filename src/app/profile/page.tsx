@@ -84,7 +84,7 @@ export default function Profile() {
                 <span className="flex items-center gap-1 text-destructive">
                   <BadgeXIcon className="w-3 md:w-4" />
                   <span>Not Verified</span>
-                  <Button onClick={handleSendVerification} variant="link" className="h-0 p-0 text-xs md:h-0">
+                  <Button onClick={handleSendVerification} variant="link" className="h-0 p-0 md:h-0">
                     &#40;Send Verification link&#41;
                   </Button>
                 </span>
