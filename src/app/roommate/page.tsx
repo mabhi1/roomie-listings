@@ -10,6 +10,8 @@ import Image from "next/image";
 import { LandmarkIcon } from "lucide-react";
 import roommateImage from "../../../public/roommate.webp";
 
+export const dynamic = "force-dynamic";
+
 export default async function Roommate() {
   const roommateData = await getAllRoommateAds();
   return (
