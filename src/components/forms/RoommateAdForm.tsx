@@ -205,7 +205,7 @@ export default function RoommateAdForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                Budget
+                Budget per month
                 <Required />
               </FormLabel>
               <FormControl>

@@ -192,7 +192,7 @@ export default function RoommateEditForm({ roommateAd }: { roommateAd?: Roommate
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                Budget
+                Budget per month
                 <Required />
               </FormLabel>
               <FormControl>
