@@ -5,8 +5,8 @@ const toastMessage = {
 
 const title = {
   site: "Roomie Listings",
-  roommate: "Roommate",
-  room: "Room",
+  roommate: "Browse Roommate Listings",
+  room: "Browse Room Listings",
   products: "Products",
   profile: "Profile",
 };

@@ -50,65 +50,67 @@ export default function Profile() {
           subHeading="This is your profile page. You can see the related comments and ads here."
         />
         <div className="flex flex-col gap-3 md:flex-row md:items-center lg:gap-5">
-          <div className="group relative h-fit w-fit overflow-clip rounded-full">
-            <Image
-              src={currentUser.photoURL ? currentUser.photoURL : noUserImage}
-              alt={currentUser.displayName!}
-              width={50}
-              height={50}
-              className="h-[80px] w-[80px] object-cover xl:h-[100px] xl:w-[100px]"
-              priority
-              placeholder="blur"
-              blurDataURL={currentUser.photoURL ? currentUser.photoURL : ""}
-            />
-            {currentUser.photoURL && (
-              <Button
-                variant="ghost"
-                size="sm"
-                className="absolute top-0 hidden h-7 w-full border bg-primary-foreground/80 p-2 text-xs group-hover:block"
-                onClick={handleRemoveProfilePicture}
-              >
-                Remove
-              </Button>
-            )}
-          </div>
-          <div className="mr-auto flex flex-col justify-center">
-            <div className="text-lg">{currentUser.displayName}</div>
-            <div className="w-72 overflow-hidden lg:w-80">{currentUser.email}</div>
-            {currentUser.emailVerified ? (
-              <span className="flex items-center gap-1 text-success">
-                <BadgeCheckIcon className="w-4" /> Verified
-              </span>
-            ) : (
-              <span className="flex items-center gap-1 text-destructive">
-                <BadgeXIcon className="w-4" />
-                <span>Not Verified</span>
-                <Button onClick={handleSendVerification} variant="link" className="h-0 p-0 text-xs">
-                  &#40;Send Verification link&#41;
+          <div className="flex flex-1 gap-3 lg:gap-5">
+            <div className="group relative h-fit w-fit overflow-clip rounded-full">
+              <Image
+                src={currentUser.photoURL ? currentUser.photoURL : noUserImage}
+                alt={currentUser.displayName!}
+                width={50}
+                height={50}
+                className="h-[60px] w-[60px] object-cover md:h-[80px] md:w-[80px] xl:h-[100px] xl:w-[100px]"
+                priority
+                placeholder="blur"
+                blurDataURL={currentUser.photoURL ? currentUser.photoURL : ""}
+              />
+              {currentUser.photoURL && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="absolute top-0 hidden h-7 w-full border bg-primary-foreground/80 p-2 text-xs group-hover:block"
+                  onClick={handleRemoveProfilePicture}
+                >
+                  Remove
                 </Button>
-              </span>
-            )}
+              )}
+            </div>
+            <div className="mr-auto flex flex-col justify-center">
+              <div className="text-base md:text-lg">{currentUser.displayName}</div>
+              <div className="w-60 overflow-hidden md:w-72 lg:w-80">{currentUser.email}</div>
+              {currentUser.emailVerified ? (
+                <span className="flex items-center gap-1 text-success">
+                  <BadgeCheckIcon className="w-4" /> Verified
+                </span>
+              ) : (
+                <span className="flex items-center gap-1 text-destructive">
+                  <BadgeXIcon className="w-4" />
+                  <span>Not Verified</span>
+                  <Button onClick={handleSendVerification} variant="link" className="h-0 p-0 text-xs">
+                    &#40;Send Verification link&#41;
+                  </Button>
+                </span>
+              )}
+            </div>
           </div>
           <ProfileButtons currentUser={currentUser} />
         </div>
-        <Tabs defaultValue="savedAds" className="mt-5 w-full md:mt-0">
-          <TabsList className="w-full md:w-auto">
-            <TabsTrigger value="savedAds">Saved Ads</TabsTrigger>
-            <TabsTrigger value="postedAds">Posted Ads</TabsTrigger>
+        <Tabs defaultValue="savedAds" className="mt-3 w-full md:mt-0 md:space-y-3">
+          <TabsList>
+            <TabsTrigger value="savedAds">Favourites</TabsTrigger>
+            <TabsTrigger value="postedAds">Posts</TabsTrigger>
             {/* <TabsTrigger value="comments">Comments</TabsTrigger> */}
-            <TabsTrigger value="reportedAds">Reported Ads</TabsTrigger>
+            <TabsTrigger value="reportedAds">Reports</TabsTrigger>
             {/* <TabsTrigger value="reportedComments">Reported Comments</TabsTrigger> */}
           </TabsList>
 
           <TabsContent value="savedAds" className="mt-0 flex flex-col gap-2">
             <div className="mt-2 flex items-center">
               <HomeIcon className="mr-1 w-4" />
-              Saved Room Ads
+              Favourite Room Ads
             </div>
             <RoomProfileTable currentUser={currentUser} tab="savedAds" />
-            <div className="flex items-center">
+            <div className="mt-2 flex items-center">
               <UsersIcon className="mr-1 w-4" />
-              Saved Roommate Ads
+              Favourite Roommate Ads
             </div>
             <RoommateProfileTable currentUser={currentUser} tab="savedAds" />
           </TabsContent>
@@ -118,7 +120,7 @@ export default function Profile() {
               Posted Room Ads
             </div>
             <RoomProfileTable currentUser={currentUser} tab="postedAds" />
-            <div className="flex items-center">
+            <div className="mt-2 flex items-center">
               <UsersIcon className="mr-1 w-4" />
               Posted Roommate Ads
             </div>
@@ -137,7 +139,7 @@ export default function Profile() {
               Reported Room Ads
             </div>
             <RoomProfileTable currentUser={currentUser} tab="reportedAds" />
-            <div className="flex items-center">
+            <div className="mt-2 flex items-center">
               <UsersIcon className="mr-1 w-4" />
               Reported Roommate Ads
             </div>

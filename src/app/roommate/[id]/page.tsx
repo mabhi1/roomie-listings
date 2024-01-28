@@ -23,7 +23,7 @@ export default async function RoommateId({ params: { id } }: { params: { id: str
       <Card>
         <CardHeader className="flex-col-reverse justify-between gap-1 space-y-0 p-3 md:flex-row md:items-center md:gap-2 md:space-y-1.5 md:p-5 lg:gap-0">
           <div className="mr-auto md:space-y-1.5">
-            <CardTitle className="font-light">{roommate.title}</CardTitle>
+            <CardTitle className="text-lg font-light md:text-xl lg:text-2xl">{roommate.title}</CardTitle>
             <CardDescription>
               <span className="text-xs italic ">
                 Last Updated:{" "}
@@ -42,7 +42,7 @@ export default async function RoommateId({ params: { id } }: { params: { id: str
                 <TableHead className="h-8 text-center font-normal text-accent-foreground">Location</TableHead>
                 <TableHead className="h-8 text-center font-normal text-accent-foreground">Budget</TableHead>
                 <TableHead className="h-8 w-20 text-center font-normal text-accent-foreground md:w-auto">
-                  Move in
+                  <div className="min-w-12">Move In</div>
                 </TableHead>
                 <TableHead className="h-8 text-center font-normal text-accent-foreground">Stay</TableHead>
               </TableRow>
