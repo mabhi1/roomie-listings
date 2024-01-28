@@ -27,8 +27,8 @@ const createAdComponents: { title: string; href: string; description: string; ic
     icon: <UserPlusIcon className="mr-1 w-4" />,
   },
   {
-    title: "House",
-    href: "/house/create",
+    title: "Room",
+    href: "/room/create",
     description: "Showcase your home with a captivating ad. Rent to the perfect tenant easily!",
     icon: <ImagePlusIcon className="mr-1 w-4" />,
   },

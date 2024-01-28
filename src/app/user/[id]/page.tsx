@@ -2,7 +2,7 @@ import FullWrapper from "@/components/page/FullWrapper";
 import PageHeader from "@/components/page/PageHeader";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { getHouseAdsByUser } from "@/prisma/db/houseAds";
+import { getRoomAdsByUser } from "@/prisma/db/roomAds";
 import { getRoommateAdsByUser } from "@/prisma/db/roommaateAds";
 import { getUserById } from "@/prisma/db/users";
 import Image from "next/image";
@@ -12,7 +12,7 @@ import userImage from "../../../../public/user.png";
 export default async function UserPublicProfile({ params: { id } }: { params: { id: string } }) {
   const user = await getUserById(id);
   if (!user) throw new Error("User not found");
-  const houseAds = await getHouseAdsByUser(user.uid, "postedAds");
+  const roomAds = await getRoomAdsByUser(user.uid, "postedAds");
   const roommateAds = await getRoommateAdsByUser(user.uid, "postedAds");
   return (
     <FullWrapper className="gap-3 md:gap-5">
@@ -35,18 +35,18 @@ export default async function UserPublicProfile({ params: { id } }: { params: { 
         </div>
         <div className="text-lg">{user.name}</div>
       </div>
-      {houseAds && houseAds.length > 0 ? (
+      {roomAds && roomAds.length > 0 ? (
         <div className="space-y-3">
-          <div>Posted house ads</div>
+          <div>Posted room ads</div>
           <Table className="border">
             <TableHeader className="h-6">
               <TableRow className="bg-muted/50">
                 <TableHead className="h-8 border-r font-normal text-accent-foreground">Title</TableHead>
                 <TableHead className="h-8 border-r text-center font-normal text-accent-foreground">City</TableHead>
-                <TableHead className="h-8 border-r text-center font-normal text-accent-foreground">Price</TableHead>
-                <TableHead className="h-8 border-r text-center font-normal text-accent-foreground">Available</TableHead>
+                <TableHead className="h-8 border-r text-center font-normal text-accent-foreground">Rent</TableHead>
+                <TableHead className="h-8 border-r text-center font-normal text-accent-foreground">Move In</TableHead>
                 <TableHead className="hidden h-8 border-r text-center font-normal text-accent-foreground lg:table-cell">
-                  Duration
+                  Stay
                 </TableHead>
                 <TableHead className="hidden h-8 border-r text-center font-normal text-accent-foreground lg:table-cell">
                   Reports
@@ -54,33 +54,33 @@ export default async function UserPublicProfile({ params: { id } }: { params: { 
               </TableRow>
             </TableHeader>
             <TableBody>
-              {houseAds?.map(house => (
-                <TableRow className="hover:bg-inherit" key={house.id}>
+              {roomAds?.map(room => (
+                <TableRow className="hover:bg-inherit" key={room.id}>
                   <TableCell className="border-r py-1 pl-4">
                     <Link
-                      href={`/house/${house.id}`}
+                      href={`/room/${room.id}`}
                       className="block w-[260px] overflow-hidden md:w-[350px] xl:w-[650px]"
                     >
                       <Button variant="link" className="p-0">
-                        {house.title}
+                        {room.title}
                       </Button>
                     </Link>
                   </TableCell>
-                  <TableCell className="border-r py-1 text-center">{house.address.city}</TableCell>
+                  <TableCell className="border-r py-1 text-center">{room.address.city}</TableCell>
                   <TableCell className="border-r py-1 text-center">
                     {new Intl.NumberFormat("en-US", {
                       style: "currency",
                       currency: "USD",
-                    }).format(house.price)}
+                    }).format(room.rent)}
                   </TableCell>
                   <TableCell className="border-r py-1 text-center">
-                    {house.available.toLocaleDateString("en-us", { year: "numeric", month: "short", day: "numeric" })}
+                    {room.moveIn.toLocaleDateString("en-us", { year: "numeric", month: "short", day: "numeric" })}
                   </TableCell>
                   <TableCell className="hidden border-r py-1 text-center capitalize lg:table-cell">
-                    {house.duration}
+                    {room.stay}
                   </TableCell>
                   <TableCell className="hidden border-r py-1 text-center capitalize lg:table-cell">
-                    {house.reports.length}
+                    {room.reports.length}
                   </TableCell>
                 </TableRow>
               ))}
@@ -88,7 +88,7 @@ export default async function UserPublicProfile({ params: { id } }: { params: { 
           </Table>
         </div>
       ) : (
-        <div>No posted house ads</div>
+        <div>No posted room ads</div>
       )}
       {roommateAds && roommateAds.length > 0 ? (
         <div className="space-y-3">
@@ -101,7 +101,7 @@ export default async function UserPublicProfile({ params: { id } }: { params: { 
                 <TableHead className="h-8 border-r text-center font-normal text-accent-foreground">Budget</TableHead>
                 <TableHead className="h-8 border-r text-center font-normal text-accent-foreground">Move in</TableHead>
                 <TableHead className="hidden h-8 border-r text-center font-normal text-accent-foreground lg:table-cell">
-                  Duration
+                  Stay
                 </TableHead>
                 <TableHead className="hidden h-8 border-r text-center font-normal text-accent-foreground lg:table-cell">
                   Reports
@@ -132,7 +132,7 @@ export default async function UserPublicProfile({ params: { id } }: { params: { 
                     {roommate.moveIn.toLocaleDateString("en-us", { year: "numeric", month: "short", day: "numeric" })}
                   </TableCell>
                   <TableCell className="hidden border-r py-1 text-center capitalize lg:table-cell">
-                    {roommate.duration}
+                    {roommate.stay}
                   </TableCell>
                   <TableCell className="hidden border-r py-1 text-center capitalize lg:table-cell">
                     {roommate.reports.length}

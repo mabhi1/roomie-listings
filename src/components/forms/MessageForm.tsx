@@ -2,7 +2,7 @@
 
 import { RotateCcwIcon, SendIcon } from "lucide-react";
 import { Button } from "../ui/button";
-import { HouseAd, RoommateAd, User } from "@/lib/types";
+import { RoomAd, RoommateAd, User } from "@/lib/types";
 import Required from "./Required";
 import { Textarea } from "../ui/textarea";
 import { Input } from "../ui/input";
@@ -20,7 +20,7 @@ export default function MessageForm({
   sender: User;
   receiver: User;
   type: string;
-  ad: HouseAd | RoommateAd;
+  ad: RoomAd | RoommateAd;
 }) {
   const [isPending, startTransition] = useTransition();
   const [message, setMessage] = useState("");

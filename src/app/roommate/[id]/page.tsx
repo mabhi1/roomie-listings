@@ -10,7 +10,7 @@ import PosterIcon from "@/components/page/PosterIcon";
 
 export default async function RoommateId({ params: { id } }: { params: { id: string } }) {
   const roommate = await getRoommateById(id);
-  if (!roommate) throw new Error("Invalid Roommate Ad");
+  if (!roommate) throw new Error("Roommate ad not found");
   const poster = await getUserById(roommate.postedBy);
 
   return (
@@ -44,7 +44,7 @@ export default async function RoommateId({ params: { id } }: { params: { id: str
                 <TableHead className="h-8 w-20 text-center font-normal text-accent-foreground md:w-auto">
                   Move in
                 </TableHead>
-                <TableHead className="h-8 text-center font-normal text-accent-foreground">Duration</TableHead>
+                <TableHead className="h-8 text-center font-normal text-accent-foreground">Stay</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -59,7 +59,7 @@ export default async function RoommateId({ params: { id } }: { params: { id: str
                 <TableCell className="border-b py-2 text-center">
                   {roommate.moveIn.toLocaleDateString("en-us", { year: "numeric", month: "short", day: "numeric" })}
                 </TableCell>
-                <TableCell className="border-b py-2 text-center capitalize">{roommate.duration}</TableCell>
+                <TableCell className="border-b py-2 text-center capitalize">{roommate.stay}</TableCell>
               </TableRow>
             </TableBody>
           </Table>
@@ -67,7 +67,7 @@ export default async function RoommateId({ params: { id } }: { params: { id: str
         </CardContent>
         <RoommateButtons ad={roommate} />
       </Card>
-      <Comments id={id} type="roommate" />
+      {/* <Comments id={id} type="roommate" /> */}
     </FullWrapper>
   );
 }

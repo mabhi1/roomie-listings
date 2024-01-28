@@ -12,13 +12,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowDownIcon, ArrowUpDown, ArrowUpIcon, MoreHorizontal } from "lucide-react";
-import { HouseAddress } from "@/lib/types";
+import { RoomAddress } from "@/lib/types";
 import Link from "next/link";
-import { savehouse } from "@/actions/house";
+import { saveRoom } from "@/actions/room";
 import { toast } from "sonner";
 import useAuth from "@/components/providers/AuthProvider";
 
-export type HouseColumnsType = {
+export type RoomColumnsType = {
   id: string;
   title: string;
   address: {
@@ -27,11 +27,11 @@ export type HouseColumnsType = {
     state: string;
     zip: string;
   };
-  price: number;
+  rent: number;
   postedBy: string;
   savedBy: string[];
-  available: Date;
-  duration: "temporary" | "permanent";
+  moveIn: Date;
+  stay: "temporary" | "permanent";
   updatedAt: Date;
 };
 
@@ -40,7 +40,7 @@ function GetCurrentUser() {
   return currentUser;
 }
 
-export const HouseColumns: ColumnDef<HouseColumnsType>[] = [
+export const RoomColumns: ColumnDef<RoomColumnsType>[] = [
   // {
   //   id: "select",
   //   header: ({ table }) => (
@@ -65,12 +65,12 @@ export const HouseColumns: ColumnDef<HouseColumnsType>[] = [
     header: () => <div className="w-[260px] lg:w-[450px] xl:w-[480px]">Title</div>,
     enableHiding: false,
     cell: ({ row }) => {
-      const house = row.original;
+      const room = row.original;
 
       const title: string = row.getValue("title");
       return (
         <div className="ml-1 w-[260px] overflow-hidden lg:w-[450px] xl:w-[480px]">
-          <Link href={`/house/${house.id}`} passHref legacyBehavior>
+          <Link href={`/room/${room.id}`} passHref legacyBehavior>
             <Button variant="link" className="h-8 p-0">
               {title}
             </Button>
@@ -83,26 +83,26 @@ export const HouseColumns: ColumnDef<HouseColumnsType>[] = [
     accessorKey: "address",
     header: () => <div className="mx-auto w-20 text-center">City</div>,
     cell: ({ row }) => {
-      const address: HouseAddress = row.getValue("address");
+      const address: RoomAddress = row.getValue("address");
       const city = address.city;
       return <div className="text-center capitalize">{city}</div>;
     },
   },
   {
-    accessorKey: "duration",
-    header: () => <div className="mx-auto text-center">Duration</div>,
+    accessorKey: "stay",
+    header: () => <div className="mx-auto text-center">Stay</div>,
     cell: ({ row }) => {
-      const duration: "temporary" | "permanent" = row.getValue("duration");
-      return <div className="text-center capitalize">{duration}</div>;
+      const stay: "temporary" | "permanent" = row.getValue("stay");
+      return <div className="text-center capitalize">{stay}</div>;
     },
   },
   {
-    accessorKey: "price",
+    accessorKey: "rent",
     header: ({ column }) => {
       return (
         <span className="flex justify-center">
           <Button variant="ghost" className="p-0" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-            Price
+            Rent
             {column.getIsSorted() === "asc" ? (
               <ArrowDownIcon className="ml-1 h-4 w-4" />
             ) : column.getIsSorted() === "desc" ? (
@@ -115,17 +115,17 @@ export const HouseColumns: ColumnDef<HouseColumnsType>[] = [
       );
     },
     cell: ({ row }) => {
-      const price = parseFloat(row.getValue("price"));
+      const rent = parseFloat(row.getValue("rent"));
       const formatted = new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "USD",
-      }).format(price);
+      }).format(rent);
 
       return <div className="text-center">{formatted}</div>;
     },
   },
   {
-    accessorKey: "available",
+    accessorKey: "moveIn",
     header: ({ column }) => {
       return (
         <span className="flex justify-center">
@@ -134,7 +134,7 @@ export const HouseColumns: ColumnDef<HouseColumnsType>[] = [
             className="w-20 p-0"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Available
+            Move In
             {column.getIsSorted() === "asc" ? (
               <ArrowDownIcon className="ml-1 h-4 w-4" />
             ) : column.getIsSorted() === "desc" ? (
@@ -147,7 +147,7 @@ export const HouseColumns: ColumnDef<HouseColumnsType>[] = [
       );
     },
     cell: ({ row }) => {
-      const updatedAt: Date = row.getValue("available");
+      const updatedAt: Date = row.getValue("moveIn");
       return (
         <div className="text-center">
           {updatedAt.toLocaleDateString("en-us", { year: "numeric", month: "short", day: "numeric" })}
@@ -158,11 +158,11 @@ export const HouseColumns: ColumnDef<HouseColumnsType>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const house = row.original;
+      const room = row.original;
       const currentUser = GetCurrentUser();
       const handleSaveAd = async () => {
         if (currentUser && currentUser.uid) {
-          const data = await savehouse(house.id!, currentUser.uid);
+          const data = await saveRoom(room.id!, currentUser.uid);
           if (data.error) toast.error(data.error);
           else toast.success(data.message);
         }
@@ -178,11 +178,11 @@ export const HouseColumns: ColumnDef<HouseColumnsType>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem>
-              <Link href={`/house/${house.id}`}>View Details</Link>
+              <Link href={`/room/${room.id}`}>View Details</Link>
             </DropdownMenuItem>
-            {currentUser && currentUser.uid !== house.postedBy && (
+            {currentUser && currentUser.uid !== room.postedBy && (
               <>
-                {house.savedBy.includes(currentUser?.uid!) ? (
+                {room.savedBy.includes(currentUser?.uid!) ? (
                   <DropdownMenuItem className="text-muted-foreground focus:text-muted-foreground">
                     Saved
                   </DropdownMenuItem>
@@ -195,11 +195,11 @@ export const HouseColumns: ColumnDef<HouseColumnsType>[] = [
             )}
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <Link href={`/user/${house.postedBy}`}>View User</Link>
+              <Link href={`/user/${room.postedBy}`}>View User</Link>
             </DropdownMenuItem>
-            {currentUser && currentUser.uid !== house.postedBy && currentUser.emailVerified && (
+            {currentUser && currentUser.uid !== room.postedBy && currentUser.emailVerified && (
               <DropdownMenuItem>
-                <Link href={`/message/${currentUser?.uid}/${house.postedBy}/house/${house.id}`}>Send Message</Link>
+                <Link href={`/message/${currentUser?.uid}/${room.postedBy}/room/${room.id}`}>Send Message</Link>
               </DropdownMenuItem>
             )}
           </DropdownMenuContent>

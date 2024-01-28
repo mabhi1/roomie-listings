@@ -6,7 +6,7 @@ import FullWrapper from "@/components/page/FullWrapper";
 import PageHeader from "@/components/page/PageHeader";
 import useAuth from "@/components/providers/AuthProvider";
 import CommentProfileTable from "@/components/tables/comment/ProfileTable";
-import HouseProfileTable from "@/components/tables/house/ProfileTable";
+import RoomProfileTable from "@/components/tables/room/ProfileTable";
 import RoommateProfileTable from "@/components/tables/roommate/ProfileTable";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -92,20 +92,20 @@ export default function Profile() {
           <ProfileButtons currentUser={currentUser} />
         </div>
         <Tabs defaultValue="savedAds" className="mt-5 w-full md:mt-0">
-          <TabsList className="h-16 w-full flex-wrap overflow-y-auto md:h-10 md:flex-nowrap">
+          <TabsList className="w-full md:w-auto">
             <TabsTrigger value="savedAds">Saved Ads</TabsTrigger>
             <TabsTrigger value="postedAds">Posted Ads</TabsTrigger>
-            <TabsTrigger value="comments">Comments</TabsTrigger>
+            {/* <TabsTrigger value="comments">Comments</TabsTrigger> */}
             <TabsTrigger value="reportedAds">Reported Ads</TabsTrigger>
-            <TabsTrigger value="reportedComments">Reported Comments</TabsTrigger>
+            {/* <TabsTrigger value="reportedComments">Reported Comments</TabsTrigger> */}
           </TabsList>
 
           <TabsContent value="savedAds" className="mt-0 flex flex-col gap-2">
             <div className="mt-2 flex items-center">
               <HomeIcon className="mr-1 w-4" />
-              Saved House Ads
+              Saved Room Ads
             </div>
-            <HouseProfileTable currentUser={currentUser} tab="savedAds" />
+            <RoomProfileTable currentUser={currentUser} tab="savedAds" />
             <div className="flex items-center">
               <UsersIcon className="mr-1 w-4" />
               Saved Roommate Ads
@@ -115,41 +115,41 @@ export default function Profile() {
           <TabsContent value="postedAds" className="mt-0 flex flex-col gap-2">
             <div className="mt-2 flex items-center">
               <HomeIcon className="mr-1 w-4" />
-              Posted House Ads
+              Posted Room Ads
             </div>
-            <HouseProfileTable currentUser={currentUser} tab="postedAds" />
+            <RoomProfileTable currentUser={currentUser} tab="postedAds" />
             <div className="flex items-center">
               <UsersIcon className="mr-1 w-4" />
               Posted Roommate Ads
             </div>
             <RoommateProfileTable currentUser={currentUser} tab="postedAds" />
           </TabsContent>
-          <TabsContent value="comments" className="mt-0 flex flex-col gap-2">
+          {/* <TabsContent value="comments" className="mt-0 flex flex-col gap-2">
             <div className="mt-2 flex items-center">
               <MessageSquareMoreIcon className="mr-1 w-4" />
               Posted Comments
             </div>
             <CommentProfileTable currentUser={currentUser} tab="comments" />
-          </TabsContent>
+          </TabsContent> */}
           <TabsContent value="reportedAds" className="mt-0 flex flex-col gap-2">
             <div className="mt-2 flex items-center">
               <HomeIcon className="mr-1 w-4" />
-              Reported House Ads
+              Reported Room Ads
             </div>
-            <HouseProfileTable currentUser={currentUser} tab="reportedAds" />
+            <RoomProfileTable currentUser={currentUser} tab="reportedAds" />
             <div className="flex items-center">
               <UsersIcon className="mr-1 w-4" />
               Reported Roommate Ads
             </div>
             <RoommateProfileTable currentUser={currentUser} tab="reportedAds" />
           </TabsContent>
-          <TabsContent value="reportedComments" className="mt-0 flex flex-col gap-2">
+          {/* <TabsContent value="reportedComments" className="mt-0 flex flex-col gap-2">
             <div className="mt-2 flex items-center">
               <MessageSquareMoreIcon className="mr-1 w-4" />
               Reported Comments
             </div>
             <CommentProfileTable currentUser={currentUser} tab="reportedComments" />
-          </TabsContent>
+          </TabsContent> */}
         </Tabs>
       </FullWrapper>
     );

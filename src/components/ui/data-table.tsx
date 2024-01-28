@@ -32,7 +32,7 @@ import {
   FilterIcon,
   SearchIcon,
 } from "lucide-react";
-import { HouseAddress } from "@/lib/types";
+import { RoomAddress } from "@/lib/types";
 import {
   Sheet,
   SheetContent,
@@ -63,14 +63,14 @@ export default function DataTable<TData, TValue>({ columns, data, page, profile 
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
   const [selectedCity, setSelectedCity] = useState<string[]>([]);
-  const [selectedDuration, setSelectedDuration] = useState<string>("all");
+  const [selectedStay, setSelectedStay] = useState<string>("all");
   const [min, setMin] = useState(0);
   const [max, setMax] = useState(Number.MAX_SAFE_INTEGER);
 
   const getAllCities = useCallback(() => {
     const cities: string[] = [];
     data.forEach((row: any) => {
-      const address: HouseAddress = row.address;
+      const address: RoomAddress = row.address;
       if (cities.includes(address.city.toUpperCase())) return;
       cities.push(address.city.toUpperCase());
     });
@@ -91,13 +91,13 @@ export default function DataTable<TData, TValue>({ columns, data, page, profile 
           return selectedCity.includes(row.address.city.toUpperCase());
         })
         .filter((row: any) => {
-          if (selectedDuration === "all") return true;
-          return row.duration === selectedDuration;
+          if (selectedStay === "all") return true;
+          return row.stay === selectedStay;
         })
         .filter((row: any) => {
           let amount;
           if (page === "roommate") amount = row.budget;
-          else amount = row.price;
+          else amount = row.rent;
           if (min > max) return true;
           return amount >= min && amount <= max;
         })
@@ -108,7 +108,7 @@ export default function DataTable<TData, TValue>({ columns, data, page, profile 
           return true;
         }),
     );
-  }, [showMyAd, page, selectedDuration, selectedCity, currentUser, data, max, min]);
+  }, [showMyAd, page, selectedStay, selectedCity, currentUser, data, max, min]);
 
   const table = useReactTable({
     data: rowData,
@@ -134,22 +134,21 @@ export default function DataTable<TData, TValue>({ columns, data, page, profile 
     title: "title",
     address: "city",
     budget: "budget",
-    price: "price",
-    duration: "duration",
+    rent: "rent",
+    stay: "stay",
     updatedAt: "last updated",
-    available: "available",
     moveIn: "move in",
   };
 
   const handleClearFilter = () => {
     setSelectedCity([]);
-    setSelectedDuration("all");
+    setSelectedStay("all");
     setMin(0);
     setMax(Number.MAX_SAFE_INTEGER);
   };
 
   const isNotFiltered = () => {
-    return selectedCity.length === 0 && selectedDuration === "all" && min === 0 && max === Number.MAX_SAFE_INTEGER;
+    return selectedCity.length === 0 && selectedStay === "all" && min === 0 && max === Number.MAX_SAFE_INTEGER;
   };
 
   return (
@@ -187,10 +186,10 @@ export default function DataTable<TData, TValue>({ columns, data, page, profile 
                   </SheetHeader>
                   <div className="my-5 flex flex-col gap-5">
                     <div className="flex flex-col gap-2">
-                      <div className="font-medium">Duration</div>
-                      <Select onValueChange={value => setSelectedDuration(value)} value={selectedDuration}>
+                      <div className="font-medium">Stay</div>
+                      <Select onValueChange={value => setSelectedStay(value)} value={selectedStay}>
                         <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Select duration..." />
+                          <SelectValue placeholder="Select stay..." />
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="temporary">Temporary</SelectItem>
@@ -209,7 +208,7 @@ export default function DataTable<TData, TValue>({ columns, data, page, profile 
                       />
                     </div>
                     <div className="flex flex-col gap-2">
-                      <div className="font-medium">{page === "roommate" ? "Budget" : "Price"}</div>
+                      <div className="font-medium">{page === "roommate" ? "Budget" : "Rent"}</div>
                       <div className="flex flex-col justify-evenly gap-2 md:flex-row md:items-center">
                         <span>Min: </span>
                         <Input
@@ -284,21 +283,21 @@ export default function DataTable<TData, TValue>({ columns, data, page, profile 
                 </span>
               </div>
             )}
-            {selectedDuration !== "all" && (
+            {selectedStay !== "all" && (
               <div className="space-x-1">
-                <span>Selected Duration :</span>
-                <span className="rounded bg-muted-foreground px-1 capitalize text-muted">{selectedDuration}</span>
+                <span>Selected Stay :</span>
+                <span className="rounded bg-muted-foreground px-1 capitalize text-muted">{selectedStay}</span>
               </div>
             )}
             {min !== 0 && (
               <div className="space-x-1">
-                <span>Min {page === "roommate" ? "Budget" : "Price"} :</span>
+                <span>Min {page === "roommate" ? "Budget" : "Rent"} :</span>
                 <span className="rounded bg-muted-foreground px-1 capitalize text-muted">${min}</span>
               </div>
             )}
             {max !== Number.MAX_SAFE_INTEGER && (
               <div className="space-x-1">
-                <span>Max {page === "roommate" ? "Budget" : "Price"} :</span>
+                <span>Max {page === "roommate" ? "Budget" : "Rent"} :</span>
                 <span className="rounded bg-muted-foreground px-1 capitalize text-muted">${max}</span>
               </div>
             )}

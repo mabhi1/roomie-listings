@@ -1,7 +1,6 @@
 "use client";
 
-import { HouseAd } from "@/lib/types";
-import { HouseAdSchema } from "@/schema";
+import { RoomAdSchema } from "@/schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
@@ -14,54 +13,66 @@ import { Button } from "../ui/button";
 import { ChangeEvent, useEffect, useState, useTransition } from "react";
 import { zipCodeList } from "@/lib/NJStateInfo";
 import { Checkbox } from "../ui/checkbox";
-import { editHouse } from "@/actions/house";
+import { createRoom } from "@/actions/room";
 import useAuth from "../providers/AuthProvider";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { sendEmailVerification } from "firebase/auth";
+import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import Required from "./Required";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { CalendarIcon, DeleteIcon, FilePlus2Icon, RotateCcwIcon } from "lucide-react";
+import { BanIcon, CalendarIcon, FilePlus2Icon, LinkIcon, RotateCcwIcon } from "lucide-react";
 import { Calendar } from "../ui/calendar";
 import { cn } from "@/lib/utils";
-import { toast } from "sonner";
-import { deleteFile, uploadFile } from "@/firebase/firebaseDBFunctions";
 import { Gallery } from "@prisma/client";
-import Image from "next/image";
+import { uploadFile } from "@/firebase/firebaseDBFunctions";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/ui/drawer";
+import { isMobile } from "react-device-detect";
 import Link from "next/link";
 
-export default function HouseEditForm({ houseAd }: { houseAd: HouseAd }) {
+export default function RoomAdForm() {
   const [descriptionChar, setDescriptionChar] = useState(5000);
-  const [date, setDate] = useState<Date>(houseAd.available);
-  const [isPending, startTransition] = useTransition();
+  const [date, setDate] = useState<Date | undefined>();
   const [files, setFiles] = useState<File[]>([]);
-  const [gallery, setGallery] = useState<Gallery[]>(houseAd.gallery);
   const [fileError, setFileError] = useState<string>();
+  const [isPending, startTransition] = useTransition();
+  const [verificationOpen, setVerificationOpen] = useState(false);
   const router = useRouter();
   const { currentUser } = useAuth();
 
-  const form = useForm<z.infer<typeof HouseAdSchema>>({
-    resolver: zodResolver(HouseAdSchema),
+  const form = useForm<z.infer<typeof RoomAdSchema>>({
+    resolver: zodResolver(RoomAdSchema),
     defaultValues: {
-      title: houseAd.title,
-      description: houseAd.description || "",
+      title: "",
+      description: "",
       address: {
-        address1: houseAd.address.address1 || "",
-        city: houseAd.address.city,
+        address1: "",
+        city: "",
         state: "NJ",
-        zip: houseAd.address.zip,
+        zip: "",
       },
-      price: houseAd.price,
-      available: houseAd.available,
-      duration: houseAd.duration,
+      rent: 0,
+      stay: "temporary",
       acceptTc: false,
-      showEmail: houseAd.showEmail,
+      showEmail: false,
+      showPhone: false,
     },
   });
 
   useEffect(() => {
-    if (!currentUser || currentUser.uid !== houseAd.postedBy) {
-      throw new Error("Unauthorized Access");
+    if (!currentUser?.emailVerified) {
+      setVerificationOpen(true);
+      return;
     }
-  }, [currentUser, houseAd]);
+  }, [currentUser]);
 
   if (!currentUser) return;
 
@@ -94,7 +105,7 @@ export default function HouseEditForm({ houseAd }: { houseAd: HouseAd }) {
   const handleDateSelect = (value: Date | undefined) => {
     if (!value) return;
     setDate(value);
-    form.setValue("available", value, { shouldDirty: true, shouldTouch: true, shouldValidate: true });
+    form.setValue("moveIn", value, { shouldDirty: true, shouldTouch: true, shouldValidate: true });
   };
 
   const getFileData = async () => {
@@ -108,38 +119,26 @@ export default function HouseEditForm({ houseAd }: { houseAd: HouseAd }) {
     return addedFiles;
   };
 
-  const onSubmit = (values: z.infer<typeof HouseAdSchema>) => {
+  const onSubmit = (values: z.infer<typeof RoomAdSchema>) => {
     if (!form.getValues("acceptTc")) {
       form.setError("acceptTc", { message: "Please accept terms and conditions to continue." });
+      return;
+    }
+    if (!currentUser.emailVerified) {
+      setVerificationOpen(true);
       return;
     }
 
     startTransition(async () => {
       try {
-        const originalGallery: string[] = houseAd.gallery.map(item => JSON.stringify(item));
-        const newGallery: string[] = gallery.map(item => JSON.stringify(item));
-        const notRequriedGalleryItems: Gallery[] = originalGallery
-          .filter(item => !newGallery.includes(item))
-          .map(item => JSON.parse(item));
-        notRequriedGalleryItems.map(async item => {
-          await deleteFile(item.name);
-        });
-
-        const { data, error } = await editHouse(
-          houseAd.id!,
-          values,
-          houseAd.savedBy!,
-          currentUser.uid!,
-          houseAd.reports!,
-          [...(await getFileData()), ...gallery],
-        );
+        const { data, error } = await createRoom(values, [], currentUser.uid!, await getFileData());
         if (error) throw new Error();
         else {
-          toast.success("Ad updated successfully");
-          router.replace(`/house/${houseAd.id}`);
+          toast.success("Ad created successfully");
+          router.replace(`/room/${data}`);
         }
       } catch (error) {
-        toast.error("Error in updating ad");
+        toast.error("Error in creating Ad");
       }
     });
   };
@@ -152,17 +151,20 @@ export default function HouseEditForm({ houseAd }: { houseAd: HouseAd }) {
     form.setValue("showEmail", checked, { shouldDirty: true, shouldTouch: true, shouldValidate: true });
   };
 
+  const handleShowPhoneChecked = (checked: boolean) => {
+    form.setValue("showPhone", checked, { shouldDirty: true, shouldTouch: true, shouldValidate: true });
+  };
+
   const handleFormReset = () => {
     setFileError(undefined);
     setFiles([]);
-    setGallery(houseAd.gallery);
     form.reset();
   };
 
   return (
     <Form {...form}>
       <div className="mb-5 text-muted-foreground">
-        Fields marked <Required /> are required.
+        <Required /> indicates required fields.
       </div>
       <form onSubmit={form.handleSubmit(onSubmit)} onReset={handleFormReset} className="space-y-5">
         <FormField
@@ -268,15 +270,15 @@ export default function HouseEditForm({ houseAd }: { houseAd: HouseAd }) {
         </div>
         <FormField
           control={form.control}
-          name="price"
+          name="rent"
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                Price
+                Rent
                 <Required />
               </FormLabel>
               <FormControl>
-                <Input {...field} placeholder="Enter price" type="number" />
+                <Input {...field} placeholder="Enter rent" type="number" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -284,11 +286,11 @@ export default function HouseEditForm({ houseAd }: { houseAd: HouseAd }) {
         />
         <FormField
           control={form.control}
-          name="available"
+          name="moveIn"
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                Available
+                Move In
                 <Required />
               </FormLabel>
               <FormControl>
@@ -313,17 +315,17 @@ export default function HouseEditForm({ houseAd }: { houseAd: HouseAd }) {
         />
         <FormField
           control={form.control}
-          name="duration"
+          name="stay"
           render={({ field }) => (
             <FormItem>
-              <FormLabel htmlFor="duration">
-                Duration
+              <FormLabel htmlFor="stay">
+                Stay
                 <Required />
               </FormLabel>
               <FormControl>
-                <Select name="duration" defaultValue="temporary" value={field.value} onValueChange={field.onChange}>
-                  <SelectTrigger id="duration">
-                    <SelectValue placeholder="Select duration..." />
+                <Select name="stay" defaultValue="temporary" value={field.value} onValueChange={field.onChange}>
+                  <SelectTrigger id="stay">
+                    <SelectValue placeholder="Select stay type..." />
                   </SelectTrigger>
                   <SelectContent {...field}>
                     <SelectItem value="temporary">Temporary</SelectItem>
@@ -371,42 +373,6 @@ export default function HouseEditForm({ houseAd }: { houseAd: HouseAd }) {
           </FormControl>
           {fileError && <div className="text-sm text-destructive">{fileError}</div>}
         </FormItem>
-        {gallery && gallery.length > 0 && (
-          <div className="space-y-2">
-            <div>Gallery</div>
-            <div className="grid grid-cols-2 gap-5">
-              {gallery.map(item => (
-                <div key={item.name} className="relative">
-                  {item.type.startsWith("video") ? (
-                    <video src={item.url} controls className="h-40 w-full rounded" />
-                  ) : (
-                    <a href={item.url} target="_blank">
-                      <Image
-                        alt={item.type}
-                        src={item.url}
-                        width={1024}
-                        height={1024}
-                        priority
-                        className="h-40 w-full rounded object-cover"
-                        placeholder="blur"
-                        blurDataURL={item.url}
-                      />
-                    </a>
-                  )}
-                  <Button
-                    variant="destructive"
-                    size="sm"
-                    className="absolute right-2 top-2"
-                    onClick={() => setGallery(gallery => gallery?.filter(i => i.url !== item.url))}
-                  >
-                    <DeleteIcon className="mr-1 w-3.5" />
-                    Remove
-                  </Button>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
         <FormField
           control={form.control}
           name="showEmail"
@@ -419,6 +385,26 @@ export default function HouseEditForm({ houseAd }: { houseAd: HouseAd }) {
                     name="showEmail"
                     defaultChecked={false}
                     onCheckedChange={handleShowEmailChecked}
+                    checked={field.value}
+                  />
+                </FormControl>
+              </div>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="showPhone"
+          render={({ field }) => (
+            <FormItem>
+              <div className="flex flex-row-reverse items-center justify-end gap-2">
+                <FormLabel>Show your phone number in the Ad</FormLabel>
+                <FormControl {...field}>
+                  <Checkbox
+                    name="showPhone"
+                    defaultChecked={false}
+                    onCheckedChange={handleShowPhoneChecked}
                     checked={field.value}
                   />
                 </FormControl>
@@ -456,7 +442,7 @@ export default function HouseEditForm({ houseAd }: { houseAd: HouseAd }) {
         <div className="flex gap-3 md:gap-5 lg:gap-10">
           <Button className="mt-5 w-full" type="submit" disabled={isPending}>
             <FilePlus2Icon className="mr-1 w-4" />
-            Save Ad
+            Create Ad
           </Button>
           <Button variant="secondary" className="mt-5 w-full" type="reset" disabled={isPending}>
             <RotateCcwIcon className="mr-1 w-4" />
@@ -464,6 +450,63 @@ export default function HouseEditForm({ houseAd }: { houseAd: HouseAd }) {
           </Button>
         </div>
       </form>
+      {isMobile ? (
+        <Drawer open={verificationOpen} onOpenChange={setVerificationOpen}>
+          <DrawerContent>
+            <DrawerHeader>
+              <DrawerTitle>Verification Required!</DrawerTitle>
+              <DrawerDescription>Please verify your email to post an Ad.</DrawerDescription>
+            </DrawerHeader>
+            <DrawerFooter className="mx-auto flex-row">
+              <Button
+                className="w-fit"
+                onClick={() => {
+                  try {
+                    sendEmailVerification(currentUser);
+                    toast.success("Email Verification link sent");
+                    setVerificationOpen(false);
+                  } catch (error) {
+                    toast.error("Error in sending link! Please try again later.");
+                  }
+                }}
+              >
+                <LinkIcon className="mr-1 w-4" />
+                Send Verification link
+              </Button>
+              <DrawerClose>
+                <Button variant="outline">
+                  <BanIcon className="mr-1 w-4" />
+                  Cancel
+                </Button>
+              </DrawerClose>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
+      ) : (
+        <Dialog onOpenChange={setVerificationOpen} open={verificationOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Verification Required!</DialogTitle>
+              <DialogDescription>Please verify your email to post an Ad.</DialogDescription>
+            </DialogHeader>
+            <Button
+              className="w-fit"
+              onClick={() => {
+                try {
+                  sendEmailVerification(currentUser);
+                  toast.success("Email Verification link sent");
+                  setVerificationOpen(false);
+                } catch (error) {
+                  toast.error("Error in sending link! Please try again later.");
+                }
+              }}
+            >
+              <LinkIcon className="mr-1 w-4" />
+              Send Verification link
+            </Button>
+          </DialogContent>
+        </Dialog>
+      )}
     </Form>
   );
 }

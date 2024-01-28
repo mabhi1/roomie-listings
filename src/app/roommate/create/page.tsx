@@ -2,7 +2,7 @@ import RoommateAdForm from "@/components/forms/RoommateAdForm";
 import FullWrapper from "@/components/page/FullWrapper";
 import PageHeader from "@/components/page/PageHeader";
 import Image from "next/image";
-import houseAdImage from "../../../../public/house-ad.webp";
+import roomAdImage from "../../../../public/ad-image.webp";
 
 export default function CreateRoommateAd() {
   return (
@@ -14,7 +14,7 @@ export default function CreateRoommateAd() {
         </div>
         <div className="relative hidden md:block">
           <Image
-            src={houseAdImage}
+            src={roomAdImage}
             alt="List a roommate"
             width={1003}
             height={1200}

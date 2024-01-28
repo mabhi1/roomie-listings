@@ -7,7 +7,7 @@ import editAdImage from "../../../../../public/edit-ad.webp";
 
 export default async function EditRoommateAd({ params: { id } }: { params: { id: string } }) {
   const roommateAd = await getRoommateById(id);
-  if (!roommateAd) throw new Error("Invalid Roommate Ad");
+  if (!roommateAd) throw new Error("Roommate ad not found");
   return (
     <FullWrapper>
       <PageHeader heading="Edit roommate Ad" subHeading="Fill out and submit the form below to edit the ad." />

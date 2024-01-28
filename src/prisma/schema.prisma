@@ -15,16 +15,17 @@ model User {
   name             String
   uid              String       @unique
   email            String
+  phone            String?
   photo            String?
   provider         String
   commentReports   Comment[]    @relation("commentReports")
-  houseReports     HouseAd[]    @relation("houseReports")
+  roomReports      RoomAd[]     @relation("roomReports")
   roommateReports  RoommateAd[] @relation("roommateReports")
   commentLikes     Comment[]    @relation("commentLikes")
   roommateAds      RoommateAd[] @relation("postedRoommateAds")
   savedRoommateAds RoommateAd[] @relation("savedRoommateAds")
-  houseAds         HouseAd[]    @relation("postedHouseAds")
-  savedHouseAds    HouseAd[]    @relation("savedHouseAds")
+  roomAds          RoomAd[]     @relation("postedroomAds")
+  savedroomAds     RoomAd[]     @relation("savedroomAds")
   comments         Comment[]    @relation("comments")
   createdAt        DateTime     @default(now())
   updatedAt        DateTime     @updatedAt
@@ -32,13 +33,13 @@ model User {
   @@unique([email, provider])
 }
 
-enum Duration {
+enum Stay {
   temporary
   permanent
 }
 
 enum PostType {
-  house
+  room
   roommate
 }
 
@@ -57,7 +58,7 @@ model Comment {
   updatedAt  DateTime @updatedAt
 }
 
-type HouseAddress {
+type RoomAddress {
   address1 String?
   city     String
   state    String
@@ -75,10 +76,11 @@ model RoommateAd {
   description String
   address     RoommateAddress
   budget      Int
-  duration    Duration        @default(temporary)
+  stay        Stay            @default(temporary)
   postedBy    String
   savedBy     String[]
   showEmail   Boolean
+  showPhone   Boolean
   reports     String[]
   moveIn      DateTime
   reportedBy  User            @relation(fields: [reports], references: [uid], name: "roommateReports")
@@ -104,22 +106,23 @@ model Message {
   updatedAt   DateTime @updatedAt
 }
 
-model HouseAd {
-  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+model RoomAd {
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String
-  address     HouseAddress
+  address     RoomAddress
   gallery     Gallery[]
-  price       Int
-  duration    Duration     @default(temporary)
+  rent        Int
+  stay        Stay        @default(temporary)
   postedBy    String
   savedBy     String[]
   showEmail   Boolean
+  showPhone   Boolean
   reports     String[]
-  available   DateTime
-  reportedBy  User         @relation(fields: [reports], references: [uid], name: "houseReports")
-  poster      User         @relation(fields: [postedBy], references: [uid], name: "postedHouseAds")
-  saver       User         @relation(fields: [savedBy], references: [uid], name: "savedHouseAds")
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
+  moveIn      DateTime
+  reportedBy  User        @relation(fields: [reports], references: [uid], name: "roomReports")
+  poster      User        @relation(fields: [postedBy], references: [uid], name: "postedroomAds")
+  saver       User        @relation(fields: [savedBy], references: [uid], name: "savedroomAds")
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
 }
