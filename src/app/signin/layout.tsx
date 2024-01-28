@@ -11,7 +11,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (currentUser) router.replace(fallbackUrl ? fallbackUrl : "/profile");
-  }, [currentUser, router]);
+  }, [currentUser, router, fallbackUrl]);
 
   if (!currentUser) return <>{children}</>;
   else return <div className="flex-1"></div>;
