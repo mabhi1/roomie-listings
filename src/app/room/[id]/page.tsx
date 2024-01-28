@@ -24,7 +24,7 @@ export default async function RoomId({ params: { id } }: { params: { id: string 
       <Card>
         <CardHeader className="flex-col-reverse justify-between gap-1 space-y-0 p-3 md:flex-row md:items-center md:gap-2 md:space-y-1.5 md:p-5 lg:gap-0">
           <div className="mr-auto md:space-y-1.5">
-            <CardTitle className="font-light">{room.title}</CardTitle>
+            <CardTitle className="text-lg font-light md:text-xl lg:text-2xl">{room.title}</CardTitle>
             <CardDescription>
               <span className="text-xs italic ">
                 Last Updated:{" "}
@@ -42,7 +42,9 @@ export default async function RoomId({ params: { id } }: { params: { id: string 
               <TableRow className="bg-muted/50">
                 <TableHead className="h-8 text-center font-normal text-accent-foreground">Location</TableHead>
                 <TableHead className="h-8 text-center font-normal text-accent-foreground">Rent</TableHead>
-                <TableHead className="h-8 text-center font-normal text-accent-foreground">Move In</TableHead>
+                <TableHead className="h-8 text-center font-normal text-accent-foreground">
+                  <div className="min-w-12">Move In</div>
+                </TableHead>
                 <TableHead className="h-8 text-center font-normal text-accent-foreground">Stay</TableHead>
               </TableRow>
             </TableHeader>

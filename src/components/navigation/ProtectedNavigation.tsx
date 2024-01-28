@@ -32,12 +32,12 @@ const createAdComponents: { title: string; href: string; description: string; ic
     description: "Showcase your home with a captivating ad. Rent to the perfect tenant easily!",
     icon: <ImagePlusIcon className="mr-1 w-4" />,
   },
-  {
-    title: "Products",
-    href: "#",
-    description: "Craft a compelling product ad, attract buyers, and turn your stuff into someone's treasure!",
-    icon: <PackagePlusIcon className="mr-1 w-4" />,
-  },
+  // {
+  //   title: "Products",
+  //   href: "#",
+  //   description: "Craft a compelling product ad, attract buyers, and turn your stuff into someone's treasure!",
+  //   icon: <PackagePlusIcon className="mr-1 w-4" />,
+  // },
 ];
 
 export default function ProtectedNavigation() {

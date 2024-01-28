@@ -79,11 +79,11 @@ export const RoommateColumns: ColumnDef<RoommateColumnsType>[] = [
   },
   {
     accessorKey: "address",
-    header: () => <div className="mx-auto w-20 text-center">City</div>,
+    header: () => <div className="mx-auto text-center">City</div>,
     cell: ({ row }) => {
       const address: RoommateAddress = row.getValue("address");
       const city = address.city;
-      return <div className="text-center capitalize">{city}</div>;
+      return <div className="w-20 text-center capitalize">{city}</div>;
     },
   },
   {
