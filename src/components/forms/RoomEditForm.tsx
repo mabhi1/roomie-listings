@@ -149,10 +149,6 @@ export default function RoomEditForm({ roomAd }: { roomAd: RoomAd }) {
     form.setValue("showEmail", checked, { shouldDirty: true, shouldTouch: true, shouldValidate: true });
   };
 
-  const handleShowPhoneChecked = (checked: boolean) => {
-    form.setValue("showPhone", checked, { shouldDirty: true, shouldTouch: true, shouldValidate: true });
-  };
-
   const handleFormReset = () => {
     setFileError(undefined);
     setFiles([]);
@@ -277,7 +273,12 @@ export default function RoomEditForm({ roomAd }: { roomAd: RoomAd }) {
                 <Required />
               </FormLabel>
               <FormControl>
-                <Input {...field} placeholder="Enter rent" type="number" />
+                <Input
+                  {...field}
+                  placeholder="Enter rent"
+                  type="number"
+                  onWheel={e => (e.target as HTMLElement).blur()}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -420,26 +421,6 @@ export default function RoomEditForm({ roomAd }: { roomAd: RoomAd }) {
                     name="showEmail"
                     defaultChecked={false}
                     onCheckedChange={handleShowEmailChecked}
-                    checked={field.value}
-                  />
-                </FormControl>
-              </div>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="showPhone"
-          render={({ field }) => (
-            <FormItem>
-              <div className="flex flex-row-reverse items-center justify-end gap-2">
-                <FormLabel>Show your phone number in the Ad</FormLabel>
-                <FormControl {...field}>
-                  <Checkbox
-                    name="showPhone"
-                    defaultChecked={false}
-                    onCheckedChange={handleShowPhoneChecked}
                     checked={field.value}
                   />
                 </FormControl>

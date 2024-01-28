@@ -29,12 +29,12 @@ const browseAdComponents: { title: string; href: string; description: string; ic
     description: "Discover your dream rental home effortlessly. Choose, and move into your sanctuary!",
     icon: <HotelIcon className="mr-1 w-4" />,
   },
-  {
-    title: "Search Products",
-    href: "#",
-    description: "Explore a world of possibilities. Hunt for new or used treasures posted by fellow users!",
-    icon: <BedDoubleIcon className="mr-1 w-4" />,
-  },
+  // {
+  //   title: "Search Products",
+  //   href: "#",
+  //   description: "Explore a world of possibilities. Hunt for new or used treasures posted by fellow users!",
+  //   icon: <BedDoubleIcon className="mr-1 w-4" />,
+  // },
 ];
 
 export default function WebNavigation() {

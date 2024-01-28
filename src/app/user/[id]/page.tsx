@@ -20,14 +20,14 @@ export default async function UserPublicProfile({ params: { id } }: { params: { 
         heading="User Profile"
         subHeading="This is the public profile page. All the posted ads by the user are listed below."
       />
-      <div className="flex items-center gap-5">
+      <div className="flex items-center gap-3 md:gap-5">
         <div className="h-fit w-fit overflow-clip rounded-full">
           <Image
             src={user.photo ? user.photo : userImage}
             alt={user.name!}
             width={50}
             height={50}
-            className="h-[60px] w-[60px] object-cover xl:h-[80px] xl:w-[80px]"
+            className="h-[60px] w-[60px] object-cover md:h-[80px] md:w-[80px] xl:h-[100px] xl:w-[100px]"
             priority
             placeholder="blur"
             blurDataURL={user.photo ? user.photo : ""}
@@ -39,12 +39,14 @@ export default async function UserPublicProfile({ params: { id } }: { params: { 
         <div className="space-y-3">
           <div>Posted room ads</div>
           <Table className="border">
-            <TableHeader className="h-6">
+            <TableHeader>
               <TableRow className="bg-muted/50">
                 <TableHead className="h-8 border-r font-normal text-accent-foreground">Title</TableHead>
                 <TableHead className="h-8 border-r text-center font-normal text-accent-foreground">City</TableHead>
                 <TableHead className="h-8 border-r text-center font-normal text-accent-foreground">Rent</TableHead>
-                <TableHead className="h-8 border-r text-center font-normal text-accent-foreground">Move In</TableHead>
+                <TableHead className="h-8 border-r text-center font-normal text-accent-foreground">
+                  <div className="min-w-12">Move In</div>
+                </TableHead>
                 <TableHead className="hidden h-8 border-r text-center font-normal text-accent-foreground lg:table-cell">
                   Stay
                 </TableHead>
@@ -94,12 +96,14 @@ export default async function UserPublicProfile({ params: { id } }: { params: { 
         <div className="space-y-3">
           <div>Posted roommate ads</div>
           <Table className="border">
-            <TableHeader className="h-6">
+            <TableHeader>
               <TableRow className="bg-muted/50">
                 <TableHead className="h-8 border-r font-normal text-accent-foreground">Title</TableHead>
                 <TableHead className="h-8 border-r text-center font-normal text-accent-foreground">City</TableHead>
                 <TableHead className="h-8 border-r text-center font-normal text-accent-foreground">Budget</TableHead>
-                <TableHead className="h-8 border-r text-center font-normal text-accent-foreground">Move in</TableHead>
+                <TableHead className="h-8 border-r text-center font-normal text-accent-foreground">
+                  <div className="min-w-12">Move In</div>
+                </TableHead>
                 <TableHead className="hidden h-8 border-r text-center font-normal text-accent-foreground lg:table-cell">
                   Stay
                 </TableHead>

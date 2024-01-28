@@ -86,7 +86,7 @@ export default function RoomButtons({ ad }: { ad: RoomAd }) {
   if (!currentUser)
     return (
       <CardFooter className="justify-start p-3 md:justify-end md:p-6">
-        <div>Please login to save, or report this ad, or send a message to the user</div>
+        <div>Please login to favourite, or report this ad, or send a message to the user</div>
       </CardFooter>
     );
   else if (ad.postedBy === currentUser?.uid)
@@ -152,7 +152,7 @@ export default function RoomButtons({ ad }: { ad: RoomAd }) {
   else
     return (
       <CardFooter className="flex-col justify-between gap-2 p-3 md:flex-row md:p-5 lg:gap-5">
-        <div className="flex w-full flex-row justify-between gap-2 md:w-fit lg:gap-5">
+        <div className="flex w-full flex-col justify-between gap-2 md:w-fit md:flex-row lg:gap-5">
           {currentUser.emailVerified && (
             <Link href={`/message/${currentUser.uid}/${ad.postedBy}/room/${ad.id}`} passHref legacyBehavior>
               <Button disabled={isPending}>
@@ -162,23 +162,27 @@ export default function RoomButtons({ ad }: { ad: RoomAd }) {
             </Link>
           )}
           {ad.savedBy.includes(currentUser.uid) ? (
-            <div className="mr-auto">You saved this Ad</div>
+            <div className="mx-auto my-2 text-primary">Added to favourites</div>
           ) : (
-            <Button className="mr-auto" variant="secondary" onClick={handleSaveAd} disabled={isPending}>
+            <Button variant="secondary" onClick={handleSaveAd} disabled={isPending}>
               <HardDriveDownloadIcon className="mr-1 w-4" />
-              Save
+              Add to Favourites
             </Button>
           )}
         </div>
         {currentUser.emailVerified ? (
-          <div className="flex w-full flex-row-reverse items-center justify-between md:w-fit md:flex-row md:gap-2 lg:gap-5">
-            <div className="text-destructive">
+          <div className="mb-2 flex w-full flex-row items-center justify-between md:mb-0 md:w-fit md:gap-2 lg:gap-5">
+            <div className="ml-2 text-destructive md:ml-0">
               {ad.reports.length} {ad.reports.length === 1 ? "Report" : "Reports"}
             </div>
-            <Button variant="destructive" disabled={isPending} onClick={handleReportAd}>
-              <MessageSquareXIcon className="mr-1 w-4" />
-              Report Inappropriate
-            </Button>
+            {ad.reports.includes(currentUser.uid) ? (
+              <div className="text-destructive">You reported this ad</div>
+            ) : (
+              <Button variant="destructive" disabled={isPending} onClick={handleReportAd}>
+                <MessageSquareXIcon className="mr-1 w-4" />
+                Report Inappropriate
+              </Button>
+            )}
           </div>
         ) : (
           <div className="text-muted-foreground">Please verify your email to send email or report this ad.</div>

@@ -216,6 +216,7 @@ export default function DataTable<TData, TValue>({ columns, data, page, profile 
                           className="md:w-28"
                           value={min}
                           onChange={e => setMin(Number(e.target.value))}
+                          onWheel={e => (e.target as HTMLElement).blur()}
                         />
                         <span>Max: </span>
                         <Input
@@ -223,6 +224,7 @@ export default function DataTable<TData, TValue>({ columns, data, page, profile 
                           className="md:w-28"
                           value={max}
                           onChange={e => setMax(Number(e.target.value))}
+                          onWheel={e => (e.target as HTMLElement).blur()}
                         />
                       </div>
                     </div>

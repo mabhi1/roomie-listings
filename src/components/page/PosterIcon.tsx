@@ -38,7 +38,7 @@ export default function PosterIcon({ poster }: { poster: User }) {
 
   if (!currentUser || currentUser.uid !== poster.uid)
     return (
-      <Link href={`/user/${poster.uid}`} className="transition md:hover:scale-110">
+      <Link href={`/user/${poster.uid}`} className="w-fit transition md:hover:scale-110">
         {getUserIcon()}
       </Link>
     );
