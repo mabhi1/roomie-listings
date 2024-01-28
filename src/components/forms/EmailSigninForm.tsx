@@ -57,15 +57,15 @@ export default function EmailSigninForm() {
   };
 
   return (
-    <form className="flex justify-center" onSubmit={handleSubmit}>
+    <form className="mx-auto flex w-[19rem] justify-center md:w-[21rem]" onSubmit={handleSubmit}>
       <Card className="w-96 border-0 shadow-none">
-        <CardHeader className="space-y-1 py-3 md:py-6">
+        <CardHeader className="space-y-1 px-0 py-3 md:py-6">
           <PageHeader heading="Sign in with Email" backButton={false} />
           <CardDescription className="hidden text-left md:block">
             Enter your email and password below to sign in.
           </CardDescription>
         </CardHeader>
-        <CardContent className="grid gap-2">
+        <CardContent className="grid gap-2 px-0">
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
             <Input
@@ -130,7 +130,7 @@ export default function EmailSigninForm() {
             </Button>
           </div>
         </CardContent>
-        <CardFooter className="flex flex-col gap-3 pb-0">
+        <CardFooter className="flex flex-col gap-3 px-0 pb-0">
           <Button
             className="w-full"
             type="submit"
