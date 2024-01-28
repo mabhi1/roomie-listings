@@ -10,6 +10,8 @@ import { getAllRoomAds } from "@/prisma/db/roomAds";
 import { RoomColumns } from "@/components/tables/room/Columns";
 import roomImage from "../../../public/room.png";
 
+export const dynamic = "force-dynamic";
+
 export default async function Room() {
   const roomData = await getAllRoomAds();
   return (
