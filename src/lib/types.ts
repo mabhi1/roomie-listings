@@ -3,7 +3,7 @@ type User = {
   name: string;
   uid: string;
   email: string;
-  phone: string;
+  phone?: string | null;
   photo?: string | null;
   provider: string;
   createdAt?: Date;

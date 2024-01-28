@@ -15,7 +15,7 @@ model User {
   name             String
   uid              String       @unique
   email            String
-  phone            String
+  phone            String?
   photo            String?
   provider         String
   commentReports   Comment[]    @relation("commentReports")

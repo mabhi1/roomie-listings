@@ -29,6 +29,7 @@ export default function GoogleButton(props: ButtonHTMLAttributes<HTMLButtonEleme
           provider: "google",
           name: user.displayName!,
           photo: user.photoURL,
+          phone: user.phoneNumber,
         });
     } catch (error: any) {
       toast.error(error);
