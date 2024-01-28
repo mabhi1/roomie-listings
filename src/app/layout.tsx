@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { AuthProvider } from "@/components/providers/AuthProvider";
 import { Toaster } from "sonner";
 import QueryProvider from "@/components/providers/QueryProvider";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,6 +32,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <HeaderMessage />
             <Header />
             {children}
+            <SpeedInsights />
             <Footer />
           </QueryProvider>
         </AuthProvider>
