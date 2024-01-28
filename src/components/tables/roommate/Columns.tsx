@@ -83,7 +83,7 @@ export const RoommateColumns: ColumnDef<RoommateColumnsType>[] = [
     cell: ({ row }) => {
       const address: RoommateAddress = row.getValue("address");
       const city = address.city;
-      return <div className="w-20 text-center capitalize">{city}</div>;
+      return <div className="min-w-20 text-center capitalize">{city}</div>;
     },
   },
   {
@@ -100,7 +100,7 @@ export const RoommateColumns: ColumnDef<RoommateColumnsType>[] = [
       return (
         <span className="flex justify-center">
           <Button variant="ghost" className="p-0" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-            Budget
+            Budget/M
             {column.getIsSorted() === "asc" ? (
               <ArrowDownIcon className="ml-1 h-4 w-4" />
             ) : column.getIsSorted() === "desc" ? (
@@ -129,7 +129,7 @@ export const RoommateColumns: ColumnDef<RoommateColumnsType>[] = [
         <span className="flex justify-center">
           <Button
             variant="ghost"
-            className="w-20 p-0"
+            className="min-w-20 p-0"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Move In

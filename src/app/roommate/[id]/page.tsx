@@ -40,7 +40,7 @@ export default async function RoommateId({ params: { id } }: { params: { id: str
             <TableHeader className="h-6">
               <TableRow className="bg-muted/50">
                 <TableHead className="h-8 text-center font-normal text-accent-foreground">Location</TableHead>
-                <TableHead className="h-8 text-center font-normal text-accent-foreground">Budget</TableHead>
+                <TableHead className="h-8 text-center font-normal text-accent-foreground">Budget/Month</TableHead>
                 <TableHead className="h-8 w-20 text-center font-normal text-accent-foreground md:w-auto">
                   <div className="min-w-12">Move In</div>
                 </TableHead>

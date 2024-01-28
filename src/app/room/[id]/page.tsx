@@ -41,7 +41,7 @@ export default async function RoomId({ params: { id } }: { params: { id: string 
             <TableHeader className="h-6">
               <TableRow className="bg-muted/50">
                 <TableHead className="h-8 text-center font-normal text-accent-foreground">Location</TableHead>
-                <TableHead className="h-8 text-center font-normal text-accent-foreground">Rent</TableHead>
+                <TableHead className="h-8 text-center font-normal text-accent-foreground">Rent/Month</TableHead>
                 <TableHead className="h-8 text-center font-normal text-accent-foreground">
                   <div className="min-w-12">Move In</div>
                 </TableHead>

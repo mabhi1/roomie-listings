@@ -15,7 +15,7 @@ export default function Home() {
         <span className="uppercase">Welcome to</span>
         <span className="rounded bg-primary px-1 uppercase text-accent">{title.site}</span>
       </h1>
-      <div className="text-center text-2xl leading-tight md:text-4xl xl:text-7xl">
+      <div className="text-center text-2xl md:text-4xl xl:text-7xl">
         You are at the right place to look for a roommate or rent a room.
       </div>
       <span className="flex items-center text-center text-lg md:text-xl xl:text-2xl">

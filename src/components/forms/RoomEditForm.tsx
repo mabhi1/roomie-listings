@@ -269,7 +269,7 @@ export default function RoomEditForm({ roomAd }: { roomAd: RoomAd }) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                Rent
+                Rent per month
                 <Required />
               </FormLabel>
               <FormControl>

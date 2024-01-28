@@ -25,7 +25,7 @@ export default async function Roommate() {
           <DataTable columns={RoommateColumns} data={roommateData} page="roommate" />
         </div>
         <Separator orientation="vertical" className="hidden lg:block" />
-        <div className="sticky top-20 flex h-60 flex-col gap-2 md:w-1/3 xl:w-1/5">
+        <div className="top-20 flex h-60 flex-col gap-2 md:w-1/3 xl:sticky xl:w-1/6">
           <Image
             alt="Roommate"
             src={roommateImage}
@@ -35,7 +35,7 @@ export default async function Roommate() {
             className="w-auto"
             placeholder="blur"
           />
-          <h2 className="text-xl">Looking for a roommate?</h2>
+          <h2 className="text-base md:text-xl">Looking for a roommate?</h2>
           <p className="text-muted-foreground">
             Are you looking for a roommate and couldn&apos;t find one? Click the button below to list your room and let
             others find you.
