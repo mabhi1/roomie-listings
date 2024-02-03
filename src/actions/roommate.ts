@@ -17,9 +17,34 @@ export async function createRoommate(values: z.infer<typeof RoommateAdSchema>, s
 
   if (!validatedFields) return { error: "Invalid fields!" };
 
-  const { acceptTc, ...dbData } = values;
+  const {
+    acceptTc,
+    stay,
+    accomodates,
+    attachedBath,
+    gender,
+    rentType,
+    furnished,
+    amenities,
+    vegetarian,
+    smoking,
+    petFriendly,
+    ...dbData
+  } = values;
+  const roomRequirements = {
+    stay,
+    accomodates,
+    attachedBath,
+    gender,
+    rentType,
+    furnished,
+    amenities,
+    vegetarian,
+    smoking,
+    petFriendly,
+  };
   try {
-    const createdId = await createRoommateAd({ ...dbData, savedBy, postedBy, reports: [] });
+    const createdId = await createRoommateAd({ roomRequirements, ...dbData, savedBy, postedBy, reports: [] });
     revalidatePath("/roommate");
     return { data: createdId };
   } catch (error: any) {
@@ -38,9 +63,34 @@ export async function editRoommate(
 
   if (!validatedFields) return { error: "Invalid fields!" };
 
-  const { acceptTc, ...dbData } = values;
+  const {
+    acceptTc,
+    stay,
+    accomodates,
+    attachedBath,
+    gender,
+    rentType,
+    furnished,
+    amenities,
+    vegetarian,
+    smoking,
+    petFriendly,
+    ...dbData
+  } = values;
+  const roomRequirements = {
+    stay,
+    accomodates,
+    attachedBath,
+    gender,
+    rentType,
+    furnished,
+    amenities,
+    vegetarian,
+    smoking,
+    petFriendly,
+  };
   try {
-    const updatedId = await editRoommateAdById(adId, { ...dbData, savedBy, postedBy, reports });
+    const updatedId = await editRoommateAdById(adId, { roomRequirements, ...dbData, savedBy, postedBy, reports });
     revalidatePath("/roommate");
     return { data: updatedId };
   } catch (error: any) {
@@ -58,9 +108,9 @@ export async function saveRoommate(id: string, uid: string) {
 
   const parsedId = parse.data;
   const data = await saveRoommateByUser(parsedId, uid);
-  if (!data) return { error: "Failed to save ad" };
+  if (!data) return null;
   revalidatePath(`/roommate/${id}`);
-  return { message: "Ad saved successfully" };
+  return data;
 }
 
 export async function reportRoommate(id: string, uid: string) {
@@ -73,9 +123,9 @@ export async function reportRoommate(id: string, uid: string) {
 
   const parsedId = parse.data;
   const data = await reportRoommateById(parsedId, uid);
-  if (!data) return { error: "Failed to update ad" };
+  if (!data) return null;
   revalidatePath(`/roommate/${id}`);
-  return { message: "Thank you for your feedback" };
+  return data;
 }
 
 export async function getRoommateAds(uid: string, tab: string) {

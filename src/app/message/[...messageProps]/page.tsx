@@ -1,14 +1,18 @@
 import MessageForm from "@/components/forms/MessageForm";
 import FullWrapper from "@/components/page/FullWrapper";
 import PageHeader from "@/components/page/PageHeader";
-import { Button } from "@/components/ui/button";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { getRoomById } from "@/prisma/db/roomAds";
 import { getRoommateById } from "@/prisma/db/roommaateAds";
 import { getUserById } from "@/prisma/db/users";
 import Image from "next/image";
-import Link from "next/link";
 import sendEmailImage from "../../../../public/send-email.png";
+import { RoomAd, RoommateAd } from "@/lib/types";
+import IndividualAd from "@/components/page/IndividualAd";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Send Message",
+};
 
 export default async function SendMessage({ params: { messageProps } }: { params: { messageProps: string[] } }) {
   if (messageProps.length !== 4) throw new Error("Invalid Request");
@@ -18,40 +22,19 @@ export default async function SendMessage({ params: { messageProps } }: { params
   if (!receiver) throw new Error("Invalid Request");
   const type = messageProps[2];
   if (!["room", "roommate"].includes(type)) throw new Error("Invalid Request");
-  const ad = type === "room" ? await getRoomById(messageProps[3]) : await getRoommateById(messageProps[3]);
+  const ad =
+    type === "room"
+      ? ((await getRoomById(messageProps[3])) as RoomAd)
+      : ((await getRoommateById(messageProps[3])) as RoommateAd);
   if (!ad) throw new Error("Invalid Request");
 
   return (
     <FullWrapper className="gap-3 md:gap-5">
       <PageHeader
         heading="Send Message"
-        subHeading="Submit the form below to send an enquiry email. Following details will be send along with your message"
+        subHeading="Submit the form below to send an enquiry email. Following details will be sent along with your message"
       />
-
-      <Table className="border">
-        <TableHeader className="h-6">
-          <TableRow className="bg-muted/50">
-            <TableHead className="h-8 font-normal text-accent-foreground">Ad Title</TableHead>
-            <TableHead className="h-8 text-center font-normal text-accent-foreground">Ad Type</TableHead>
-            <TableHead className="h-8 text-center font-normal text-accent-foreground">Your Name</TableHead>
-            <TableHead className="h-8 text-center font-normal text-accent-foreground">Your Email</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          <TableRow className="hover:bg-inherit">
-            <TableCell className="border-b py-2">
-              <Link href={`/${type}/${ad.id}`} className="block w-[260px] overflow-hidden lg:w-[400px] xl:w-[600px]">
-                <Button variant="link" className="h-8 p-0">
-                  {ad.title}
-                </Button>
-              </Link>
-            </TableCell>
-            <TableCell className="border-b py-2 text-center capitalize">{type}</TableCell>
-            <TableCell className="block min-w-24 py-2 text-center md:table-cell">{sender.name}</TableCell>
-            <TableCell className="border-b py-2 text-center">{sender.email}</TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
+      <IndividualAd ad={ad} />
       <div className="flex w-full justify-between gap-10">
         <div className="w-full space-y-5 md:w-1/2">
           <MessageForm sender={sender} receiver={receiver} type={type} ad={ad} />

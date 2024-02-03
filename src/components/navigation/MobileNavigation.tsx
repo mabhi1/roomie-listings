@@ -46,10 +46,10 @@ export default function MobileNavigation() {
               </AccordionTrigger>
               <AccordionContent className="mt-2 flex flex-col gap-5">
                 <Link href="/roommate/create" className="ml-11 py-0 text-xs" onClick={() => setOpen(false)}>
-                  Create Roommate Ad
+                  Need a rental
                 </Link>
                 <Link href="/room/create" className="ml-11 py-0 text-xs" onClick={() => setOpen(false)}>
-                  Create Room Ad
+                  Have a rental
                 </Link>
               </AccordionContent>
             </AccordionItem>

@@ -33,11 +33,6 @@ model User {
   @@unique([email, provider])
 }
 
-enum Stay {
-  temporary
-  permanent
-}
-
 enum PostType {
   room
   roommate
@@ -70,24 +65,38 @@ type RoommateAddress {
   state String
 }
 
+type RoomRequirements {
+  stay         String
+  accomodates  Int?
+  attachedBath Boolean
+  gender       String
+  rentType     String
+  furnished    Boolean?
+  amenities    String[]
+  vegetarian   Boolean?
+  smoking      String?
+  petFriendly  Boolean?
+}
+
 model RoommateAd {
-  id          String          @id @default(auto()) @map("_id") @db.ObjectId
-  title       String
-  description String
-  address     RoommateAddress
-  budget      Int
-  stay        Stay            @default(temporary)
-  postedBy    String
-  savedBy     String[]
-  showEmail   Boolean
-  showPhone   Boolean
-  reports     String[]
-  moveIn      DateTime
-  reportedBy  User            @relation(fields: [reports], references: [uid], name: "roommateReports")
-  poster      User            @relation(fields: [postedBy], references: [uid], name: "postedRoommateAds")
-  saver       User            @relation(fields: [savedBy], references: [uid], name: "savedRoommateAds")
-  createdAt   DateTime        @default(now())
-  updatedAt   DateTime        @updatedAt
+  id               String           @id @default(auto()) @map("_id") @db.ObjectId
+  title            String
+  description      String
+  address          RoommateAddress
+  propertyType     String
+  rent             Int
+  roomRequirements RoomRequirements
+  postedBy         String
+  savedBy          String[]
+  showEmail        Boolean
+  showPhone        Boolean
+  reports          String[]
+  moveIn           DateTime
+  reportedBy       User             @relation(fields: [reports], references: [uid], name: "roommateReports")
+  poster           User             @relation(fields: [postedBy], references: [uid], name: "postedRoommateAds")
+  saver            User             @relation(fields: [savedBy], references: [uid], name: "savedRoommateAds")
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
 }
 
 type Gallery {
@@ -107,22 +116,23 @@ model Message {
 }
 
 model RoomAd {
-  id          String      @id @default(auto()) @map("_id") @db.ObjectId
-  title       String
-  description String
-  address     RoomAddress
-  gallery     Gallery[]
-  rent        Int
-  stay        Stay        @default(temporary)
-  postedBy    String
-  savedBy     String[]
-  showEmail   Boolean
-  showPhone   Boolean
-  reports     String[]
-  moveIn      DateTime
-  reportedBy  User        @relation(fields: [reports], references: [uid], name: "roomReports")
-  poster      User        @relation(fields: [postedBy], references: [uid], name: "postedroomAds")
-  saver       User        @relation(fields: [savedBy], references: [uid], name: "savedroomAds")
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  id               String           @id @default(auto()) @map("_id") @db.ObjectId
+  title            String
+  description      String
+  address          RoomAddress
+  propertyType     String
+  gallery          Gallery[]
+  rent             Int
+  roomRequirements RoomRequirements
+  postedBy         String
+  savedBy          String[]
+  showEmail        Boolean
+  showPhone        Boolean
+  reports          String[]
+  moveIn           DateTime
+  reportedBy       User             @relation(fields: [reports], references: [uid], name: "roomReports")
+  poster           User             @relation(fields: [postedBy], references: [uid], name: "postedroomAds")
+  saver            User             @relation(fields: [savedBy], references: [uid], name: "savedroomAds")
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
 }

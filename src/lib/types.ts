@@ -10,6 +10,19 @@ type User = {
   updatedAt?: Date;
 };
 
+type RoomRequirements = {
+  stay: "short" | "long" | "both";
+  accomodates?: number;
+  attachedBath: boolean;
+  gender: "male" | "female" | "any";
+  rentType: "monthly" | "daily" | "weekly";
+  furnished?: boolean;
+  amenities: string[];
+  vegetarian?: boolean;
+  smoking?: "inside" | "outside" | "no";
+  petFriendly?: boolean;
+};
+
 type RoomAddress = {
   address1: string | null;
   city: string;
@@ -27,8 +40,9 @@ type RoommateAd = {
   title: string;
   description: string;
   address: RoommateAddress;
-  budget: number;
-  stay: "temporary" | "permanent";
+  propertyType: "shared room" | "private room" | "house";
+  rent: number;
+  roomRequirements: RoomRequirements;
   postedBy: string;
   savedBy: string[];
   reports: string[];
@@ -50,9 +64,10 @@ type RoomAd = {
   title: string;
   description: string;
   address: RoomAddress;
+  propertyType: "shared room" | "private room" | "house";
   rent: number;
-  stay: "temporary" | "permanent";
   gallery: Gallery[];
+  roomRequirements: RoomRequirements;
   postedBy: string;
   savedBy: string[];
   reports: string[];
@@ -83,4 +98,4 @@ type Message = {
   attachments: string[];
 };
 
-export type { User, RoomAddress, RoommateAddress, RoommateAd, RoomAd, Comment, Message };
+export type { User, RoomAddress, RoommateAddress, RoommateAd, RoomAd, Comment, Message, RoomRequirements };

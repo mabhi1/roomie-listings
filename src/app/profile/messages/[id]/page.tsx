@@ -6,6 +6,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import IndividualMessage from "@/components/page/IndividualMessage";
 import Image from "next/image";
 import messagesImage from "../../../../../public/messages.png";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Messages",
+};
 
 export default async function MyMessages({ params: { id } }: { params: { id: string } }) {
   const sentMessages = await getMessagesByType(id, "sent");

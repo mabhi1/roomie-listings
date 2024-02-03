@@ -16,7 +16,7 @@ export default function LoginRequest({ message, fallbackUrl }: { message?: strin
     <FullWrapper className="mt-20">
       <Card className="relative mx-auto md:w-2/3 xl:w-1/2">
         <CardHeader>
-          <PageHeader heading="Authentication Required" className="text-destructive" backButton={false} />
+          <PageHeader heading="Sign in Required" className="text-destructive" backButton={false} />
           <CardDescription>{message || "Please login to continue."}</CardDescription>
         </CardHeader>
         <CardContent className="space-x-5">
