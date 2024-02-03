@@ -2,8 +2,9 @@
 
 import { createContext, useContext, useState, useEffect, Dispatch, SetStateAction } from "react";
 import auth from "../../firebase/firebase";
-import { User } from "firebase/auth";
+import { User, sendEmailVerification } from "firebase/auth";
 import LoadingPage from "../page/LoadingPage";
+import { dosignOut } from "@/firebase/firebaseAuthFunctions";
 
 const AuthContext = createContext<{
   currentUser: User | null;
@@ -21,9 +22,14 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [currentCity, setCurrentCity] = useState<string>("JERSEY CITY");
 
   useEffect(() => {
-    auth.onAuthStateChanged(user => {
-      setCurrentUser(user);
-      setLoading(false);
+    auth.onAuthStateChanged(async user => {
+      if (user && !user.emailVerified) {
+        await sendEmailVerification(user);
+        await dosignOut();
+      } else if (!user || user.emailVerified) {
+        setCurrentUser(user);
+        setLoading(false);
+      }
     });
     const city = localStorage.getItem("roomie_listings_current_location");
     if (city) setCurrentCity(city);

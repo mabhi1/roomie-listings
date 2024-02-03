@@ -6,6 +6,11 @@ import { ClipboardSignatureIcon, MailIcon } from "lucide-react";
 import Image from "next/image";
 import EmailSignupForm from "@/components/forms/EmailSignupForm";
 import signInImage from "../../../public/signin.png";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Sign in",
+};
 
 export default function Signin() {
   return (

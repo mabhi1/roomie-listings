@@ -3,16 +3,26 @@ import FullWrapper from "@/components/page/FullWrapper";
 import PageHeader from "@/components/page/PageHeader";
 import Image from "next/image";
 import roomAdImage from "../../../../public/ad-image.webp";
+import { SearchIcon } from "lucide-react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Create a rental ad",
+};
 
 export default function CreateRoomAd() {
   return (
     <FullWrapper>
-      <PageHeader heading="List a room" subHeading="Fill out and submit the form below create a room ad." />
-      <div className="flex w-full justify-between">
-        <div className="md:w-11/12 lg:w-1/2">
+      <PageHeader
+        heading="Create a rental ad"
+        subHeading="Fill out and submit the form below to post your needs."
+        action={{ text: "browse rental ads", link: "/room", icon: <SearchIcon className="mr-1 w-4" /> }}
+      />
+      <div className="flex w-full justify-between gap-10">
+        <div className="md:w-11/12 lg:w-2/3">
           <RoomAdForm />
         </div>
-        <div className="relative hidden md:block">
+        <div className="relative mt-10 hidden md:block">
           <Image
             src={roomAdImage}
             alt="List a room"
