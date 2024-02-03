@@ -48,7 +48,7 @@ export default function RoommateButtons({ ad }: { ad: RoommateAd }) {
     const visitedAds = sessionStorage.getItem("roomie_listings_visited_ads");
     if (!visitedAds) sessionStorage.setItem("roomie_listings_visited_ads", JSON.stringify([ad.id]));
     else sessionStorage.setItem("roomie_listings_visited_ads", JSON.stringify([...JSON.parse(visitedAds), ad.id]));
-  }, []);
+  }, [ad.id]);
 
   const handleSaveAd = () => {
     if (currentUser && currentUser.uid)

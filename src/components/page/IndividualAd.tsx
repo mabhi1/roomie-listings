@@ -55,7 +55,7 @@ export default function IndividualAd({
     if (visitedAds && JSON.parse(visitedAds).includes(ad.id)) {
       setViewed(true);
     }
-  }, []);
+  }, [ad.id]);
 
   const filterList = (ads: RoomAd[] | RoommateAd[] | null | undefined, updatedAd: RoomAd | RoommateAd) => {
     if (!ads) return [];
