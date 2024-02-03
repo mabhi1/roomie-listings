@@ -3,10 +3,9 @@
 import useAuth from "../providers/AuthProvider";
 import { Button } from "../ui/button";
 import { CardFooter } from "../ui/card";
-import { useTransition } from "react";
+import { useEffect, useTransition } from "react";
 import { toast } from "sonner";
 import Link from "next/link";
-import { RoomAd } from "@/lib/types";
 import { deleteRoomAds, reportRoom, saveRoom } from "@/actions/room";
 import { useRouter } from "next/navigation";
 import {
@@ -39,18 +38,25 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { isMobile } from "react-device-detect";
+import { RoomAd } from "@prisma/client";
 
 export default function RoomButtons({ ad }: { ad: RoomAd }) {
   const { currentUser } = useAuth();
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
+  useEffect(() => {
+    const visitedAds = sessionStorage.getItem("roomie_listings_visited_ads");
+    if (!visitedAds) sessionStorage.setItem("roomie_listings_visited_ads", JSON.stringify([ad.id]));
+    else sessionStorage.setItem("roomie_listings_visited_ads", JSON.stringify([...JSON.parse(visitedAds), ad.id]));
+  }, []);
+
   const handleSaveAd = () => {
     if (currentUser && currentUser.uid)
       startTransition(async () => {
         const data = await saveRoom(ad.id!, currentUser.uid);
-        if (data.error) toast.error(data.error);
-        else toast.success(data.message);
+        if (!data) toast.error("Error adding this ad to favourites");
+        else toast.success("Ad added to favourites");
       });
   };
 
@@ -58,25 +64,25 @@ export default function RoomButtons({ ad }: { ad: RoomAd }) {
     if (currentUser && currentUser.uid)
       startTransition(async () => {
         const data = await reportRoom(ad.id!, currentUser.uid);
-        if (data.error) toast.error(data.error);
-        else toast.success(data.message);
+        if (!data) toast.error("Error reporting ad");
+        else toast.success("Ad reported successfully");
       });
   };
 
-  const handleDeleteAd = async () => {
+  const handleDeleteAd = async (tab: "reportedAds" | "savedAds" | "postedAds") => {
     startTransition(async () => {
       if (!currentUser) return;
       try {
         ad.gallery.map(async item => {
           await deleteFile(item.name);
         });
-        const ads = await deleteRoomAds(currentUser.uid, ad.id!, "postedAds");
+        const ads = await deleteRoomAds(currentUser.uid, ad.id!, tab);
         if (!ads) {
           toast.error("Error removing Ad");
           return;
         }
         toast.success("Ad removed successfully");
-        router.push("/room");
+        if (tab == "postedAds") router.push("/room");
       } catch (error) {
         toast.error("Error removing Ad");
       }
@@ -85,8 +91,8 @@ export default function RoomButtons({ ad }: { ad: RoomAd }) {
 
   if (!currentUser)
     return (
-      <CardFooter className="justify-start p-3 md:justify-end md:p-6">
-        <div>Please login to favourite, or report this ad, or send a message to the user</div>
+      <CardFooter className="justify-start p-3 md:p-4">
+        <div className="uppercase">Please sign in to send a message to the user</div>
       </CardFooter>
     );
   else if (ad.postedBy === currentUser?.uid)
@@ -112,7 +118,7 @@ export default function RoomButtons({ ad }: { ad: RoomAd }) {
                 <DrawerDescription>Are you sure you want to delete this ad?</DrawerDescription>
               </DrawerHeader>
               <DrawerFooter className="mx-auto flex-row">
-                <Button onClick={handleDeleteAd} disabled={isPending}>
+                <Button onClick={() => handleDeleteAd("postedAds")} disabled={isPending}>
                   <CheckSquareIcon className="mr-1 w-4" />
                   Confirm
                 </Button>
@@ -139,7 +145,7 @@ export default function RoomButtons({ ad }: { ad: RoomAd }) {
                 <DialogDescription>Are you sure you want to delete this ad?</DialogDescription>
               </DialogHeader>
               <DialogFooter>
-                <Button onClick={handleDeleteAd} disabled={isPending}>
+                <Button onClick={() => handleDeleteAd("postedAds")} disabled={isPending}>
                   <CheckSquareIcon className="mr-1 w-4" />
                   Confirm
                 </Button>
@@ -153,16 +159,20 @@ export default function RoomButtons({ ad }: { ad: RoomAd }) {
     return (
       <CardFooter className="flex-col justify-between gap-2 p-3 md:flex-row md:p-5 lg:gap-5">
         <div className="flex w-full flex-col justify-between gap-2 md:w-fit md:flex-row lg:gap-5">
-          {currentUser.emailVerified && (
-            <Link href={`/message/${currentUser.uid}/${ad.postedBy}/room/${ad.id}`} passHref legacyBehavior>
-              <Button disabled={isPending}>
-                <SendIcon className="mr-1 w-4" />
-                Send Message
-              </Button>
-            </Link>
-          )}
+          <Link href={`/message/${currentUser.uid}/${ad.postedBy}/room/${ad.id}`} passHref legacyBehavior>
+            <Button disabled={isPending}>
+              <SendIcon className="mr-1 w-4" />
+              Send Message
+            </Button>
+          </Link>
+
           {ad.savedBy.includes(currentUser.uid) ? (
-            <div className="mx-auto my-2 text-primary">Added to favourites</div>
+            <div className="mx-auto">
+              <span>Added to favourites</span>
+              <Button variant="link" disabled={isPending} onClick={() => handleDeleteAd("savedAds")}>
+                Remove
+              </Button>
+            </div>
           ) : (
             <Button variant="secondary" onClick={handleSaveAd} disabled={isPending}>
               <HardDriveDownloadIcon className="mr-1 w-4" />
@@ -170,23 +180,25 @@ export default function RoomButtons({ ad }: { ad: RoomAd }) {
             </Button>
           )}
         </div>
-        {currentUser.emailVerified ? (
-          <div className="mb-2 flex w-full flex-row items-center justify-between md:mb-0 md:w-fit md:gap-2 lg:gap-5">
-            <div className="ml-2 text-destructive md:ml-0">
-              {ad.reports.length} {ad.reports.length === 1 ? "Report" : "Reports"}
-            </div>
-            {ad.reports.includes(currentUser.uid) ? (
-              <div className="text-destructive">You reported this ad</div>
-            ) : (
-              <Button variant="destructive" disabled={isPending} onClick={handleReportAd}>
-                <MessageSquareXIcon className="mr-1 w-4" />
-                Report Inappropriate
-              </Button>
-            )}
+
+        <div className="mb-2 flex w-full flex-row items-center justify-between md:mb-0 md:w-fit md:gap-2 lg:gap-5">
+          <div className="ml-2 text-destructive md:ml-0">
+            {ad.reports.length} {ad.reports.length === 1 ? "Report" : "Reports"}
           </div>
-        ) : (
-          <div className="text-muted-foreground">Please verify your email to send email or report this ad.</div>
-        )}
+          {ad.reports.includes(currentUser.uid) ? (
+            <div className="text-destructive">
+              <span>You reported this ad</span>
+              <Button variant="link" disabled={isPending} onClick={() => handleDeleteAd("reportedAds")}>
+                Remove
+              </Button>
+            </div>
+          ) : (
+            <Button variant="destructive" disabled={isPending} onClick={handleReportAd}>
+              <MessageSquareXIcon className="mr-1 w-4" />
+              Report Inappropriate
+            </Button>
+          )}
+        </div>
       </CardFooter>
     );
 }

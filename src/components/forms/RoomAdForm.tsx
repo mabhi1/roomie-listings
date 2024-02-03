@@ -8,35 +8,25 @@ import * as z from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { Button } from "../ui/button";
-import { ChangeEvent, useEffect, useState, useTransition } from "react";
+import { ChangeEvent, useState, useTransition } from "react";
 import { zipCodeList } from "@/lib/NJStateInfo";
 import { Checkbox } from "../ui/checkbox";
 import { createRoom } from "@/actions/room";
 import useAuth from "../providers/AuthProvider";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { sendEmailVerification } from "firebase/auth";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import Required from "./Required";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { BanIcon, CalendarIcon, FilePlus2Icon, LinkIcon, RotateCcwIcon } from "lucide-react";
+import { CalendarIcon, FilePlus2Icon, RotateCcwIcon } from "lucide-react";
 import { Calendar } from "../ui/calendar";
 import { cn } from "@/lib/utils";
 import { Gallery } from "@prisma/client";
 import { uploadFile } from "@/firebase/firebaseDBFunctions";
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-} from "@/components/ui/drawer";
-import { isMobile } from "react-device-detect";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import Link from "next/link";
+import FormItemInfo from "../ui/form-item-info";
 
 export default function RoomAdForm() {
   const [descriptionChar, setDescriptionChar] = useState(5000);
@@ -44,7 +34,6 @@ export default function RoomAdForm() {
   const [files, setFiles] = useState<File[]>([]);
   const [fileError, setFileError] = useState<string>();
   const [isPending, startTransition] = useTransition();
-  const [verificationOpen, setVerificationOpen] = useState(false);
   const router = useRouter();
   const { currentUser } = useAuth();
 
@@ -60,19 +49,18 @@ export default function RoomAdForm() {
         zip: "",
       },
       rent: 0,
-      stay: "temporary",
+      stay: "both",
       acceptTc: false,
       showEmail: false,
       showPhone: false,
+      propertyType: "private room",
+      accomodates: 1,
+      attachedBath: false,
+      rentType: "monthly",
+      amenities: [],
+      gender: "any",
     },
   });
-
-  useEffect(() => {
-    if (!currentUser?.emailVerified) {
-      setVerificationOpen(true);
-      return;
-    }
-  }, [currentUser]);
 
   if (!currentUser) return;
 
@@ -124,10 +112,6 @@ export default function RoomAdForm() {
       form.setError("acceptTc", { message: "Please accept terms and conditions to continue." });
       return;
     }
-    if (!currentUser.emailVerified) {
-      setVerificationOpen(true);
-      return;
-    }
 
     startTransition(async () => {
       try {
@@ -151,6 +135,20 @@ export default function RoomAdForm() {
     form.setValue("showEmail", checked, { shouldDirty: true, shouldTouch: true, shouldValidate: true });
   };
 
+  const handleAmenitiesChecked = (checked: boolean, amenity: string) => {
+    const amenities = form.getValues("amenities").filter(value => value !== amenity);
+    form.setValue("amenities", checked ? [...amenities, amenity] : amenities, {
+      shouldDirty: true,
+      shouldTouch: true,
+      shouldValidate: true,
+    });
+  };
+
+  const checkIfAmenityIncludes = (amenity: string) => {
+    const amenities = form.getValues("amenities");
+    return amenities.includes(amenity);
+  };
+
   const handleFormReset = () => {
     setFileError(undefined);
     setFiles([]);
@@ -159,21 +157,37 @@ export default function RoomAdForm() {
 
   return (
     <Form {...form}>
-      <div className="mb-5 text-muted-foreground">
+      <div className="mb-8 text-muted-foreground">
         <Required /> indicates required fields.
       </div>
-      <form onSubmit={form.handleSubmit(onSubmit)} onReset={handleFormReset} className="space-y-5">
+      <form onSubmit={form.handleSubmit(onSubmit)} onReset={handleFormReset} className="space-y-8">
         <FormField
           control={form.control}
-          name="title"
+          name="accomodates"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>
-                Title
-                <Required />
-              </FormLabel>
+              <div className="flex items-end gap-1">
+                <FormLabel>
+                  Accomodations needed
+                  <Required />
+                </FormLabel>
+                <FormItemInfo>Number of people needed to accomodate the property.</FormItemInfo>
+              </div>
               <FormControl>
-                <Input {...field} placeholder="Enter title" type="text" autoFocus />
+                <Input
+                  {...field}
+                  placeholder="Number of accomodations"
+                  type="number"
+                  autoFocus
+                  onWheel={e => (e.target as HTMLElement).blur()}
+                  onChange={e =>
+                    form.setValue("accomodates", parseInt(e.target.value), {
+                      shouldDirty: true,
+                      shouldTouch: true,
+                      shouldValidate: true,
+                    })
+                  }
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -181,21 +195,65 @@ export default function RoomAdForm() {
         />
         <FormField
           control={form.control}
-          name="description"
+          name="propertyType"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="flex justify-between">
-                <div>Description</div>
-                <span className="text-xs text-muted-foreground">{descriptionChar} characters left</span>
+              <div className="flex items-end gap-1">
+                <FormLabel htmlFor="propertyType">
+                  Property Type
+                  <Required />
+                </FormLabel>
+                <FormItemInfo>Type of property you are offering.</FormItemInfo>
+              </div>
+              <FormControl className="flex gap-5" {...field}>
+                <RadioGroup
+                  defaultValue="private room"
+                  name="propertyType"
+                  onValueChange={field.onChange}
+                  value={field.value}
+                >
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="private room" id="private room" />
+                    <Label htmlFor="private room">Private Room</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="shared room" id="shared room" />
+                    <Label htmlFor="shared room">Shared Room</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="house" id="house" />
+                    <Label htmlFor="house">House</Label>
+                  </div>
+                </RadioGroup>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="moveIn"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>
+                Move In
+                <Required />
               </FormLabel>
               <FormControl>
-                <Textarea
-                  {...field}
-                  placeholder="Enter description"
-                  rows={20}
-                  className="resize-none"
-                  onChange={handleDescriptionChange}
-                />
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant={"outline"}
+                      className={cn("w-full justify-start text-left font-normal", !date && "text-muted-foreground")}
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {date ? format(date, "PPP") : <span>Pick a date</span>}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0">
+                    <Calendar mode="single" selected={date} onSelect={handleDateSelect} initialFocus />
+                  </PopoverContent>
+                </Popover>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -266,49 +324,28 @@ export default function RoomAdForm() {
         </div>
         <FormField
           control={form.control}
-          name="rent"
+          name="gender"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>
-                Rent per month
+              <FormLabel htmlFor="gender">
+                Preferred Gender
                 <Required />
               </FormLabel>
-              <FormControl>
-                <Input
-                  {...field}
-                  placeholder="Enter rent"
-                  type="number"
-                  onWheel={e => (e.target as HTMLElement).blur()}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="moveIn"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>
-                Move In
-                <Required />
-              </FormLabel>
-              <FormControl>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant={"outline"}
-                      className={cn("w-full justify-start text-left font-normal", !date && "text-muted-foreground")}
-                    >
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-                      {date ? format(date, "PPP") : <span>Pick a date</span>}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0">
-                    <Calendar mode="single" selected={date} onSelect={handleDateSelect} initialFocus />
-                  </PopoverContent>
-                </Popover>
+              <FormControl className="flex gap-5" {...field}>
+                <RadioGroup onValueChange={field.onChange} value={field.value}>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="any" id="any" />
+                    <Label htmlFor="any">Any</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="female" id="female" />
+                    <Label htmlFor="female">Female</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="male" id="male" />
+                    <Label htmlFor="male">Male</Label>
+                  </div>
+                </RadioGroup>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -320,24 +357,324 @@ export default function RoomAdForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel htmlFor="stay">
-                Stay
+                Stay period
                 <Required />
               </FormLabel>
-              <FormControl>
-                <Select name="stay" defaultValue="temporary" value={field.value} onValueChange={field.onChange}>
-                  <SelectTrigger id="stay">
-                    <SelectValue placeholder="Select stay type..." />
-                  </SelectTrigger>
-                  <SelectContent {...field}>
-                    <SelectItem value="temporary">Temporary</SelectItem>
-                    <SelectItem value="permanent">Permanent</SelectItem>
-                  </SelectContent>
-                </Select>
+              <FormControl className="flex gap-5" {...field}>
+                <RadioGroup defaultValue="both" onValueChange={field.onChange} value={field.value}>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="long" id="long" />
+                    <Label htmlFor="long">Long</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="short" id="short" />
+                    <Label htmlFor="short">Short</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="both" id="both" />
+                    <Label htmlFor="both">Both</Label>
+                  </div>
+                </RadioGroup>
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name="rentType"
+          render={({ field }) => (
+            <FormItem>
+              <div className="flex items-end gap-1">
+                <FormLabel htmlFor="rentType">
+                  Rent type
+                  <Required />
+                </FormLabel>
+                <FormItemInfo>How often you need the rent.</FormItemInfo>
+              </div>
+              <FormControl className="flex gap-5" {...field}>
+                <RadioGroup defaultValue="monthly" onValueChange={field.onChange} value={field.value}>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="monthly" id="monthly" />
+                    <Label htmlFor="monthly">Monthly</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="daily" id="daily" />
+                    <Label htmlFor="daily">Daily</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="weekly" id="weekly" />
+                    <Label htmlFor="weekly">Weekly</Label>
+                  </div>
+                </RadioGroup>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="rent"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>
+                Expected Rent
+                <Required />
+              </FormLabel>
+              <FormControl>
+                <Input
+                  {...field}
+                  value={(field.value - 0).toString()}
+                  placeholder="Enter rent"
+                  type="number"
+                  onWheel={e => (e.target as HTMLElement).blur()}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="attachedBath"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel htmlFor="attachedBath">
+                Attached Bath
+                <Required />
+              </FormLabel>
+              <FormControl className="flex gap-5">
+                <RadioGroup
+                  onValueChange={e => (e === "yes" ? field.onChange(true) : field.onChange(false))}
+                  value={field.value ? "yes" : "no"}
+                  defaultValue={undefined}
+                >
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="no" id="no" />
+                    <Label htmlFor="no">No</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="yes" id="yes" />
+                    <Label htmlFor="yes">Yes</Label>
+                  </div>
+                </RadioGroup>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="title"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>
+                Title
+                <Required />
+              </FormLabel>
+              <FormControl>
+                <Input {...field} placeholder="Enter title" type="text" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="description"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="flex justify-between">
+                <div>Description</div>
+                <span className="text-xs text-muted-foreground">{descriptionChar} characters left</span>
+              </FormLabel>
+              <FormControl>
+                <Textarea
+                  {...field}
+                  placeholder="Enter description"
+                  rows={10}
+                  className="resize-none"
+                  onChange={handleDescriptionChange}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <div className="space-y-2">
+          <div className="text-sm leading-none">Additional Information</div>
+          <div className="grid grid-cols-2 gap-5 rounded-md border p-5">
+            <FormField
+              control={form.control}
+              name="furnished"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel htmlFor="furnished">Furnished</FormLabel>
+                  <FormControl className="flex gap-5">
+                    <RadioGroup
+                      onValueChange={e => (e === "yes" ? field.onChange(true) : field.onChange(false))}
+                      value={field.value === undefined ? undefined : field.value === true ? "yes" : "no"}
+                    >
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="no" id="no" />
+                        <Label htmlFor="no">No</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="yes" id="yes" />
+                        <Label htmlFor="yes">Yes</Label>
+                      </div>
+                    </RadioGroup>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="vegetarian"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel htmlFor="vegetarian">Vegetarian Preferred</FormLabel>
+                  <FormControl className="flex gap-5">
+                    <RadioGroup
+                      onValueChange={e => (e === "yes" ? field.onChange(true) : field.onChange(false))}
+                      value={field.value === undefined ? undefined : field.value === true ? "yes" : "no"}
+                    >
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="no" id="no" />
+                        <Label htmlFor="no">No</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="yes" id="yes" />
+                        <Label htmlFor="yes">Yes</Label>
+                      </div>
+                    </RadioGroup>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="petFriendly"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel htmlFor="petFriendly">Pet Friendly</FormLabel>
+                  <FormControl className="flex gap-5">
+                    <RadioGroup
+                      onValueChange={e => (e === "yes" ? field.onChange(true) : field.onChange(false))}
+                      value={field.value === undefined ? undefined : field.value === true ? "yes" : "no"}
+                    >
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="no" id="no" />
+                        <Label htmlFor="no">No</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="yes" id="yes" />
+                        <Label htmlFor="yes">Yes</Label>
+                      </div>
+                    </RadioGroup>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="smoking"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel htmlFor="smoking">Smoking Allowed</FormLabel>
+                  <FormControl className="flex gap-5">
+                    <RadioGroup onValueChange={field.onChange} value={field.value}>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="no" id="no" />
+                        <Label htmlFor="no">No</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="inside" id="inside" />
+                        <Label htmlFor="inside">Allowed Inside</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="outside" id="outside" />
+                        <Label htmlFor="outside">Only Outside</Label>
+                      </div>
+                    </RadioGroup>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="amenities"
+              render={({ field }) => (
+                <FormItem className="col-span-2">
+                  <FormLabel htmlFor="amenities">Amenities Included</FormLabel>
+                  <FormControl className="flex flex-wrap gap-5">
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <Checkbox
+                          name="gym"
+                          defaultChecked={false}
+                          onCheckedChange={(checked: boolean) => handleAmenitiesChecked(checked, "gym")}
+                          checked={checkIfAmenityIncludes("gym")}
+                        />
+                        <FormLabel>Gym</FormLabel>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Checkbox
+                          name="swimming pool"
+                          defaultChecked={false}
+                          onCheckedChange={(checked: boolean) => handleAmenitiesChecked(checked, "swimming pool")}
+                          checked={checkIfAmenityIncludes("swimming pool")}
+                        />
+                        <FormLabel>Swimming Pool</FormLabel>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Checkbox
+                          name="car park"
+                          defaultChecked={false}
+                          onCheckedChange={(checked: boolean) => handleAmenitiesChecked(checked, "car park")}
+                          checked={checkIfAmenityIncludes("car park")}
+                        />
+                        <FormLabel>Car Park</FormLabel>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Checkbox
+                          name="laundary"
+                          defaultChecked={false}
+                          onCheckedChange={(checked: boolean) => handleAmenitiesChecked(checked, "laundary")}
+                          checked={checkIfAmenityIncludes("laundary")}
+                        />
+                        <FormLabel>Laundary</FormLabel>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Checkbox
+                          name="elevator"
+                          defaultChecked={false}
+                          onCheckedChange={(checked: boolean) => handleAmenitiesChecked(checked, "elevator")}
+                          checked={checkIfAmenityIncludes("elevator")}
+                        />
+                        <FormLabel>Elevator</FormLabel>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Checkbox
+                          name="club house"
+                          defaultChecked={false}
+                          onCheckedChange={(checked: boolean) => handleAmenitiesChecked(checked, "club house")}
+                          checked={checkIfAmenityIncludes("club house")}
+                        />
+                        <FormLabel>Club House</FormLabel>
+                      </div>
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+        </div>
         <FormItem>
           <FormLabel>Click to upload images or videos</FormLabel>
           <FormControl>
@@ -374,52 +711,54 @@ export default function RoomAdForm() {
           </FormControl>
           {fileError && <div className="text-sm text-destructive">{fileError}</div>}
         </FormItem>
-        <FormField
-          control={form.control}
-          name="showEmail"
-          render={({ field }) => (
-            <FormItem>
-              <div className="flex flex-row-reverse items-center justify-end gap-2">
-                <FormLabel>Show your email in the Ad</FormLabel>
-                <FormControl {...field}>
-                  <Checkbox
-                    name="showEmail"
-                    defaultChecked={false}
-                    onCheckedChange={handleShowEmailChecked}
-                    checked={field.value}
-                  />
-                </FormControl>
-              </div>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="acceptTc"
-          render={({ field }) => (
-            <FormItem>
-              <div className="flex flex-row-reverse items-center justify-end gap-2">
-                <FormLabel>
-                  I have read and agree to{" "}
-                  <Link href="/terms&conditions" className="text-primary underline underline-offset-2">
-                    Terms and Conditions
-                  </Link>
-                  <Required />
-                </FormLabel>
-                <FormControl {...field}>
-                  <Checkbox
-                    name="acceptTc"
-                    defaultChecked={false}
-                    onCheckedChange={handleAcceptTcChecked}
-                    checked={field.value}
-                  />
-                </FormControl>
-              </div>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div className="space-y-5">
+          <FormField
+            control={form.control}
+            name="showEmail"
+            render={({ field }) => (
+              <FormItem>
+                <div className="flex flex-row-reverse items-center justify-end gap-2">
+                  <FormLabel>Show your email in the Ad</FormLabel>
+                  <FormControl {...field}>
+                    <Checkbox
+                      name="showEmail"
+                      defaultChecked={false}
+                      onCheckedChange={handleShowEmailChecked}
+                      checked={field.value}
+                    />
+                  </FormControl>
+                </div>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="acceptTc"
+            render={({ field }) => (
+              <FormItem>
+                <div className="flex flex-row-reverse items-center justify-end gap-2">
+                  <FormLabel>
+                    I have read and agree to{" "}
+                    <Link href="/terms&conditions" className="text-primary underline underline-offset-2">
+                      Terms and Conditions
+                    </Link>
+                    <Required />
+                  </FormLabel>
+                  <FormControl {...field}>
+                    <Checkbox
+                      name="acceptTc"
+                      defaultChecked={false}
+                      onCheckedChange={handleAcceptTcChecked}
+                      checked={field.value}
+                    />
+                  </FormControl>
+                </div>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
         <div className="flex gap-3 md:gap-5 lg:gap-10">
           <Button className="mt-5 w-full" type="submit" disabled={isPending}>
             <FilePlus2Icon className="mr-1 w-4" />
@@ -431,63 +770,6 @@ export default function RoomAdForm() {
           </Button>
         </div>
       </form>
-      {isMobile ? (
-        <Drawer open={verificationOpen} onOpenChange={setVerificationOpen}>
-          <DrawerContent>
-            <DrawerHeader>
-              <DrawerTitle>Verification Required!</DrawerTitle>
-              <DrawerDescription>Please verify your email to post an Ad.</DrawerDescription>
-            </DrawerHeader>
-            <DrawerFooter className="mx-auto flex-row">
-              <Button
-                className="w-fit"
-                onClick={() => {
-                  try {
-                    sendEmailVerification(currentUser);
-                    toast.success("Email Verification link sent");
-                    setVerificationOpen(false);
-                  } catch (error) {
-                    toast.error("Error in sending link! Please try again later.");
-                  }
-                }}
-              >
-                <LinkIcon className="mr-1 w-4" />
-                Send Verification link
-              </Button>
-              <DrawerClose>
-                <Button variant="outline">
-                  <BanIcon className="mr-1 w-4" />
-                  Cancel
-                </Button>
-              </DrawerClose>
-            </DrawerFooter>
-          </DrawerContent>
-        </Drawer>
-      ) : (
-        <Dialog onOpenChange={setVerificationOpen} open={verificationOpen}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Verification Required!</DialogTitle>
-              <DialogDescription>Please verify your email to post an Ad.</DialogDescription>
-            </DialogHeader>
-            <Button
-              className="w-fit"
-              onClick={() => {
-                try {
-                  sendEmailVerification(currentUser);
-                  toast.success("Email Verification link sent");
-                  setVerificationOpen(false);
-                } catch (error) {
-                  toast.error("Error in sending link! Please try again later.");
-                }
-              }}
-            >
-              <LinkIcon className="mr-1 w-4" />
-              Send Verification link
-            </Button>
-          </DialogContent>
-        </Dialog>
-      )}
     </Form>
   );
 }

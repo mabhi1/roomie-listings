@@ -53,6 +53,7 @@ async function signIn(email: string, password: string) {
   try {
     await setPersistence(auth, browserSessionPersistence);
     await signInWithEmailAndPassword(auth, email, password);
+    if (!auth.currentUser?.emailVerified) throw new Error("(Error/Email-not-verified. Email-Verification-sent-again)");
   } catch (error: any) {
     throw createErrorMessage(error);
   }

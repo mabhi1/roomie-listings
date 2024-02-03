@@ -4,15 +4,21 @@ import PageHeader from "@/components/page/PageHeader";
 import { getRoommateById } from "@/prisma/db/roommaateAds";
 import Image from "next/image";
 import editAdImage from "../../../../../public/edit-ad.webp";
+import { ScanEyeIcon } from "lucide-react";
+import { RoommateAd } from "@/lib/types";
 
 export default async function EditRoommateAd({ params: { id } }: { params: { id: string } }) {
-  const roommateAd = await getRoommateById(id);
+  const roommateAd = (await getRoommateById(id)) as RoommateAd;
   if (!roommateAd) throw new Error("Roommate ad not found");
   return (
     <FullWrapper>
-      <PageHeader heading="Edit roommate Ad" subHeading="Fill out and submit the form below to edit the ad." />
-      <div className="flex w-full justify-between">
-        <div className="md:w-11/12 lg:w-1/2">
+      <PageHeader
+        heading="Edit roommate Ad"
+        subHeading="Fill out and submit the form below to edit the ad."
+        action={{ text: "view this ad", icon: <ScanEyeIcon className="mr-1 w-4" />, link: `/roommate/${id}` }}
+      />
+      <div className="flex w-full justify-between gap-10">
+        <div className="md:w-11/12 lg:w-2/3">
           <RoommateEditForm roommateAd={roommateAd} />
         </div>
         <div className="relative hidden h-fit md:block">

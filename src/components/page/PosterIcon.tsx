@@ -15,7 +15,7 @@ export default function PosterIcon({ poster }: { poster: User }) {
       <TooltipProvider>
         <Tooltip delayDuration={0}>
           <TooltipTrigger asChild>
-            <div className="w-fit overflow-clip rounded-full">
+            <div className="w-fit overflow-clip rounded-full border">
               <Image
                 src={poster.photo ? poster.photo : userImage}
                 alt={poster.name!}

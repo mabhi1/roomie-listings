@@ -10,7 +10,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { BedDoubleIcon, HotelIcon, MailIcon, SearchCheckIcon, UsersIcon } from "lucide-react";
+import { HotelIcon, MailIcon, SearchCheckIcon, UsersIcon } from "lucide-react";
 import ProtectedNavigation from "./ProtectedNavigation";
 
 const linkStyle =
@@ -18,23 +18,17 @@ const linkStyle =
 
 const browseAdComponents: { title: string; href: string; description: string; icon: React.ReactNode }[] = [
   {
-    title: "Search Roommate",
+    title: "Roommate Ads",
     href: "/roommate",
     description: "Find your perfect roommate match with just a click. Your ideal living companion awaits!",
     icon: <UsersIcon className="mr-1 w-4" />,
   },
   {
-    title: "Search Room",
+    title: "Rental Ads",
     href: "/room",
     description: "Discover your dream rental home effortlessly. Choose, and move into your sanctuary!",
     icon: <HotelIcon className="mr-1 w-4" />,
   },
-  // {
-  //   title: "Search Products",
-  //   href: "#",
-  //   description: "Explore a world of possibilities. Hunt for new or used treasures posted by fellow users!",
-  //   icon: <BedDoubleIcon className="mr-1 w-4" />,
-  // },
 ];
 
 export default function WebNavigation() {

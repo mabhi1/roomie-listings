@@ -23,10 +23,35 @@ export async function createRoom(
 
   if (!validatedFields) return { error: "Invalid fields!" };
 
-  const { acceptTc, ...dbData } = values;
+  const {
+    acceptTc,
+    stay,
+    accomodates,
+    attachedBath,
+    gender,
+    rentType,
+    furnished,
+    amenities,
+    vegetarian,
+    smoking,
+    petFriendly,
+    ...dbData
+  } = values;
+  const roomRequirements = {
+    stay,
+    accomodates,
+    attachedBath,
+    gender,
+    rentType,
+    furnished,
+    amenities,
+    vegetarian,
+    smoking,
+    petFriendly,
+  };
   try {
-    const createdId = await createRoomAd({ ...dbData, savedBy, postedBy, reports: [], gallery });
-    revalidatePath("/Room");
+    const createdId = await createRoomAd({ roomRequirements, ...dbData, savedBy, postedBy, reports: [], gallery });
+    revalidatePath("/room");
     return { data: createdId };
   } catch (error: any) {
     return { error: "Could not create Ad. Please try again later" };
@@ -45,10 +70,35 @@ export async function editRoom(
 
   if (!validatedFields) return { error: "Invalid fields!" };
 
-  const { acceptTc, ...dbData } = values;
+  const {
+    acceptTc,
+    stay,
+    accomodates,
+    attachedBath,
+    gender,
+    rentType,
+    furnished,
+    amenities,
+    vegetarian,
+    smoking,
+    petFriendly,
+    ...dbData
+  } = values;
+  const roomRequirements = {
+    stay,
+    accomodates,
+    attachedBath,
+    gender,
+    rentType,
+    furnished,
+    amenities,
+    vegetarian,
+    smoking,
+    petFriendly,
+  };
   try {
-    const updatedId = await editRoomAdById(adId, { ...dbData, savedBy, postedBy, reports, gallery });
-    revalidatePath("/Room");
+    const updatedId = await editRoomAdById(adId, { roomRequirements, ...dbData, savedBy, postedBy, reports, gallery });
+    revalidatePath("/room");
     return { data: updatedId };
   } catch (error: any) {
     return { error: "Could not update Ad. Please try again later" };
@@ -65,9 +115,9 @@ export async function saveRoom(id: string, uid: string) {
 
   const parsedId = parse.data;
   const data = await saveRoomByUser(parsedId, uid);
-  if (!data) return { error: "Failed to save ad" };
-  revalidatePath(`/Room/${id}`);
-  return { message: "Ad saved successfully" };
+  if (!data) return null;
+  revalidatePath(`/room/${id}`);
+  return data;
 }
 
 export async function reportRoom(id: string, uid: string) {
@@ -80,18 +130,18 @@ export async function reportRoom(id: string, uid: string) {
 
   const parsedId = parse.data;
   const data = await reportRoomById(parsedId, uid);
-  if (!data) return { error: "Failed to update ad" };
-  revalidatePath(`/Room/${id}`);
-  return { message: "Thank you for your feedback" };
+  if (!data) return null;
+  revalidatePath(`/room/${id}`);
+  return data;
 }
 
 export async function getRoomAds(uid: string, tab: string) {
-  const RoomAds = await getRoomAdsByUser(uid, tab);
-  return RoomAds;
+  const roomAd = await getRoomAdsByUser(uid, tab);
+  return roomAd;
 }
 
 export async function deleteRoomAds(uid: string, adId: string, tab: string) {
-  const RoomAds = await deleteRoomAdsByUser(uid, adId, tab);
-  revalidatePath(`/Room/${adId}`);
-  return RoomAds;
+  const roomAd = await deleteRoomAdsByUser(uid, adId, tab);
+  revalidatePath(`/room/${adId}`);
+  return roomAd;
 }

@@ -2,14 +2,7 @@
 
 import Link from "next/link";
 import { NavigationMenuContent, NavigationMenuLink, NavigationMenuTrigger } from "../ui/navigation-menu";
-import {
-  ImagePlusIcon,
-  KeySquareIcon,
-  PackagePlusIcon,
-  PlusCircleIcon,
-  SquareUserRoundIcon,
-  UserPlusIcon,
-} from "lucide-react";
+import { ImagePlusIcon, KeySquareIcon, PlusCircleIcon, SquareUserRoundIcon, UserPlusIcon } from "lucide-react";
 import useAuth from "../providers/AuthProvider";
 import { NavigationMenuItem } from "../ui/navigation-menu";
 import SignoutButton from "../buttons/SignoutButton";
@@ -21,23 +14,17 @@ const linkStyle =
 
 const createAdComponents: { title: string; href: string; description: string; icon: React.ReactNode }[] = [
   {
-    title: "Roommate",
+    title: "Need a rental",
     href: "/roommate/create",
     description: "Craft your roommate ad, be seen, and connect with like-minded cohabitants effortlessly!",
     icon: <UserPlusIcon className="mr-1 w-4" />,
   },
   {
-    title: "Room",
+    title: "Have a rental",
     href: "/room/create",
     description: "Showcase your home with a captivating ad. Rent to the perfect tenant easily!",
     icon: <ImagePlusIcon className="mr-1 w-4" />,
   },
-  // {
-  //   title: "Products",
-  //   href: "#",
-  //   description: "Craft a compelling product ad, attract buyers, and turn your stuff into someone's treasure!",
-  //   icon: <PackagePlusIcon className="mr-1 w-4" />,
-  // },
 ];
 
 export default function ProtectedNavigation() {
