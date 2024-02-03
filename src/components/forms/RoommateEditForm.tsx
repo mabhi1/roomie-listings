@@ -23,7 +23,7 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import Link from "next/link";
 import FormItemInfo from "../ui/form-item-info";
-import { createRoommate, editRoommate } from "@/actions/roommate";
+import { editRoommate } from "@/actions/roommate";
 import ComboBox from "../ui/combo-box";
 import { RoommateAd } from "@/lib/types";
 
