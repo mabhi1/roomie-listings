@@ -23,7 +23,7 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import Link from "next/link";
 import FormItemInfo from "../ui/form-item-info";
-import { createRoommate } from "@/actions/roommate";
+import { createRoommate, editRoommate } from "@/actions/roommate";
 import ComboBox from "../ui/combo-box";
 import { RoommateAd } from "@/lib/types";
 
@@ -85,11 +85,17 @@ export default function RoommateEditForm({ roommateAd }: { roommateAd: RoommateA
 
     startTransition(async () => {
       try {
-        const { data, error } = await createRoommate(values, [], currentUser.uid!);
+        const { data, error } = await editRoommate(
+          roommateAd.id!,
+          values,
+          roommateAd.savedBy,
+          currentUser.uid!,
+          roommateAd.reports,
+        );
         if (error) throw new Error();
         else {
-          toast.success("Ad created successfully");
-          router.replace(`/roommate/${data}`);
+          toast.success("Ad updated successfully");
+          router.replace(`/roommate/${roommateAd.id}`);
         }
       } catch (error) {
         toast.error("Error in creating Ad");
