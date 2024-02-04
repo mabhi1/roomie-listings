@@ -115,7 +115,7 @@ export default function AdsList({ ads, page }: { ads: RoomAd[] | RoommateAd[]; p
 
   return (
     <div className="flex flex-col">
-      <div className="mb-5 flex flex-col gap-3 md:flex-row lg:gap-5">
+      <div className="mb-3 flex flex-col gap-3 md:mb-5 md:flex-row lg:gap-5">
         <div className="flex flex-1 gap-3 lg:gap-5">
           <div className="relative mr-auto flex-1">
             <SearchIcon className="absolute left-2 top-1/2 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -342,7 +342,7 @@ export default function AdsList({ ads, page }: { ads: RoomAd[] | RoommateAd[]; p
       {filteredData?.length === 0 && (
         <div className="flex h-32 w-full items-center justify-center rounded border capitalize">No {page} Ads</div>
       )}
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-3 md:gap-5">
         {filteredData?.map(ad => <IndividualAd ad={ad} key={ad.id} setAds={setFilteredData} list />)}
       </div>
     </div>
