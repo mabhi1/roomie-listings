@@ -33,7 +33,7 @@ export default async function RoomId({ params: { id } }: { params: { id: string 
       />
       <Card>
         <CardHeader className="flex-col-reverse justify-between gap-1 space-y-0 p-3 md:flex-row md:items-center md:gap-2 md:space-y-1.5 md:p-5 lg:gap-0">
-          <div className="mr-auto md:space-y-1.5">
+          <div className="mr-auto w-full md:w-[38rem] md:space-y-1.5 lg:w-[50rem] xl:w-[68rem]">
             <CardTitle className="text-lg font-light md:text-xl lg:text-2xl">{room.title}</CardTitle>
             <CardDescription>
               <span className="text-xs italic ">
@@ -42,29 +42,30 @@ export default async function RoomId({ params: { id } }: { params: { id: string 
               </span>
             </CardDescription>
             {room.showEmail && (
-              <ProtectedComponent
-                userMessage="Please sign in to see user email"
-                className="mr-1 hidden text-xs md:block lg:mr-5"
-              >
-                {<p className="mr-1 hidden text-xs md:block lg:mr-5">User Email: {poster.email}</p>}
+              <ProtectedComponent userMessage="Please sign in to see user email" className="mr-1 text-xs lg:mr-5">
+                {<p className="mr-1 break-words text-xs lg:mr-5">User Email: {poster.email}</p>}
               </ProtectedComponent>
             )}
           </div>
-          {room.showEmail && (
-            <ProtectedComponent
-              userMessage="Please sign in to see user email"
-              className="mr-auto text-xs md:hidden lg:mr-5"
-            >
-              {<p className="mr-auto text-xs md:hidden lg:mr-5">User Email: {poster.email}</p>}
-            </ProtectedComponent>
-          )}
-          <PosterIcon poster={poster} />
+          <div className="flex h-fit items-start justify-between gap-3">
+            <PosterIcon poster={poster} />
+            <div className="md:hidden">
+              <ShareButton
+                onlyIcon={false}
+                text={`${room.propertyType} available in ${room.address.city}, ${room.address.state}`.toUpperCase()}
+                title="Roomie Listings"
+                url={`https://www.roomielistings.com/room/${room.id}`}
+              />
+            </div>
+          </div>
         </CardHeader>
         <CardContent className="space-y-5 px-0">
           <Table>
             <TableHeader className="h-6">
               <TableRow className="bg-muted/50">
-                <TableHead className="h-8 text-center font-normal text-accent-foreground">Location</TableHead>
+                <TableHead className="h-8 text-center font-normal text-accent-foreground">
+                  <div className="min-w-16">Location</div>
+                </TableHead>
                 <TableHead className="h-8 text-center font-normal text-accent-foreground">Rent</TableHead>
                 <TableHead className="h-8 text-center font-normal text-accent-foreground">
                   <div className="min-w-12">Available from</div>
@@ -105,31 +106,33 @@ export default async function RoomId({ params: { id } }: { params: { id: string 
               </TableRow>
             </TableBody>
           </Table>
-          <div className="flex">
-            <div className="flex-1 space-y-5">
+          <div className="flex flex-col gap-3 md:flex-row">
+            <div className="flex-1 space-y-3 md:space-y-5">
               {room.description && <div className="px-3 md:px-6">{room.description}</div>}
-              <div className="mx-6 flex w-fit items-center gap-1 rounded border bg-primary-foreground px-1">
-                <span>Amenities :</span>
+              <div className="mx-3 flex w-fit flex-wrap items-center gap-1 rounded border bg-primary-foreground px-1 py-1 md:mx-6">
+                <span>Amenities:</span>
                 <span className="capitalize">
                   {room.roomRequirements.amenities.length > 0 ? room.roomRequirements.amenities.join(", ") : "N/A"}
                 </span>
               </div>
-              <div className="mx-6 flex w-fit items-center gap-1 overflow-hidden text-ellipsis text-nowrap rounded border bg-primary-foreground px-1">
-                <span>Additional Info :</span>
-                <span>{room.roomRequirements.furnished ? "Furnished" : "Not Furnished"}</span>
-                {room.roomRequirements.vegetarian && <span>, Vegetarian Preferred</span>}
-                {room.roomRequirements.petFriendly && <span>, Pet Friendly</span>}
-                {room.roomRequirements.smoking && (
-                  <span className="capitalize">
-                    {room.roomRequirements.smoking === "no"
-                      ? ", Smoking not allowed"
-                      : `, Smoking ${room.roomRequirements.smoking}`}
-                  </span>
-                )}
+              <div className="mx-3 flex w-fit flex-wrap items-center gap-1 overflow-hidden text-ellipsis text-nowrap rounded border bg-primary-foreground px-1 py-1 md:mx-6">
+                <span className="mr-1">Additional Info:</span>
+                <div className="flex flex-wrap">
+                  <span>{room.roomRequirements.furnished ? "Furnished" : "Not Furnished"}</span>
+                  {room.roomRequirements.vegetarian && <span>, Vegetarian Preferred</span>}
+                  {room.roomRequirements.petFriendly && <span>, Pet Friendly</span>}
+                  {room.roomRequirements.smoking && (
+                    <span className="capitalize">
+                      {room.roomRequirements.smoking === "no"
+                        ? ", No preference"
+                        : `, Smoking ${room.roomRequirements.smoking}`}
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
             {room.gallery.length > 0 && (
-              <div className="w-1/2">
+              <div className="w-full md:w-1/2">
                 <div className="mx-auto w-full md:mx-0 md:px-16">
                   <GalleryCarousel gallery={room.gallery} />
                 </div>

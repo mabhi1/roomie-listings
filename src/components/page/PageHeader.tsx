@@ -23,20 +23,29 @@ export default function PageHeader({
       <div className="flex w-fit flex-col">
         <div className="flex items-center gap-1">
           {backButton && <BackButton />}
-          <h1 className={cn("text-xl uppercase md:text-2xl", className)}>{heading}</h1>
+          <h1
+            className={cn(
+              "w-80 overflow-hidden text-ellipsis text-nowrap text-lg uppercase md:w-auto md:text-xl lg:text-2xl",
+              className,
+            )}
+          >
+            {heading}
+          </h1>
         </div>
         {subHeading && <div className="hidden md:block">{subHeading}</div>}
       </div>
-      {element
-        ? element
-        : action && (
-            <Link href={action.link} passHref legacyBehavior>
-              <Button variant="secondary" className="uppercase">
-                {action.icon}
-                {action.text}
-              </Button>
-            </Link>
-          )}
+      {element ? (
+        <span className="hidden md:inline">{element}</span>
+      ) : (
+        action && (
+          <Link href={action.link} passHref legacyBehavior>
+            <Button variant="secondary" className="hidden uppercase lg:inline-flex">
+              {action.icon}
+              {action.text}
+            </Button>
+          </Link>
+        )
+      )}
     </div>
   );
 }

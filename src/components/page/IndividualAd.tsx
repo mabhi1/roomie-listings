@@ -137,39 +137,45 @@ export default function IndividualAd({
             : "",
       )}
     >
-      <CardHeader className="rounded-t bg-primary/5 p-3">
-        <CardTitle className="flex items-center justify-between gap-2 text-base font-normal">
-          <div className="flex items-center gap-1">
+      <CardHeader className="rounded-t bg-primary/5 px-3 py-2">
+        <CardTitle className="flex flex-col-reverse items-center gap-1 text-xs font-normal md:text-sm lg:flex-row lg:text-base">
+          <div className="hidden items-center gap-1 lg:flex">
             <MapPinIcon className="w-4" />
             {ad.address.city}, {ad.address.state}
+            <div>|</div>
           </div>
-          <div>|</div>
-          <div className="w-[42rem] overflow-hidden text-ellipsis text-nowrap">{ad.title}</div>
-          {list && currentUser?.uid === ad.postedBy ? (
-            <div className="absolute -left-[4.2rem] top-5 rounded-l bg-green-600 p-1 px-2 text-xs uppercase text-primary-foreground">
-              your ad
-            </div>
-          ) : (
-            list &&
-            viewed && (
-              <div className="absolute -left-[3.7rem] top-5 rounded-l bg-yellow-600 p-1 px-2 text-xs uppercase text-primary-foreground">
-                viewed
+          <div className="w-full overflow-hidden text-ellipsis text-nowrap lg:w-[25rem] xl:w-[44rem]">{ad.title}</div>
+          <Separator className="lg:hidden" />
+          <div className="flex w-full gap-1 lg:ml-auto lg:w-fit">
+            {list && currentUser?.uid === ad.postedBy ? (
+              <div className="absolute -left-[4.2rem] top-5 hidden rounded-l bg-green-600 p-1 px-2 text-xs uppercase text-primary-foreground xl:block">
+                your ad
               </div>
-            )
-          )}
-          <div className="ml-auto text-sm">
-            Last Updated:{" "}
-            {ad.updatedAt?.toLocaleDateString("en-us", { year: "numeric", month: "short", day: "numeric" })}
-          </div>
-          <div>|</div>
-          <div className="flex items-center gap-1">
-            <CoinsIcon className="w-4" />
-            Rent: ${ad.rent} {ad.roomRequirements.rentType}
+            ) : (
+              list &&
+              viewed && (
+                <div className="absolute -left-[3.7rem] top-5 hidden rounded-l bg-yellow-600 p-1 px-2 text-xs uppercase text-primary-foreground xl:block">
+                  viewed
+                </div>
+              )
+            )}
+            <div className="mr-auto flex items-center md:gap-1 lg:hidden">
+              <MapPinIcon className="w-3 md:w-4" />
+              {ad.address.city}, {ad.address.state}
+            </div>
+            <div className="hidden gap-1 lg:flex">
+              Updated: {ad.updatedAt?.toLocaleDateString("en-us", { year: "numeric", month: "short", day: "numeric" })}
+              <div>|</div>
+            </div>
+            <div className="flex items-center gap-1">
+              <CoinsIcon className="w-3 md:w-4" />
+              Rent: ${ad.rent} {ad.roomRequirements.rentType}
+            </div>
           </div>
         </CardTitle>
       </CardHeader>
-      <CardContent className="flex gap-5 p-5 py-4">
-        <div className="flex flex-1 flex-col justify-between gap-1 overflow-auto">
+      <CardContent className="flex flex-col gap-3 p-3 md:flex-row">
+        <div className="flex flex-1 flex-col justify-between gap-2 overflow-auto">
           <Table>
             <TableHeader className="[&_tr]:border-b-0">
               <TableRow className="px-0">
@@ -185,7 +191,7 @@ export default function IndividualAd({
                     key={item}
                     className="h-7 bg-primary/5 px-2 text-left font-normal text-black first:rounded-l last:rounded-r last:border-r-0"
                   >
-                    <div className="min-w-24">{item}</div>
+                    <div className="min-w-20 md:min-w-24">{item}</div>
                   </TableHead>
                 ))}
               </TableRow>
@@ -217,13 +223,20 @@ export default function IndividualAd({
             <>
               <Separator />
               <div className="flex items-center gap-1">
-                <BookTextIcon className="w-3" />
-                <span className="w-full overflow-hidden text-ellipsis text-nowrap">{ad.description}</span>
+                <BookTextIcon className="hidden w-3 lg:inline" />
+                <span className="h-8 w-full overflow-hidden text-ellipsis text-wrap md:h-auto md:text-nowrap">
+                  {ad.description}
+                </span>
               </div>
             </>
           )}
         </div>
-        <div className={cn("flex flex-col items-center rounded border px-2 text-xs", isRental ? "w-36" : "w-44")}>
+        <div
+          className={cn(
+            "hidden flex-col items-center rounded border px-2 py-1 text-xs md:flex md:py-0",
+            isRental ? "w-full md:w-36" : "w-full md:w-44",
+          )}
+        >
           <span className="flex items-center">
             <AwardIcon className="w-3" />
             Amenities {!isRental && "Preferred"}
@@ -237,7 +250,7 @@ export default function IndividualAd({
         </div>
         {isRental && ad.gallery?.length > 0 ? (
           <Carousel
-            className="mx-auto w-36"
+            className="mx-auto hidden w-36 md:block"
             plugins={[
               Autoplay({
                 delay: 2000,
@@ -264,13 +277,13 @@ export default function IndividualAd({
             </CarouselContent>
           </Carousel>
         ) : (
-          isRental && <div className="flex h-24 w-36 items-center justify-center bg-secondary">No Images</div>
+          isRental && <div className="hidden h-24 w-36 items-center justify-center bg-secondary md:flex">No Images</div>
         )}
       </CardContent>
-      <CardFooter className="flex justify-between border-t p-5 py-2">
-        <div className="flex items-center gap-1 overflow-hidden text-ellipsis text-nowrap">
-          <InfoIcon className="w-3" />
-          <span>{isRental ? "Additional Info :" : "Additional Preferences :"}</span>
+      <CardFooter className="mt-0 flex flex-col justify-between gap-2 px-3 pb-2 md:border-t md:pt-2 xl:flex-row">
+        <div className="hidden w-full flex-wrap items-center md:flex md:w-auto">
+          <InfoIcon className="mr-1 hidden w-3 md:inline" />
+          <span className="mr-1 hidden md:inline">{isRental ? "Additional Info :" : "Additional Preferences :"}</span>
           <span>{ad.roomRequirements.furnished ? "Furnished" : "Not Furnished"}</span>
           {ad.roomRequirements.vegetarian && <span>, Vegetarian Preferred</span>}
           {ad.roomRequirements.petFriendly && <span>, Pet Friendly</span>}
@@ -282,58 +295,14 @@ export default function IndividualAd({
             </span>
           )}
         </div>
-        <div className="flex items-center gap-3">
-          {currentUser &&
-            (ad.reports.includes(currentUser!.uid) ? (
-              <AdCardInfo
-                toolTipText="Remove from reports"
-                onConfirm={isPending ? () => {} : () => handleDeleteAd("reportedAds")}
-                confirmMessage="remove this ad"
-              >
-                <Button variant="outline" size="icon" disabled={isPending}>
-                  <ShieldOffIcon className="w-4 text-destructive" />
-                </Button>
-              </AdCardInfo>
-            ) : (
-              <AdCardInfo
-                toolTipText="Report"
-                onConfirm={isPending ? () => {} : handleReportAd}
-                confirmMessage="report this ad"
-              >
-                <Button variant="outline" size="icon" disabled={isPending}>
-                  <ShieldAlertIcon className="w-4 text-destructive" />
-                </Button>
-              </AdCardInfo>
-            ))}
-          {currentUser &&
-            (ad.savedBy.includes(currentUser!.uid) ? (
-              <AdCardInfo
-                toolTipText="Remove from favourites"
-                onConfirm={isPending ? () => {} : () => handleDeleteAd("savedAds")}
-                confirmMessage="remove this ad"
-              >
-                <Button variant="outline" size="icon" disabled={isPending}>
-                  <HeartOffIcon className="w-4 text-destructive" />
-                </Button>
-              </AdCardInfo>
-            ) : (
-              <AdCardInfo
-                toolTipText="Add to favourites"
-                onConfirm={isPending ? () => {} : handleSaveAd}
-                confirmMessage="add this ad to favourites"
-              >
-                <Button variant="outline" size="icon" disabled={isPending}>
-                  <HeartIcon className="w-4 text-destructive" />
-                </Button>
-              </AdCardInfo>
-            ))}
+        <div className="flex flex-wrap items-center justify-center gap-3">
           <ShareButton
             onlyIcon
             text={`${ad.propertyType} available in ${ad.address.city}, ${ad.address.state}`.toUpperCase()}
             title="Roomie Listings"
             url={`https://www.roomielistings.com/${isRental ? "room" : "roommate"}/${ad.id}`}
           />
-          {currentUser?.uid === ad.postedBy && (
+          {currentUser?.uid === ad.postedBy ? (
             <>
               {isPending ? (
                 <Button size="sm" variant="secondary" disabled>
@@ -358,6 +327,53 @@ export default function IndividualAd({
                   Delete
                 </Button>
               </AdCardInfo>
+            </>
+          ) : (
+            <>
+              {currentUser &&
+                (ad.reports.includes(currentUser!.uid) ? (
+                  <AdCardInfo
+                    toolTipText="Remove from reports"
+                    onConfirm={isPending ? () => {} : () => handleDeleteAd("reportedAds")}
+                    confirmMessage="remove this ad"
+                  >
+                    <Button variant="outline" size="icon" disabled={isPending}>
+                      <ShieldOffIcon className="w-4 text-destructive" />
+                    </Button>
+                  </AdCardInfo>
+                ) : (
+                  <AdCardInfo
+                    toolTipText="Report"
+                    onConfirm={isPending ? () => {} : handleReportAd}
+                    confirmMessage="report this ad"
+                  >
+                    <Button variant="outline" size="icon" disabled={isPending}>
+                      <ShieldAlertIcon className="w-4 text-destructive" />
+                    </Button>
+                  </AdCardInfo>
+                ))}
+              {currentUser &&
+                (ad.savedBy.includes(currentUser!.uid) ? (
+                  <AdCardInfo
+                    toolTipText="Remove from favourites"
+                    onConfirm={isPending ? () => {} : () => handleDeleteAd("savedAds")}
+                    confirmMessage="remove this ad"
+                  >
+                    <Button variant="outline" size="icon" disabled={isPending}>
+                      <HeartOffIcon className="w-4 text-destructive" />
+                    </Button>
+                  </AdCardInfo>
+                ) : (
+                  <AdCardInfo
+                    toolTipText="Add to favourites"
+                    onConfirm={isPending ? () => {} : handleSaveAd}
+                    confirmMessage="add this ad to favourites"
+                  >
+                    <Button variant="outline" size="icon" disabled={isPending}>
+                      <HeartIcon className="w-4 text-destructive" />
+                    </Button>
+                  </AdCardInfo>
+                ))}
             </>
           )}
 

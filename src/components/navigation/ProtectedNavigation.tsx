@@ -14,13 +14,13 @@ const linkStyle =
 
 const createAdComponents: { title: string; href: string; description: string; icon: React.ReactNode }[] = [
   {
-    title: "Need a rental",
+    title: "Need a Rental",
     href: "/roommate/create",
     description: "Craft your roommate ad, be seen, and connect with like-minded cohabitants effortlessly!",
     icon: <UserPlusIcon className="mr-1 w-4" />,
   },
   {
-    title: "Have a rental",
+    title: "Have a Rental",
     href: "/room/create",
     description: "Showcase your home with a captivating ad. Rent to the perfect tenant easily!",
     icon: <ImagePlusIcon className="mr-1 w-4" />,
