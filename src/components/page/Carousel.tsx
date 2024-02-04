@@ -6,7 +6,7 @@ export default function GalleryCarousel({ gallery }: { gallery: Gallery[] }) {
   return (
     <Carousel className="mx-auto w-[16rem] md:w-full">
       <CarouselPrevious type="button" />
-      <CarouselContent className="group h-48 md:h-96 lg:h-[24rem]">
+      <CarouselContent className="group h-48 lg:h-[24rem]">
         {gallery.map(item => (
           <CarouselItem key={item.name} className="relative">
             {item.type.startsWith("video") ? (

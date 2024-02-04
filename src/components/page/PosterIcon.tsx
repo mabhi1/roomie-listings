@@ -21,7 +21,7 @@ export default function PosterIcon({ poster }: { poster: User }) {
                 alt={poster.name!}
                 width={60}
                 height={60}
-                className="h-[50px] w-[50px] object-cover"
+                className="h-[50px] w-[50px] object-cover md:h-[60px] md:w-[60px] xl:h-[70px] xl:w-[70px]"
                 priority
                 placeholder="blur"
                 blurDataURL={poster.photo ? poster.photo : ""}

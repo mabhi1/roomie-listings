@@ -115,164 +115,168 @@ export default function AdsList({ ads, page }: { ads: RoomAd[] | RoommateAd[]; p
 
   return (
     <div className="flex flex-col">
-      <div className="mb-5 flex gap-5">
-        <div className="relative mr-auto flex-1">
-          <SearchIcon className="absolute left-2 top-1/2 w-4 -translate-y-1/2 text-muted-foreground" />
-          <Input
-            placeholder="Search ad"
-            className="pl-7"
-            value={searchTerm}
-            onChange={e => setSearchTerm(e.target.value)}
-          />
-        </div>
-        <Button
-          variant="outline"
-          onClick={() =>
-            setRentSort(s => {
-              setDateSort("");
-              if (s === "" || s === "des") return "asc";
-              return "des";
-            })
-          }
-        >
-          Sort by Rent
-          {rentSort === "asc" && <ArrowDownIcon className="ml-1 w-4" />}
-          {rentSort === "des" && <ArrowUpIcon className="ml-1 w-4" />}
-          {rentSort === "" && <ArrowUpDownIcon className="ml-1 w-4" />}
-        </Button>
-        <Button
-          variant="outline"
-          onClick={() =>
-            setDateSort(s => {
-              setRentSort("");
-              if (s === "" || s === "des") return "asc";
-              return "des";
-            })
-          }
-        >
-          Sort by Move in
-          {dateSort === "asc" && <ArrowDownIcon className="ml-1 w-4" />}
-          {dateSort === "des" && <ArrowUpIcon className="ml-1 w-4" />}
-          {dateSort === "" && <ArrowUpDownIcon className="ml-1 w-4" />}
-        </Button>
-        <Sheet modal>
-          <SheetTrigger asChild>
-            <Button variant="outline">
-              <FilterIcon className="mr-1 w-4" />
-              Filter
-            </Button>
-          </SheetTrigger>
-          <SheetContent>
-            <SheetHeader className="space-y-0">
-              <SheetTitle className="font-normal uppercase">Filter Ads</SheetTitle>
-              <SheetDescription>Select the options below to filter the table.</SheetDescription>
-            </SheetHeader>
-            <div className="my-5 flex flex-col gap-5">
-              <div className="flex flex-col gap-2">
-                <div>Stay</div>
-                <Select onValueChange={setSelectedStay} value={selectedStay}>
-                  <SelectTrigger className="w-full capitalize">
-                    <SelectValue placeholder="Select stay..." />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {["short", "long", "both"].map(item => (
-                      <SelectItem key={item} value={item} className="capitalize">
-                        {item}
+      <div className="mb-5 flex flex-col gap-3 md:flex-row lg:gap-5">
+        <div className="flex flex-1 gap-3 lg:gap-5">
+          <div className="relative mr-auto flex-1">
+            <SearchIcon className="absolute left-2 top-1/2 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              placeholder="Search ad"
+              className="pl-7"
+              value={searchTerm}
+              onChange={e => setSearchTerm(e.target.value)}
+            />
+          </div>
+          <Sheet modal>
+            <SheetTrigger asChild>
+              <Button variant="outline">
+                <FilterIcon className="mr-1 w-4" />
+                Filter
+              </Button>
+            </SheetTrigger>
+            <SheetContent className="overflow-y-auto">
+              <SheetHeader className="space-y-0">
+                <SheetTitle className="font-normal uppercase">Filter Ads</SheetTitle>
+                <SheetDescription>Select the options below to filter the table.</SheetDescription>
+              </SheetHeader>
+              <div className="my-5 flex flex-col gap-5">
+                <div className="flex flex-col gap-2">
+                  <div>Stay</div>
+                  <Select onValueChange={setSelectedStay} value={selectedStay}>
+                    <SelectTrigger className="w-full capitalize">
+                      <SelectValue placeholder="Select stay..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {["short", "long", "both"].map(item => (
+                        <SelectItem key={item} value={item} className="capitalize">
+                          {item}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <div>Gender</div>
+                  <Select onValueChange={setGender} value={gender}>
+                    <SelectTrigger className="w-full capitalize">
+                      <SelectValue placeholder="Select gender..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {["male", "female", "any"].map(item => (
+                        <SelectItem key={item} value={item} className="capitalize">
+                          {item}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <div>Property Type</div>
+                  <Select onValueChange={setProperty} value={property}>
+                    <SelectTrigger className="w-full capitalize">
+                      <SelectValue placeholder="Select property type..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all" className="capitalize">
+                        all
                       </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="flex flex-col gap-2">
-                <div>Gender</div>
-                <Select onValueChange={setGender} value={gender}>
-                  <SelectTrigger className="w-full capitalize">
-                    <SelectValue placeholder="Select gender..." />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {["male", "female", "any"].map(item => (
-                      <SelectItem key={item} value={item} className="capitalize">
-                        {item}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="flex flex-col gap-2">
-                <div>Property Type</div>
-                <Select onValueChange={setProperty} value={property}>
-                  <SelectTrigger className="w-full capitalize">
-                    <SelectValue placeholder="Select property type..." />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all" className="capitalize">
-                      all
-                    </SelectItem>
-                    {["private room", "single room", "house"].map(item => (
-                      <SelectItem key={item} value={item} className="capitalize">
-                        {item}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="flex flex-col gap-2">
-                <div>Cities</div>
-                <MultiSelect
-                  label="cities"
-                  data={getAllCities()}
-                  selected={selectedCity}
-                  setSelected={setSelectedCity}
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <div>Rent Type</div>
-                <Select onValueChange={setRentType} value={rentType}>
-                  <SelectTrigger className="w-full capitalize">
-                    <SelectValue placeholder="Select rent type..." />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all" className="capitalize">
-                      all
-                    </SelectItem>
-                    {["monthly", "daily", "weekly"].map(item => (
-                      <SelectItem key={item} value={item} className="capitalize">
-                        {item}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="flex flex-col gap-2">
-                <div>{page === "roommate" ? "Budget" : "Rent"}</div>
-                <div className="flex flex-col justify-evenly gap-2 md:flex-row md:items-center">
-                  <span>Min: </span>
-                  <Input
-                    type="number"
-                    className="md:w-28"
-                    value={min}
-                    onChange={e => setMin(Number(e.target.value))}
-                    onWheel={e => (e.target as HTMLElement).blur()}
-                  />
-                  <span>Max: </span>
-                  <Input
-                    type="number"
-                    className="md:w-28"
-                    value={max}
-                    onChange={e => setMax(Number(e.target.value))}
-                    onWheel={e => (e.target as HTMLElement).blur()}
+                      {["private room", "single room", "house"].map(item => (
+                        <SelectItem key={item} value={item} className="capitalize">
+                          {item}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <div>Cities</div>
+                  <MultiSelect
+                    label="cities"
+                    data={getAllCities()}
+                    selected={selectedCity}
+                    setSelected={setSelectedCity}
                   />
                 </div>
+                <div className="flex flex-col gap-2">
+                  <div>Rent Type</div>
+                  <Select onValueChange={setRentType} value={rentType}>
+                    <SelectTrigger className="w-full capitalize">
+                      <SelectValue placeholder="Select rent type..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all" className="capitalize">
+                        all
+                      </SelectItem>
+                      {["monthly", "daily", "weekly"].map(item => (
+                        <SelectItem key={item} value={item} className="capitalize">
+                          {item}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <div>{page === "roommate" ? "Budget" : "Rent"}</div>
+                  <div className="flex flex-col justify-evenly gap-2 md:flex-row md:items-center">
+                    <span>Min: </span>
+                    <Input
+                      type="number"
+                      className="md:w-28"
+                      value={min}
+                      onChange={e => setMin(Number(e.target.value))}
+                      onWheel={e => (e.target as HTMLElement).blur()}
+                    />
+                    <span>Max: </span>
+                    <Input
+                      type="number"
+                      className="md:w-28"
+                      value={max}
+                      onChange={e => setMax(Number(e.target.value))}
+                      onWheel={e => (e.target as HTMLElement).blur()}
+                    />
+                  </div>
+                </div>
               </div>
-            </div>
-            <SheetFooter>
-              <Button className="w-full" onClick={handleClearFilter}>
-                <EraserIcon className="mr-1 w-4" />
-                Clear Filter
-              </Button>
-            </SheetFooter>
-          </SheetContent>
-        </Sheet>
+              <SheetFooter>
+                <Button className="w-full" onClick={handleClearFilter}>
+                  <EraserIcon className="mr-1 w-4" />
+                  Clear Filter
+                </Button>
+              </SheetFooter>
+            </SheetContent>
+          </Sheet>
+        </div>
+        <div className="flex gap-3 lg:gap-5">
+          <Button
+            variant="outline"
+            onClick={() =>
+              setRentSort(s => {
+                setDateSort("");
+                if (s === "" || s === "des") return "asc";
+                return "des";
+              })
+            }
+          >
+            Sort by Rent
+            {rentSort === "asc" && <ArrowDownIcon className="ml-1 w-4" />}
+            {rentSort === "des" && <ArrowUpIcon className="ml-1 w-4" />}
+            {rentSort === "" && <ArrowUpDownIcon className="ml-1 w-4" />}
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() =>
+              setDateSort(s => {
+                setRentSort("");
+                if (s === "" || s === "des") return "asc";
+                return "des";
+              })
+            }
+          >
+            Sort by Move in
+            {dateSort === "asc" && <ArrowDownIcon className="ml-1 w-4" />}
+            {dateSort === "des" && <ArrowUpIcon className="ml-1 w-4" />}
+            {dateSort === "" && <ArrowUpDownIcon className="ml-1 w-4" />}
+          </Button>
+        </div>
       </div>
       {!isNotFiltered() && (
         <div className="mb-2 flex w-fit flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted-foreground">

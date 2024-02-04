@@ -18,13 +18,13 @@ const linkStyle =
 
 const browseAdComponents: { title: string; href: string; description: string; icon: React.ReactNode }[] = [
   {
-    title: "Roommate Ads",
+    title: "Search Roommate",
     href: "/roommate",
     description: "Find your perfect roommate match with just a click. Your ideal living companion awaits!",
     icon: <UsersIcon className="mr-1 w-4" />,
   },
   {
-    title: "Rental Ads",
+    title: "Search Rental",
     href: "/room",
     description: "Discover your dream rental home effortlessly. Choose, and move into your sanctuary!",
     icon: <HotelIcon className="mr-1 w-4" />,

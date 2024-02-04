@@ -32,8 +32,8 @@ export default async function RoommateId({ params: { id } }: { params: { id: str
         }
       />
       <Card>
-        <CardHeader className="flex-col-reverse justify-between gap-1 space-y-0 p-3 md:flex-row md:items-center md:gap-2 md:space-y-1.5 md:p-5 lg:gap-0">
-          <div className="mr-auto md:space-y-1.5">
+        <CardHeader className="flex-col-reverse justify-between gap-1 space-y-0 p-3 md:flex-row md:gap-2 md:space-y-1.5 md:p-5 lg:gap-0">
+          <div className="mr-auto w-full space-y-1.5 md:w-[38rem] lg:w-[50rem] xl:w-[68rem]">
             <CardTitle className="text-lg font-light md:text-xl lg:text-2xl">{roommate.title}</CardTitle>
             <CardDescription>
               <span className="text-xs italic ">
@@ -42,29 +42,30 @@ export default async function RoommateId({ params: { id } }: { params: { id: str
               </span>
             </CardDescription>
             {roommate.showEmail && (
-              <ProtectedComponent
-                userMessage="Please sign in to see user email"
-                className="mr-1 hidden text-xs md:block lg:mr-5"
-              >
-                {<p className="mr-1 hidden text-xs md:block lg:mr-5">User Email: {poster.email}</p>}
+              <ProtectedComponent userMessage="Please sign in to see user email" className="mr-1 text-xs lg:mr-5">
+                {<p className="mr-1 break-words text-xs lg:mr-5">User Email: {poster.email}</p>}
               </ProtectedComponent>
             )}
           </div>
-          {roommate.showEmail && (
-            <ProtectedComponent
-              userMessage="Please sign in to see user email"
-              className="mr-auto text-xs md:hidden lg:mr-5"
-            >
-              {<p className="mr-auto text-xs md:hidden lg:mr-5">User Email: {poster.email}</p>}
-            </ProtectedComponent>
-          )}
-          <PosterIcon poster={poster} />
+          <div className="flex h-fit items-start justify-between gap-3">
+            <PosterIcon poster={poster} />
+            <div className="md:hidden">
+              <ShareButton
+                onlyIcon={true}
+                text={`${roommate.propertyType} wanted in ${roommate.address.city}, ${roommate.address.state}`.toUpperCase()}
+                title="Roomie Listings"
+                url={`https://www.roomielistings.com/roommate/${roommate.id}`}
+              />
+            </div>
+          </div>
         </CardHeader>
         <CardContent className="space-y-5 px-0">
           <Table>
             <TableHeader className="h-6">
               <TableRow className="bg-muted/50">
-                <TableHead className="h-8 text-center font-normal text-accent-foreground">Location</TableHead>
+                <TableHead className="h-8 text-center font-normal text-accent-foreground">
+                  <div className="min-w-16">Location</div>
+                </TableHead>
                 <TableHead className="h-8 text-center font-normal text-accent-foreground">Rent</TableHead>
                 <TableHead className="h-8 text-center font-normal text-accent-foreground">
                   <div className="min-w-12">Move in</div>
@@ -105,28 +106,30 @@ export default async function RoommateId({ params: { id } }: { params: { id: str
               </TableRow>
             </TableBody>
           </Table>
-          <div className="flex-1 space-y-5">
+          <div className="flex-1 space-y-3 md:space-y-5">
             {roommate.description && <div className="px-3 md:px-6">{roommate.description}</div>}
-            <div className="mx-6 flex w-fit items-center gap-1 rounded border bg-primary-foreground px-1">
-              <span>Amenities Preferred :</span>
+            <div className="mx-3 flex w-fit flex-wrap items-center gap-1 rounded border bg-primary-foreground px-1 py-1 md:mx-6">
+              <span>Amenities Preferred:</span>
               <span className="capitalize">
                 {roommate.roomRequirements.amenities.length > 0
                   ? roommate.roomRequirements.amenities.join(", ")
                   : "N/A"}
               </span>
             </div>
-            <div className="mx-6 flex w-fit items-center gap-1 overflow-hidden text-ellipsis text-nowrap rounded border bg-primary-foreground px-1">
-              <span>Additional Preferences :</span>
-              <span>{roommate.roomRequirements.furnished ? "Furnished" : "Not Furnished"}</span>
-              {roommate.roomRequirements.vegetarian && <span>, Vegetarian Preferred</span>}
-              {roommate.roomRequirements.petFriendly && <span>, Pet Friendly</span>}
-              {roommate.roomRequirements.smoking && (
-                <span className="capitalize">
-                  {roommate.roomRequirements.smoking === "no"
-                    ? ", No preference"
-                    : `, Smoking ${roommate.roomRequirements.smoking}`}
-                </span>
-              )}
+            <div className="mx-3 flex w-fit flex-wrap items-center gap-1 overflow-hidden text-ellipsis text-nowrap rounded border bg-primary-foreground px-1 py-1 md:mx-6">
+              <span className="mr-1">Additional Preferences:</span>
+              <div className="flex flex-wrap">
+                <span>{roommate.roomRequirements.furnished ? "Furnished" : "Not Furnished"}</span>
+                {roommate.roomRequirements.vegetarian && <span>, Vegetarian Preferred</span>}
+                {roommate.roomRequirements.petFriendly && <span>, Pet Friendly</span>}
+                {roommate.roomRequirements.smoking && (
+                  <span className="capitalize">
+                    {roommate.roomRequirements.smoking === "no"
+                      ? ", No preference"
+                      : `, Smoking ${roommate.roomRequirements.smoking}`}
+                  </span>
+                )}
+              </div>
             </div>
           </div>
         </CardContent>

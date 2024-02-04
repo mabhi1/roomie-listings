@@ -38,7 +38,7 @@ export default function GoogleButton(props: ButtonHTMLAttributes<HTMLButtonEleme
 
   return (
     <Button
-      className="mx-auto flex w-[19rem] justify-center gap-2 p-2 px-5 md:w-[21rem]"
+      className="mx-auto flex w-full max-w-[20rem] justify-center gap-2 p-2 px-5 md:w-[21rem] md:max-w-[21rem]"
       onClick={handleSocialSignin}
       {...props}
     >

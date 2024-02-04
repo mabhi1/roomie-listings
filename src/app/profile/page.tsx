@@ -51,7 +51,7 @@ export default function Profile() {
           heading="My Profile"
           subHeading="This is your profile page. You can see the related comments and ads here."
         />
-        <div className="flex flex-col gap-3 md:flex-row md:items-center lg:gap-5">
+        <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:gap-5">
           <div className="flex flex-1 gap-3 lg:gap-5">
             <div className="group relative h-fit w-fit overflow-clip rounded-full border">
               <Image
@@ -77,7 +77,9 @@ export default function Profile() {
             </div>
             <div className="mr-auto flex flex-col justify-center">
               <div className="text-base md:text-lg">{currentUser.displayName}</div>
-              <div className="w-60 overflow-hidden lg:w-80">{currentUser.email}</div>
+              <div className="w-[16rem] overflow-hidden text-ellipsis text-nowrap lg:w-[25rem] xl:w-[30rem]">
+                {currentUser.email}
+              </div>
               {currentUser.emailVerified ? (
                 <span className="flex items-center gap-1 text-success">
                   <BadgeCheckIcon className="w-3 md:w-4" /> Verified
@@ -96,8 +98,8 @@ export default function Profile() {
           <ProfileButtons currentUser={currentUser} />
         </div>
         <Tabs defaultValue="savedAds" className="mt-3 w-full md:mt-0 md:space-y-5">
-          <div className="flex justify-between">
-            <TabsList>
+          <div className="flex flex-col items-end justify-between gap-2 md:flex-row">
+            <TabsList className="w-full md:w-auto">
               <TabsTrigger value="savedAds">Favourites</TabsTrigger>
               <TabsTrigger value="postedAds">Posts</TabsTrigger>
               <TabsTrigger value="reportedAds">Reports</TabsTrigger>
