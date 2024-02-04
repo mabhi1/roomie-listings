@@ -7,7 +7,7 @@ import { User } from "firebase/auth";
 import ChangePasswordForm from "../forms/ChangePasswordForm";
 import EditProfileForm from "../forms/EditProfileForm";
 import Link from "next/link";
-import { ContactIcon, MessageSquareMoreIcon, SquareAsteriskIcon, UserCog2Icon } from "lucide-react";
+import { MessageSquareMoreIcon, SquareAsteriskIcon, UserCog2Icon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   Drawer,
@@ -33,15 +33,10 @@ export default function ProfileButtons({ currentUser }: { currentUser: User }) {
   return (
     <div
       className={cn(
-        "grid items-center justify-end gap-3 xl:gap-5",
+        "grid items-center justify-end gap-2 xl:gap-5",
         provider === "password" ? "grid-cols-2 xl:grid-cols-3" : "grid-cols-2",
       )}
     >
-      {/* <Link href={`/user/${currentUser.uid}`} passHref legacyBehavior>
-        <Button variant="secondary">
-          <ContactIcon className="mr-1 w-4" /> Public Profile
-        </Button>
-      </Link> */}
       {getProvider === "password" && (
         <>
           {isMobile ? (
@@ -92,7 +87,7 @@ export default function ProfileButtons({ currentUser }: { currentUser: User }) {
           <DrawerTrigger asChild>
             <Button
               onClick={() => setProfileDialog(true)}
-              className={cn(provider === "password" ? "col-span-2 md:col-span-1 md:col-start-2 xl:col-start-auto" : "")}
+              className={cn(provider === "password" ? "col-span-2 lg:col-span-1 lg:col-start-2 xl:col-start-auto" : "")}
             >
               <UserCog2Icon className="mr-1 w-4" />
               Edit Profile

@@ -157,10 +157,10 @@ export default function RoomAdForm() {
 
   return (
     <Form {...form}>
-      <div className="mb-8 text-muted-foreground">
+      <div className="mb-5 text-muted-foreground md:mb-8">
         <Required /> indicates required fields.
       </div>
-      <form onSubmit={form.handleSubmit(onSubmit)} onReset={handleFormReset} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} onReset={handleFormReset} className="space-y-5 md:space-y-8">
         <FormField
           control={form.control}
           name="accomodates"
@@ -205,7 +205,7 @@ export default function RoomAdForm() {
                 </FormLabel>
                 <FormItemInfo>Type of property you are offering.</FormItemInfo>
               </div>
-              <FormControl className="flex gap-5" {...field}>
+              <FormControl className="flex gap-3 md:gap-5" {...field}>
                 <RadioGroup
                   defaultValue="private room"
                   name="propertyType"
@@ -261,7 +261,7 @@ export default function RoomAdForm() {
         />
         <div className="space-y-2">
           <div className="text-sm leading-none">Address</div>
-          <div className="grid grid-cols-2 gap-5 rounded-md border p-5">
+          <div className="grid grid-cols-2 gap-3 rounded-md border p-5 md:gap-5">
             <FormField
               control={form.control}
               name="address.address1"
@@ -331,7 +331,7 @@ export default function RoomAdForm() {
                 Preferred Gender
                 <Required />
               </FormLabel>
-              <FormControl className="flex gap-5" {...field}>
+              <FormControl className="flex gap-3 md:gap-5" {...field}>
                 <RadioGroup onValueChange={field.onChange} value={field.value}>
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="any" id="any" />
@@ -360,7 +360,7 @@ export default function RoomAdForm() {
                 Stay period
                 <Required />
               </FormLabel>
-              <FormControl className="flex gap-5" {...field}>
+              <FormControl className="flex gap-3 md:gap-5" {...field}>
                 <RadioGroup defaultValue="both" onValueChange={field.onChange} value={field.value}>
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="long" id="long" />
@@ -392,7 +392,7 @@ export default function RoomAdForm() {
                 </FormLabel>
                 <FormItemInfo>How often you need the rent.</FormItemInfo>
               </div>
-              <FormControl className="flex gap-5" {...field}>
+              <FormControl className="flex gap-3 md:gap-5" {...field}>
                 <RadioGroup defaultValue="monthly" onValueChange={field.onChange} value={field.value}>
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="monthly" id="monthly" />
@@ -443,7 +443,7 @@ export default function RoomAdForm() {
                 Attached Bath
                 <Required />
               </FormLabel>
-              <FormControl className="flex gap-5">
+              <FormControl className="flex gap-3 md:gap-5">
                 <RadioGroup
                   onValueChange={e => (e === "yes" ? field.onChange(true) : field.onChange(false))}
                   value={field.value ? "yes" : "no"}
@@ -503,14 +503,14 @@ export default function RoomAdForm() {
         />
         <div className="space-y-2">
           <div className="text-sm leading-none">Additional Information</div>
-          <div className="grid grid-cols-2 gap-5 rounded-md border p-5">
+          <div className="grid grid-cols-2 gap-3 rounded-md border p-5 md:gap-5">
             <FormField
               control={form.control}
               name="furnished"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel htmlFor="furnished">Furnished</FormLabel>
-                  <FormControl className="flex gap-5">
+                  <FormControl className="flex gap-3 md:gap-5">
                     <RadioGroup
                       onValueChange={e => (e === "yes" ? field.onChange(true) : field.onChange(false))}
                       value={field.value === undefined ? undefined : field.value === true ? "yes" : "no"}
@@ -535,7 +535,7 @@ export default function RoomAdForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel htmlFor="vegetarian">Vegetarian Preferred</FormLabel>
-                  <FormControl className="flex gap-5">
+                  <FormControl className="flex gap-3 md:gap-5">
                     <RadioGroup
                       onValueChange={e => (e === "yes" ? field.onChange(true) : field.onChange(false))}
                       value={field.value === undefined ? undefined : field.value === true ? "yes" : "no"}
@@ -560,7 +560,7 @@ export default function RoomAdForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel htmlFor="petFriendly">Pet Friendly</FormLabel>
-                  <FormControl className="flex gap-5">
+                  <FormControl className="flex gap-3 md:gap-5">
                     <RadioGroup
                       onValueChange={e => (e === "yes" ? field.onChange(true) : field.onChange(false))}
                       value={field.value === undefined ? undefined : field.value === true ? "yes" : "no"}
@@ -585,7 +585,7 @@ export default function RoomAdForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel htmlFor="smoking">Smoking Allowed</FormLabel>
-                  <FormControl className="flex gap-5">
+                  <FormControl className="flex flex-wrap gap-3 md:gap-5">
                     <RadioGroup onValueChange={field.onChange} value={field.value}>
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="no" id="no" />
@@ -611,7 +611,7 @@ export default function RoomAdForm() {
               render={({ field }) => (
                 <FormItem className="col-span-2">
                   <FormLabel htmlFor="amenities">Amenities Included</FormLabel>
-                  <FormControl className="flex flex-wrap gap-5">
+                  <FormControl className="flex flex-wrap gap-3 md:gap-5">
                     <div>
                       <div className="flex items-center gap-2">
                         <Checkbox
@@ -759,7 +759,12 @@ export default function RoomAdForm() {
             )}
           />
         </div>
-        <div className="flex gap-3 md:gap-5 lg:gap-10">
+        <div className="relative flex gap-3 md:gap-5 lg:gap-10">
+          {Object.keys(form.formState.errors).length > 0 && (
+            <div className="absolute -top-0 left-0 font-medium uppercase text-destructive md:-top-2">
+              Form contains errors
+            </div>
+          )}
           <Button className="mt-5 w-full" type="submit" disabled={isPending}>
             <FilePlus2Icon className="mr-1 w-4" />
             Create Ad

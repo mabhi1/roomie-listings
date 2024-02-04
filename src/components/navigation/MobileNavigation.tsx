@@ -18,7 +18,7 @@ export default function MobileNavigation() {
         <MenuIcon className="w-5" />
       </SheetTrigger>
       <SheetContent className="p-0">
-        <div className="bg-secondary p-3 text-center text-lg">Menu</div>
+        <div className="bg-secondary p-3 text-center text-lg font-light">Menu</div>
         <Accordion type="single" collapsible className="border-t">
           <AccordionItem value="browse">
             <AccordionTrigger className="px-5 py-2 text-xs">
@@ -32,7 +32,7 @@ export default function MobileNavigation() {
                 Search Roommate
               </Link>
               <Link href="/room" className="ml-11 py-0 text-xs" onClick={() => setOpen(false)}>
-                Search Room
+                Search Rental
               </Link>
             </AccordionContent>
           </AccordionItem>
@@ -46,10 +46,10 @@ export default function MobileNavigation() {
               </AccordionTrigger>
               <AccordionContent className="mt-2 flex flex-col gap-5">
                 <Link href="/roommate/create" className="ml-11 py-0 text-xs" onClick={() => setOpen(false)}>
-                  Need a rental
+                  Need a Rental
                 </Link>
                 <Link href="/room/create" className="ml-11 py-0 text-xs" onClick={() => setOpen(false)}>
-                  Have a rental
+                  Have a Rental
                 </Link>
               </AccordionContent>
             </AccordionItem>
