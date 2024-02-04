@@ -10,6 +10,7 @@ export default function PageHeader({
   backButton = true,
   action,
   element,
+  mobileHeading,
 }: {
   heading: string;
   subHeading?: string;
@@ -17,9 +18,10 @@ export default function PageHeader({
   backButton?: boolean;
   action?: { link: string; text: string; icon: React.ReactNode };
   element?: React.ReactNode;
+  mobileHeading?: string;
 }) {
   return (
-    <div className="flex items-end justify-between">
+    <div className="mt-2 flex items-end justify-between md:mt-0">
       <div className="flex w-fit flex-col">
         <div className="flex items-center gap-1">
           {backButton && <BackButton />}
@@ -29,7 +31,8 @@ export default function PageHeader({
               className,
             )}
           >
-            {heading}
+            <span className="md:hidden">{mobileHeading ? mobileHeading : heading}</span>
+            <span className="hidden md:inline">{heading}</span>
           </h1>
         </div>
         {subHeading && <div className="hidden md:block">{subHeading}</div>}
