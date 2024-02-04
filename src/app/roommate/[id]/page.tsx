@@ -51,7 +51,7 @@ export default async function RoommateId({ params: { id } }: { params: { id: str
             <PosterIcon poster={poster} />
             <div className="md:hidden">
               <ShareButton
-                onlyIcon={true}
+                onlyIcon={false}
                 text={`${roommate.propertyType} wanted in ${roommate.address.city}, ${roommate.address.state}`.toUpperCase()}
                 title="Roomie Listings"
                 url={`https://www.roomielistings.com/roommate/${roommate.id}`}
