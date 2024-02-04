@@ -298,7 +298,7 @@ export default function IndividualAd({
         <div className="flex flex-wrap items-center justify-center gap-3">
           <ShareButton
             onlyIcon
-            text={`${ad.propertyType} available in ${ad.address.city}, ${ad.address.state}`.toUpperCase()}
+            text={`${ad.propertyType} ${isRental ? "available" : "wanted"} in ${ad.address.city}, ${ad.address.state}`.toUpperCase()}
             title="Roomie Listings"
             url={`https://www.roomielistings.com/${isRental ? "room" : "roommate"}/${ad.id}`}
             size="sm"

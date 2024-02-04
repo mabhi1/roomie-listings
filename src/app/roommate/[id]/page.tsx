@@ -10,6 +10,7 @@ import ShareButton from "@/components/page/ShareButton";
 import ProtectedComponent from "@/components/page/ProtectedComponent";
 import { RoommateAd } from "@/lib/types";
 import { Separator } from "@/components/ui/separator";
+import { isMobile } from "react-device-detect";
 
 export default async function RoommateId({ params: { id } }: { params: { id: string } }) {
   const roommate = (await getRoommateById(id)) as RoommateAd;
@@ -19,7 +20,11 @@ export default async function RoommateId({ params: { id } }: { params: { id: str
   return (
     <FullWrapper className="gap-3 md:gap-5">
       <PageHeader
-        heading={`${roommate.propertyType} wanted in ${roommate.address.city}, ${roommate.address.state}`}
+        heading={
+          isMobile
+            ? `${roommate.propertyType} wanted`
+            : `${roommate.propertyType} wanted in ${roommate.address.city}, ${roommate.address.state}`
+        }
         backButton
         subHeading="Reach out by sending a message if you like the ad below."
         element={

@@ -10,6 +10,7 @@ import PosterIcon from "@/components/page/PosterIcon";
 import { Separator } from "@/components/ui/separator";
 import ProtectedComponent from "@/components/page/ProtectedComponent";
 import ShareButton from "@/components/page/ShareButton";
+import { isMobile } from "react-device-detect";
 
 export default async function RoomId({ params: { id } }: { params: { id: string } }) {
   const room = await getRoomById(id);
@@ -19,7 +20,11 @@ export default async function RoomId({ params: { id } }: { params: { id: string 
   return (
     <FullWrapper className="gap-3 md:gap-5">
       <PageHeader
-        heading={`${room.propertyType} available in ${room.address.city}, ${room.address.state}`}
+        heading={
+          isMobile
+            ? `${room.propertyType} available`
+            : `${room.propertyType} available in ${room.address.city}, ${room.address.state}`
+        }
         backButton
         subHeading="Reach out by sending a message if you like the ad below."
         element={
