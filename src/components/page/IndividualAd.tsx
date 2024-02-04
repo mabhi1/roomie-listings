@@ -301,6 +301,7 @@ export default function IndividualAd({
             text={`${ad.propertyType} available in ${ad.address.city}, ${ad.address.state}`.toUpperCase()}
             title="Roomie Listings"
             url={`https://www.roomielistings.com/${isRental ? "room" : "roommate"}/${ad.id}`}
+            size="sm"
           />
           {currentUser?.uid === ad.postedBy ? (
             <>

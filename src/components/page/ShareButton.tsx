@@ -10,11 +10,13 @@ export default function ShareButton({
   text,
   title,
   onlyIcon,
+  size,
 }: {
   url: string;
   text: string;
   title: string;
   onlyIcon: boolean;
+  size?: "default" | "sm" | "lg" | "icon";
 }) {
   return (
     <RWebShare
@@ -25,7 +27,7 @@ export default function ShareButton({
       }}
       onClick={() => toast.success("Link Copied")}
     >
-      <Button size="default" variant={onlyIcon ? "outline" : "secondary"}>
+      <Button size={size ? size : "default"} variant={onlyIcon ? "outline" : "secondary"}>
         <Share2Icon className="mr-1 w-4" />
         {onlyIcon ? "Share" : "Share this ad"}
       </Button>
