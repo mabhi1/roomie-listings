@@ -8,9 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { cn } from "@/lib/utils";
 import { RotateCcwIcon, SendIcon } from "lucide-react";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, createRef, useEffect, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { toast } from "sonner";
 
@@ -21,6 +20,7 @@ export default function ContactUsForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [reCaptcha, setReCaptcha] = useState<string | null>();
+  const reCaptchaRef = createRef<ReCAPTCHA>();
 
   useEffect(() => {
     if (currentUser) {
@@ -31,6 +31,10 @@ export default function ContactUsForm() {
       setEmail("");
     }
   }, [currentUser]);
+
+  useEffect(() => {
+    if (reCaptcha === null) reCaptchaRef.current?.reset();
+  }, [reCaptcha]);
 
   const isEmptyForm = () => {
     if (currentUser) return message.trim().length === 0;
@@ -59,7 +63,7 @@ export default function ContactUsForm() {
     const success = verifyRecaptcha(reCaptcha);
     if (!success) return;
     const { data, error } = await contactEmail(name, email, message);
-    if (error) toast.error("Error in sending email");
+    if (error) toast.error(error.name === "validation_error" ? "Invalid Email" : "Error in sending email");
     else toast.success("Email sent successfully");
     setLoading(false);
     handleResetForm();
@@ -115,7 +119,8 @@ export default function ContactUsForm() {
       <ReCAPTCHA
         sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
         onChange={setReCaptcha}
-        className={cn(!isValidForm() && "hidden", "mx-auto mb-2")}
+        ref={reCaptchaRef}
+        className="mx-auto mb-2"
         onExpired={() => setReCaptcha(null)}
         onErrored={() => setReCaptcha(null)}
       />

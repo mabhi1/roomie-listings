@@ -8,7 +8,6 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { KeyIcon, LockIcon, LogInIcon, UnlockIcon } from "lucide-react";
 import { passwordReset, rememberSignIn, signIn } from "@/firebase/firebaseAuthFunctions";
-import axios from "axios";
 import PageHeader from "../page/PageHeader";
 
 export default function EmailSigninForm() {
@@ -38,16 +37,11 @@ export default function EmailSigninForm() {
 
   const handlePasswordReset = async () => {
     if (invalidEmail()) {
-      toast.error("Please enter a valid email");
+      toast.error("Please enter email to reset password");
       return;
     }
 
     try {
-      const { data } = await axios.get(`/api/users?email=${email}&provider=password`);
-      if (!data.data) {
-        toast.error(data.error);
-        return;
-      }
       await passwordReset(email);
       toast.success("Password reset email sent");
     } catch (error: any) {

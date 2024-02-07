@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
 import Image from "next/image";
 import { User } from "@/lib/types";
@@ -29,18 +28,13 @@ export default function PosterIcon({ poster }: { poster: User }) {
             </div>
           </TooltipTrigger>
           <TooltipContent>
-            <p className="text-xs">{poster.name}</p>
+            <p className="text-xs capitalize">{poster.name}</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
     );
   }
 
-  if (!currentUser || currentUser.uid !== poster.uid)
-    return (
-      // <Link href={`/user/${poster.uid}`} className="w-fit transition md:hover:scale-110">
-      <>{getUserIcon()}</>
-      // </Link>
-    );
+  if (!currentUser || currentUser.uid !== poster.uid) return <>{getUserIcon()}</>;
   else return getUserIcon();
 }
