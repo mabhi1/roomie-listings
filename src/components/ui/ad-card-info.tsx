@@ -43,7 +43,7 @@ export default function AdCardInfo({
       <TooltipProvider>
         <Tooltip delayDuration={0}>
           <TooltipTrigger asChild>{children}</TooltipTrigger>
-          <TooltipContent>
+          <TooltipContent className="bg-muted-foreground capitalize text-muted">
             <p>{toolTipText}</p>
           </TooltipContent>
         </Tooltip>
