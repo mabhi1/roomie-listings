@@ -64,8 +64,6 @@ export default function RoommateEditForm({ roommateAd }: { roommateAd: RoommateA
 
   if (!currentUser) return;
 
-  console.log(form.formState.errors);
-
   const handleDescriptionChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const description = e.target.value;
     if (description.length > 5000) return;

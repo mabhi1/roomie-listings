@@ -1,6 +1,6 @@
 "use client";
 
-import { updateProfilePicture } from "@/actions/user";
+import { getUser, updateProfilePicture } from "@/actions/user";
 import ProfileButtons from "@/components/buttons/ProfileButtons";
 import FullWrapper from "@/components/page/FullWrapper";
 import PageHeader from "@/components/page/PageHeader";
@@ -12,39 +12,50 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { updatePhoto } from "@/firebase/firebaseAuthFunctions";
 import { deleteFile } from "@/firebase/firebaseDBFunctions";
-import { toastMessage } from "@/lib/constants";
-import { sendEmailVerification } from "firebase/auth";
-import { BadgeCheckIcon, BadgeXIcon } from "lucide-react";
 import Image from "next/image";
 import { toast } from "sonner";
 import noUserImage from "../../../public/user.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { User } from "@prisma/client";
+import Spinner from "@/components/page/Spinner";
 
 export default function Profile() {
   const [tabType, setTabType] = useState("rentals");
   const { currentUser } = useAuth();
+  const [user, setUser] = useState<User>();
+  const [loading, setLoading] = useState(true);
 
-  const handleSendVerification = async () => {
-    try {
-      await sendEmailVerification(currentUser!);
-      toast.success(toastMessage.emailVerificationSuccess);
-    } catch (error) {
-      toast.error(toastMessage.emailVerificationError);
+  useEffect(() => {
+    async function fetchUser() {
+      if (currentUser) {
+        const user = await getUser(currentUser.uid);
+        setUser(user);
+        setLoading(false);
+      }
     }
-  };
+    fetchUser();
+  }, [currentUser]);
 
   const handleRemoveProfilePicture = async () => {
     try {
-      if (!currentUser?.photoURL?.includes("google")) await deleteFile(currentUser?.uid!);
+      if (user?.photo?.includes("firebasestorage")) await deleteFile(user?.uid!);
       await updatePhoto("");
-      await updateProfilePicture(currentUser?.uid!, null);
+      await updateProfilePicture(user?.uid!, null);
       toast.success("Profile picture removed successfully");
+      setUser(user => user && { ...user, photo: null });
     } catch (error: any) {
       toast.error("Error in removing profile picture");
     }
   };
 
-  if (currentUser)
+  if (loading)
+    return (
+      <FullWrapper className="items-center pt-20">
+        <Spinner size="large" />
+      </FullWrapper>
+    );
+
+  if (user && currentUser)
     return (
       <FullWrapper className="gap-3 md:gap-5">
         <PageHeader
@@ -55,16 +66,16 @@ export default function Profile() {
           <div className="flex flex-1 gap-3 lg:gap-5">
             <div className="group relative h-fit w-fit overflow-clip rounded-full border">
               <Image
-                src={currentUser.photoURL ? currentUser.photoURL : noUserImage}
-                alt={currentUser.displayName!}
+                src={user.photo ? user.photo : noUserImage}
+                alt={user.name}
                 width={50}
                 height={50}
                 className="h-[60px] w-[60px] object-cover md:h-[80px] md:w-[80px] xl:h-[90px] xl:w-[90px]"
                 priority
                 placeholder="blur"
-                blurDataURL={currentUser.photoURL ? currentUser.photoURL : ""}
+                blurDataURL={user.photo ? user.photo : ""}
               />
-              {currentUser.photoURL && (
+              {user.photo && (
                 <Button
                   variant="ghost"
                   size="sm"
@@ -76,26 +87,13 @@ export default function Profile() {
               )}
             </div>
             <div className="mr-auto flex flex-col justify-center">
-              <div className="text-base md:text-lg">{currentUser.displayName}</div>
+              <div className="text-base capitalize md:text-lg">{user.name}</div>
               <div className="w-[16rem] overflow-hidden text-ellipsis text-nowrap lg:w-[25rem] xl:w-[30rem]">
-                {currentUser.email}
+                {user.email}
               </div>
-              {currentUser.emailVerified ? (
-                <span className="flex items-center gap-1 text-success">
-                  <BadgeCheckIcon className="w-3 md:w-4" /> Verified
-                </span>
-              ) : (
-                <span className="flex items-center gap-1 text-destructive">
-                  <BadgeXIcon className="w-3 md:w-4" />
-                  <span>Not Verified</span>
-                  <Button onClick={handleSendVerification} variant="link" className="h-0 p-0 md:h-0">
-                    &#40;Send Verification link&#41;
-                  </Button>
-                </span>
-              )}
             </div>
           </div>
-          <ProfileButtons currentUser={currentUser} />
+          <ProfileButtons currentUser={currentUser} setCurrentUser={setUser} />
         </div>
         <Tabs defaultValue="savedAds" className="mt-3 w-full md:mt-0 md:space-y-5">
           <div className="flex flex-col items-end justify-between gap-2 md:flex-row">
@@ -119,23 +117,23 @@ export default function Profile() {
           </div>
           <TabsContent value="savedAds">
             {tabType === "rentals" ? (
-              <RoomProfilePage currentUser={currentUser} tab="savedAds" />
+              <RoomProfilePage userId={user.uid} tab="savedAds" />
             ) : (
-              <RoommateProfileTable currentUser={currentUser} tab="savedAds" />
+              <RoommateProfileTable userId={user.uid} tab="savedAds" />
             )}
           </TabsContent>
           <TabsContent value="postedAds">
             {tabType === "rentals" ? (
-              <RoomProfilePage currentUser={currentUser} tab="postedAds" />
+              <RoomProfilePage userId={user.uid} tab="postedAds" />
             ) : (
-              <RoommateProfileTable currentUser={currentUser} tab="postedAds" />
+              <RoommateProfileTable userId={user.uid} tab="postedAds" />
             )}
           </TabsContent>
           <TabsContent value="reportedAds">
             {tabType === "rentals" ? (
-              <RoomProfilePage currentUser={currentUser} tab="reportedAds" />
+              <RoomProfilePage userId={user.uid} tab="reportedAds" />
             ) : (
-              <RoommateProfileTable currentUser={currentUser} tab="reportedAds" />
+              <RoommateProfileTable userId={user.uid} tab="reportedAds" />
             )}
           </TabsContent>
         </Tabs>
