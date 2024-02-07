@@ -93,7 +93,12 @@ export default function RoomButtons({ ad, receiver }: { ad: RoomAd; receiver: Us
   if (!currentUser)
     return (
       <CardFooter className="justify-start p-3 md:p-4">
-        <div className="uppercase">Please sign in to send a message to the user</div>
+        <Link href={`/signin?fallbackUrl=/room/${ad.id}`} legacyBehavior passHref>
+          <Button disabled={isPending}>
+            <SendIcon className="mr-1 w-4" />
+            Send Message
+          </Button>
+        </Link>
       </CardFooter>
     );
   else if (ad.postedBy === currentUser?.uid)

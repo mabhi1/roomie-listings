@@ -89,7 +89,12 @@ export default function RoommateButtons({ ad, receiver }: { ad: RoommateAd; rece
   if (!currentUser)
     return (
       <CardFooter className="justify-start p-3 md:p-4">
-        <div>Please login to favourite, or report this ad, or send a message to the user</div>
+        <Link href={`/signin?fallbackUrl=/roommate/${ad.id}`} legacyBehavior passHref>
+          <Button disabled={isPending}>
+            <SendIcon className="mr-1 w-4" />
+            Send Message
+          </Button>
+        </Link>
       </CardFooter>
     );
   else if (ad.postedBy === currentUser?.uid)

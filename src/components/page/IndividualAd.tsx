@@ -142,8 +142,6 @@ export default function IndividualAd({
       });
   };
 
-  console.log(ad);
-
   const getAmenitiesIcon = (i: string) => {
     switch (i) {
       case "swimming pool":
@@ -214,7 +212,7 @@ export default function IndividualAd({
         <div className="flex flex-1 flex-col justify-between gap-2 overflow-auto">
           <Table>
             <TableHeader className="[&_tr]:border-b-0">
-              <TableRow>
+              <TableRow className="bg-muted/50">
                 {[
                   isRental ? "Available from" : "Move in",
                   "Gender",
@@ -225,7 +223,7 @@ export default function IndividualAd({
                 ].map(item => (
                   <TableHead
                     key={item}
-                    className="h-7 text-left font-normal text-muted-foreground/70 first:rounded-l last:rounded-r last:border-r-0"
+                    className="h-7 text-left font-normal text-muted-foreground first:rounded-l last:rounded-r last:border-r-0"
                   >
                     <div className="min-w-12">{item}</div>
                   </TableHead>
@@ -345,7 +343,7 @@ export default function IndividualAd({
                   <BeanOffIcon color="#00a303" className="w-4" />
                 )
               }
-              text={ad.roomRequirements.vegetarian === true ? "Vegetarian Preferred" : "No Veg Preference"}
+              text={ad.roomRequirements.vegetarian === true ? "Vegetarian Preferred" : "No Vegetarian Preference"}
             />
           )}
           {ad.roomRequirements.petFriendly !== null && (
