@@ -34,7 +34,7 @@ export default function ContactUsForm() {
 
   useEffect(() => {
     if (reCaptcha === null) reCaptchaRef.current?.reset();
-  }, [reCaptcha]);
+  }, [reCaptcha, reCaptchaRef]);
 
   const isEmptyForm = () => {
     if (currentUser) return message.trim().length === 0;

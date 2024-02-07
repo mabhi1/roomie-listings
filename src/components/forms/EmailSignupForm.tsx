@@ -55,7 +55,7 @@ export default function EmailSignupForm() {
 
   useEffect(() => {
     if (reCaptcha === null) reCaptchaRef.current?.reset();
-  }, [reCaptcha]);
+  }, [reCaptcha, reCaptchaRef]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
