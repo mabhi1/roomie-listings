@@ -27,7 +27,6 @@ export default function ShareButton({
       }}
       onClick={(site: string) => {
         if (site === "copy") toast.success("Link Copied");
-        else toast.success("Ad Shared");
       }}
     >
       <Button size={onlyIcon ? "icon" : size ? size : "default"} variant={onlyIcon ? "outline" : "secondary"}>
