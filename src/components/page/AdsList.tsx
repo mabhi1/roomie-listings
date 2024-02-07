@@ -37,6 +37,8 @@ export default function AdsList({ ads, page }: { ads: RoomAd[] | RoommateAd[]; p
   }, [ads]);
 
   useEffect(() => {
+    const adsSessionFilterRemoved = sessionStorage.getItem("roomie_listings_ads_filter");
+    if (adsSessionFilterRemoved) return;
     const cities = getAllCities();
     if (cities.includes(currentCity)) setSelectedCity([currentCity]);
     else toast.info(`No ${page} ads in your city`);
@@ -98,6 +100,7 @@ export default function AdsList({ ads, page }: { ads: RoomAd[] | RoommateAd[]; p
     setGender("any");
     setRentType("all");
     setSearchTerm("");
+    sessionStorage.setItem("roomie_listings_ads_filter", "removed");
   };
 
   const isNotFiltered = () => {
@@ -215,7 +218,7 @@ export default function AdsList({ ads, page }: { ads: RoomAd[] | RoommateAd[]; p
                   </Select>
                 </div>
                 <div className="flex flex-col gap-2">
-                  <div>{page === "roommate" ? "Budget" : "Rent"}</div>
+                  <div>Rent</div>
                   <div className="flex flex-col justify-evenly gap-2 md:flex-row md:items-center">
                     <span>Min: </span>
                     <Input
