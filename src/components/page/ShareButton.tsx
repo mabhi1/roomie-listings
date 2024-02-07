@@ -29,7 +29,11 @@ export default function ShareButton({
         if (site === "copy") toast.success("Link Copied");
       }}
     >
-      <Button size={onlyIcon ? "icon" : size ? size : "default"} variant={onlyIcon ? "outline" : "secondary"}>
+      <Button
+        size={onlyIcon ? "icon" : size ? size : "default"}
+        variant={onlyIcon ? "outline" : "secondary"}
+        className="text-black"
+      >
         <Share2Icon className="mr-1 w-4" />
         {!onlyIcon && "Share"}
       </Button>

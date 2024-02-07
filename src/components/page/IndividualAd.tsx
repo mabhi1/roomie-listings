@@ -4,17 +4,31 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Separator } from "../ui/separator";
 import {
   AwardIcon,
+  BeanIcon,
+  BeanOffIcon,
   BookTextIcon,
+  CableCarIcon,
+  CarIcon,
+  CigaretteIcon,
+  CigaretteOffIcon,
   CoinsIcon,
   DeleteIcon,
   DoorOpenIcon,
+  DumbbellIcon,
+  FishIcon,
+  FishOffIcon,
   HeartIcon,
   HeartOffIcon,
   InfoIcon,
   MapPinIcon,
+  MonitorIcon,
+  MonitorOffIcon,
   PenLineIcon,
   ShieldAlertIcon,
   ShieldOffIcon,
+  ShirtIcon,
+  StoreIcon,
+  WavesIcon,
 } from "lucide-react";
 import { Dispatch, SetStateAction, useEffect, useState, useTransition } from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
@@ -32,6 +46,7 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import ShareButton from "./ShareButton";
 import { deleteRoommateAds, reportRoommate, saveRoommate } from "@/actions/roommate";
+import AdIcon from "./AdIcon";
 
 export default function IndividualAd({
   ad,
@@ -127,6 +142,25 @@ export default function IndividualAd({
       });
   };
 
+  console.log(ad);
+
+  const getAmenitiesIcon = (i: string) => {
+    switch (i) {
+      case "swimming pool":
+        return <WavesIcon className="w-4" />;
+      case "car park":
+        return <CarIcon className="w-4" />;
+      case "laundary":
+        return <ShirtIcon className="w-4" />;
+      case "gym":
+        return <DumbbellIcon className="w-4" />;
+      case "elevator":
+        return <CableCarIcon className="w-4" />;
+      case "club house":
+        return <StoreIcon className="w-4" />;
+    }
+  };
+
   return (
     <Card
       className={cn(
@@ -134,20 +168,20 @@ export default function IndividualAd({
           ? "relative border-green-600"
           : viewed && list
             ? "relative border-yellow-600"
-            : "",
-        "hover:border-muted-foreground/50 hover:shadow-md",
+            : "border-black/20",
+        "text-muted-foreground hover:bg-muted/40 hover:shadow-md",
       )}
     >
-      <CardHeader className="rounded-t bg-primary/5 px-3 py-2">
-        <CardTitle className="flex flex-col-reverse items-center gap-1 text-xs font-normal md:text-sm lg:flex-row lg:text-base">
-          <div className="hidden items-center gap-1 lg:flex">
+      <CardHeader className="rounded-t px-3 py-2 md:py-3">
+        <CardTitle className="flex flex-col-reverse items-center gap-1 text-xs font-light md:text-sm lg:flex-row lg:text-base">
+          <div className="hidden items-center gap-1 font-normal text-black lg:flex">
             <MapPinIcon className="w-4" />
             {ad.address.city}, {ad.address.state}
             <div>|</div>
           </div>
           <div className="w-full overflow-hidden text-ellipsis text-nowrap lg:w-[25rem] xl:w-[44rem]">{ad.title}</div>
           <Separator className="lg:hidden" />
-          <div className="flex w-full gap-1 lg:ml-auto lg:w-fit">
+          <div className="flex w-full items-center gap-1 lg:ml-auto lg:w-fit">
             {list && currentUser?.uid === ad.postedBy ? (
               <div className="absolute -left-[4.2rem] top-5 hidden rounded-l bg-green-600 p-1 px-2 text-xs uppercase text-primary-foreground xl:block">
                 your ad
@@ -160,61 +194,62 @@ export default function IndividualAd({
                 </div>
               )
             )}
-            <div className="mr-auto flex items-center md:gap-1 lg:hidden">
+            <div className="mr-auto flex items-center font-medium text-black md:gap-1 lg:hidden">
               <MapPinIcon className="w-3 md:w-4" />
               {ad.address.city}, {ad.address.state}
             </div>
-            <div className="hidden gap-1 lg:flex">
+            <div className="hidden gap-1 text-xs lg:flex">
               Updated: {ad.updatedAt?.toLocaleDateString("en-us", { year: "numeric", month: "short", day: "numeric" })}
               <div>|</div>
             </div>
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1 font-normal text-black">
               <CoinsIcon className="w-3 md:w-4" />
               Rent: ${ad.rent} {ad.roomRequirements.rentType}
             </div>
           </div>
         </CardTitle>
       </CardHeader>
-      <CardContent className="flex flex-col gap-3 p-3 md:flex-row">
+      <Separator />
+      <CardContent className="flex flex-col gap-3 p-2 md:flex-row md:p-3">
         <div className="flex flex-1 flex-col justify-between gap-2 overflow-auto">
           <Table>
             <TableHeader className="[&_tr]:border-b-0">
-              <TableRow className="px-0">
+              <TableRow>
                 {[
-                  "Accomodates",
                   isRental ? "Available from" : "Move in",
-                  "Type",
                   "Gender",
                   "Stay type",
+                  "Type",
                   "Attached Bath",
+                  "Accomodates",
                 ].map(item => (
                   <TableHead
                     key={item}
-                    className="h-7 bg-primary/5 px-2 text-left font-normal text-black first:rounded-l last:rounded-r last:border-r-0"
+                    className="h-7 text-left font-normal text-muted-foreground/70 first:rounded-l last:rounded-r last:border-r-0"
                   >
-                    <div className="min-w-20 md:min-w-24">{item}</div>
+                    <div className="min-w-12">{item}</div>
                   </TableHead>
                 ))}
               </TableRow>
             </TableHeader>
             <TableBody>
-              <TableRow className="px-0">
+              <TableRow>
                 {[
-                  ad.roomRequirements.accomodates,
                   ad.moveIn.toLocaleDateString("en-us", { year: "numeric", month: "short", day: "numeric" }),
-                  ad.propertyType,
                   ad.roomRequirements.gender,
                   ad.roomRequirements.stay === "both" ? "Any" : `${ad.roomRequirements.stay} term`,
+                  ad.propertyType,
                   ad.roomRequirements.attachedBath ? "Yes" : "No",
+                  ad.roomRequirements.accomodates,
                 ].map(item => (
                   <TableCell
                     key={item}
                     className={cn(
-                      "h-6 p-1 px-2 text-left capitalize last:border-r-0",
+                      "h-6 py-1 text-left font-normal capitalize text-black last:border-r-0",
                       item === ad.roomRequirements.gender && "uppercase text-primary",
                     )}
                   >
-                    <div className={item === ad.roomRequirements.accomodates ? "w-20 text-right" : ""}>{item}</div>
+                    <div>{typeof item === "number" ? `${item} ${item === 1 ? "person" : "people"}` : item}</div>
                   </TableCell>
                 ))}
               </TableRow>
@@ -224,7 +259,7 @@ export default function IndividualAd({
             <>
               <Separator />
               <div className="flex items-center gap-1">
-                <BookTextIcon className="hidden w-3 lg:inline" />
+                <BookTextIcon className="hidden w-4 lg:inline" />
                 <span className="h-8 w-full overflow-hidden text-ellipsis text-wrap md:h-auto md:text-nowrap">
                   {ad.description}
                 </span>
@@ -234,19 +269,21 @@ export default function IndividualAd({
         </div>
         <div
           className={cn(
-            "hidden flex-col items-center rounded border px-2 py-1 text-xs md:flex md:py-0",
-            isRental ? "w-full md:w-36" : "w-full md:w-44",
+            "flex flex-row items-center gap-2 rounded border px-2 py-2 text-xs md:flex-col",
+            isRental ? "w-full md:w-36" : "w-full md:w-[9rem]",
           )}
         >
-          <span className="flex items-center">
-            <AwardIcon className="w-3" />
-            Amenities {!isRental && "Preferred"}
+          <span className="flex items-center gap-1">
+            <AwardIcon className="w-4" />
+            Amenities
           </span>
-          <Separator />
-          <span className="mt-1 text-wrap text-center capitalize">
-            {ad.roomRequirements.amenities.length > 0
-              ? ad.roomRequirements.amenities.map(i => i.split(" ").join("-")).join(", ")
-              : "N/A"}
+          <Separator className="hidden md:block" />
+          <span className="flex grid-cols-4 gap-2 text-muted-foreground md:grid">
+            {ad.roomRequirements.amenities.length > 0 ? (
+              ad.roomRequirements.amenities.map(i => <AdIcon key={i} text={i} icon={getAmenitiesIcon(i)} />)
+            ) : (
+              <div className="col-span-4">N/A</div>
+            )}
           </span>
         </div>
         {isRental && ad.gallery?.length > 0 ? (
@@ -282,21 +319,63 @@ export default function IndividualAd({
         )}
       </CardContent>
       <CardFooter className="mt-0 flex flex-col justify-between gap-2 px-3 pb-2 md:border-t md:pt-2 xl:flex-row">
-        <div className="hidden w-full flex-wrap items-center md:flex md:w-auto">
-          <InfoIcon className="mr-1 hidden w-3 md:inline" />
-          <span className="mr-1 hidden md:inline">{isRental ? "Additional Info :" : "Additional Preferences :"}</span>
-          <span>{ad.roomRequirements.furnished ? "Furnished" : "Not Furnished"}</span>
-          {ad.roomRequirements.vegetarian && <span>, Vegetarian Preferred</span>}
-          {ad.roomRequirements.petFriendly && <span>, Pet Friendly</span>}
-          {ad.roomRequirements.smoking && (
-            <span className="capitalize">
-              {ad.roomRequirements.smoking === "no"
-                ? ", Smoking not allowed"
-                : `, Smoking ${ad.roomRequirements.smoking}`}
-            </span>
+        <div className="ml-3 flex w-full flex-wrap items-center gap-2 md:ml-0 md:w-auto">
+          <div className="flex items-center gap-1">
+            <InfoIcon className="w-4" />
+            <span>{isRental ? "Information :" : "Preferences :"}</span>
+          </div>
+          <AdIcon
+            color="#a34f00"
+            text={ad.roomRequirements.furnished ? "Furnished" : "Not Furnished"}
+            icon={
+              ad.roomRequirements.furnished ? (
+                <MonitorIcon color="#a34f00" className="w-4" />
+              ) : (
+                <MonitorOffIcon color="#a34f00" className="w-4" />
+              )
+            }
+          />
+          {ad.roomRequirements.vegetarian !== null && (
+            <AdIcon
+              color="#00a303"
+              icon={
+                ad.roomRequirements.vegetarian === true ? (
+                  <BeanIcon color="#00a303" className="w-4" />
+                ) : (
+                  <BeanOffIcon color="#00a303" className="w-4" />
+                )
+              }
+              text={ad.roomRequirements.vegetarian === true ? "Vegetarian Preferred" : "No Veg Preference"}
+            />
+          )}
+          {ad.roomRequirements.petFriendly !== null && (
+            <AdIcon
+              color="#0031a3"
+              icon={
+                ad.roomRequirements.petFriendly === true ? (
+                  <FishIcon color="#0031a3" className="w-4" />
+                ) : (
+                  <FishOffIcon color="#0031a3" className="w-4" />
+                )
+              }
+              text={ad.roomRequirements.petFriendly ? "Pet Friendly" : "No Pets Allowed"}
+            />
+          )}
+          {ad.roomRequirements.smoking !== null && (
+            <AdIcon
+              color="#7800a3"
+              icon={
+                ad.roomRequirements.smoking === "no" ? (
+                  <CigaretteOffIcon color="#7800a3" className="w-4" />
+                ) : (
+                  <CigaretteIcon color="#7800a3" className="w-4" />
+                )
+              }
+              text={`${ad.roomRequirements.smoking} smoking`}
+            />
           )}
         </div>
-        <div className="flex flex-wrap items-center justify-center gap-3">
+        <div className="mt-2 flex flex-wrap items-center justify-center gap-3 md:mt-0">
           <ShareButton
             onlyIcon
             text={`${ad.propertyType} ${isRental ? "available" : "wanted"} in ${ad.address.city}, ${ad.address.state}`.toUpperCase()}
@@ -307,28 +386,22 @@ export default function IndividualAd({
           {currentUser?.uid === ad.postedBy ? (
             <>
               {isPending ? (
-                <Button size="sm" variant="secondary" disabled>
+                <Button className="text-black" size="sm" variant="outline" disabled>
                   <PenLineIcon className="mr-1 w-4" />
                   Edit
                 </Button>
               ) : (
                 <Link href={`/${isRental ? "room" : "roommate"}/${ad?.id}/edit`}>
-                  <Button size="sm" variant="secondary">
+                  <Button className="text-black" size="sm" variant="outline">
                     <PenLineIcon className="mr-1 w-4" />
                     Edit
                   </Button>
                 </Link>
               )}
-              <AdCardInfo
-                toolTipText="Delete Ad"
-                onConfirm={isPending ? () => {} : () => handleDeleteAd("postedAds")}
-                confirmMessage="remove this ad"
-              >
-                <Button size="sm" variant="destructive" disabled={isPending}>
-                  <DeleteIcon className="mr-1 w-4" />
-                  Delete
-                </Button>
-              </AdCardInfo>
+              <Button size="sm" variant="destructive" disabled={isPending} onClick={() => handleDeleteAd("postedAds")}>
+                <DeleteIcon className="mr-1 w-4" />
+                Delete
+              </Button>
             </>
           ) : (
             <>
