@@ -1,6 +1,6 @@
 "use client";
 
-import { RoommateAd } from "@/lib/types";
+import { RoommateAd, User } from "@/lib/types";
 import useAuth from "../providers/AuthProvider";
 import { Button } from "../ui/button";
 import { CardFooter } from "../ui/card";
@@ -38,8 +38,9 @@ import {
 } from "@/components/ui/drawer";
 import { useRouter } from "next/navigation";
 import { isMobile } from "react-device-detect";
+import MessageForm from "../forms/MessageForm";
 
-export default function RoommateButtons({ ad }: { ad: RoommateAd }) {
+export default function RoommateButtons({ ad, receiver }: { ad: RoommateAd; receiver: User }) {
   const { currentUser } = useAuth();
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -155,13 +156,31 @@ export default function RoommateButtons({ ad }: { ad: RoommateAd }) {
     return (
       <CardFooter className="flex-col justify-between gap-2 p-3 md:flex-row md:p-5 lg:gap-5">
         <div className="flex w-full flex-col justify-between gap-2 md:w-fit md:flex-row lg:gap-5">
-          <Link href={`/message/${currentUser.uid}/${ad.postedBy}/roommate/${ad.id}`} passHref legacyBehavior>
-            <Button disabled={isPending}>
-              <SendIcon className="mr-1 w-4" />
-              Send Message
-            </Button>
-          </Link>
-
+          {isMobile ? (
+            <Drawer>
+              <DrawerTrigger asChild>
+                <Button disabled={isPending}>
+                  <SendIcon className="mr-1 w-4" />
+                  Send Message
+                </Button>
+              </DrawerTrigger>
+              <DrawerContent className="p-5">
+                <MessageForm ad={ad} receiver={receiver} type="roommate" currentUserId={currentUser.uid} />
+              </DrawerContent>
+            </Drawer>
+          ) : (
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button disabled={isPending}>
+                  <SendIcon className="mr-1 w-4" />
+                  Send Message
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <MessageForm ad={ad} receiver={receiver} type="roommate" currentUserId={currentUser.uid} />
+              </DialogContent>
+            </Dialog>
+          )}
           {ad.savedBy.includes(currentUser.uid) ? (
             <div className="mx-auto">
               <span>Added to favourites</span>
