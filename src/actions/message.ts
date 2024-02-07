@@ -1,6 +1,6 @@
 "use server";
 
-import { RoomAd, RoommateAd, User } from "@/lib/types";
+import { RoomAd, RoommateAd } from "@/lib/types";
 import { createMessage } from "@/prisma/db/messages";
 import { AdEnquiryTemplate } from "@/resend/emailTemplates/AdEnquiry";
 import { ContactTemplate } from "@/resend/emailTemplates/ContactTemplate";
@@ -8,8 +8,8 @@ import resend from "@/resend/resend";
 import { revalidatePath } from "next/cache";
 
 export async function sendEmail(
-  sender: User,
-  receiver: User,
+  sender: { name: string; email: string; uid: string },
+  receiver: { name: string; email: string; uid: string },
   type: string,
   ad: RoomAd | RoommateAd,
   message: string,

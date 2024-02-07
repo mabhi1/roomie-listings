@@ -2,38 +2,53 @@
 
 import { RotateCcwIcon, SendIcon } from "lucide-react";
 import { Button } from "../ui/button";
-import { RoomAd, RoommateAd, User } from "@/lib/types";
+import { RoomAd, RoommateAd } from "@/lib/types";
 import Required from "./Required";
 import { Textarea } from "../ui/textarea";
 import { Input } from "../ui/input";
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { toast } from "sonner";
 import { sendEmail } from "@/actions/message";
 import { uploadFile } from "@/firebase/firebaseDBFunctions";
+import { getUser } from "@/actions/user";
+import { User } from "@prisma/client";
 
 export default function MessageForm({
-  sender,
+  currentUserId,
   receiver,
   type,
   ad,
 }: {
-  sender: User;
-  receiver: User;
-  type: string;
+  currentUserId: string;
+  receiver: { name: string; email: string; uid: string };
+  type: "room" | "roommate";
   ad: RoomAd | RoommateAd;
 }) {
   const [isPending, startTransition] = useTransition();
   const [message, setMessage] = useState("");
   const [file, setFile] = useState<File | undefined>();
+  const [user, setUser] = useState<User>();
+
+  useEffect(() => {
+    async function fetchUser() {
+      const user = await getUser(currentUserId);
+      setUser(user);
+    }
+    fetchUser();
+  }, [currentUserId]);
 
   const handleSendEmail = async () => {
+    if (!user) {
+      toast.error("Error in sending email");
+      return;
+    }
     startTransition(async () => {
       if (!message || message.trim().length <= 0) return;
       const uniqueId = Math.random().toString(16).slice(2);
       try {
         const { url } = file ? await uploadFile(uniqueId, file) : { url: undefined };
         const data = await sendEmail(
-          sender,
+          { email: user.email, name: user.name, uid: user.uid },
           receiver,
           type,
           ad,
