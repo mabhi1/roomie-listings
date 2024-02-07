@@ -10,9 +10,10 @@ import PosterIcon from "@/components/page/PosterIcon";
 import { Separator } from "@/components/ui/separator";
 import ProtectedComponent from "@/components/page/ProtectedComponent";
 import ShareButton from "@/components/page/ShareButton";
+import { RoomAd } from "@/lib/types";
 
 export default async function RoomId({ params: { id } }: { params: { id: string } }) {
-  const room = await getRoomById(id);
+  const room = (await getRoomById(id)) as RoomAd;
   if (!room) throw new Error("Room ad not found");
   const poster = await getUserById(room.postedBy);
 
@@ -39,7 +40,7 @@ export default async function RoomId({ params: { id } }: { params: { id: string 
             <CardDescription>
               <span className="text-xs italic ">
                 Last Updated:{" "}
-                {room.updatedAt.toLocaleDateString("en-us", { year: "numeric", month: "short", day: "numeric" })}
+                {room.updatedAt?.toLocaleDateString("en-us", { year: "numeric", month: "short", day: "numeric" })}
               </span>
             </CardDescription>
             {room.showEmail && (
@@ -142,7 +143,7 @@ export default async function RoomId({ params: { id } }: { params: { id: string 
           </div>
         </CardContent>
         <Separator />
-        <RoomButtons ad={room} />
+        <RoomButtons ad={room} receiver={poster} />
       </Card>
     </FullWrapper>
   );

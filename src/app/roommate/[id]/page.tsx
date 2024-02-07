@@ -135,7 +135,7 @@ export default async function RoommateId({ params: { id } }: { params: { id: str
           </div>
         </CardContent>
         <Separator />
-        <RoommateButtons ad={roommate} />
+        <RoommateButtons ad={roommate} receiver={poster} />
       </Card>
     </FullWrapper>
   );

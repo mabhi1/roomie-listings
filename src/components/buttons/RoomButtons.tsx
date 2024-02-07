@@ -38,9 +38,10 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { isMobile } from "react-device-detect";
-import { RoomAd } from "@prisma/client";
+import MessageForm from "../forms/MessageForm";
+import { RoomAd, User } from "@/lib/types";
 
-export default function RoomButtons({ ad }: { ad: RoomAd }) {
+export default function RoomButtons({ ad, receiver }: { ad: RoomAd; receiver: User }) {
   const { currentUser } = useAuth();
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -159,13 +160,31 @@ export default function RoomButtons({ ad }: { ad: RoomAd }) {
     return (
       <CardFooter className="flex-col justify-between gap-2 p-3 md:flex-row md:p-5 lg:gap-5">
         <div className="flex w-full flex-col justify-between gap-2 md:w-fit md:flex-row lg:gap-5">
-          <Link href={`/message/${currentUser.uid}/${ad.postedBy}/room/${ad.id}`} passHref legacyBehavior>
-            <Button disabled={isPending}>
-              <SendIcon className="mr-1 w-4" />
-              Send Message
-            </Button>
-          </Link>
-
+          {isMobile ? (
+            <Drawer>
+              <DrawerTrigger asChild>
+                <Button disabled={isPending}>
+                  <SendIcon className="mr-1 w-4" />
+                  Send Message
+                </Button>
+              </DrawerTrigger>
+              <DrawerContent className="p-5">
+                <MessageForm ad={ad} receiver={receiver} type="room" currentUserId={currentUser.uid} />
+              </DrawerContent>
+            </Drawer>
+          ) : (
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button disabled={isPending}>
+                  <SendIcon className="mr-1 w-4" />
+                  Send Message
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <MessageForm ad={ad} receiver={receiver} type="room" currentUserId={currentUser.uid} />
+              </DialogContent>
+            </Dialog>
+          )}
           {ad.savedBy.includes(currentUser.uid) ? (
             <div className="mx-auto">
               <span>Added to favourites</span>
