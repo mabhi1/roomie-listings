@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, createRef, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -28,6 +28,7 @@ export default function EmailSignupForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [terms, setTerms] = useState(false);
   const [reCaptcha, setReCaptcha] = useState<string | null>(null);
+  const reCaptchaRef = createRef<ReCAPTCHA>();
 
   const userMutation = useMutation({
     mutationFn: (data: User) => {
@@ -52,6 +53,10 @@ export default function EmailSignupForm() {
     return password.trim() !== rePassword.trim();
   };
 
+  useEffect(() => {
+    if (reCaptcha === null) reCaptchaRef.current?.reset();
+  }, [reCaptcha, reCaptchaRef]);
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!terms) return;
@@ -69,13 +74,16 @@ export default function EmailSignupForm() {
         photo: user.photoURL,
       });
       toast.success(toastMessage.emailVerificationSuccess);
-      setReCaptcha(null);
-      return;
+      setName("");
+      setEmail("");
+      setPassword("");
+      setRePassword("");
     } catch (error: any) {
-      setFormLoading(false);
-      setReCaptcha(null);
       toast.error(error);
     }
+    setFormLoading(false);
+    setReCaptcha(null);
+    setTerms(false);
   };
 
   return (
@@ -207,11 +215,8 @@ export default function EmailSignupForm() {
           <ReCAPTCHA
             sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
             onChange={setReCaptcha}
-            className={cn(
-              (invalidName() || invalidEmail() || invalidPassword() || invalidRePassword() || formLoading || !terms) &&
-                "hidden",
-              "mx-auto mb-2",
-            )}
+            ref={reCaptchaRef}
+            className="mx-auto mb-2"
             onExpired={() => setReCaptcha(null)}
             onErrored={() => setReCaptcha(null)}
           />

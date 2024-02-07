@@ -15,7 +15,7 @@ export async function updateUserName(uid: string, name: string) {
   return user;
 }
 
-export async function getPosterById(posterId: string) {
-  const poster = await getUserById(posterId);
+export async function getUser(uid: string) {
+  const poster = await getUserById(uid);
   return poster;
 }

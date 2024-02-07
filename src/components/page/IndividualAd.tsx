@@ -135,6 +135,7 @@ export default function IndividualAd({
           : viewed && list
             ? "relative border-yellow-600"
             : "",
+        "hover:border-muted-foreground/50 hover:shadow-md",
       )}
     >
       <CardHeader className="rounded-t bg-primary/5 px-3 py-2">

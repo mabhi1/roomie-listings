@@ -1,15 +1,14 @@
 import Spinner from "@/components/page/Spinner";
-import { User } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { RoomAd, RoommateAd } from "@/lib/types";
 import IndividualAd from "@/components/page/IndividualAd";
 import { getRoommateAds } from "@/actions/roommate";
 
 export default function RoomProfilePage({
-  currentUser,
+  userId,
   tab,
 }: {
-  currentUser: User;
+  userId: string;
   tab: "reportedAds" | "savedAds" | "postedAds";
 }) {
   const [ads, setAds] = useState<RoomAd[] | RoommateAd[] | null>();
@@ -17,12 +16,12 @@ export default function RoomProfilePage({
 
   useEffect(() => {
     async function getAds() {
-      const ads = (await getRoommateAds(currentUser.uid, tab)) as RoomAd[];
+      const ads = (await getRoommateAds(userId, tab)) as RoomAd[];
       setAds(ads);
       setLoading(false);
     }
     getAds();
-  }, [currentUser.uid, tab]);
+  }, [userId, tab]);
 
   if (loading)
     return (

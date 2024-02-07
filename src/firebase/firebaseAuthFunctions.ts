@@ -12,7 +12,6 @@ import {
   updatePassword,
   GoogleAuthProvider,
   signInWithPopup,
-  sendEmailVerification,
 } from "firebase/auth";
 import "./firebase";
 
@@ -32,17 +31,6 @@ function createErrorMessage(error: { message: string }) {
 async function createUser(email: string, password: string, displayName: string) {
   try {
     const { user } = await createUserWithEmailAndPassword(auth, email, password);
-    if (auth.currentUser) {
-      await updateProfile(auth.currentUser, {
-        displayName: displayName
-          .split(" ")
-          .map(word => {
-            return word.charAt(0).toUpperCase() + word.slice(1);
-          })
-          .join(" "),
-      });
-      await sendEmailVerification(auth.currentUser);
-    }
     return user;
   } catch (error: any) {
     throw createErrorMessage(error);
@@ -63,6 +51,7 @@ async function rememberSignIn(email: string, password: string) {
   try {
     await setPersistence(auth, browserLocalPersistence);
     await signInWithEmailAndPassword(auth, email, password);
+    if (!auth.currentUser?.emailVerified) throw new Error("(Error/Email-not-verified. Email-Verification-sent-again)");
   } catch (error: any) {
     throw createErrorMessage(error);
   }
