@@ -6,7 +6,12 @@ export default function AdIcon({ icon, text, color }: { icon: React.ReactNode; t
     <TooltipProvider>
       <Tooltip delayDuration={0}>
         <TooltipTrigger asChild>
-          <div className={cn("rounded-full border px-1", color ? `border-[${color}]` : "border-muted-foreground")}>
+          <div
+            className={cn(
+              "rounded-full border px-1",
+              color ? `border-[${color}]` : "border-primary bg-primary/70 text-white",
+            )}
+          >
             {icon}
           </div>
         </TooltipTrigger>

@@ -14,5 +14,5 @@ export default function ProtectedComponent({
 }) {
   const { currentUser } = useAuth();
   if (currentUser) return <>{children}</>;
-  else return <span className={cn("uppercase", className)}>{userMessage}</span>;
+  else return <div className={cn("capitalize", className)}>{userMessage}</div>;
 }
