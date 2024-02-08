@@ -24,7 +24,9 @@ export default function AdsList({ ads, page }: { ads: RoomAd[] | RoommateAd[]; p
   const [dateSort, setDateSort] = useState("");
   const [rentSort, setRentSort] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [startIndex, setStartIndex] = useState(0);
   const { currentUser, currentCity } = useAuth();
+  const itemsPerPage = 20;
 
   const getAllCities = useCallback(() => {
     const cities: string[] = [];
@@ -346,8 +348,36 @@ export default function AdsList({ ads, page }: { ads: RoomAd[] | RoommateAd[]; p
         <div className="flex h-32 w-full items-center justify-center rounded border capitalize">No {page} Ads</div>
       )}
       <div className="flex flex-col gap-3 md:gap-5">
-        {filteredData?.map(ad => <IndividualAd ad={ad} key={ad.id} setAds={setFilteredData} list />)}
+        {filteredData
+          ?.slice(startIndex, startIndex + itemsPerPage)
+          .map(ad => <IndividualAd ad={ad} key={ad.id} setAds={setFilteredData} list />)}
       </div>
+      {filteredData && (
+        <div className="my-5 flex items-center gap-3 md:gap-5">
+          <div className="ml-2 mr-auto capitalize">{`Page ${startIndex / itemsPerPage + 1} of ${Math.ceil(filteredData.length / itemsPerPage)}`}</div>
+          <Button
+            variant="secondary"
+            onClick={() => {
+              if (startIndex !== 0) setStartIndex(startIndex - itemsPerPage);
+            }}
+            disabled={startIndex === 0}
+            className="cursor-pointer"
+          >
+            Previous
+          </Button>
+          <Button
+            variant="secondary"
+            onClick={() => {
+              if (startIndex / itemsPerPage + 1 < Math.ceil(filteredData.length / itemsPerPage))
+                setStartIndex(startIndex + itemsPerPage);
+            }}
+            className="cursor-pointer"
+            disabled={startIndex / itemsPerPage + 1 === Math.ceil(filteredData.length / itemsPerPage)}
+          >
+            Next
+          </Button>
+        </div>
+      )}
     </div>
   );
 }
