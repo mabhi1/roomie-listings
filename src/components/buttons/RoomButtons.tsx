@@ -21,6 +21,7 @@ import { deleteFile } from "@/firebase/firebaseDBFunctions";
 import {
   BanIcon,
   CheckSquareIcon,
+  CircleOffIcon,
   DeleteIcon,
   HardDriveDownloadIcon,
   MessageSquareXIcon,
@@ -191,14 +192,16 @@ export default function RoomButtons({ ad, receiver }: { ad: RoomAd; receiver: Us
             </Dialog>
           )}
           {ad.savedBy.includes(currentUser.uid) ? (
-            <div className="mx-auto">
-              <span>Added to favourites</span>
-              <Button variant="link" disabled={isPending} onClick={() => handleDeleteAd("savedAds")}>
-                Remove
-              </Button>
-            </div>
+            <Button variant="secondary" onClick={() => handleDeleteAd("savedAds")} disabled={isPending}>
+              <CircleOffIcon className="mr-1 w-4" />
+              Remove from Favourites
+            </Button>
           ) : (
-            <Button variant="secondary" onClick={handleSaveAd} disabled={isPending}>
+            <Button
+              onClick={handleSaveAd}
+              disabled={isPending}
+              className="bg-success text-success-foreground hover:bg-success/80"
+            >
               <HardDriveDownloadIcon className="mr-1 w-4" />
               Add to Favourites
             </Button>
@@ -210,12 +213,10 @@ export default function RoomButtons({ ad, receiver }: { ad: RoomAd; receiver: Us
             {ad.reports.length} {ad.reports.length === 1 ? "Report" : "Reports"}
           </div>
           {ad.reports.includes(currentUser.uid) ? (
-            <div className="text-destructive">
-              <span>You reported this ad</span>
-              <Button variant="link" disabled={isPending} onClick={() => handleDeleteAd("reportedAds")}>
-                Remove
-              </Button>
-            </div>
+            <Button disabled={isPending} onClick={() => handleDeleteAd("reportedAds")} variant="secondary">
+              <CircleOffIcon className="mr-1 w-4" />
+              Remove from Reported
+            </Button>
           ) : (
             <Button variant="destructive" disabled={isPending} onClick={handleReportAd}>
               <MessageSquareXIcon className="mr-1 w-4" />

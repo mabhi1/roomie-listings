@@ -13,7 +13,7 @@ export async function getAllRoommateAds() {
 
 export async function createRoommateAd(data: RoommateAd) {
   try {
-    const ad = await prisma.roommateAd.create({ data });
+    const ad = await prisma.roommateAd.create({ data: { ...data, updatedAt: new Date() } });
     if (!ad) throw new Error();
     return ad.id;
   } catch (error) {
@@ -25,7 +25,7 @@ export async function editRoommateAdById(adId: string, data: RoommateAd) {
   try {
     const roommateAd = await prisma.roommateAd.findUnique({ where: { id: adId } });
     if (!roommateAd) return null;
-    const updatedAd = await prisma.roommateAd.update({ where: { id: adId }, data });
+    const updatedAd = await prisma.roommateAd.update({ where: { id: adId }, data: { ...data, updatedAt: new Date() } });
     if (!updatedAd) return null;
     return updatedAd.id;
   } catch (error) {
