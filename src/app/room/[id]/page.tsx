@@ -137,7 +137,7 @@ export default async function RoomId({ params: { id } }: { params: { id: string 
                   <Separator />
                 </>
               )}
-              <AdditionalInfoComponent requirements={room.roomRequirements} />
+              <AdditionalInfoComponent requirements={room.roomRequirements} page="room" />
             </div>
             {room.gallery.length > 0 && (
               <div className="top-24 mb-5 h-48 w-full pt-4 md:sticky md:w-[42%] lg:h-[24rem]">

@@ -12,12 +12,18 @@ import {
 } from "lucide-react";
 import { RoomRequirements } from "@/lib/types";
 
-export default function AdditionalInfoComponent({ requirements }: { requirements: RoomRequirements }) {
+export default function AdditionalInfoComponent({
+  requirements,
+  page,
+}: {
+  requirements: RoomRequirements;
+  page: "room" | "roommate";
+}) {
   return (
     <Card className="rounded-none border-0 shadow-none">
       <CardHeader className="p-0 px-3 md:p-5">
         <CardTitle className="text-sm font-normal underline underline-offset-2 md:text-lg">
-          Additional Information
+          Additional {page === "room" ? "Information" : "Preference"}
         </CardTitle>
       </CardHeader>
       <CardContent className="flex flex-wrap gap-3 p-3 md:gap-8 md:p-5 md:pt-0">
