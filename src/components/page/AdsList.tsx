@@ -11,6 +11,7 @@ import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetT
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import MultiSelect from "../ui/multi-select";
 import { toast } from "sonner";
+import { useSearchParams } from "next/navigation";
 
 export default function AdsList({ ads, page }: { ads: RoomAd[] | RoommateAd[]; page: "roommate" | "rental" }) {
   const [selectedCity, setSelectedCity] = useState<string[]>([]);
@@ -26,7 +27,17 @@ export default function AdsList({ ads, page }: { ads: RoomAd[] | RoommateAd[]; p
   const [searchTerm, setSearchTerm] = useState("");
   const [startIndex, setStartIndex] = useState(0);
   const { currentUser, currentCity } = useAuth();
+  const searchParams = useSearchParams();
   const itemsPerPage = 20;
+
+  useEffect(() => {
+    const property = searchParams.get("property");
+    if (property && ["private room", "shared room", "house"].includes(property)) setProperty(property);
+    const stay = searchParams.get("stay");
+    if (stay && ["short", "long", "both"].includes(stay)) setSelectedStay(stay);
+    const gender = searchParams.get("gender");
+    if (gender && ["male", "female", "any"].includes(gender)) setGender(gender);
+  }, [searchParams]);
 
   const getAllCities = useCallback(() => {
     const cities: string[] = [];
@@ -49,10 +60,16 @@ export default function AdsList({ ads, page }: { ads: RoomAd[] | RoommateAd[]; p
   useEffect(() => {
     const newData = ads
       .filter(row => (selectedCity.length === 0 ? true : selectedCity.includes(row.address.city.toUpperCase())))
-      .filter(row => (selectedStay === "both" ? true : row.roomRequirements.stay === selectedStay))
+      .filter(row =>
+        selectedStay === "both"
+          ? true
+          : row.roomRequirements.stay === selectedStay || row.roomRequirements.stay === "both",
+      )
       .filter(row => (min > max ? true : row.rent >= min && row.rent <= max))
       .filter(row => (property === "all" ? true : row.propertyType === property))
-      .filter(row => (gender === "any" ? true : row.roomRequirements.gender === gender))
+      .filter(row =>
+        gender === "any" ? true : row.roomRequirements.gender === gender || row.roomRequirements.gender === "any",
+      )
       .filter(row => (rentType === "all" ? true : row.roomRequirements.rentType === rentType))
       .filter(row => {
         if (searchTerm.trim() === "") return true;
@@ -184,7 +201,7 @@ export default function AdsList({ ads, page }: { ads: RoomAd[] | RoommateAd[]; p
                       <SelectItem value="all" className="capitalize">
                         all
                       </SelectItem>
-                      {["private room", "single room", "house"].map(item => (
+                      {["private room", "shared room", "house"].map(item => (
                         <SelectItem key={item} value={item} className="capitalize">
                           {item}
                         </SelectItem>
@@ -305,7 +322,7 @@ export default function AdsList({ ads, page }: { ads: RoomAd[] | RoommateAd[]; p
           )}
           {selectedStay !== "both" && (
             <div className="space-x-1">
-              <span>Selected Stay :</span>
+              <span>Stay Type :</span>
               <span className="rounded bg-muted-foreground px-1 capitalize text-muted">{selectedStay}</span>
             </div>
           )}

@@ -286,14 +286,14 @@ export default function IndividualAd({
         </div>
         {isRental && ad.gallery?.length > 0 ? (
           <Carousel
-            className="mx-auto hidden w-36 md:block"
+            className="mx-auto hidden w-44 md:block"
             plugins={[
               Autoplay({
                 delay: 2000,
               }),
             ]}
           >
-            <CarouselContent className="group h-24">
+            <CarouselContent className="group h-32">
               {ad.gallery
                 .filter(item => item.type.startsWith("image"))
                 .map(item => (
@@ -313,7 +313,7 @@ export default function IndividualAd({
             </CarouselContent>
           </Carousel>
         ) : (
-          isRental && <div className="hidden h-24 w-36 items-center justify-center bg-secondary md:flex">No Images</div>
+          isRental && <div className="hidden h-32 w-44 items-center justify-center bg-secondary md:flex">No Images</div>
         )}
       </CardContent>
       <CardFooter className="mt-0 flex flex-col justify-between gap-2 px-3 pb-2 md:flex-row md:border-t md:pt-2">
