@@ -316,7 +316,7 @@ export default function IndividualAd({
           isRental && <div className="hidden h-24 w-36 items-center justify-center bg-secondary md:flex">No Images</div>
         )}
       </CardContent>
-      <CardFooter className="mt-0 flex flex-col justify-between gap-2 px-3 pb-2 md:border-t md:pt-2 xl:flex-row">
+      <CardFooter className="mt-0 flex flex-col justify-between gap-2 px-3 pb-2 md:flex-row md:border-t md:pt-2">
         <div className="ml-3 flex w-full flex-wrap items-center gap-2 md:ml-0 md:w-auto">
           <div className="flex items-center gap-1">
             <InfoIcon className="w-4" />
@@ -373,7 +373,18 @@ export default function IndividualAd({
             />
           )}
         </div>
-        <div className="mt-2 flex flex-wrap items-center justify-center gap-3 md:mt-0">
+        <div className="ml-auto mt-2 flex flex-wrap items-center justify-center gap-3 md:mt-0">
+          {new Date().getDate() - ad.createdAt!.getDate() == 0 ? (
+            <div className="h-full rounded border-emerald-500 bg-emerald-500 p-1 px-2 text-emerald-50 shadow-md shadow-emerald-500">
+              Created Today
+            </div>
+          ) : (
+            new Date().getDate() - ad.updatedAt!.getDate() == 0 && (
+              <div className="h-full rounded border-lime-500 bg-lime-500 p-1 px-2 text-lime-50 shadow-md shadow-lime-500">
+                Updated Today
+              </div>
+            )
+          )}
           <ShareButton
             onlyIcon
             text={`${ad.propertyType} ${isRental ? "available" : "wanted"} in ${ad.address.city}, ${ad.address.state}`.toUpperCase()}
@@ -406,7 +417,7 @@ export default function IndividualAd({
               {currentUser &&
                 (ad.reports.includes(currentUser!.uid) ? (
                   <AdCardInfo
-                    toolTipText="Remove from reports"
+                    toolTipText="Remove from reported"
                     onConfirm={isPending ? () => {} : () => handleDeleteAd("reportedAds")}
                     confirmMessage="remove this ad"
                   >
@@ -453,13 +464,15 @@ export default function IndividualAd({
           {isPending ? (
             <Button size="sm" disabled>
               <DoorOpenIcon className="mr-1 w-4" />
-              View More
+              <span className="hidden md:inline">View More</span>
+              <span className="md:hidden">More</span>
             </Button>
           ) : (
             <Link href={`/${isRental ? "room" : "roommate"}/${ad?.id}`}>
               <Button size="sm">
                 <DoorOpenIcon className="mr-1 w-4" />
-                View More
+                <span className="hidden md:inline">View More</span>
+                <span className="md:hidden">More</span>
               </Button>
             </Link>
           )}

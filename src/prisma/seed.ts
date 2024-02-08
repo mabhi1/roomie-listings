@@ -30,6 +30,7 @@ async function main() {
             gender: "male",
             rentType: "monthly",
           },
+          updatedAt: new Date(),
         },
       },
       roomAds: {
@@ -52,6 +53,7 @@ async function main() {
             gender: "male",
             rentType: "monthly",
           },
+          updatedAt: new Date(),
         },
       },
     },
@@ -85,6 +87,7 @@ async function main() {
             gender: "male",
             rentType: "monthly",
           },
+          updatedAt: new Date(),
         },
       },
       roomAds: {
@@ -107,6 +110,7 @@ async function main() {
             gender: "male",
             rentType: "monthly",
           },
+          updatedAt: new Date(),
         },
       },
     },

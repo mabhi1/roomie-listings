@@ -13,7 +13,7 @@ export async function getAllRoomAds() {
 
 export async function createRoomAd(data: RoomAd) {
   try {
-    const RoomAd = await prisma.roomAd.create({ data });
+    const RoomAd = await prisma.roomAd.create({ data: { ...data, updatedAt: new Date() } });
     if (!RoomAd) throw new Error();
     return RoomAd.id;
   } catch (error) {
@@ -25,7 +25,7 @@ export async function editRoomAdById(adId: string, data: RoomAd) {
   try {
     const RoomAd = await prisma.roomAd.findUnique({ where: { id: adId } });
     if (!RoomAd) return null;
-    const updatedAd = await prisma.roomAd.update({ where: { id: adId }, data });
+    const updatedAd = await prisma.roomAd.update({ where: { id: adId }, data: { ...data, updatedAt: new Date() } });
     if (!updatedAd) return null;
     return updatedAd.id;
   } catch (error) {
