@@ -137,7 +137,7 @@ export default async function RoommateId({ params: { id } }: { params: { id: str
                 <Separator />
               </>
             )}
-            <AdditionalInfoComponent requirements={roommate.roomRequirements} />
+            <AdditionalInfoComponent requirements={roommate.roomRequirements} page="roommate" />
           </div>
         </CardContent>
         <Separator />

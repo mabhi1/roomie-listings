@@ -27,7 +27,7 @@ export default async function IndividualMessage({ message }: { message: Message 
               })}
             </div>
             <div>Ad link</div>
-            <Link href={`/${adType}/${adId}`} className="hover:underline hover:underline-offset-2">
+            <Link href={`/${adType}/${adId}`} className="text-primary underline underline-offset-2">
               {adText}
             </Link>
           </div>

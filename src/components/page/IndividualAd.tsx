@@ -258,7 +258,7 @@ export default function IndividualAd({
               <Separator />
               <div className="flex items-center gap-1">
                 <BookTextIcon className="hidden w-4 lg:inline" />
-                <span className="h-8 w-full overflow-hidden text-ellipsis text-wrap md:h-auto md:text-nowrap">
+                <span className="h-5 w-full overflow-hidden text-ellipsis text-wrap md:text-nowrap">
                   {ad.description}
                 </span>
               </div>
